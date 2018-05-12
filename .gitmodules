@@ -1,3 +1,6 @@
 [submodule "agill.xyz"]
 	path = agill.xyz
 	url = ssh://git@git.agill.xyz:22000/nots/agill.xyz.git
+[submodule "shared_content"]
+	path = shared_content
+	url = ssh://git@git.agill.xyz:22000/nots/shared_content.git
