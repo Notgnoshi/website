@@ -1,0 +1,3 @@
+[submodule "agill.xyz"]
+	path = agill.xyz
+	url = ssh://git@git.agill.xyz:22000/nots/agill.xyz.git
