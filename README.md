@@ -15,3 +15,4 @@ Top level repository for all subdomains on [agill.xyz](https://agill.xyz)
 ## TODO
 
 * Serve content with Nginx, not Django.
+* What about large binary assets like PDFs, video, music, etc?
