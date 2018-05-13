@@ -7,6 +7,7 @@ from pathlib import Path
 # Paths are absolute or relative to this script.
 SUBDOMAINS = [
     'agill.xyz/agill_xyz/',
+    'research.agill.xyz/research_agill_xyz/',
 ]
 
 SHARED_CONTENT = {
