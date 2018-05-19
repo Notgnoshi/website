@@ -1,6 +1,6 @@
 # WWW
 
-Top level repository for [agill.xyz](https://agill.xyz) and all subdomains.
+Top level repository for [agill.xyz](https://agill.xyz) and all subdomains, as well as any shared content and Nginx configuration.
 
 ---
 
@@ -20,6 +20,9 @@ Top level repository for [agill.xyz](https://agill.xyz) and all subdomains.
 * Put sockets in `/run/`. Will require googling?
 * Add uWSGI master process to Emperor?
 * Add development Nginx configs that don't require SSL. Other option: Use `./manage.py runserver`
+* Abandon this submodule nonsense and put everything in the this repository. This is too complicated, and I haven't found a good reason for it, other than using submodules makes me seem like a Git master?
+* Add rest of static subdomains (minecraft, todo)
+* Add Nginx config for Pihole, Plex, Netdata, DokuWiki, Gogs, Blog, etc.
 
 ## Deploying with Nginx and uWSGI
 
@@ -34,8 +37,8 @@ Top level repository for [agill.xyz](https://agill.xyz) and all subdomains.
     sudo ./deploy.py --enable --startup
 
     sudo systemctl daemon-reload
-    sudo systemctl restart nginx.service
-    sudo systemctl start emperor.service
+    sudo service nginx restart
+    sudo service emperor start
 
     less /tmp/emperor.log
     less /var/log/nginx/error.log
