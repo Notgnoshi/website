@@ -1,16 +1,17 @@
-# web
+# WWW
 
-Top level repository for all subdomains on [agill.xyz](https://agill.xyz)
+Top level repository for [agill.xyz](https://agill.xyz) and all subdomains.
 
 ---
 
 ## Repository Layout
 
 * `agill.xyz/` - Submodule containing the Django static site for [agill.xyz](https://agill.xyz).
-* `shared_content/` - Static content and configuration shared across all subdomain submodule. Things like CSS, headers, footers, etc. A Git Submodule symlinked to `<subdomain>/<django_app>/pages/static/` for each subdomain.
-* `nginx/` - Nginx configurations for each subdomain.
-* `symlinks.sh` - Script to create symlinks for shared static content and Nginx configurations as above.
-* `deploy.sh` - After updating each submodule (can be done recursively from the top level), run the deploy script to reload Nginx, etc.
+* `research.agill.xyz` - Submodule containing the Django static site for [research.agill.xyz](https://research.agill.xyz).
+* `shared_content/` - Static content and configuration shared across all subdomain submodule. Things like CSS, headers, footers, etc. The `smylinks.py` script generates the necessary symlinks for each submodule to find this chared content.
+* `nginx/` - Nginx and uWSGI configurations for each subdomain.
+* `symlinks.py` - Script to create symlinks for shared static content and Nginx configurations as above.
+* `deploy.py` - After updating each submodule (can be done recursively from the top level), run the deploy script to reload Nginx, etc.
 
 ## TODO
 
@@ -24,18 +25,20 @@ Top level repository for all subdomains on [agill.xyz](https://agill.xyz)
 
 ## Deploying with Nginx and uWSGI
 
-First, in each subdomain, run `./manage.py collectstatic`. Then deploy the Nginx and uWSGI configurations by running the `deploy.py` script.
+1. Run `sudo ./secret.py` to create a Django secret to `/etc/django/secret.txt`.
+2. In each subdomain, run `./manage.py collectstatic`.
+3. Then deploy the Nginx and uWSGI configurations by running the `deploy.py` script.
 
-```shell
-./deploy.py --clean --dryrun
-sudo ./deploy.py --clean
-./deploy.py --enable --startup --dryrun
-sudo ./deploy.py --enable --startup
+    ```shell
+    ./deploy.py --clean --dryrun
+    sudo ./deploy.py --clean
+    ./deploy.py --enable --startup --dryrun
+    sudo ./deploy.py --enable --startup
 
-sudo systemctl daemon-reload
-sudo systemctl restart nginx.service
-sudo systemctl start emperor.service
+    sudo systemctl daemon-reload
+    sudo systemctl restart nginx.service
+    sudo systemctl start emperor.service
 
-less /tmp/emperor.log
-less /var/log/nginx/error.log
-```
+    less /tmp/emperor.log
+    less /var/log/nginx/error.log
+    ```
