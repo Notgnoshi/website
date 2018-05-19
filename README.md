@@ -16,12 +16,10 @@ Top level repository for [agill.xyz](https://agill.xyz) and all subdomains.
 ## TODO
 
 * What about large binary assets like PDFs, video, music, etc?
-* Look at actual Nginx configs
-* Add project secret key somewhere in `/etc/`. Read this key in each `settings.py` file, rather than hard-coding it. Follow the Django deployment checklist.
 * Maybe make `deploy.py` detect if a config is already there and make a backup?
 * Put sockets in `/run/`. Will require googling?
-* Test on server.
 * Add uWSGI master process to Emperor?
+* Add development Nginx configs that don't require SSL. Other option: Use `./manage.py runserver`
 
 ## Deploying with Nginx and uWSGI
 
