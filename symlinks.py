@@ -9,9 +9,6 @@ SUBDOMAINS = [
     'research.agill.xyz',
 ]
 
-# Append the actual Django module to each subdomain name.
-SUBDOMAINS = [subdomain + '/' + subdomain.replace('.', '_') + '/' for subdomain in SUBDOMAINS]
-
 SHARED_CONTENT = {
     'shared_content/includes/': 'pages/templates/includes/',
     'shared_content/static/': 'pages/static/',
@@ -38,7 +35,7 @@ def create_symlinks(content, dryrun):
     for subdomain in SUBDOMAINS:
         for src, dest in content.items():
             src = Path(src)
-            dest = Path(subdomain + dest)
+            dest = Path(subdomain).joinpath(dest)
 
             print('LINKING:', str(src), '-->', str(dest))
 

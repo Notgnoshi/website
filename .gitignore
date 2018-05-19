@@ -1,3 +1,7 @@
+# Each STATIC_ROOT
+agill.xyz/static
+research.agill.xyz/static
+
 # ---> Python
 # Byte-compiled / optimized / DLL files
 __pycache__/
