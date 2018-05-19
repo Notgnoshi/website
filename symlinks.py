@@ -1,22 +1,20 @@
 #!/usr/bin/env python3
 import argparse
-import sys
 from pathlib import Path
 
 
 # Paths are absolute or relative to this script.
 SUBDOMAINS = [
-    'agill.xyz/agill_xyz/',
-    'research.agill.xyz/research_agill_xyz/',
+    'agill.xyz',
+    'research.agill.xyz',
 ]
+
+# Append the actual Django module to each subdomain name.
+SUBDOMAINS = [subdomain + '/' + subdomain.replace('.', '_') + '/' for subdomain in SUBDOMAINS]
 
 SHARED_CONTENT = {
     'shared_content/includes/': 'pages/templates/includes/',
     'shared_content/static/': 'pages/static/',
-}
-
-NGINX_CONTENT = {
-
 }
 
 
@@ -27,20 +25,8 @@ def parse_args():
                         action='store_true',
                         default=False,
                         help='Perform a verbose dry run.')
-    parser.add_argument('--shared',
-                        action='store_true',
-                        default=False,
-                        help='Symlink the shared content for each subdomain.')
-    parser.add_argument('--nginx',
-                        action='store_true',
-                        default=False,
-                        help='Symlink the Nginx configs for each subdomain. Requires sudo privileges.')
 
-    args = parser.parse_args()
-    if not args.shared or args.nginx:
-        parser.print_help()
-        sys.exit(0)
-    return args
+    return parser.parse_args()
 
 
 def create_symlinks(content, dryrun):
@@ -54,10 +40,10 @@ def create_symlinks(content, dryrun):
             src = Path(src)
             dest = Path(subdomain + dest)
 
-            print(f'LINKING: {src} --> {dest}')
+            print('LINKING:', str(src), '-->', str(dest))
 
             if dest.exists():
-                print(f'NOTE: {dest} exists! Unlinking.')
+                print('NOTE:', str(dest), 'exists! Unlinking.')
                 if not dryrun:
                     dest.unlink()
 
@@ -67,11 +53,8 @@ def create_symlinks(content, dryrun):
 def main(args):
     if args.dryrun:
         print('Performing dry run. No symlinks will be created or unlinked.')
-    if args.shared:
-        create_symlinks(SHARED_CONTENT, args.dryrun)
+    create_symlinks(SHARED_CONTENT, args.dryrun)
 
-    if args.nginx:
-        create_symlinks(NGINX_CONTENT, args.dryrun)
 
 if __name__ == '__main__':
     main(parse_args())
