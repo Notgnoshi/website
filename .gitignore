@@ -1,6 +1,9 @@
 # Each STATIC_ROOT
 agill.xyz/static
+agill.xyz/pages/static
 research.agill.xyz/static
+research.agill.xyz/pages/static
+shared_content/static/pdfs
 
 # ---> Python
 # Byte-compiled / optimized / DLL files
