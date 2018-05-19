@@ -59,7 +59,7 @@ def write_nginx_config(subdomain, base_path, dryrun):
 
     # The actual config depends on where this repository was cloned. So add a magic string to the
     # configuration file and replace it with the actual value.
-    with open(src, 'r') as f:
+    with open(str(src), 'r') as f:
         config = f.read()
         config = config.replace('BASE_REPOSITORY_PATH', base_path)
 
@@ -72,7 +72,7 @@ def write_nginx_config(subdomain, base_path, dryrun):
         print('to', str(available))
     else:
         print('Writing Nginx config to', str(available))
-        with open(available, 'w') as f:
+        with open(str(available), 'w') as f:
             f.write(config)
 
     return available
@@ -118,7 +118,7 @@ def write_uwsgi_vassal(subdomain, base_path, dryrun):
 
     # The actual config depends on where this repository was cloned. So add a magic string to the
     # configuration file and replace it with the actual value.
-    with open(vassal_src, 'r') as f:
+    with open(str(vassal_src), 'r') as f:
         config = f.read()
         config = config.replace('BASE_REPOSITORY_PATH', base_path)
 
@@ -139,7 +139,7 @@ def write_uwsgi_vassal(subdomain, base_path, dryrun):
         if not vassal.parent.exists():
             print('NOTE:', str(vassal.parent), 'doesn\'t exist! Creating.')
             vassal.parent.mkdir(parents=True)
-        with open(vassal, 'w') as f:
+        with open(str(vassal), 'w') as f:
             f.write(config)
 
         print('Symlinking Emperor config:', str(emperor_src), '-->', str(emperor))
