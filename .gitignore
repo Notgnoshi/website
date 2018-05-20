@@ -1,11 +1,10 @@
 # Each STATIC_ROOT
-agill.xyz/static
 agill.xyz/pages/static
 agill.xyz/pages/templates/includes
-research.agill.xyz/static
 research.agill.xyz/pages/static
 research.agill.xyz/pages/templates/includes
 shared_content/static/pdfs
+shared_content/staticroot
 
 # ---> Python
 # Byte-compiled / optimized / DLL files
