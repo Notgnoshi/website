@@ -18,11 +18,6 @@ def subdomain_constants(request):
         'SITE_TITLE': 'research.agill.xyz',
         'SITE_DESCRIPTION': 'Personal research projects.',
         'SITE_URL': '',
-        'HEADER_PAGES': [
-            {
-                'title': 'About',
-                'url': '/about/'
-            }
-        ]
+        'HEADER_PAGES': []
     }
     return context
