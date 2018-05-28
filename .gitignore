@@ -8,6 +8,8 @@ mc.agill.xyz/pages/templates/includes
 shared_content/static/pdfs
 shared_content/staticroot
 
+.vscode
+
 # ---> Python
 # Byte-compiled / optimized / DLL files
 __pycache__/
