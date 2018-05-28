@@ -7,6 +7,7 @@ from pathlib import Path
 SUBDOMAINS = [
     'agill.xyz',
     'research.agill.xyz',
+    'mc.agill.xyz',
 ]
 
 SHARED_CONTENT = {
