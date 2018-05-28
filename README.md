@@ -20,8 +20,6 @@ Repository for [agill.xyz](https://agill.xyz) and all subdomains, as well as any
 * Put sockets in `/run/`. Will require googling?
 * Add uWSGI master process to Emperor?
 * Add development Nginx configs that don't require SSL. Other option: Use `./manage.py runserver`
-* Add rest of static subdomains (minecraft, todo)
-* Add Nginx config for Pihole, Plex, Netdata, DokuWiki, Gogs, Blog, etc.
 * Collect scripts into one.
 * Figure out how to easily set up a development environment
 
