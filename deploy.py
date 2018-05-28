@@ -7,8 +7,18 @@ from subprocess import call
 
 # The subdomains whose Nginx configuration we are to set up.
 SUBDOMAINS = [
+    # Domains with uWSGI configuration
     'agill.xyz',
     'research.agill.xyz',
+    'mc.agill.xyz',
+    # Domains for other services
+    'blog.agill.xyz',
+    'git.agill.xyz',
+    'monitor.agill.xyz',
+    'nas.agill.xyz',
+    'pihole.agill.xyz',
+    'plex.agill.xyz',
+    'wiki.agill.xyz',
 ]
 
 UWSGI_VASSAL_PATH = Path('/etc/uwsgi/vassals/')
@@ -113,6 +123,11 @@ def write_uwsgi_vassal(subdomain, base_path, dryrun):
 
     vassal = UWSGI_VASSAL_PATH.joinpath(subdomain + '.ini')
     vassal_src = Path(base_path).joinpath('nginx', subdomain, 'uwsgi.ini')
+
+    if not vassal_src.exists():
+        print('No uWSGI configuration found. Not creating Vassal.')
+        return
+
     emperor = Path('/etc/uwsgi/emperor.ini')
     emperor_src = Path(base_path).joinpath('nginx', 'emperor.ini')
 
