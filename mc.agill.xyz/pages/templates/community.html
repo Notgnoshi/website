@@ -1,0 +1,89 @@
+{% load static %}
+
+<!doctype HTML>
+<html>
+{% include "includes/head.html" %}
+<body>
+{% include "includes/header.html" %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/community.css' %}">
+
+<div class="page-content">
+<div class="wrap">
+    <h1>Our Community</h1>
+
+    <ul class="community">
+        <li class="member">
+            <div class="player-skin-grid">
+                <a class="skin" href="{% static 'assets/players/greeng0ld_skin.png' %}">
+                    <img class="skin-render" src="{% static 'assets/players/greeng0ld.png' %}" alt="skin">
+                </a>
+            </div>
+            <div class="username-grid"><span class="username">Greeng0ld</span></div>
+            <div class="contact-grid">
+                    <div class="uuid-grid">UUID: <code class="uuid">f497e600e74d454a8b8b61d3c4bbbc5f</code></div>
+                <a class="contact" href="https://www.reddit.com/user/greeng0ld"><i class="fab fa-reddit"></i></a>
+            </div>
+            <div class="about-grid">
+                <p><em>Really</em> likes quartz. Like, maybe a little too much.</p>
+            </div>
+        </li>
+        <li class="member">
+            <div class="player-skin-grid">
+                <a class="skin" href="{% static 'assets/players/notgnoshi_skin.png' %}">
+                    <img class="skin-render" src="{% static 'assets/players/notgnoshi.png' %}" alt="skin">
+                </a>
+            </div>
+            <div class="username-grid"><span class="username">Notgnoshi</span></div>
+            <div class="contact-grid">
+                <a class="contact" href="mailto:Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+                <!-- <a class="contact" href="#"><i class="fab fa-discord"></i></a> -->
+                <a class="contact" href="https://reddit.com/user/notgnoshi"><i class="fab fa-reddit"></i></a>
+                <a class="contact" href="https://twitter.com/Notgnoshi"><i class="fab fa-twitter"></i></a>
+                <a class="contact" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+            </div>
+            <div class="uuid-grid">UUID: <code class="uuid">dc33d21d50af4708974f2ecbc6945a9c</code></div>
+            <div class="about-grid">
+                <p>Likes building big, very beautiful things.</p>
+            </div>
+        </li>
+        <li class="member">
+            <div class="player-skin-grid">
+                <a class="skin" href="{% static 'assets/players/marsgoon_skin.png' %}">
+                    <img class="skin-render" src="{% static 'assets/players/marsgoon.png' %}" alt="skin">
+                </a>
+            </div>
+            <div class="username-grid"><span class="username">Marsgoon</span></div>
+            <div class="contact-grid">
+                <a class="contact" href="https://www.reddit.com/user/marsgoon"><i class="fab fa-reddit"></i></a>
+            </div>
+            <div class="uuid-grid">UUID: <code class="uuid">b64b9d155f614c16abce9f5c73cc4f00</code></div>
+            <div class="about-grid">
+                <p>Likes building big, slightly-less-than-beautiful things.</p>
+            </div>
+        </li>
+        <li class="member">
+            <div class="player-skin-grid">
+                <a class="skin" href="{% static 'assets/players/nickguy_skin.png' %}">
+                    <img class="skin-render" src="{% static 'assets/players/nickguy.png' %}" alt="skin">
+                </a>
+            </div>
+            <div class="username-grid"><span class="username">Nickguy</span></div>
+            <div class="contact-grid">
+                <a class="contact" href="https://www.reddit.com/user/nickguy03"><i class="fab fa-reddit"></i></a>
+            </div>
+            <div class="uuid-grid">UUID: <code class="uuid">f3d825045fd8400189983482c97c3888</code></div>
+            <div class="about-grid">
+                <p>Likes horses to a questionable degree.</p>
+            </div>
+        </li>
+    </ul>
+</div>
+</div>
+
+{% include "includes/footer.html" %}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+</body>
+</html>

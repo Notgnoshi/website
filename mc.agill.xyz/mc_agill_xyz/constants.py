@@ -16,12 +16,12 @@ def subdomain_constants(request):
     """
     context = {
         'SITE_TITLE': 'mc.agill.xyz',
-        'SITE_DESCRIPTION': 'A personal Minecraft server',
+        'SITE_DESCRIPTION': 'A communal Minecraft server',
         'SITE_URL': '',
         'HEADER_PAGES': [
             {
-                'title': 'About',
-                'url': '/about/'
+                'title': 'Community',
+                'url': '/community/'
             }
         ]
     }
