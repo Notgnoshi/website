@@ -10,7 +10,7 @@ html {
 body {
     font-size: 1.1em;
     color: #444;
-    line-height: 1.5;
+    line-height: 1.2;
     font-weight: 300;
     background-color: #fafafa;
     min-height: 100vh;
@@ -80,6 +80,15 @@ a:hover { color: #133e7e; text-decoration: underline; }
 .page-content ul,
 .page-content ol {
     list-style-position: inside;
+    margin-left: 1.35em;
+}
+
+.page-content p {
+    padding-bottom: 1em;
+}
+
+.page-content code {
+    overflow: auto;
 }
 
 /* Media Queries for phones and large screens */

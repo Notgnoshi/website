@@ -1,0 +1,51 @@
+.member {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 4em auto;
+}
+
+.player-skin-grid {
+    grid-column: 1;
+}
+
+.player-skin-grid .skin-render {
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+}
+
+.username-grid {
+    grid-column: 2;
+    align-self: center;
+}
+
+.username-grid .username {
+    font-size: 2em;
+}
+
+.uuid-grid {
+    display: none;
+    grid-column: 2;
+    font-size: 0.9em;
+}
+
+.uuid-grid .uuid {
+    color: #999;
+}
+
+.about-grid {
+    grid-column: 2;
+}
+
+.contact-grid {
+    grid-column: 2;
+}
+
+.contact-grid .contact {
+    display: inline-block;
+    color: #999;
+}
+
+.contact-grid .contact:hover {
+    color: #777;
+}
