@@ -25,6 +25,16 @@ strong {
     font-size: 1.1em;
 }
 
+blockquote {
+    border-left: 4px solid #a8a8a8;
+    padding-left: 20px;
+    font-size: 1.2em;
+    opacity: 0.6;
+    letter-spacing: -1px;
+    font-style: italic;
+    margin: 30px 0;
+}
+
 a { color: #2a7ae2; text-decoration: none; }
 a:hover { color: #133e7e; text-decoration: underline; }
 
@@ -158,13 +168,13 @@ a:hover { color: #133e7e; text-decoration: underline; }
         margin: 0;
     }
 
-    .post-header h1 { font-size: 36px; }
-    .post-content h2 { font-size: 28px; }
-    .post-content h3 { font-size: 22px; }
-    .post-content h4 { font-size: 18px; }
-    .post-content blockquote { padding-left: 10px; }
-    .post-content ul,
-    .post-content ol { padding-left: 10px; }
+    .page-content h1 { font-size: 36px; }
+    .page-content h2 { font-size: 28px; }
+    .page-content h3 { font-size: 22px; }
+    .page-content h4 { font-size: 18px; }
+    .page-content blockquote { padding-left: 10px; }
+    .page-content ul,
+    .page-content ol { padding-left: 10px; }
 
     .site-footer .column {
         float: none;
