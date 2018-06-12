@@ -89,7 +89,7 @@ a:hover { color: #133e7e; text-decoration: underline; }
 
 .page-content ul,
 .page-content ol {
-    list-style-position: inside;
+    list-style-position: outside;
     margin-left: 1.35em;
 }
 
