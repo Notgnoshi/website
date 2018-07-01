@@ -20,9 +20,13 @@ def subdomain_constants(request):
         'SITE_URL': '',
         'HEADER_PAGES': [
             {
+                'title': 'Rules',
+                'url': '/rules/'
+            },
+            {
                 'title': 'Community',
                 'url': '/community/'
-            }
+            },
         ]
     }
     return context
