@@ -20,6 +20,10 @@ def subdomain_constants(request):
         'SITE_URL': '',
         'HEADER_PAGES': [
             {
+                'title': "Recipes",
+                'url': '/static/pdfs/recipes.pdf'
+            },
+            {
                 'title': 'Resume',
                 'url': '/static/pdfs/Resume.pdf'
             },
