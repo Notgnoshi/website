@@ -25,7 +25,7 @@ with open('/etc/django/secret.txt', 'r') as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['research.localhost', 'research.agill.xyz']
 
@@ -61,16 +61,16 @@ MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
 )
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
-# CSRF_COOKIE_SECURE = True
-# SESSION_COOKIE_SECURE = True
-# X_FRAME_OPTIONS = 'DENY'
-# SECURE_SSL_REDIRECT = True
-# SECURE_BROWSER_XSS_FILTER = True
-# SECURE_CONTENT_TYPE_NOSNIFF = True
-# SECURE_HSTS_SECONDS = 1024
-# SECURE_HSTS_PRELOAD = True
-# # Some subdomains will not have SSL
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_SSL_REDIRECT = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_HSTS_SECONDS = 1024
+SECURE_HSTS_PRELOAD = True
+# Some subdomains will not have SSL
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 ROOT_URLCONF = 'research_agill_xyz.urls'
 WSGI_APPLICATION = 'research_agill_xyz.wsgi.application'
 STATIC_URL = '/static/'
