@@ -119,6 +119,69 @@ a:hover { color: #133e7e; text-decoration: underline; }
     overflow: auto;
 }
 
+img.centered, video.centered {
+    width: 50%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.centered-real, video.centered-real {
+    max-width: 50%;
+    max-height: 50%;
+    width: auto;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.centered-full, video.centered-full {
+    width: 90%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.centered-vertical, video.centered-vertical {
+    max-height: 50vh;
+    width: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.inline, video.inline {
+    display: inline;
+    vertical-align: middle;
+    margin: 2px;
+}
+
+iframe.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Put media queries for images here so that they override the above styles. */
+@media screen and (max-width: 900px) {
+    img.centered, video.centered {
+        width: 90%
+    }
+    img.centered-real, video.centered-real {
+        max-width: 90%;
+    }
+}
+
+@media screen and (min-width: 1092px) {
+    img video {
+        /* max-width: 60%; */
+        max-height: 40vh;
+    }
+}
+
 /* Media Queries for phones and large screens */
 
 @media screen and (max-width: 600px) {
