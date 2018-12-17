@@ -5,3 +5,6 @@ class IndexView(generic.TemplateView):
 
 class AboutView(generic.TemplateView):
     template_name = 'about.html'
+
+class UbuntuConfigView(generic.TemplateView):
+    template_name = 'ubuntu.html'
