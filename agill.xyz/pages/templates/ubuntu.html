@@ -37,7 +37,14 @@
     </ul>
 
     <h1 id="installation">Installation</h1>
+        <p>Actually installing Ubuntu is a very simple task. The folks at Canonical have put extraordinary amounts of effort to make installing Ubuntu both fast and simple.</p>
         <h3 id="live-disk">Creating the Startup Disk</h3>
+            <p>I only mention this because it has changed in recent years. You used to have to use <a href="https://unetbootin.github.io/">UNetbootin</a> to create a live USB from an ISO image. Nowadays you can use the builtin Startup Disk Creator to flash an ISO image to a USB drive. There's no need to install additional software, or run anything with <code>sudo</code>.</p>
+
+            <img class="centered" src="/static/images/ubuntu-configuration/startup-disk-creator.png">
+
+            <p>Select the ISO and USB drive you wish to flash, and click "Make Startup Disk". It will take some time, but is otherwise painless.</p>
+            <p>Note that the USB drive chosen may make a difference. I have learned that whenever I try to install from an image flashed to one of <a href="http://a.co/d/94snmEr">these</a> flash drives, I get hit by <a href="https://bugs.launchpad.net/ubuntu/+source/ubiquity/+bug/658865">this nasty bug</a>. In short, the fix is to select "Try Ubuntu without installing" when prompted, and then delete <code>/usr/lib/ubiquity/apt-setup/generators/40cdrom</code> before running the installer.</p>
         <h3 id="installing">Installing Ubuntu</h3>
 
     <h1 id="software">Software</h1>
