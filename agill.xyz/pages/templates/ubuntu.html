@@ -46,6 +46,11 @@
             <p>Select the ISO and USB drive you wish to flash, and click "Make Startup Disk". It will take some time, but is otherwise painless.</p>
             <p>Note that the USB drive chosen may make a difference. I have learned that whenever I try to install from an image flashed to one of <a href="http://a.co/d/94snmEr">these</a> flash drives, I get hit by <a href="https://bugs.launchpad.net/ubuntu/+source/ubiquity/+bug/658865">this nasty bug</a>. In short, the fix is to select "Try Ubuntu without installing" when prompted, and then delete <code>/usr/lib/ubiquity/apt-setup/generators/40cdrom</code> before running the installer.</p>
         <h3 id="installing">Installing Ubuntu</h3>
+            <p>This is a straightforward matter. The only thing worth mentioning is the installation type. You have several choices:</p>
+
+            <img class="centered" src="/static/images/ubuntu-configuration/partition-settings.png">
+
+            <p>My choice depends on the device I am installing Ubuntu on. On several, I dual boot with other operating systems. On some, I use only Ubuntu. Your mileage may vary. Make sure to backup your data regardless of your choice.</p>
 
     <h1 id="software">Software</h1>
         <h3 id="user-pip">Installing Pip as a User</h3>
