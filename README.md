@@ -1,4 +1,4 @@
-# WWW
+# Website
 
 Repository for [agill.xyz](https://agill.xyz) and all subdomains, as well as any shared content and Nginx configuration.
 
@@ -74,3 +74,9 @@ git rebase --interactive master
 git checkout master
 git merge dev/<name>
 ```
+
+## Dependencies
+
+* `django-pygmentify`
+* `django`
+* `uwsgi`
