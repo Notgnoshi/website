@@ -119,6 +119,10 @@ a:hover { color: #133e7e; text-decoration: underline; }
     line-height: 1.1;
 }
 
+img {
+    padding-bottom: 10px;
+}
+
 img.centered, video.centered {
     width: 50%;
     height: auto;
