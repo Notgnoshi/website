@@ -106,6 +106,19 @@ a:hover { color: #133e7e; text-decoration: underline; }
     overflow: auto;
 }
 
+.highlight pre,
+.highlight code {
+    padding: 8px 12px;
+    background-color: #f2f2fa;
+    border: 1px solid #d5d5e9;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    font-family: cm_mono;
+    line-height: 1.1;
+    overflow: auto;
+}
+
 /* Media Queries for phones and large screens */
 
 @media screen and (max-width: 600px) {
@@ -119,8 +132,8 @@ a:hover { color: #133e7e; text-decoration: underline; }
         margin: 0 0;
     }
 
-    .post pre,
-    .post code {
+    .highligh pre,
+    .highligh code {
         font-size: 17px;
     }
 
