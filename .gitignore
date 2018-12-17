@@ -11,6 +11,9 @@ wiki.agill.xyz/
 
 .vscode
 
+# Backup files
+*.bak
+
 # ---> Python
 # Byte-compiled / optimized / DLL files
 __pycache__/
