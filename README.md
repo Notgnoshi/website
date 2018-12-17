@@ -41,3 +41,36 @@ Repository for [agill.xyz](https://agill.xyz) and all subdomains, as well as any
     less /tmp/emperor.log
     less /var/log/nginx/error.log
     ```
+
+## Deploying with Django using Development settings
+
+Use the Django `manage.py` to run a test server with the SSL and other settings disabled.
+
+```shell
+git checkout master
+git pull --rebase
+git checkout -b dev/<name>
+git apply shared_content/Add-development-settings.patch
+git commit -am "NOMERGE: Add development settings."
+```
+
+Then run
+
+```shell
+# Write the /etc/django/secret.txt file.
+sudo ./secret.py
+# Set up the necessary symlinks between shared content and each site.
+./symlinks.py
+# Run the site being worked on.
+cd <site name>
+./manage.py runserver
+```
+
+and make the desired changes. Once development is done, interactively rebase onto master, dropping the `NOMERGE` commit.
+
+```shell
+git rebase --interactive master
+# Drop the NOMERGE commit
+git checkout master
+git merge dev/<name>
+```
