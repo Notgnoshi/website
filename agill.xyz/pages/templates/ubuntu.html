@@ -187,13 +187,15 @@ sudo apt install gnome-tweak-tool chrome-gnome-shell numix-gtk-theme           \
 </pre>
 {% endpygmentify %}
         <h3 id="vscode-extensions">Visual Studio Code Extensions</h3>
-            <p style="color: red">Just how to set up Settings Sync on a new computer.</p>
+            <p>I install Visual Studio Code and configure the excellent <a href="https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync">Settings Sync</a> extension, which manages the rest of my extensions and settings using a private GitHub gist.</p>
 {% pygmentify %}
 <pre class="shell">
-curl https://go.microsoft.com/fwlink/?LinkID=760868 -o code.deb
-sudo dpkg -i code.deb
+curl -L https://go.microsoft.com/fwlink/?LinkID=760868 -o code.deb
+sudo apt install ./code.deb
+code --install-extension shan.code-settings-sync
 </pre>
 {% endpygmentify %}
+            <p>Follow the instructions <a href="https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync">here</a> to set up a new gist, or download settings from an existing gist. Unfortunately, I have not found a way to perform these steps from the commandline.</p>
     <h1 id="customization">Customization</h1>
         <p>The absolute very first thing I do is unpin <em>every</em> application except for Nautilus and Firefox from the dock. And then I clean everything but <code>Documents</code>, <code>Downloads</code>, and <code>Desktop</code> from my home folder.</p>
 {% pygmentify %}
