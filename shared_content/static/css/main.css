@@ -99,7 +99,8 @@ a:hover { color: #133e7e; text-decoration: underline; }
 }
 
 .page-content p {
-    padding-bottom: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
 
 .page-content code,
@@ -118,10 +119,6 @@ a:hover { color: #133e7e; text-decoration: underline; }
     -moz-border-radius: 8px;
     border-radius: 8px;
     line-height: 1.1;
-}
-
-img {
-    padding-bottom: 10px;
 }
 
 img.centered, video.centered {
