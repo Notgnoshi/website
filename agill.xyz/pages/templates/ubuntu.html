@@ -33,11 +33,11 @@
         <li><a href="#customization">Customization</a></li>
         <ul>
             <li><a href="#ubuntu-settings">Ubuntu Settings</a></li>
+            <li><a href="#gnome-extensions">Gnome Extensions</a></li>
             <li><a href="#gnome-tweaks">Gnome Tweak Tool</a></li>
             <li><a href="#network">Network Settings</a></li>
-            <li><a href="#themes">Themes</a></li>
-            <li><a href="#gnome-extensions">Gnome Extensions</a></li>
             <li><a href="#sdsmt">School VPN and Network Drives</a></li>
+            <li><a href="#misc">Misc Config</a></li>
         </ul>
     </ul>
 
@@ -197,20 +197,107 @@ code --install-extension shan.code-settings-sync
 {% endpygmentify %}
             <p>Follow the instructions <a href="https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync">here</a> to set up a new gist, or download settings from an existing gist. Unfortunately, I have not found a way to perform these steps from the commandline.</p>
     <h1 id="customization">Customization</h1>
-        <p>The absolute very first thing I do is unpin <em>every</em> application except for Nautilus and Firefox from the dock. And then I clean everything but <code>Documents</code>, <code>Downloads</code>, and <code>Desktop</code> from my home folder.</p>
+        <p>The absolute very first thing I do is clean everything but <code>Documents</code>, <code>Downloads</code>, and <code>Desktop</code> from my home folder.</p>
 {% pygmentify %}
 <pre class="shell">
 rm -rf examples.desktop Pictures Videos Music Public Templates
 </pre>
 {% endpygmentify %}
+        <p>Then I go through the system settings and tweak things to my preferences.</p>
         <h3 id="ubuntu-settings">Ubuntu Settings</h3>
-            <p style="color: red">Look into gsettings...</p>
+{% pygmentify %}
+<pre class="shell">
+gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'org.gnome.Nautilus.desktop']"
+gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
+gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+gsettings set org.gnome.desktop.interface clock-format '12h'
+gsettings set org.gtk.Settings.FileChooser clock-format '12h'
+gsettings set org.gnome.desktop.notifications show-in-lock-screen false
+gsettings set org.gnome.desktop.privacy remember-recent-files false
+gsettings set org.gnome.desktop.datetime automatic-timezone true
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 3600
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+gsettings set org.gnome.settings-daemon.plugins.power ambient-enabled true
+gsettings set org.gnome.desktop.session idle-delay uint32 600
+gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 36
+</pre>
+{% endpygmentify %}
+        <h3 id="gnome-extensions">Gnome Extensions</h3>
+            <p>I install the following Gnome Shell Extensions</p>
+            <ul>
+                <li><a href="https://extensions.gnome.org/extension/15/alternatetab/">AlternateTab</a></li>
+                <li><a href="https://extensions.gnome.org/extension/1319/gsconnect/">GSConnect</a></li>
+                <li><a href="https://extensions.gnome.org/extension/19/user-themes/">User Themes</a></li>
+                <li><a href="https://extensions.gnome.org/extension/484/workspace-grid/">Workspace Grid</a></li>
+                <li><a href="https://extensions.gnome.org/extension/440/workspace-separation-on-dash/">Workspace Separation On Dash</a></li>
+            </ul>
         <h3 id="gnome-tweaks">Gnome Tweak Tool</h3>
+            <p>After installing all of the extensions, I configure them and a few more settings with Gnome Tweak Tool.</p>
+{% pygmentify %}
+<pre class="shell">
+gsettings set org.gnome.desktop.wm.preferences num-workspaces 4
+gsettings set org.gnome.desktop.wm.preferences focus-mode 'sloppy'
+gsettings set org.gnome.settings-daemon.plugins.xsettings hinting 'full'
+gsettings set org.gnome.desktop.interface icon-theme 'Numix-Circle'
+gsettings set org.gnome.desktop.interface show-battery-percentage true
+gsettings set org.gnome.desktop.interface clock-show-date true
+gsettings set org.gnome.mutter workspaces-only-on-primary false
+gsettings set org.gnome.desktop.background show-desktop-icons false
+</pre>
+{% endpygmentify %}
+            <p>I also install PulseEffects to play with my sound settings.</p>
+{% pygmentify %}
+<pre class="shell">
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.deesser post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.multibandcompressor post-messages false
+gsettings set com.github.wwmm.pulseeffects.sourceoutputs.deesser post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.maximizer post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.gate post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.loudness post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.compressor post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs plugins "['autogain', 'bass_enhancer', 'limiter', 'gate', 'multiband_gate', 'compressor', 'multiband_compressor', 'convolver', 'exciter', 'crystalizer', 'stereo_tools', 'reverb', 'equalizer', 'deesser', 'crossfeed', 'loudness', 'maximizer', 'filter']"
+gsettings set com.github.wwmm.pulseeffects.sourceoutputs.multibandcompressor post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.autogain post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.exciter post-messages false
+gsettings set com.github.wwmm.pulseeffects.sourceoutputs.equalizer post-messages false
+gsettings set com.github.wwmm.pulseeffects.sourceoutputs.multibandgate post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.multibandgate post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.bassenhancer amount 10.0
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.bassenhancer post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.bassenhancer state true
+gsettings set com.github.wwmm.pulseeffects.sourceoutputs.compressor post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.crossfeed post-messages false
+gsettings set com.github.wwmm.pulseeffects.sourceoutputs.pitch post-messages false
+gsettings set com.github.wwmm.pulseeffects enable-all-apps true
+gsettings set com.github.wwmm.pulseeffects use-dark-theme true
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.crystalizer post-messages false
+gsettings set com.github.wwmm.pulseeffects.sourceoutputs.gate post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.stereotools post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.limiter post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.convolver post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.filter post-messages false
+gsettings set com.github.wwmm.pulseeffects.sourceoutputs.filter post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.reverb post-messages false
+gsettings set com.github.wwmm.pulseeffects.sourceoutputs.webrtc post-messages false
+gsettings set com.github.wwmm.pulseeffects.sourceoutputs.reverb post-messages false
+gsettings set com.github.wwmm.pulseeffects.sinkinputs.equalizer post-messages false
+gsettings set com.github.wwmm.pulseeffects.sourceoutputs.limiter post-messages false
+</pre>
+{% endpygmentify %}
         <h3 id="network">Network Settings</h3>
             <p style="color: red">fstab, etc/hosts</p>
-        <h3 id="themes">Themes</h3>
-        <h3 id="gnome-extensions">Gnome Extensions</h3>
         <h3 id="sdsmt">School VPN and Network Drives</h3>
+            <p>I have been able to figure out how to connect to the school VPN and network drives from an Ubuntu operating system, and have received repeated requests to share this knowledge, as it is not officially supported by the school. First, create a new PPTP VPN.</p>
+            <img class="centered" src="/static/images/ubuntu-configuration/vpn-pptp.png">
+            <p>Then enter the following information in the Identity tab.</p>
+            <img class="centered" src="/static/images/ubuntu-configuration/vpn-identity.png">
+            <p>The username is your student ID number and the password is either your email password, D2L password, or WebAdvisor password, I'm not sure. Then configure the following settings in the Advanced menu.</p>
+            <img class="centered" src="/static/images/ubuntu-configuration/vpn-advanced.png">
+            <p>Note that <code>MSCHAP</code> and <code>MSCHAPv2</code> are the only boxes checked in the list of available authentication methods.</p>
+            <p>Then to connect to the shared F Drive, connect to a server in Nautilus with the address <code>smb://speedy.sdsmt.edu/sdsmtshare/</code>. When you click "connect", you will need to enter your username and password (the same as for the VPN).</p>
+            <img class="centered" src="/static/images/ubuntu-configuration/f-drive.png">
+            <p>To connect to your personal H Drive, the address is <code>smb://speedy.sdsmt.edu/student_id$/</code> (note the <code>$</code>!)</p>
+            <img class="centered" src="/static/images/ubuntu-configuration/h-drive.png">
         <h3 id="misc">Misc Config</h3>
             <p>I like enabling insults on incorrect <code>sudo</code> password attempts. It adds needed levity when it's nearing a deadline and I can't build a PDF because LaTeX is a bitch about SVG images.</p>
 {% pygmentify %}
