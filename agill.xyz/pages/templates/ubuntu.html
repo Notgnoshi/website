@@ -285,7 +285,32 @@ gsettings set com.github.wwmm.pulseeffects.sourceoutputs.limiter post-messages f
 </pre>
 {% endpygmentify %}
         <h3 id="network">Network Settings</h3>
-            <p style="color: red">fstab, etc/hosts</p>
+            <p>If I'm installing on a Laptop, I add my local NFS shares using my NAS's static local IP.</p>
+{% pygmentify %}
+<pre class="shell">
+# Synology NAS NFS shares. Note that this is a laptop, and these are local
+# IPs. Also note that noauto means they won't be mounted on startup.
+192.168.1.112:/volume1/Test         /mnt/test        nfs user,noauto 0 0
+192.168.1.112:/volume1/ASSETS       /mnt/assets      nfs user,noauto 0 0
+192.168.1.112:/volume1/DOCUMENTS    /mnt/documents   nfs user,noauto 0 0
+192.168.1.112:/volume1/IMAGES       /mnt/images      nfs user,noauto 0 0
+192.168.1.112:/volume1/PLEX         /mnt/plex        nfs user,noauto 0 0
+192.168.1.112:/volume1/PROJECTS     /mnt/projects    nfs user,noauto 0 0
+</pre>
+{% endpygmentify %}
+            <p>If I'm installing something that will always be connected to my local network, I add the following instead</p>
+{% pygmentify %}
+<pre class="shell">
+# Synology NAS NFS shares
+192.168.0.112:/volume1/Test         /mnt/test        nfs defaults 0 0
+192.168.0.112:/volume1/ASSETS       /mnt/assets      nfs defaults 0 0
+192.168.0.112:/volume1/DOCUMENTS    /mnt/documents   nfs defaults 0 0
+192.168.0.112:/volume1/IMAGES       /mnt/images      nfs defaults 0 0
+192.168.0.112:/volume1/PLEX         /mnt/plex        nfs defaults 0 0
+192.168.0.112:/volume1/PROJECTS     /mnt/projects    nfs defaults 0 0
+</pre>
+{% endpygmentify %}
+            <p>I also add any static local IPs to <code>/etc/hosts</code> and add an associated SSH key and entry in <code>~/.ssh/config</code>.</p>
         <h3 id="sdsmt">School VPN and Network Drives</h3>
             <p>I have been able to figure out how to connect to the school VPN and network drives from an Ubuntu operating system, and have received repeated requests to share this knowledge, as it is not officially supported by the school. First, create a new PPTP VPN.</p>
             <img class="centered" src="/static/images/ubuntu-configuration/vpn-pptp.png">
