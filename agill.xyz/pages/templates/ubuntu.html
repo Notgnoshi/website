@@ -102,18 +102,15 @@ Host linux103
             <p>Then I clone my dotfiles repository to <code>~/.config/dotfiles/</code> and symlink each of the dotfiles so that I don't have a git repository in my home folder.</p>
 {% pygmentify %}
 <pre class="shell">
-cd ~/.config
-git clone git@github.com:Notgnoshi/dotfiles.git
-cd dotfiles
-./deploy ~
-cd ~
+git clone git@github.com:Notgnoshi/dotfiles.git ~/.config/dotfiles
+~/.config/deploy.sh ~
 # Answer 'y' to 'Update dotfiles and plugins...' prompt
 # Answer 'y' to 'Install fzf?' prompt
-bin/configure.sh
+~/bin/configure.sh
 source ~/.bashrc
 </pre>
 {% endpygmentify %}
-
+            <p>This installation and configure process needs some work before I am completely happy with it. For one, I would like to forego <code>~/bin/</code> in favor of <code>~/.local/bin/</code> and I would like to remove the dependence on <a href="https://git.agill.xyz">git.agill.xyz</a> for a number of reasons. I would also like to rewrite the <code>bin/configure.sh</code> script to do everything that I'm listing on this page.</p>
     <h1 id="software">Software</h1>
         <h3 id="user-pip">Installing Pip as a User</h3>
             <p>For machines I do not have <code>sudo</code> privileges on, but still want an effective Python environment (Looking at you, school Linux lab), install Pip as a user.</p>
