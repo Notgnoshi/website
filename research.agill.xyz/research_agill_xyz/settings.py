@@ -37,7 +37,15 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages',
+    'pygmentify',
 )
+
+PYGMENTIFY = {
+    'style': 'tango',
+    'cssclass': 'highlight',
+}
+
+PYGMENTIFY_MINIFY = True
 
 TEMPLATES = [
     {
