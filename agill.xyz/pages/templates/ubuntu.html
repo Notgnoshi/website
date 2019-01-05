@@ -27,7 +27,7 @@
             <li><a href="#user-pip">Installing Pip as a User</a></li>
             <li><a href="#local-usr">Installing to <code>~/.local/</code> as a User</a></li>
             <li><a href="#python-libraries">Python Libraries</a></li>
-            <li><a href="#vscode-extensions">Visual Studio Code Extensions</a></li>
+            <li><a href="#vscode-extensions">Visual Studio Code and Extensions</a></li>
             <li><a href="#apt-packages">Apt Packages</a></li>
         </ul>
         <li><a href="#customization">Customization</a></li>
@@ -50,6 +50,9 @@
 
             <p>Select the ISO and USB drive you wish to flash, and click "Make Startup Disk". It will take some time, but is otherwise painless.</p>
             <p>Note that the USB drive chosen may make a difference. I have learned that whenever I try to install from an image flashed to one of <a href="http://a.co/d/94snmEr">these</a> flash drives, I get hit by <a href="https://bugs.launchpad.net/ubuntu/+source/ubiquity/+bug/658865">this nasty bug</a>. In short, the fix is to select "Try Ubuntu without installing" when prompted, and then delete <code>/usr/lib/ubiquity/apt-setup/generators/40cdrom</code> before running the installer.</p>
+            <p>Additionally, depending on the device I am installing Ubuntu on, there are some fixes that must be done before Ubuntu will install successfully.</p>
+            <p>On my Dell XPS 15 9560, I need to follow the instructions provided in this <a href="https://askubuntu.com/a/989707">answer</a> and install the Nvidia drivers before it will boot.</p>
+            <p>On my piecemeal desktop, I need to boot from a USB 2.0 port as discussed <a href="https://askubuntu.com/a/26864">here</a>.</p>
         <h3 id="installing">Installing Ubuntu</h3>
             <p>This is a straightforward matter. The only thing worth mentioning is the installation type. You have several choices:</p>
 
@@ -103,7 +106,9 @@ Host linux103
 {% pygmentify %}
 <pre class="shell">
 git clone git@github.com:Notgnoshi/dotfiles.git ~/.config/dotfiles
-~/.config/dotfiles/deploy.sh ~
+# BUG: You must be in the dotfiles directory for this to work properly.
+cd ~/.config/dotfiles/
+./deploy.py ~
 # Answer 'y' to 'Update dotfiles and plugins...' prompt
 # Answer 'y' to 'Install fzf?' prompt
 ~/bin/configure.sh
@@ -151,9 +156,13 @@ sudo -H python3 get-pip.py
             <p>Now, you're not supposed to install Python packages with <a href="https://stackoverflow.com/questions/21055859/what-are-the-risks-of-running-sudo-pip">sudo</a>, so install them as a user</p>
 {% pygmentify %}
 <pre class="shell">
-pip install --upgrade --user pylint pycodestyle pydocstyle nose pygments       \
-    matplotlib sympy scipy numpy pandas seaborn ipython jupyter jupyterlab     \
-    virtualenv yapf
+pip install --upgrade --user pylint pycodestyle pydocstyle nose black virtualenv \
+    pygments ipython jupyter jupyterlab parsedatetime parse-torrent-name         \
+    nbstripout nb_pdf_template
+python3 -m nb_pdf_template.install --minted
+mkdir -p ~/.jupyter
+echo "c.PDFExporter.latex_command = ['xelatex', '-8bit', '-shell-escape','{filename}']" > ~/.jupyter/jupyter_nbconvert_config.py
+echo "c.LatexExporter.template_file = 'classicm'" >> ~/.jupyter/jupyter_nbconvert_config.py
 </pre>
 {% endpygmentify %}
         <h3 id="apt-packages">Apt Packages</h3>
@@ -166,8 +175,14 @@ sudo apt install vim git curl
             <p>Here are commands essential to development work.</p>
 {% pygmentify %}
 <pre class="shell">
-sudo apt install gcc g++ clang clang-format clang-tidy gdb make shellcheck     \
-    doxygen graphviz texlive-full chktex pdf2svg pandoc python3-dev
+sudo apt install gcc g++ clang clang-format clang-tidy gdb valgrind make cmake  \
+    shellcheck doxygen graphviz python3-dev optipng
+</pre>
+{% endpygmentify %}
+            <p>Here are packages for LaTeX development</p>
+{% pygmentify %}
+<pre class="shell">
+sudo apt install texlive-full chktex pdf2svg pandoc
 </pre>
 {% endpygmentify %}
             <p>Here are essential utilities.</p>
@@ -186,7 +201,14 @@ sudo apt install gnome-tweak-tool chrome-gnome-shell numix-gtk-theme           \
     numix-icon-theme-circle pulseeffects
 </pre>
 {% endpygmentify %}
-        <h3 id="vscode-extensions">Visual Studio Code Extensions</h3>
+            <p>Nvidia drivers</p>
+{% pygmentify %}
+<pre class="shell">
+sudo add-apt-repository ppa:graphics-drivers
+sudo apt install nvidia-driver-415
+</pre>
+{% endpygmentify %}
+        <h3 id="vscode-extensions">Visual Studio Code and Extensions</h3>
             <p>I install Visual Studio Code and configure the excellent <a href="https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync">Settings Sync</a> extension, which manages the rest of my extensions and settings using a private GitHub gist.</p>
 {% pygmentify %}
 <pre class="shell">
@@ -196,11 +218,44 @@ code --install-extension shan.code-settings-sync
 </pre>
 {% endpygmentify %}
             <p>Follow the instructions <a href="https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync">here</a> to set up a new gist, or download settings from an existing gist. Unfortunately, I have not found a way to perform these steps from the commandline.</p>
+        <h3 id="spotify-and-discord">Spotify and Discord</h3>
+            <p>There are two ways to install Spotify for Ubuntu as mentioned <a href="https://www.spotify.com/us/download/linux/">here</a>.</p>
+{% pygmentify %}
+<pre class="shell">
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
+echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
+sudo apt-get update
+sudo apt-get install spotify-client
+</pre>
+{% endpygmentify %}
+            <p>And then to install Discord,</p>
+{% pygmentify %}
+<pre class="shell">
+curl -L "https://discordapp.com/api/download?platform=linux&format=deb" -o discord.deb
+sudo apt install ./discord.deb
+</pre>
+{% endpygmentify %}
+        <h3 id="games">Games</h3>
+            <p>You used to have to do a lot of work in order to <em>nicely</em> install Minecraft on Linux, such as downloading a thumbnail, creating a startup script, and then creating <code>~/.local/share/applications/minecraft.desktop</code>. Now there is a Debian installer available straight from the minecraft <a href="https://minecraft.net/en-us/download/alternative/">website</a>. Note that this requires Java.</p>
+{% pygmentify %}
+<pre class="shell">
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt install oracle-java8-installer libpango1.0-0
+curl -L https://launcher.mojang.com/download/Minecraft.deb -o minecraft.deb
+sudo apt install ./minecraft.deb
+</pre>
+{% endpygmentify %}
+            <p>Installing Steam is much more straightforward.</p>
+{% pygmentify %}
+<pre class="shell">
+sudo apt install steam
+</pre>
+{% endpygmentify %}
     <h1 id="customization">Customization</h1>
         <p>The absolute very first thing I do is clean everything but <code>Documents</code>, <code>Downloads</code>, and <code>Desktop</code> from my home folder.</p>
 {% pygmentify %}
 <pre class="shell">
-rm -rf examples.desktop Pictures Videos Music Public Templates
+rm -rf examples.desktop Desktop Videos Music Public Templates
 </pre>
 {% endpygmentify %}
         <p>Then I go through the system settings and tweak things to my preferences.</p>
@@ -218,7 +273,6 @@ gsettings set org.gnome.desktop.datetime automatic-timezone true
 gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 3600
 gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 gsettings set org.gnome.settings-daemon.plugins.power ambient-enabled true
-gsettings set org.gnome.desktop.session idle-delay uint32 600
 gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 36
 </pre>
 {% endpygmentify %}
@@ -229,7 +283,7 @@ gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 36
                 <li><a href="https://extensions.gnome.org/extension/1319/gsconnect/">GSConnect</a></li>
                 <li><a href="https://extensions.gnome.org/extension/19/user-themes/">User Themes</a></li>
                 <li><a href="https://extensions.gnome.org/extension/484/workspace-grid/">Workspace Grid</a></li>
-                <li><a href="https://extensions.gnome.org/extension/440/workspace-separation-on-dash/">Workspace Separation On Dash</a></li>
+                <li><a href="https://extensions.gnome.org/extension/887/workspace-isolated-dash/">Workspace Isolated Dash</a></li>
             </ul>
         <h3 id="gnome-tweaks">Gnome Tweak Tool</h3>
             <p>After installing all of the extensions, I configure them and a few more settings with Gnome Tweak Tool.</p>
@@ -243,9 +297,10 @@ gsettings set org.gnome.desktop.interface show-battery-percentage true
 gsettings set org.gnome.desktop.interface clock-show-date true
 gsettings set org.gnome.mutter workspaces-only-on-primary false
 gsettings set org.gnome.desktop.background show-desktop-icons false
+gsettings set org.gnome.shell.extensions.dash-to-dock isolate-workspaces true
 </pre>
 {% endpygmentify %}
-            <p>I also install PulseEffects to play with my sound settings.</p>
+            <p>I also install PulseEffects to play with my sound settings. It might be necessary to run PulseEffects before setting these settings.</p>
 {% pygmentify %}
 <pre class="shell">
 gsettings set com.github.wwmm.pulseeffects.sinkinputs.deesser post-messages false
@@ -285,12 +340,17 @@ gsettings set com.github.wwmm.pulseeffects.sourceoutputs.limiter post-messages f
 </pre>
 {% endpygmentify %}
         <h3 id="network">Network Settings</h3>
-            <p>If I'm installing on a Laptop, I add my local NFS shares using my NAS's static local IP.</p>
+            <p>If I'm installing on a Laptop, I add my local NFS shares using my NAS's static local IP. But before I can do that, I need to make the directories where the shares will be mounted.</p>
+{% pygmentify %}
+<pre class="shell">
+mkdir -p /mnt/{assets,documents,images,plex,projects}
+</pre>
+{% endpygmentify %}
+
 {% pygmentify %}
 <pre class="shell">
 # Synology NAS NFS shares. Note that this is a laptop, and these are local
 # IPs. Also note that noauto means they won't be mounted on startup.
-192.168.1.112:/volume1/Test         /mnt/test        nfs user,noauto 0 0
 192.168.1.112:/volume1/ASSETS       /mnt/assets      nfs user,noauto 0 0
 192.168.1.112:/volume1/DOCUMENTS    /mnt/documents   nfs user,noauto 0 0
 192.168.1.112:/volume1/IMAGES       /mnt/images      nfs user,noauto 0 0
@@ -302,17 +362,17 @@ gsettings set com.github.wwmm.pulseeffects.sourceoutputs.limiter post-messages f
 {% pygmentify %}
 <pre class="shell">
 # Synology NAS NFS shares
-192.168.0.112:/volume1/Test         /mnt/test        nfs defaults 0 0
-192.168.0.112:/volume1/ASSETS       /mnt/assets      nfs defaults 0 0
-192.168.0.112:/volume1/DOCUMENTS    /mnt/documents   nfs defaults 0 0
-192.168.0.112:/volume1/IMAGES       /mnt/images      nfs defaults 0 0
-192.168.0.112:/volume1/PLEX         /mnt/plex        nfs defaults 0 0
-192.168.0.112:/volume1/PROJECTS     /mnt/projects    nfs defaults 0 0
+192.168.1.112:/volume1/ASSETS       /mnt/assets      nfs defaults 0 0
+192.168.1.112:/volume1/DOCUMENTS    /mnt/documents   nfs defaults 0 0
+192.168.1.112:/volume1/IMAGES       /mnt/images      nfs defaults 0 0
+192.168.1.112:/volume1/PLEX         /mnt/plex        nfs defaults 0 0
+192.168.1.112:/volume1/PROJECTS     /mnt/projects    nfs defaults 0 0
 </pre>
 {% endpygmentify %}
             <p>I also add any static local IPs to <code>/etc/hosts</code> and add an associated SSH key and entry in <code>~/.ssh/config</code>.</p>
         <h3 id="sdsmt">School VPN and Network Drives</h3>
             <p>I have been able to figure out how to connect to the school VPN and network drives from an Ubuntu operating system, and have received repeated requests to share this knowledge, as it is not officially supported by the school. First, create a new PPTP VPN.</p>
+            <p><strong>Update:</strong> It appears that either the Ubuntu 18.10 VPN utility is broken, or the school ITS department has it configured improperly. Running <code>telnet techvpn.sdsmt.edu 1723</code> times out.</p>
             <img class="centered" src="/static/images/ubuntu-configuration/vpn-pptp.png">
             <p>Then enter the following information in the Identity tab.</p>
             <img class="centered" src="/static/images/ubuntu-configuration/vpn-identity.png">
@@ -328,7 +388,9 @@ gsettings set com.github.wwmm.pulseeffects.sourceoutputs.limiter post-messages f
 {% pygmentify %}
 <pre class="shell">
 # Add 'Defaults insults' to '/etc/sudoers'
-sudo visudo
+# Will complain about readonly, but use :wq! to force write.
+sudo vim /etc/sudoers
+# sudo visudo will open in nano (eww)
 </pre>
 {% endpygmentify %}
 </div>
