@@ -1,0 +1,7 @@
+beautifulsoup4==4.7.0
+Django==2.1.5
+django-pygmentify==0.3.7
+Pygments==2.3.1
+pytz==2018.7
+soupsieve==1.6.2
+uWSGI==2.0.17.1
