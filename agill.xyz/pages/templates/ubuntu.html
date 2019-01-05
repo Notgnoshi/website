@@ -106,9 +106,7 @@ Host linux103
 {% pygmentify %}
 <pre class="shell">
 git clone git@github.com:Notgnoshi/dotfiles.git ~/.config/dotfiles
-# BUG: You must be in the dotfiles directory for this to work properly.
-cd ~/.config/dotfiles/
-./deploy.py ~
+~/.config/dotfiles/deploy.py ~
 # Answer 'y' to 'Update dotfiles and plugins...' prompt
 # Answer 'y' to 'Install fzf?' prompt
 ~/bin/configure.sh
