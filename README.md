@@ -15,13 +15,42 @@ Repository for [agill.xyz](https://agill.xyz) and all subdomains, as well as any
 
 ## TODO
 
+* Consider switching to Flask before doing renovation?
+  * Django is too big for what I need. I don't need the kitchen, much less the kitchen sink.
+  * Should definitely be done *before* renovation...
 * What about large binary assets like PDFs, video, music, etc?
+* Find a better way to serve assets. Maybe even a static.agill.xyz Nginx server?
+  * I'm frustrated with the current URLs
+  * I'm frustrated by running ./manage.py collectstatic and how it works.
 * Maybe make `deploy.py` detect if a config is already there and make a backup?
 * Put sockets in `/run/`. Will require googling?
 * Add uWSGI master process to Emperor?
 * Add development Nginx configs that don't require SSL. Other option: Use `./manage.py runserver`
 * Collect scripts into one.
 * Figure out how to easily set up a development environment
+* Use bootstrap instead of home-grown CSS
+* Use markdown *or* html for pages?
+  * https://www.ignoredbydinosaurs.com/posts/275-easy-markdown-and-syntax-highlighting-django
+  * https://www.imzjy.com/blog/2018-05-20-render-the-markdown-in-django
+* Move content from wiki to website.
+  * Find the right site layout for this.
+  * Move to notes repository instead?
+* Redirect https://notgnoshi.github.io to https://blog.agill.xyz and make sure every link works.
+  * Add pagination...
+  * Add MathJax...
+  * Remove Google Analytics in favor of writing a script to parse server logs. Could be an interesting data analytics project.
+* Update ubuntu configuration again
+  * Change layout to be a documented form of my bashrc et al?
+  * Two part documentation?
+    * How to install and configure
+    * The contents of my dotfiles
+
+Site Structure
+
+* agill.xyz - about page with links to everything in the nav bar.
+* agill.xyz/docs/ - ubuntu configuration docs, anything worth saving from wiki
+* blog.agill.xyz - reproduce every post from notgnoshi.github.io without using Jekyll.
+* research.agill.xyz - The same kind of stuff. Need to restructure to make each project get its own page.
 
 ## Deploying with Nginx and uWSGI
 
