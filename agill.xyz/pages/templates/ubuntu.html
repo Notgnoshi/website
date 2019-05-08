@@ -26,6 +26,10 @@
                     <li><a href="#ssh-keys">SSH Keys</a></li>
                     <li><a href="#dotfiles">Dotfiles</a></li>
                 </ul>
+                <li><a href="#configuration">Configuration</a></li>
+                <ul>
+                    <li><a href="#sdsmt">School VPN and Network Drives</a></li>
+                </ul>
             </ul>
 
             <h1 id="installation">Installation</h1>
@@ -48,11 +52,11 @@
                 <code>/usr/lib/ubiquity/apt-setup/generators/40cdrom</code> before running the installer.</p>
             <p>Additionally, depending on the device I am installing Ubuntu on, there are some fixes that must be done
                 before Ubuntu will install successfully.</p>
-            <p>On my Dell XPS 15 9560, I need to follow the instructions provided in this <a
-                    href="https://askubuntu.com/a/989707">answer</a> and install the Nvidia drivers before it will boot.
-            </p>
-            <p>On my piecemeal desktop, I need to boot from a USB 2.0 port as discussed <a
-                    href="https://askubuntu.com/a/26864">here</a>.</p>
+            <p><del>On my Dell XPS 15 9560, I need to follow the instructions provided in this <a
+                        href="https://askubuntu.com/a/989707">answer</a> and install the Nvidia drivers before it will
+                    boot. On my piecemeal desktop, I need to boot from a USB 2.0 port as discussed <a
+                        href="https://askubuntu.com/a/26864">here</a>.</del>These steps are no longer necessary as of
+                Ubuntu 19.04.</p>
             <h3 id="installing">Installing Ubuntu</h3>
             <p>This is a straightforward matter. The only thing worth mentioning is the installation type. You have
                 several choices:</p>
@@ -118,28 +122,27 @@ git clone --recurse=submodules git@github.com:Notgnoshi/dotfiles.git ~/.config/d
 source ~/.bashrc
 </pre>
             {% endpygmentify %}
+            <h1 id="configuration">Configuration</h1>
             <h3 id="sdsmt">School VPN and Network Drives</h3>
-            <p>I have been able to figure out how to connect to the school VPN and network drives from an Ubuntu
-                operating system, and have received repeated requests to share this knowledge, as it is not officially
-                supported by the school. First, create a new PPTP VPN.</p>
-            <p><strong>Update:</strong> It appears that either the Ubuntu 18.10 VPN utility is broken, or the school ITS
-                department has it configured improperly. Running <code>telnet techvpn.sdsmt.edu 1723</code> times out.
-            </p>
-            <img class="centered" src="/static/images/ubuntu-configuration/vpn-pptp.png">
-            <p>Then enter the following information in the Identity tab.</p>
-            <img class="centered" src="/static/images/ubuntu-configuration/vpn-identity.png">
-            <p>The username is your student ID number and the password is either your email password, D2L password, or
-                WebAdvisor password, I'm not sure. Then configure the following settings in the Advanced menu.</p>
-            <img class="centered" src="/static/images/ubuntu-configuration/vpn-advanced.png">
-            <p>Note that <code>MSCHAP</code> and <code>MSCHAPv2</code> are the only boxes checked in the list of
-                available authentication methods.</p>
+            <p><del>Follow the instructions <a href="https://www.mcs.sdsmt.edu/lpyeatt/VPN/index/"
+                        target="_blank">here</a>
+                    to connect to the school VPN.</del> Using SSTP is currently quite difficult on Ubuntu 19.04 right
+                now, and the linked website does not provide details for using VPNC.</p>
+            {% pygmentify %}
+            <pre class="shell">
+sudo apt install network-manager-vpnc-gnome
+</pre>
+            {% endpygmentify %}
+            <p>Then create a new VPNC connection in <code>network-manager</code>.</p>
+            <img class="centered" src="/static/images/ubuntu-configuration/vpn-vpnc-choice.png">
+            <p>Enter the following information. The username is your student ID, and the password is your student password.</p>
+            <img class="centered" src="/static/images/ubuntu-configuration/vpn-vpnc-settings.png">
             <p>Then to connect to the shared F Drive, connect to a server in Nautilus with the address
                 <code>smb://speedy.sdsmt.edu/sdsmtshare/</code>. When you click "connect", you will need to enter your
                 username and password (the same as for the VPN).</p>
             <img class="centered" src="/static/images/ubuntu-configuration/f-drive.png">
             <p>To connect to your personal H Drive, the address is <code>smb://speedy.sdsmt.edu/student_id$/</code>
                 (note the <code>$</code>!)</p>
-            <img class="centered" src="/static/images/ubuntu-configuration/h-drive.png">
         </div>
     </div>
 
