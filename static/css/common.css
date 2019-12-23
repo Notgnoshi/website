@@ -3,3 +3,7 @@ body {
     font-family: Georgia, Times, "Times New Roman", serif;
     font-size: 1.1rem;
 }
+
+code {
+    color: var(--gray);
+}

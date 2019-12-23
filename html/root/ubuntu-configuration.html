@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- TODO: Add a site description. -->
+    <!-- <meta name="description" content="{{ SITE_DESCRIPTION }}"> -->
+    <title>agill.xyz - Ubuntu Configuration</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- TODO: Change static URL to agill.xyz -->
+    <link rel="stylesheet" href="http://static.localhost/css/common.css">
+    <link rel="shortcut icon" type="image/png" href="http://static.localhost/favicon.png">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css" />
+    <link rel="stylesheet" href="http://static.localhost/css/ascetic.min.css">
+</head>
+
+<body class="d-flex flex-column" data-spy="scroll" data-target="#toc">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="#">agill.xyz</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav mr-auto">
+                    <!-- TODO: Fix links -->
+                    <a class="nav-item nav-link active" href="http://localhost">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" href="http://research.localhost">Research</a>
+                    <a class="nav-item nav-link" href="http://mc.localhost">Minecraft</a>
+                    <a class="nav-item nav-link" href="http://static.localhost">Files</a>
+                    <a class="nav-item nav-link" href="https://notes.agill.xyz">Notes</a>
+                    <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
+                    <a class="nav-item nav-link" href="https://plex.agill.xyz">Plex</a>
+                    <a class="nav-item nav-link" href="https://pihole.agill.xyz">Pihole</a>
+                    <a class="nav-item nav-link" href="https://nas.agill.xyz">NAS</a>
+                </div>
+                <div class="d-flex">
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i
+                            class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container flex-grow-1">
+        <div class="card w-25 float-left mr-3">
+            <div class="card-header">Table of Contents</div>
+            <div class="card-body">
+                <nav id="toc" data-toggle="toc"></nav>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">TL;DR</div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li>Clone my <a href="https://github.com/Notgnoshi/dotfiles" class="">dotfiles repository</a>
+                        to <code>~/.config/dotfiles/</code></li>
+                    <li>Run <a href="https://github.com/Notgnoshi/dotfiles/blob/master/deploy.py"
+                            class=""><code>deploy.py</code></a> to symlink dotfiles in the right places</li>
+                    <li>Run <a href="https://github.com/Notgnoshi/dotfiles/blob/master/bin/configure.sh"
+                            class=""><code>configure.sh</code></a> to install packages and tweak settings</li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="pt-2">I end up installing and reinstalling Ubuntu a lot. As with many Linux users, I cannot
+            <em>not</em> customize
+            my installation. However, I use multiple devices with several accounts, some of which are not managed by me.
+            This leads to a massive headache when trying to keep customizations in sync, especially when they keep
+            changing as I learn new things.</p>
+        <p>This page documents the process I follow to configure a fresh Ubuntu installation to my preferences. Much of
+            it is finally automated in a manner I'm satisfied with, but there is still quite a bit left on my backlog I
+            need to add. Additionally, due to limitations outside my control, on some systems I have to jump through
+            hoops to get things set up the way I like.</p>
+
+        <p>Among other things, this page details how to install my dotfiles. See my <a href="dotfiles.html">dotfiles
+                page</a> for a description of what the dotfiles actually do.</p>
+
+        <h1>Installing Ubuntu</h1>
+        <div>
+            <p>Actually installing Ubuntu is a straightforward task nowadays. The good folks over at Canonical have made
+                some extraordinary strides in making the installation process both fast and simple. As long as you don't
+                want to do anything special.</p>
+
+            <h2>Creating the startup disk</h2>
+            <div>
+                <p>I only mention this step because it wasn't always so simple. You used to have to use <a
+                        href="https://unetbootin.github.io/">UNetbootin</a> to create a live USB from an ISO image.
+                    Nowadays
+                    you can use the builtin Startup Disk Creator to flash an ISO image to a USB drive. There's no need
+                    to
+                    install additional software, or run anything with <code>sudo</code>.</p>
+
+                <figure class="figure w-50 d-block mx-auto">
+                    <img src="http://static.localhost/images/ubuntu-configuration/startup-disk-creator.png"
+                        class="figure-img img-fluid rounded" alt="Startup Disk Creator">
+                    <figcaption class="figure-caption text-right">Using Startup Disk Creator to flash a live USB
+                    </figcaption>
+                </figure>
+
+                <p>Select the ISO and USB drive you wish to flash, and click "Make Startup Disk". It will take some
+                    time,
+                    but is otherwise painless.</p>
+
+                <p>Note that the USB drive chosen may make a difference. I have learned that whenever I try to install
+                    from
+                    an image flashed to one of <a href="http://a.co/d/94snmEr">these flash drives</a>, I get hit by <a
+                        href="https://bugs.launchpad.net/ubuntu/+source/ubiquity/+bug/658865">this nasty bug</a>. In
+                    short,
+                    the fix is to select "Try Ubuntu without installing" when prompted, and then delete
+                    <code>/usr/lib/ubiquity/apt-setup/generators/40cdrom</code> before running the installer.</p>
+
+                <p>Additionally, depending on the device I am installing Ubuntu on, there are some fixes that must be
+                    done
+                    before Ubuntu will install successfully.</p>
+
+                <p><del>On my Dell XPS 15 9560, I need to follow the instructions provided in <a
+                            href="https://askubuntu.com/a/989707">this answer</a> and install the
+                        Nvidia drivers before it will boot. On my piecemeal desktop, I need to boot from a USB 2.0 port
+                        as
+                        <a href="https://askubuntu.com/a/26864">discussed here</a>.</del> These steps are no longer
+                    necessary as of Ubuntu 19.04.</p>
+            </div>
+            <h2>Installing Ubuntu</h2>
+            <div>
+                <p>This is a straightforward matter. The only thing worth mentioning is the installation type. You have
+                    several choices.</p>
+
+                <figure class="figure w-50 d-block mx-auto">
+                    <img src="http://static.localhost/images/ubuntu-configuration/partition-settings.png"
+                        class="figure-img img-fluid rounded" alt="Installation Type">
+                    <figcaption class="figure-caption text-right">Selecting the installation type from the Ubuntu
+                        installer
+                    </figcaption>
+                </figure>
+                <p>My choice depends on the device I am installing Ubuntu on. On several, I dual boot with other
+                    operating systems. On some, I use only Ubuntu. Your mileage may vary. Make sure to backup your data
+                    regardless of your choice.</p>
+            </div>
+        </div>
+
+        <h1>Pre-configure Steps</h1>
+        <div>
+            <h2>Prerequisite packages</h2>
+            <p>The following packages are necessary to procede.</p>
+            <figure class="figure">
+                <pre class="pl-5"><code class="language-bash">sudo apt install vim git curl</code></pre class="pl-5">
+                <figcaption class="figure-caption">Install prerequisite packages</figcaption>
+            </figure>
+            <h2>SSH Keys</h2>
+            <p>Before I can clone my dotfiles repository, I need to generate (or copy from backup) an SSH key and <a
+                    href="https://github.com/settings/ssh/new">add it to GitHub</a></p>
+
+            <figure class="figure">
+                <pre class="pl-5"><code class="language-bash">mkdir -p ~/.ssh
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/git
+echo "AddKeysToAgent yes
+
+Host github.com gitlab.com git.agill.xyz gitlab.mcs.sdsmt.edu
+IdentityFile ~/.ssh/git
+
+Host anguish
+HostName xxx.xxx.xxx.xxx
+IdentityFile ~/.ssh/anguish
+
+Host linux102
+HostName linux102.mcs.sdsmt.edu
+User xxxxxxx
+IdentityFile ~/.ssh/opplab" > ~/.ssh/config</code></pre>
+                <figcaption class="figure-caption">Generate SSH keys and an SSH config</figcaption>
+            </figure>
+            <p>Note that until SSH keys are generated and copied to their respective hosts, and the rest of the SSH
+                config file is added, it may be necessary to add the <code>-o 'IdentitiesOnly yes'</code> argument to
+                disable <code>ssh</code> from attempting to authenticate <em>every</em> key it knows about.</p>
+
+            <div class="alert alert-warning">I still need to find a good way to generate <code>~/.ssh/config</code> from
+                the <code>configure.sh</code> script in a manner that doesn't break things. Perhaps this will always
+                have to be a manual step.</div>
+        </div>
+
+        <h1>Installing the dotfiles</h1>
+        <div>
+            <h2>Cloning the dotfiles repository</h2>
+            <p>My dotfiles repository include several Vim plugins, as well as <a href="https://github.com/junegunn/fzf"
+                    target="_blank">fzf</a> as Git submodules. Thus be sure to clone with the
+                <code>--recurse-submodules</code> option, or run <code>git submodule update --init --recursive</code>
+                after cloning.</p>
+            <figure class="figure">
+                <pre class="pl-5"><code class="language-bash">git clone --recurse-submodules git@github.com:Notgnoshi/dotfiles.git ~/.config/dotfiles
+git submodule update --init --recursive</code></pre>
+                <figcaption class="figure-caption">Clone the dotfiles repository</figcaption>
+            </figure>
+
+            <h2>Deploying dotfiles to home folder</h2>
+
+            <figure class="figure">
+                <pre class="pl-5"><code class="language-bash">~/.config/dotfiles/deploy.py ~
+source ~/.bashrc</code></pre>
+                <figcaption class="figure-caption">Symlink the dotfiles to <code>~</code></figcaption>
+            </figure>
+        </div>
+
+        <h1>Running the configuration script</h1>
+        <div>
+            <p>Run <code>~/.local/bin/configure.sh</code> and answer <code>y</code> to the prompts you wish to accept.
+                The script will interactively perform the following tasks</p>
+            <ul>
+                <li>Updates the Git submodules in the dotfile repository</li>
+                <li>Installs <a href="https://github.com/junegunn/fzf" target="_blank">fzf</a></li>
+                <li>Installs <a href="https://github.com/koalaman/shellcheck" target="_blank">shellcheck</a> and <a
+                        href="https://github.com/mvdan/sh" target="_blank">shfmt</a></li>
+                <li>Installs <code>vim</code>, <code>git</code>, and <code>curl</code></li>
+                <li>Installs LaTeX and related packages</li>
+                <li>Installs development packages like <code>gcc</code>, <code>clang</code>, and <code>doxygen</code>
+                </li>
+                <li>Installs must-have terminal programs like <code>htop</code>, <code>nmap</code>,
+                    <code>traceroute</code>, and <code>screen</code></li>
+                <li>Installs Gnome Shell customizations, like <a
+                        href="https://github.com/numixproject/numix-icon-theme-circle"
+                        target="_blank"><code>numix-icon-theme-circle</code></a>
+                    and <code>gnome-tweak-tool</code></li>
+                <li>Installs <a href="https://code.visualstudio.com/" target="_blank">VS Code</a> and the <a
+                        href="https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync"
+                        target="_blank">settings-sync</a>
+                    extension</li>
+                <li>Installs Discord and Spotify</li>
+                <li>Installs Steam, Minecraft, and Lutris</li>
+                <li>Installs Pip, either as root or as a user, and some Python packages I use on almost every project,
+                    like <a href="https://www.pylint.org/" target="_blank"><code>pylint</code></a>, <a
+                        href="http://www.pydocstyle.org/en/stable/" target="_blank"><code>pydocstyle</code></a>, and <a
+                        href="https://black.readthedocs.io/en/stable/" target="_blank"><code>black</code></a></li>
+                <li>Opens my browser to each of the Gnome Shell extensions I want to install</li>
+                <li>Uses <code>gsettings</code> to configure all of the Ubuntu settings I want</li>
+                <li>Configures <code>/etc/fstab</code> to automatically mount my NAS shares</li>
+                <li>Edits <code>/etc/sudoers</code> to insult me when I mistype my sudo password</li>
+            </ul>
+
+            <div class="alert alert-warning">Note that the Gnome extensions should be installed from the browser by
+                visiting <a href="https://extensions.gnome.org/">extensions.gnome.org</a> when prompted <em>before</em>
+                tweaking the Ubuntu system settings through <code>gsettings</code></div>
+        </div>
+
+        <h1>Manual configuration steps</h1>
+        <div>
+            <h2>Fonts</h2>
+            <p><a href="https://www.dafont.com/pointfree.font">Pointfree</a>, a monospace Comic Sans variant that I find
+                oddly nice for programming in.</p>
+
+            <h2>School VPN</h2>
+            <div>
+                <p><del>Follow the instructions <a href="https://www.mcs.sdsmt.edu/lpyeatt/VPN/index/"
+                            target="_blank">here</a>
+                        to connect to the school VPN.</del> Using SSTP is currently quite difficult on Ubuntu 19.04
+                    right now, and the linked website does not provide details for using VPNC.</p>
+                <figure class="figure">
+                    <pre
+                        class="pl-5"><code class="language-bash">sudo apt install network-manager-vpnc-gnome</code></pre>
+                    <figcaption class="figure-caption">Enable connecting to Cisco VPNs</figcaption>
+                </figure>
+                <p>Then create a new VPNC connection in <code>network-manager</code>.</p>
+                <figure class="figure w-50 d-block mx-auto">
+                    <img class="figure-img img-fluid rounded"
+                        src="http://static.localhost/images/ubuntu-configuration/vpn-vpnc-choice.png">
+                    <figcaption class="figure-caption text-right">Create a new Cisco VPN
+                    </figcaption>
+                </figure>
+                <p>Enter the following information. The username is your student ID, and the password is your student
+                    password.</p>
+                <figure class="figure w-50 d-block mx-auto">
+                    <img class="figure-img img-fluid rounded"
+                        src="http://static.localhost/images/ubuntu-configuration/vpn-vpnc-settings.png">
+                    <figcaption class="figure-caption text-right">Enter your student credentials
+                    </figcaption>
+                </figure>
+                <p>Then to connect to the shared <code>F:</code> Drive, connect to a server in Nautilus with the address
+                    <code>smb://speedy.sdsmt.edu/sdsmtshare/</code>. When you click "connect", you will need to enter
+                    your username and password (the same as for the VPN).</p>
+                <figure class="figure w-50 d-block mx-auto">
+                    <img class="figure-img img-fluid rounded"
+                        src="http://static.localhost/images/ubuntu-configuration/f-drive.png">
+                    <figcaption class="figure-caption text-right">Connect to the <code>F:</code> drive from Nautilus
+                    </figcaption>
+                </figure>
+                <p>To connect to your personal <code>H:</code> Drive, the address is
+                    <code>smb://speedy.sdsmt.edu/student_id$/</code> (note the <code>$</code>!)</p>
+            </div>
+        </div>
+
+        <h1>TODO</h1>
+        <div>
+            <h2>System specific tweaks</h2>
+            <h3>School Linux Lab</h3>
+            <h4>nodejs + npm</h4>
+            <h4>ncurses</h4>
+            <h4>nvtop</h4>
+
+            <h3>Work</h3>
+            <h2>Manual Tweaks</h2>
+            <h3>Wallpaper</h3>
+            <h3>Docker</h3>
+            <p>Note that special sauce is necessary for Ubuntu 19.10.</p>
+            <h3>Fusuma</h3>
+            <p>See <a href="https://github.com/iberianpig/fusuma">Fusuma</a>.</p>
+
+            <h3>Jupyter extensions</h3>
+            <h3>CUDA</h3>
+        </div>
+    </div>
+</body>
+<!-- TODO: Find the integrity hash for *this* version. -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+<script src="http://static.localhost/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script>
+
+</html>
