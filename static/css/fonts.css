@@ -72,11 +72,3 @@
     font-weight: bold;
     font-style: italic;
 }
-
-body {
-    font-family: cm_serif, sans-serif, Georgia, "Times New Roman", serif;
-}
-
-code {
-    font-family: cm_mono, monospace;
-}
