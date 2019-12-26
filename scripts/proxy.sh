@@ -10,4 +10,5 @@ docker run \
     --name "nginx-proxy" \
     --publish 80:80 \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
+    --restart unless-stopped \
     jwilder/nginx-proxy

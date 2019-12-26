@@ -23,4 +23,5 @@ docker run \
     --mount "type=bind,source=${REPO_ROOT}/config/research.conf,target=/etc/nginx/conf.d/default.conf,readonly" \
     --mount "type=bind,source=${REPO_ROOT}/config/nginx.conf,target=/etc/nginx/nginx.conf,readonly" \
     --env "VIRTUAL_HOST=research.agill.xyz,research.localhost" \
+    --restart unless-stopped \
     nginx

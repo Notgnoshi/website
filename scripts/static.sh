@@ -23,6 +23,7 @@ docker run \
     --mount "type=bind,source=${REPO_ROOT}/config/static.conf,target=/etc/nginx/conf.d/default.conf,readonly" \
     --mount "type=bind,source=${REPO_ROOT}/config/nginx.conf,target=/etc/nginx/nginx.conf,readonly" \
     --env "VIRTUAL_HOST=static.agill.xyz,static.localhost" \
+    --restart unless-stopped \
     nginx
 
 # NOTE: It will be necessary to redirect static.agill.xyz to static.localhost when testing static changes.
