@@ -1,0 +1,5 @@
+bibtexparser
+black
+Jinja2
+pylint
+pydocstyle

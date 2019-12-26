@@ -1,0 +1,136 @@
+{
+    "static_url": "http://static.localhost",
+    "players": [
+        {
+            "username": "Notgnoshi",
+            "uuid": "dc33d21d-50af-4708-974f-2ecbc6945a9c",
+            "about": "Maintainer. Likes building big, very beautiful things. Also has no time to build big things.",
+            "contacts": [
+                {
+                    "type": "email",
+                    "value": "Notgnoshi@gmail.com"
+                },
+                {
+                    "type": "reddit",
+                    "value": "Notgnoshi_"
+                },
+                {
+                    "type": "twitter",
+                    "value": "Notgnoshi"
+                },
+                {
+                    "type": "github",
+                    "value": "Notgnoshi"
+                }
+            ]
+        },
+        {
+            "username": "Greeng0ld",
+            "uuid": "f497e600-e74d-454a-8b8b-61d3c4bbbc5f",
+            "about": "<em>Really</em> likes quartz. Like, maybe a little too much.",
+            "contacts": [
+                {
+                    "type": "reddit",
+                    "value": "greeng0ld"
+                }
+            ]
+        },
+        {
+            "username": "Marsgoon",
+            "uuid": "b64b9d15-5f61-4c16-abce-9f5c73cc4f00",
+            "about": "Likes building big, slightly-less-than-beautiful things.",
+            "contacts": [
+                {
+                    "type": "reddit",
+                    "value": "marsgoon"
+                }
+            ]
+        },
+        {
+            "username": "Nickguy",
+            "uuid": "f3d82504-5fd8-4001-8998-3482c97c3888",
+            "about": "Likes horses to a questionable degree.",
+            "contacts": [
+                {
+                    "type": "reddit",
+                    "value": "nickguy03"
+                }
+            ]
+        },
+        {
+            "username": "Checkers300",
+            "uuid": "3a372c7e-9666-42a2-97ad-cafcc6389136",
+            "about": "Builds the biggest things, but never gets them done.",
+            "contacts": [
+                {
+                    "type": "email",
+                    "value": "ch3ckers300@gmail.com"
+                },
+                {
+                    "type": "reddit",
+                    "value": "Checkers300"
+                },
+                {
+                    "type": "snapchat",
+                    "value": "Checkers300"
+                }
+            ]
+        },
+        {
+            "username": "AzeTheGreat",
+            "uuid": "f56bf26d-f91d-4c17-8c7c-da1a07acc7e3",
+            "about": "<blockquote class=\"blockquote border-left border-2 pl-2\">&ldquo;...idk...&rdquo;</blockquote>",
+            "contacts": [
+                {
+                    "type": "reddit",
+                    "value": "AzeTheGreat"
+                }
+            ]
+        },
+        {
+            "username": "chris_s_",
+            "uuid": "c3daff47-0755-4f46-b1ba-4c1b2f6c8ecd",
+            "about": "<blockquote class=\"blockquote border-left border-2 pl-2\">&ldquo;You can put whatever for bio&rdquo;</blockquote>",
+            "contacts": [
+                {
+                    "type": "reddit",
+                    "value": "chriss9931_"
+                }
+            ]
+        },
+        {
+            "username": "AdmiralMikey",
+            "uuid": "06098d7e-ebb8-4b3b-9035-70766e0b755b",
+            "about": "Overly-excited most of the time.",
+            "contacts": [
+                {
+                    "type": "email",
+                    "value": "trey_burdett@live.com"
+                },
+                {
+                    "type": "reddit",
+                    "value": "AdmiralMikey75"
+                },
+                {
+                    "type": "facebook",
+                    "value": "trey.burdett"
+                },
+                {
+                    "type": "twitter",
+                    "value": "trey_burdett"
+                }
+            ]
+        },
+        {
+            "username": "hbomb457",
+            "uuid": "63f0e717-c5a7-408d-a727-a913fa5c1de3",
+            "about": "Hates mining, and <em>loves</em> turtles.",
+            "contacts": [
+                {
+                    "type": "reddit",
+                    "value": "hbomb4578"
+                }
+            ]
+        }
+    ]
+}
