@@ -11,3 +11,15 @@ code {
 .drop-shadow {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+.border-1 {
+    border-width: 0.1vw !important;
+}
+
+.border-2 {
+    border-width: 0.2vw !important;
+}
+
+.border-3 {
+    border-width: 0.3vw !important;
+}
