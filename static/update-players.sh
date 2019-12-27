@@ -14,6 +14,8 @@ done
 REPO_ROOT="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)/../"
 REPO_ROOT="$(readlink -f "${REPO_ROOT}")"
 
+mkdir -p ${REPO_ROOT}/static/images/players/
+
 # Download skin renders, generate HTML player cards, escape newlines, and replace the content between 'Begin' and 'End' tags.
 "${REPO_ROOT}/static/players.py" \
     --renders \
