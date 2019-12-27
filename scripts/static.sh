@@ -19,10 +19,14 @@ REPO_ROOT="$(readlink -f "${REPO_ROOT}")"
 docker run \
     --detach \
     --name "nginx-static" \
+    --expose 80 \
+    --expose 443 \
     --mount "type=bind,source=${REPO_ROOT}/static,target=/usr/share/nginx/html,readonly" \
     --mount "type=bind,source=${REPO_ROOT}/config/static.conf,target=/etc/nginx/conf.d/default.conf,readonly" \
     --mount "type=bind,source=${REPO_ROOT}/config/nginx.conf,target=/etc/nginx/nginx.conf,readonly" \
     --env "VIRTUAL_HOST=static.agill.xyz,static.localhost" \
+    --env "LETSENCRYPT_HOST=static.agill.xyz" \
+    --env "LETSENCRYPT_EMAIL=notgnoshi@gmail.com" \
     --restart unless-stopped \
     nginx
 

@@ -23,5 +23,7 @@ docker run \
     --mount "type=bind,source=${REPO_ROOT}/config/research.conf,target=/etc/nginx/conf.d/default.conf,readonly" \
     --mount "type=bind,source=${REPO_ROOT}/config/nginx.conf,target=/etc/nginx/nginx.conf,readonly" \
     --env "VIRTUAL_HOST=research.agill.xyz,research.localhost" \
+    --env "LETSENCRYPT_HOST=research.agill.xyz" \
+    --env "LETSENCRYPT_EMAIL=notgnoshi@gmail.com" \
     --restart unless-stopped \
     nginx
