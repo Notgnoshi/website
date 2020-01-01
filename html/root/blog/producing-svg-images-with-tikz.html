@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="A tutorial on producing vector graphics from a Tikz LaTeX image.">
+    <meta name="description" content="A tutorial on producing vector graphics from a TikZ LaTeX image.">
     <title>Producing SVG Images with TikZ</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -60,7 +60,7 @@
         <p>It's a fairly simple process as long as you're using Linux. This process requires <a
                 href="https://github.com/dawbarton/pdf2svg"><code>pdf2svg</code></a>.</p>
 
-        <p>First, make a Tikz image:</p>
+        <p>First, make a TikZ image:</p>
 
         <pre class="language-tex pl-3"><code>\documentclass[tikz]{standalone}
 
@@ -103,8 +103,8 @@
             The above code produces the following SVG image:</p>
 
         <figure class="figure d-block w-50 mx-auto">
-            <img class="figure-img img-fluid rounded" src="https://static.agill.xyz/images/geometry/polar/polar.svg"
-                alt=" polar coordinates">
+            <img class="figure-img img-fluid rounded w-100"
+                src="https://static.agill.xyz/images/geometry/polar/polar.svg" alt=" polar coordinates">
         </figure>
 
         <p>If you compile with the <code>-shell-escape</code> flag, you can tell <code>pdflatex</code> to compile both a
@@ -112,8 +112,7 @@
             class.
         </p>
 
-        <pre
-            class="language-tex pl-3"><code>\documentclass[
+        <pre class="language-tex pl-3"><code>\documentclass[
     tikz,
     convert={outext=.svg, command=\unexpanded{pdf2svg \infile\space\outfile}},
     multi=false
