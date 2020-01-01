@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- TODO: Add a site description. -->
+    <meta name="description"
+        content="Describes a geometric interpretation of the algebraic method of completing the square">
+    <title>Completing the square</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
+    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/favicon.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+        integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+        integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js"
+        integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv"
+        crossorigin="anonymous"></script>
+
+    <!-- <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
+        integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
+        crossorigin="anonymous"></script> -->
+
+    <link rel="stylesheet" type="text/css" href="http://static.localhost/css/square.css">
+</head>
+
+<body class="d-flex flex-column">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">agill.xyz</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav mr-auto">
+                    <!-- TODO: Fix links -->
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/blog">Blog</a>
+                    <a class="nav-item nav-link" href="http://research.agill.xyz">Research</a>
+                    <a class="nav-item nav-link" href="http://mc.agill.xyz">Minecraft</a>
+                    <a class="nav-item nav-link" href="https://static.agill.xyz">Files</a>
+                    <a class="nav-item nav-link" href="https://notes.agill.xyz">Notes</a>
+                    <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
+                    <a class="nav-item nav-link" href="https://plex.agill.xyz">Plex</a>
+                    <a class="nav-item nav-link" href="https://pihole.agill.xyz">Pihole</a>
+                    <a class="nav-item nav-link" href="https://nas.agill.xyz">NAS</a>
+                </div>
+                <div class="d-flex">
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i
+                            class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container flex-grow-1">
+        <p>I've had a <em>lot</em> of math since the idea of completing the square was first introduced to me, and while
+            comparatively a simple matter, I've always found it a difficult concept to grasp and a difficult process to
+            recall. It turns out that the algebraic process is rooted in geometry.</p>
+
+        <div class="card w-75 mx-auto">
+            <div class="card-header">Completing the Square</div>
+            <div class="card-body">
+                <p><em>Completing the square</em> is the process of converting a quadratic equation of the form</p>
+                <p class="text-center">
+                    <script type="math/text">ax^2 + bx + c = 0</script>
+                </p>
+                <p>to the (easier to solve) form</p>
+                <p class="text-center">
+                    <script type="math/text">a(x + d)^2 + e = 0</script>
+                </p>
+                <p class="mb-0">where
+                    <script type="math/text">d = \frac{b}{2a}</script>, and
+                    <script type="math/text">e = c - \frac{b^2}{4a}</script>.
+                </p>
+            </div>
+        </div>
+
+        <p class="mt-3">The purpose of this post is to intuitively explain where the values of
+            <script type="math/text">d</script> and
+            <script type="math/text">e</script> come from.</p>
+        <hr>
+        <p class="mt-3">Suppose we have
+            <script type="math/text">x^2 + 10x = 39</script>. We want to find
+            <script type="math/text">x</script>, but our equation doesn't factor easily, and we
+            can't really move things around to make it easier to work with. We need to do something else.</p>
+
+        <p>Before we get to solving it, let's look at how we might represent
+            <script type="math/text">x^2</script> geometrically. For the hell of it let's represent
+            <script type="math/text">x^2</script> as a square with dimensions
+            <script type="math/text">x</script> by
+            <script type="math/text">x</script>. We'll display the dimensions next to their corresponding sides for
+            clarity.</p>
+
+        <div class="unit">
+            <table>
+                <tr>
+                    <td></td>
+                    <td class="top">
+                        <script type="math/text">x</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="side">
+                        <script type="math/text">x</script>
+                    </td>
+                    <td class="box">
+                        <script type="math/text">x^2</script>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p>Similarly, let's represent
+            <script type="math/text">10x</script> as a rectangle with dimensions
+            <script type="math/text">10</script> by
+            <script type="math/text">x</script>.</p>
+
+        <div class="unit">
+            <table>
+                <tr>
+                    <td></td>
+                    <td class="top">
+                        <script type="math/text">x</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="side">
+                        <script type="math/text">10</script>
+                    </td>
+                    <td class="box" style="height:140px;">
+                        <script type="math/text">10x</script>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p>Note that this
+            <script type="math/text">10x</script> rectangle is equivalent with two
+            <script type="math/text">5</script> by
+            <script type="math/text">x</script> rectangles. Splitting this
+            rectangle into two pieces is a <del>frivolously contrived</del> ingenious move that will allow us to do
+            what's called <em>completing the square</em>.</p>
+
+        <div class="unit">
+            <table>
+                <tr>
+                    <td></td>
+                    <td class="top">
+                        <script type="math/text">x</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="side">
+                        <script type="math/text">10</script>
+                    </td>
+                    <td class="box" style="height:140px;">
+                        <script type="math/text">10x</script>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="operand">
+                <td>
+                    <script type="math/text">=</script>
+                </td>
+            </table>
+            <table>
+                <tr>
+                    <td></td>
+                    <td class="top">
+                        <script type="math/text">x</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="side">
+                        <script type="math/text">5</script>
+                    </td>
+                    <td class="box" style="height:70px;">
+                        <script type="math/text">5x</script>
+                    </td>
+                </tr>
+            </table>
+            <table class="operand">
+                <td>
+                    <script type="math/text">+</script>
+                </td>
+            </table>
+            <table>
+                <tr>
+                    <td></td>
+                    <td class="top">
+                        <script type="math/text">x</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="side">
+                        <script type="math/text">5</script>
+                    </td>
+                    <td class="box" style="height:70px;">
+                        <script type="math/text">5x</script>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p>Using this, let's represent
+            <script type="math/text">x^2 + 10x = 39</script> geometrically by attaching the corresponding
+            rectangles to each other. We lay the left hand side out in this manner for the hell of it, totally not
+            knowing
+            that doing so is a key maneuver for what's next.</p>
+
+        <div class="unit">
+            <table>
+                <tr>
+                    <td></td>
+                    <td class="top">
+                        <script type="math/text">x</script>
+                    </td>
+                    <td class="top">
+                        <script type="math/text">5</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="side">
+                        <script type="math/text">x</script>
+                    </td>
+                    <td class="box">
+                        <script type="math/text">x^2</script>
+                    </td>
+                    <td class="box" style="min-width:70px;">
+                        <script type="math/text">5x</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="side">
+                        <script type="math/text">5</script>
+                    </td>
+                    <td class="box" style="height:70px;">
+                        <script type="math/text">5x</script>
+                    </td>
+                    <td class="partial"></td>
+                </tr>
+            </table>
+            <table class="operand">
+                <td>
+                    <script type="math/text">=</script>
+                </td>
+            </table>
+            <table>
+                <td class="box" style="min-width:72px;height:72px;">
+                    <script type="math/text">39</script>
+                </td>
+            </table>
+        </div>
+
+        <p>This ugly representation of our equation tantalizingly suggests our next step. Let's <b>complete the
+                square</b> by adding the missing part of the square on the left. It feels natural, right? From the
+            dimensions
+            displayed on the outside edge of our rectangles we know the size of the missing square to be
+            <script type="math/text">5</script> by
+            <script type="math/text">5</script>, or
+            <script type="math/text">25</script>.</p>
+
+        <div class="unit">
+            <table>
+                <tr>
+                    <td></td>
+                    <td class="top">
+                        <script type="math/text">x</script>
+                    </td>
+                    <td class="top">
+                        <script type="math/text">5</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="side">
+                        <script type="math/text">x</script>
+                    </td>
+                    <td class="box">
+                        <script type="math/text">x^2</script>
+                    </td>
+                    <td class="box" style="min-width:70px;">
+                        <script type="math/text">5x</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="side">
+                        <script type="math/text">5</script>
+                    </td>
+                    <td class="box" style="height:70px;">
+                        <script type="math/text">5x</script>
+                    </td>
+                    <td class="box">
+                        <script type="math/text">25</script>
+                    </td>
+                </tr>
+            </table>
+            <table class="operand">
+                <tr>
+                    <script type="math/text">=</script>
+                </tr>
+            </table>
+            <table>
+                <td class="box" style="min-width:72px;height:72px;">
+                    <script type="math/text">39</script>
+                </td>
+            </table>
+            <table class="operand">
+                <td>
+                    <script type="math/text">+</script>
+                </td>
+            </table>
+            <table>
+                <td class="box">
+                    <script type="math/text">25</script>
+                </td>
+            </table>
+        </div>
+
+        <p>The square we've just created has dimensions of
+            <script type="math/text">(x+5)</script> by
+            <script type="math/text">(x+5)</script>, and we know its area to be
+            <script type="math/text">39+25</script>, or
+            <script type="math/text">64</script>. We can therefore set up the equation
+            <script type="math/text">(x+5)^2 = 64</script> as an algebraic representation of
+            our squares.</p>
+
+        <div class="unit">
+            <table>
+                <tr>
+                    <td></td>
+                    <td class="top">
+                        <script type="math/text">x+5</script>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="side">
+                        <script type="math/text">x+5</script>
+                    </td>
+                    <td class="box" style="min-width:120px;height:120px;"></td>
+                    <td class="operand">
+                        <script type="math/text">=</script>
+                    </td>
+                    <td class="box" style="min-width:120px;height:120px;">
+                        <script type="math/text">64</script>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p>We can use this much easier to solve equation to find
+            <script type="math/text">x</script>.</p>
+        <p class="text-center">
+            <script type="math/text">(x+5)^2 = 64</script>
+        </p>
+        <p>Taking the square root of both sides, and being sophisticated students of mathematics we realize
+            that both positive <em>and</em> negative
+            <script type="math/text">8</script> will satisfy
+            <script type="math/text">\sqrt{64}</script>. This gives us</p>
+        <p class="text-center">
+            <script type="math/text">(x+5)=\pm8</script>
+        </p>
+        <p>which can be trivially solved to get
+            <script type="math/text">x=3</script> and
+            <script type="math/text">x=-13</script>.</p>
+        <p>Now of course we could have used our old friend, the quadratic formula, which would
+            have spat our solutions right out in our faces. This probably would have been much easier, but then we
+            wouldn't have had to (gasp) <em>think</em> about the solution.</p>
+        <p class="text-center">
+            <script type="math/text">\displaystyle x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}</script>
+        </p>
+    </div>
+</body>
+<!-- TODO: Find the integrity hash for *this* version. -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+
+</html>

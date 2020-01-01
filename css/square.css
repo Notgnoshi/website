@@ -1,0 +1,49 @@
+table {
+    border-collapse: collapse;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.unit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 15px;
+}
+
+.unit table {
+    display: inline-block;
+}
+
+.box {
+    height: 50px;
+    min-width: 50px;
+    border: 1px solid var(--dark);
+    background-color: var(--light);
+}
+
+.double-height {
+    height: 140px;
+}
+
+.half-height {
+    height: 70px;
+}
+
+.half-width {
+    min-width: 70px;
+}
+
+.partial {
+    border: 1px dashed var(--dark);
+}
+
+.side {
+    padding-right: 5px;
+}
+
+.operand {
+    margin: 10px;
+    padding: 10px;
+}
