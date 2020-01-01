@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A tutorial on producing vector graphics from a Tikz LaTeX image.">
+    <title>Producing SVG Images with TikZ</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
+    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+        integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+        integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js"
+        integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
+        integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
+        crossorigin="anonymous"></script> -->
+
+    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
+</head>
+
+<body class="d-flex flex-column">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">agill.xyz</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav mr-auto">
+                    <!-- TODO: Fix links -->
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/blog">Blog</a>
+                    <a class="nav-item nav-link" href="http://research.agill.xyz">Research</a>
+                    <a class="nav-item nav-link" href="http://mc.agill.xyz">Minecraft</a>
+                    <a class="nav-item nav-link" href="https://static.agill.xyz">Files</a>
+                    <a class="nav-item nav-link" href="https://notes.agill.xyz">Notes</a>
+                    <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
+                    <a class="nav-item nav-link" href="https://plex.agill.xyz">Plex</a>
+                    <a class="nav-item nav-link" href="https://pihole.agill.xyz">Pihole</a>
+                    <a class="nav-item nav-link" href="https://nas.agill.xyz">NAS</a>
+                </div>
+                <div class="d-flex">
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i
+                            class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container flex-grow-1">
+        <h1>Producing SVG Images with TikZ</h1>
+        <p>It's a fairly simple process as long as you're using Linux. This process requires <a
+                href="https://github.com/dawbarton/pdf2svg"><code>pdf2svg</code></a>.</p>
+
+        <p>First, make a Tikz image:</p>
+
+        <pre class="language-tex pl-3"><code>\documentclass[tikz]{standalone}
+
+\newcommand{\tikzAngleOfLine}{\tikz@AngleOfLine}
+    \def\tikz@AngleOfLine(#1)(#2)#3{%
+        \pgfmathanglebetweenpoints{\pgfpointanchor{#1}{center}}{\pgfpointanchor{#2}{center}}%
+        \pgfmathsetmacro{#3}{\pgfmathresult}%
+    }
+
+\newcommand{\tikzMarkAngle}[3]{
+    \tikzAngleOfLine#1#2{\AngleStart}
+    \tikzAngleOfLine#1#3{\AngleEnd}
+    \draw #1+(\AngleStart:0.4cm) arc (\AngleStart:\AngleEnd:0.4cm);
+}
+
+\begin{document}
+    \begin{tikzpicture}
+        \coordinate (O) at (0, 0);
+        \coordinate (z) at (3, 3);
+        \coordinate (a) at (3, 0);
+
+        \draw [->, thick] (-1, 0) -- (5, 0);
+        \draw [->, thick] (0, -1) -- (0, 5);
+
+        \draw (O) -- (z);
+        \draw (O) -- (z) node[above, midway]{$r$};
+        \draw (a) -- (z) node[right, midway]{$a$};
+        \draw (O) -- (a) node[below, midway]{$b$};
+
+        \draw (z) node[circle, fill, inner sep=1pt]{} node[right]{$z$};
+        \draw (O) node[left, yshift=-0.25cm]{$O$};
+        \draw (O) node[xshift=0.55cm, yshift=0.2cm]{$\phi$};
+
+        \tikzMarkAngle{(O)}{(a)}{(z)}
+    \end{tikzpicture}
+\end{document}</code></pre>
+
+        <p>Then compile it with <code>pdflatex polar.tex</code>. Then convert the PDF to SVG with
+            <code>pdf2svg polar.pdf polar.svg</code>.
+            The above code produces the following SVG image:</p>
+
+        <figure class="figure d-block w-50 mx-auto">
+            <img class="figure-img img-fluid rounded" src="https://static.agill.xyz/images/geometry/polar/polar.svg"
+                alt=" polar coordinates">
+        </figure>
+
+        <p>If you compile with the <code>-shell-escape</code> flag, you can tell <code>pdflatex</code> to compile both a
+            PDF file and an SVG image by adding the <code>convert</code> option to the <code>standalone</code> document
+            class.
+        </p>
+
+        <pre
+            class="language-tex pl-3"><code>\documentclass[
+    tikz,
+    convert={outext=.svg, command=\unexpanded{pdf2svg \infile\space\outfile}},
+    multi=false
+]{standalone}</code></pre>
+
+        <hr>
+
+        <p>If you need to do this more often, you can create a <code>standalone.cfg</code> file in the same directory as
+            <code>polar.tex</code> with this inside:</p>
+
+        <pre class="language-tex pl-3"><code>% Local standalone.cfg file
+\input{standalone/standalone.cfg}% Load main standalone.cfg file
+\standaloneconfig{convert={outext=.svg, command={pdf2svg \infile\space\outfile}}}</code></pre>
+
+        <p>And then use <code>\documentclass[tikz]{standalone}</code> for your <code>documentclass</code> just like the
+            first example. Be sure to add the <code>-shell-escape</code> flag to <code>pdflatex</code>.</p>
+    </div>
+</body>
+<!-- TODO: Find the integrity hash for *this* version. -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+<script src="https://static.agill.xyz/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</html>
