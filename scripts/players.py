@@ -8,8 +8,8 @@ import urllib.request
 
 import jinja2
 
-STATIC_DIR = pathlib.Path(__file__).resolve().parent
-RENDERS_DIR = STATIC_DIR / "images" / "players"
+REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
+RENDERS_DIR = REPO_ROOT / "images" / "players"
 
 
 def parse_args():
@@ -24,13 +24,13 @@ def parse_args():
     parser.add_argument(
         "--json",
         type=pathlib.Path,
-        default=STATIC_DIR / "players.json",
+        default=REPO_ROOT / "assets" / "players.json",
         help="Path to JSON metadata file defining which players to download skin renders and cards to generate.",
     )
     parser.add_argument(
         "--template",
         type=pathlib.Path,
-        default=STATIC_DIR / "player-cards-template.html",
+        default=REPO_ROOT / "templates" / "player-cards-template.html",
         help="The path to the HTML player cards template.",
     )
     parser.add_argument(
