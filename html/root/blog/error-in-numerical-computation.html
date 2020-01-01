@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A description of error using the Taylor Series in numerical computation">
+    <title>Error in Numerical Computation</title>
+    <!-- TODO: Fix static links -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
+    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+        integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+        integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js"
+        integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv"
+        crossorigin="anonymous"></script>
+
+    <!-- <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
+        integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
+        crossorigin="anonymous"></script> -->
+
+    <link rel="stylesheet" type="text/css" href="https://static.agill.xyz/css/square.css">
+    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
+</head>
+
+<body class="d-flex flex-column">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">agill.xyz</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav mr-auto">
+                    <!-- TODO: Fix links -->
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/blog">Blog</a>
+                    <a class="nav-item nav-link" href="http://research.agill.xyz">Research</a>
+                    <a class="nav-item nav-link" href="http://mc.agill.xyz">Minecraft</a>
+                    <a class="nav-item nav-link" href="https://static.agill.xyz">Files</a>
+                    <a class="nav-item nav-link" href="https://notes.agill.xyz">Notes</a>
+                    <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
+                    <a class="nav-item nav-link" href="https://plex.agill.xyz">Plex</a>
+                    <a class="nav-item nav-link" href="https://pihole.agill.xyz">Pihole</a>
+                    <a class="nav-item nav-link" href="https://nas.agill.xyz">NAS</a>
+                </div>
+                <div class="d-flex">
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i
+                            class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container flex-grow-1">
+        <h1>Error in Numerical Computation <small class="text-muted">A.K.A "Fun with Taylor series"</small></h1>
+
+        <p>Often in Numerical Analysis we have to make approximations to numerically compute things. That's the thing;
+            in Calculus we can take limits and arrive at exact results, but when we use a computer to calculate, say
+            something simple like a derivative, we can't take an infinite limit so we have to approximate the answer,
+            and therefore, it has error. Computers are limited in their capacity to store and calculate the precision
+            and magnitude of numbers.</p>
+
+        <p>We can characterize error in measurements and computations with respect to their <b>accuracy</b> and their
+            <b>precision</b>. Accuracy refers to how closely a calculated value agrees with the <em>true</em> value.
+            Precision refers to how closely calculated values agree with each other. <b>Inaccuracy</b> (also called
+            <em>bias</em>) is a systematic deviation from the true values. <b>Imprecision</b> (also called
+            <em>uncertainty</em>) refers to how close together calculated results are to each other. We use the term
+            <b>error</b> to represent both inaccuracy and imprecision in our results.</p>
+
+        <p>The relationship between the exact result and the approximation can be formulated as</p>
+
+        <p class="text-center">
+            <script type="math/text">\displaystyle \text{true value} = \text{approximation} + \text{error}</script>
+        </p>
+
+        <p>We can rearrange the above equation to find an expression for the <b>absolute</b> or <b>true error</b> (
+            <script type="math/text">E_t</script>)</p>
+
+        <p class="text-center">
+            <script type="math/text">\displaystyle E_t = \text{true value} - \text{approximation}</script>
+        </p>
+
+        <p>This definition of error is flawed however, as it doesn't normalize the error with respect to the magnitude
+            of
+            the values in question. A better definition, called <b>relative error</b> (
+            <script type="math/text">\varepsilon_t</script>) can be defined as
+            follows</p>
+
+        <p class="text-center">
+            <script
+                type="math/text">\displaystyle \varepsilon_t = \frac{\text{true value} - \text{approximation}}{\text{true value}}</script>
+        </p>
+
+        <p>Note that this value will be between 0 and 1 and can be expressed as a percent by multiplying by 100%.</p>
+
+        <hr>
+
+        <p>However, we live in the real world; we oftentimes do not know the true value of a computation, so the above
+            formulas become useless. For these situations, we can normalize the error with respect to the approximation
+            itself</p>
+
+        <p class="text-center">
+            <script
+                type="math/text">\displaystyle \varepsilon_a = \frac{\text{approximate error}}{\text{approximation}}</script>
+        </p>
+
+        <p>This is relatively useless however, as we don't really have a way to calculate the approximate error.</p>
+
+        <p>Oftentimes, when performing numerical computation, we use an <b>iterative</b> process. Hopefully, when
+            performing
+            these iterations, the <b>approximate relative error</b> as follows</p>
+
+        <p class="text-center">
+            <script type="math/text">\displaystyle \varepsilon_a = \frac{\text{current approximation} - \text{previous approximation}}{\text{current
+        approximation}}</script>
+        </p>
+
+        <p>can be used to determine if we are performing successively better computations.</p>
+
+        <p>The signs of these errors can be either positive or negative dependent on the situation, so it is customary
+            to take the absolute value of the error calculations as it's only the magnitude of error that we are
+            concerned with.</p>
+
+        <p>One last thing before moving on is the <b>stopping condition</b> or <b>criterion</b>
+            <script type="math/text">\varepsilon_s</script> defined as the amount of error below which we don't care
+            about. In other words, we repeat an iterative computation until
+            <script type="math/text">\mid\varepsilon_a\mid \lt \varepsilon_s</script>. It can be shown that if the
+            following criterion in terms of
+            <script type="math/text">n</script> is met, we know the result is correct to at least
+            <script type="math/text">n</script> significant figures.</p>
+
+        <p class="text-center">
+            <script type="math/text">\varepsilon_s = 0.5 \times 10^{2-n}</script>
+        </p>
+
+        <h2>Roundoff Error</h2>
+
+        <p><b>Roundoff error</b> occurs because computers cannot represent some quantities exactly. Knowledge of
+            roundoff error is important because they can lead to incorrect results. In some cases even, they can lead to
+            a calculation becoming unstable and yielding obviously erroneous results. These calculations are called
+            <b>ill-conditioned</b>.</p>
+
+        <p>There are two major facets of roundoff error often involved with numerical calculations.</p>
+        <ul>
+            <li>Computers have magnitude and precision limits on the numbers they can store and calculate.</li>
+            <li>Certain numerical calculations are very sensitive to roundoff errors. This can be from the mathematical
+                structure of the calculations as well as how the computers perform the operations.</li>
+        </ul>
+
+        <h3>Computer Representation of Integers</h3>
+
+        <p>Numbers (and other data) are stored in <em>bit</em>strings consisting of 0's and 1's. Because we only have
+            two digits to store our numbers with (represented inside the computer as high and low voltages) this is
+            called a <b>binary</b> (or base-2) number system.</p>
+
+        <p>The number system we use in everyday language is called the base-10 or <b>decimal</b> number system. We use
+            ten digits (0-9) to represent numbers. Note that the symbol we use to represent a number is independent of
+            the number itself. So conceivably, we could represent any number with a combination of symbols as long as we
+            agree what the symbols mean beforehand.</p>
+
+        <p>We learned in grade school (maybe earlier, I can't remember) how to count 1, 2, 3, ... But what happens when
+            we get to 9? We've run out of symbols, so obviously we need more symbols, right? Well, thankfully someone
+            smarter than me devised the decimal number system. We know that the collection of symbols "437" represents
+            the number "four hundred and thirty-seven". We can deconstruct the number into 4 100's, 3 10's, and 7 1's (
+            <script type="math/text">4\times100+ 3\times10 + 7\times1</script>).</p>
+
+        <p>We can do the same thing with 1's and 0's, but it'll just take a longer string of symbols to represent the
+            same number. With just 1 digit, (1 and 0) we can represent two values (0 and 1). With 2 digits (00, 01, 10,
+            11), we can represent four numbers (0, 1, 2, 3). It turns out that if we have
+            <script type="math/text">n</script> digits, we can represent
+            <script type="math/text">2^n</script> numbers in the binary number system. This is no different than the
+            decimal number system. With
+            <script type="math/text">n</script> digits, we can represent
+            <script type="math/text">10^n</script> numbers. With 1 digit, we can represent 10 numbers (0-9), with two,
+            we can represent 100 numbers (0-99)!</p>
+
+        <p>Things get more complicated when we try to do floating-point numbers like 32.4, but we'll get there. In the
+            mean time, let's look more at representing integers in base-2.</p>
+
+        <p>In decimal, we can represent signed numbers with the "-" symbol, but in binary, we're going to reserve one of
+            the <b>bits</b> (binary digit) in a word who's only job is to tell us whether the number is positive or
+            negative. Typically this is the very first bit in a word, (1 for negative) and it's called the <b>sign
+                bit</b>.</p>
+
+        <p> For example, using a 16-bit word size (typically computers currently use 32 or 64 bits), the following is
+            how a computer would store -173</p>
+
+        <p class="text-center">
+            <script type="math/text">1000000010101101_2</script>
+        </p>
+
+        <p>Note we use a subscript 2 to remind ourselves it's a binary number (though the 1's and 0's kind of give it
+            away). This is equivalent to saying the following</p>
+
+        <p class="text-center">
+            <script
+                type="math/text">1000000010101101_2 = -(2^7 + 2^5 + 2^3 + 2^2 + 2^0) = -(128 + 32 + 8 + 4 + 1) = -137_{10}</script>
+        </p>
+
+        <p>The 1 in the very first location tells us it's a negative number, and the 1's in the 7th, 5th, 3rd, 2nd, and
+            0th spot tell us to sum together 2 raised to the power of their respective indices. The following is a
+            16-bit table with the position indices underneath.</p>
+
+        <table class="table table-bordered table-hover w-75 mx-auto">
+            <tr>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td>14</td>
+                <td>13</td>
+                <td>12</td>
+                <td>11</td>
+                <td>10</td>
+                <td>9</td>
+                <td>8</td>
+                <td>7</td>
+                <td>6</td>
+                <td>5</td>
+                <td>4</td>
+                <td>3</td>
+                <td>2</td>
+                <td>1</td>
+                <td>0</td>
+            </tr>
+        </table>
+
+        <p>If we use 1 bit for the sign, that leaves us with 15 others to represent binary numbers 0 to 111111111111111.
+            This upper limit in decimal is 32,767. Note that this value can be found by simply evaluating
+            <script type="math/text">2^{15} - 1</script>. Therefore, a 16-bit word can represent integers ranging from
+            -32,767 to 32,767. However, because 0 and -0 are really the same, we can use 1000000000000000 to denote an
+            additional negative number, extending our range by one.</p>
+
+        <p>For an
+            <script type="math/text">n</script>-bit word, we can represent values in the range
+            <script type="math/text">-2^{n-1}</script> to
+            <script type="math/text">2^{n-1} - 1</script>.</p>
+
+        <p>This isn't exactly how computers typically represent signed numbers however. A technique called the
+            <em></em>2s Complement<em></em> directly incorporates the sign into the numbers magnitude rather than
+            reserving a bit just for the sign. Regardless, the number ranges are exactly the same as described above.
+        </p>
+
+        <h3>Computer Representation of Floating-Point Numbers</h3>
+
+        <p>Fractional quantities are typically represented very similar to how we think about scientific notation.</p>
+
+        <p class="text-center">
+            <script type="math/text">\pm s \times b^e</script>
+        </p>
+
+        <p>where
+            <script type="math/text">s</script> is the <b>significand</b> or <b>mantissa</b>,
+            <script type="math/text">b</script> is the <b>base</b> of the number system being used, and
+            <script type="math/text">e</script> is the <b>exponent</b>. Prior to using this form however, the number is
+            <b>normalized</b> by shifting the decimal place so that there is only one significant digit left of the
+            decimal point. This is done so the computer doesn't store needless zeros.</p>
+
+        <hr>
+
+        <p>Let's create a toy system in base-10 with a 5-digit word size.</p>
+
+        <p>We use one digit for the sign, two for the exponent and two for the mantissa. Note that the exponent can be
+            both positive and negative, so we have one digit for the sign, and one for the magnitude. This gives us the
+            following generalization</p>
+
+        <p class="text-center">
+            <script type="math/text">s \cdot d_1.d_2 \times 10^{s_e d_e}</script>
+        </p>
+
+        <p>Let's play around with this toy system. What's the largest value it can represent? That would be
+            <script type="math/text">+9.9\times 10^{+9}</script>. which is just a little less than 10 billion.</p>
+
+        <p>What's the smallest (positive) value we can represent? That would be
+            <script type="math/text">+1.0 \times 10^{-9}</script> We can represent the smallest and largest
+            representable negative numbers similarly.</p>
+
+        <p>How bad is the roundoff error in this toy system? Well, it's pretty bad. There is a "hole" around zero, and
+            there are also "holes" between numbers that we can represent. For example, the number 0.03125 would have to
+            be stored as
+            <script type="math/text">3.1 \times 10^{-2}</script>, or 0.031. This introduces error, and in this case it
+            represents a true relative error of</p>
+
+        <p class="text-center">
+            <script type="math/text">\varepsilon_t = \frac{0.03125 - 0.031}{0.03125} = 0.008</script>
+        </p>
+
+        <p>The following is the number line showing some of the limitations of our toy system</p>
+
+        <figure class="figure d-block w-75 mx-auto">
+            <img class="figure-img img-fluid rounded"
+                src="http://static.localhost/images/error-in-numerical-computation/error.svg" alt="number line holes">
+            <figcaption class="figure-caption">Gaps in the representable number line</figcaption>
+        </figure>
+
+        <p>A more subtle limitation is the gaps between the representable numbers. Note that the gap size is relative to
+            the magnitude of the numbers being represented. For numbers with an exponent of -1 (between 0.1 and 1), the
+            number spacing is on intervals of 0.01. For ever increase in exponent, the gap size decreases by a factor of
+            ten. For example, with an exponent of 1, the spacing increases to a gap size with width 0.1. This means
+            roundoff error is proportional to a number's magnitude. It also means that the relative error <em>has an
+                upper bound</em>. This upper bound is called the <b>machine epsilon</b>.</p>
+
+        <hr>
+
+        <p>We talked just a bit earlier about normalizing numbers in scientific notation, that is, taking
+            <script type="math/text">0.0034\times10^{0}</script> and converting it to
+            <script type="math/text">3.4 \times 10^{-3}</script>. Because binary numbers consist
+            of <em>only</em> 1s and 0s, we know for a fact that if a number is normalized the leading digit is a 1. This
+            means
+            that we don't even have to store it!</p>
+
+        <p>Therefore, nonzero floating point numbers in base-2 can be represented as</p>
+
+        <p class="text-center">
+            <script type="math/text">\pm (1 + f) \times 2^e</script>
+        </p>
+
+        <p>where
+            <script type="math/text">f</script> is the mantissa and
+            <script type="math/text">e</script> is the exponent.</p>
+
+        <hr>
+
+        <p>The standard <b>IEEE Double-Precision Format</b> uses 8 <em>bytes</em> (64 bits) to represent floating-point
+            numbers.
+            You can read about it in more detail <a href="https://en.wikipedia.org/wiki/IEEE_floating_point">here</a>.
+            The following is how those 64 bits are broken up into the exponent and mantissa.</p>
+
+        <table class="table table-hover table-bordered w-50 mx-auto">
+            <tr>
+                <td>1 bit</td>
+                <td>11 bits</td>
+                <td>52 bits</td>
+            </tr>
+            <tr>
+                <td>Sign</td>
+                <td>Signed Exponent</td>
+                <td>Mantissa</td>
+            </tr>
+        </table>
+
+        <p>The largest representable value is
+            <script type="math/text">1.7977 \times 10^{308}</script> (let's call it <code>realmax</code>) and the
+            smallest positive representable value is
+            <script type="math/text">2.2251 \times 10^{-308}</script> (let's call it <code>realmin</code>). The
+            <b>machine epsilon</b> of this format is
+            <script type="math/text">2^{-52} = 2.2204 \times 10^{-16}</script> (let's call it <code>eps</code>). Numbers
+            occurring in computations larger than the max value <code>realmax</code> <b>overflow</b>, and numbers
+            smaller than <code>realmin</code> <b>underflow</b>. Different languages handle overflow and underflow
+            differently. in MATLAB overflows are set to <code>inf</code> and underflows are set to <code>0</code>. In C,
+            they are handled similarly for floating point numbers. For integers in C, exceeding <code>realmax</code>
+            will reset to the other end of the spectrum (<code>-realmax</code>)</p>
+
+        <p>One way to calculate the machine epsilon on your system is to find the smallest number
+            <script type="math/text">\varepsilon</script> such that
+            <script type="math/text">0 + \varepsilon \ne 0</script> (i. e. the smallest possible gap between two
+            numbers).
+            In Python, an easy way of
+            getting the machine epsilon is with NumPy:</p>
+
+        <pre class="language-python pl-3"><code>import numpy as np
+
+print(np.finfo(float).eps) # 2.22044604925e-16
+print(np.finfo(np.float32).eps) # 1.19209e-07
+print(np.finfo(np.float64).eps) # 2.22044604925e-16</code></pre>
+
+        <p>You can also calculate the machine epsilon for a given data type using the following Python snippet</p>
+
+        <pre class="language-python pl-3"><code>def machineEpsilon(func=float):
+    eps = func(1)
+    while func(1) + func(eps) != func(1):
+        eps_last = eps
+        eps = func(eps) / func(2)
+    return eps_last</code></pre>
+        <pre class="language-python pl-3"><code>>>> import numpy as np
+>>> machineEpsilon(float)
+2.220446049250313e-16
+>>> machineEpsilon(np.float64)
+2.2204460492503131e-16
+>>> machineEpsilon(np.float32)
+1.1920929e-07</code></pre>
+
+        <h2>Truncation Error</h2>
+
+        <p><b>Truncation error</b> arises when you use an approximation in place of an exact expression in a
+            mathematical procedure. One of the best (and frequently used) examples of truncation errors is the Taylor
+            Series approximation of a function.</p>
+
+        <p>Essentially, <b>Taylor's Theorem</b> states that any smooth function can be approximated by a polynomial. The
+            <b>Taylor Series Expansion</b> of
+            <script type="math/text">f(x)</script> at
+            <script type="math/text">a</script> is</p>
+
+        <p class="text-center">
+            <script type="math/text">\displaystyle f(x) = f(a) + f'(a)(x-a) + \frac{f''(a)\cdot(x-a)^2}{2!} + \frac{f'''(a)\cdot(x-a)^3}{3!} + \cdots =
+        \sum_{n=0}^\infty \frac{f^{(n)}(a) \cdot (x-a)^n}{n!}</script>
+        </p>
+
+        <p>Note that the equals signs are
+            <script type="math/text">=</script> and not
+            <script type="math/text">\approx</script>. However, computers are discrete, finite machines. They can't
+            perform infinite calculations like these, so we have to cut off the calculations somewhere. This results in
+            truncation error (we truncate the expression).</p>
+
+        <p>When we truncate the Taylor series expansion to
+            <script type="math/text">n</script> terms, there's some error left over, and we can include a remainder term
+            <script type="math/text">R_n</script> to keep the
+            <script type="math/text">=</script> signs exact.</p>
+
+        <p class="text-center">
+            <script type="math/text">\displaystyle f(x) = f(a) + f'(a)(x-a) + \frac{f''(a)\cdot(x-a)^2}{2!} + \frac{f'''(a)\cdot(x-a)^3}{3!} + \cdots +
+        \frac{f^{(n)}(a)\cdot(x-a)^n}{n!} + R_n</script>
+        </p>
+
+        <p>where</p>
+
+        <p class="text-center">
+            <script type="math/text">\displaystyle R_n = \frac{f^{(n+1)}(\xi)}{(n+1)!} \cdot h^{n+1}</script>
+        </p>
+
+        <p>accounts for terms
+            <script type="math/text">n+1</script> all the way to
+            <script type="math/text">\infty</script> and
+            <script type="math/text">\xi</script> lies somewhere between the point we're interested in
+            <script type="math/text">x</script> and the point we're expanding about
+            <script type="math/text">a</script>, with the distance, or step size, between them
+            <script type="math/text">h</script>.</p>
+
+        <p>We have no control over the value of
+            <script type="math/text">\xi</script> (it's determined by what we're approximating), but we <em>can</em>
+            control
+            <script type="math/text">h</script> and
+            <script type="math/text">n</script>.</p>
+
+        <p>This expression
+            <script type="math/text">R_n</script> means that the truncation error of an
+            <script type="math/text">n</script>th order Taylor series approximation is proportional to the term
+            <script type="math/text">h^{n+1}</script> and is often written as
+            <script type="math/text">R_n = O(h^{n+1})</script>, where
+            <script type="math/text">O</script> is the same <a href="https://en.wikipedia.org/wiki/Big_O_notation">Big O
+                notation</a> used in computer science, taken to mean the truncation error is "order
+            <script type="math/text">h^{n+1}</script>".</p>
+
+        <p>If our approximation is
+            <script type="math/text">O(h)</script>, or a <b>first order</b> approximation, halving the step size will
+            halve the error. If our approximation is
+            <script type="math/text">O(h^2)</script>, halving the step size will quarter the error (<b>second order</b>
+            approximation).</p>
+
+        <p>This means that there are two ways to decrease the truncation error in a Taylor series approximation: add
+            more terms to the approximation, or decrease the step size
+            <script type="math/text">h</script>.</p>
+
+        <p>One final note. So far, I've talked about roundoff error and truncation error as two separate entities. In
+            reality, the error in our system is the sum of both errors.</p>
+
+        <p>Due to something called <b>subtractive cancellation</b>, <em>decreasing</em> truncation errors can result in
+            <em>increasing</em> roundoff errors. This leads to a sweet spot, where the error is as low as it can get.
+            For more information, here's a video explaining it a bit more:</p>
+
+        <iframe class="d-block mx-auto" width="560" height="315" src="https://www.youtube.com/embed/Ak_pxGwku0M"
+            frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+    </div>
+</body>
+<!-- TODO: Find the integrity hash for <em>this</em> version. -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+<script src="https://static.agill.xyz/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</html>
