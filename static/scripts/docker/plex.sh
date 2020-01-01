@@ -11,7 +11,7 @@ while [ -h "$SOURCE" ]; do
     # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
     [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
 done
-REPO_ROOT="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)/../"
+REPO_ROOT="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)/../../../"
 REPO_ROOT="$(readlink -f "${REPO_ROOT}")"
 
 # Run the application container for a single subdomain.
