@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+        content="Describes what a basis is, and how to change from one vector space to another using a transition matrix. Pays special attention to rotation matrices.">
+    <title>Change of Basis</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
+    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+        integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+        integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js"
+        integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
+        integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
+        crossorigin="anonymous"></script>
+
+    <!-- <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css"> -->
+</head>
+
+<body class="d-flex flex-column">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">agill.xyz</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav mr-auto">
+                    <!-- TODO: Fix links -->
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/blog">Blog</a>
+                    <a class="nav-item nav-link" href="http://research.agill.xyz">Research</a>
+                    <a class="nav-item nav-link" href="http://mc.agill.xyz">Minecraft</a>
+                    <a class="nav-item nav-link" href="https://static.agill.xyz">Files</a>
+                    <a class="nav-item nav-link" href="https://notes.agill.xyz">Notes</a>
+                    <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
+                    <a class="nav-item nav-link" href="https://plex.agill.xyz">Plex</a>
+                    <a class="nav-item nav-link" href="https://pihole.agill.xyz">Pihole</a>
+                    <a class="nav-item nav-link" href="https://nas.agill.xyz">NAS</a>
+                </div>
+                <div class="d-flex">
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i
+                            class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container flex-grow-1">
+        <h1>Change of Basis</h1>
+        <p>One of the things I knew well enough to pass an exam on, but not well enough to actually understand what it
+            meant was the concept of changing basis in linear algebra. This is an attempt to remedy that.</p>
+
+        <p>A <b>basis</b> for a vector space
+            <script type="math/text">V</script> of dimension
+            <script type="math/text">n</script> is a sequence of
+            <script type="math/text">n</script> vectors
+            <script type="math/text">(v_1, v_2, \dots, v_n)</script> such that all vectors in
+            <script type="math/text">V</script> can be uniquely expressed as linear combinations of the basis vectors.
+            Often calculations in one basis can be simplified if we change our basis to something else.</p>
+
+        <p>For example, if we wish to work with a vector
+            <script type="math/text">\vec v</script> with respect to the standard basis vectors
+            <script type="math/text">\vec x = \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix}</script>,
+            <script type="math/text">\vec y = \begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix}</script> and
+            <script type="math/text">\vec z = \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}</script>, we know how to do
+            that. Here's a graph of some random vector
+            <script type="math/text">\vec v</script>.</p>
+
+        <figure class="figure w-50 d-block mx-auto">
+            <img class="figure-img img-fluid w-100 rounded"
+                src="http://static.agill.xyz/images/change-of-basis/standard-basis.svg"
+                alt="vector v wrt the standard basis">
+            <figcaption class="figure-caption">A random vector in
+                <script type="math/text">\mathbb R^3</script>
+            </figcaption>
+        </figure>
+
+        <p>What if we want to rotate our coordinate system by some <a
+                href="https://en.wikipedia.org/wiki/Euler_angles">Euler
+                angles</a>
+            <script type="math/text">\alpha</script>,
+            <script type="math/text">\beta</script>, and
+            <script type="math/text">\gamma</script>? This is what changing the basis really is. To rotate a vector
+            <script type="math/text">\vec v</script> given some Euler angles, multiply
+            <script type="math/text">\vec v</script> by the following transition matrix
+            <script type="math/text">P</script> taken from the
+            <script type="math/text">Z_1 Y_2 X_3</script> entry of
+            <a href="https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix">this</a> table.
+            <a href="https://tex.stackexchange.com/questions/67573/tikz-shift-and-rotate-in-3d">Source</a>.</p>
+
+        <p class="text-center">
+            <script type="math/text">\displaystyle P = \begin{pmatrix}
+        \cos \alpha \cos \beta & \cos \alpha \sin \beta \sin \gamma - \sin \alpha \cos \gamma & \cos \alpha \sin \beta
+        \cos \gamma + \sin \alpha \sin \gamma \\
+        \sin \alpha \cos \beta & \sin \alpha \sin \beta \sin \gamma + \cos \alpha \cos \gamma & \sin \alpha \sin \beta
+        \cos \gamma - \cos \alpha \sin \gamma \\
+        - \sin \beta & \cos \beta \sin \gamma & \cos \beta \cos \gamma
+        \end{pmatrix}</script>
+        </p>
+
+        <p>With the Euler angles from the following diagram:</p>
+
+        <figure class="figure w-50 d-block mx-auto">
+            <img class="figure-img img-fluid w-100 rounded"
+                src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Eulerangles.svg" alt="Euler angles">
+            <figcaption class="figure-caption">Euler angles</figcaption>
+        </figure>
+
+        <p>We get a new vector
+            <script type="math/text">v' = P v</script> that, with respect to the new coordinate system, is the same as
+            <script type="math/text">\vec v</script>.</p>
+
+        <figure class="figure w-50 d-block mx-auto">
+            <img class="figure-img img-fluid w-100 rounded"
+                src="http://static.agill.xyz/images/change-of-basis/new-basis.svg"
+                alt="vector v' wrt the new rotated basis">
+            <figcaption class="figure-caption">The same vector in a different basis</figcaption>
+        </figure>
+
+        <p>In the first image,
+            <script type="math/text">\vec x</script>,
+            <script type="math/text">\vec y</script>, and
+            <script type="math/text">\vec z</script> form the basis for the vector space. In the second image,
+            <script type="math/text">\vec{x'}</script>,
+            <script type="math/text">\vec{y'}</script>, and
+            <script type="math/text">\vec{z'}</script> form the basis for the new, rotated, vector space.</p>
+
+        <h3>In general</h3>
+
+        <p>To convert a vector
+            <script type="math/text">\vec v</script> w.r.t. the standard basis to a vector
+            <script type="math/text">\vec{v'}</script> w.r.t. a new basis
+            <script type="math/text">\{\vec{u_1}, \vec{u_2}, \dots, \vec{u_n}\}</script> we multiply
+            <script type="math/text">\vec v</script> by the matrix
+            <script type="math/text">U</script> formed by
+            <script type="math/text">U = (\vec{u_1}, \vec{u_2}, \dots, \vec{u_n})</script>. That is,
+
+            <p class="text-center">
+                <script type="math/text">\vec{v'} = U \cdot \vec v</script>
+            </p>
+
+            <hr>
+
+            <p>To convert a vector
+                <script type="math/text">\vec v</script> w.r.t. a basis
+                <script type="math/text">\{\vec{u_1}, \vec{u_2}, \dots, \vec{u_n}\}</script> to the standard basis, we
+                multiply
+                <script type="math/text">\vec v</script> by the matrix
+                <script type="math/text">U^{-1}</script>. That is,</p>
+
+            <p class="text-center">
+                <script type="math/text">\vec{v'} = U^{-1} \cdot \vec v</script>
+            </p>
+
+            <hr>
+
+            <p>In general, to convert a vector
+                <script type="math/text">\vec v</script> w.r.t. a basis
+                <script type="math/text">V</script> to a vector
+                <script type="math/text">\vec{v'}</script> in a basis
+                <script type="math/text">U</script> formed by
+                <script type="math/text">U = (\vec{u_1}, \vec{u_2}, \dots, \vec{u_n})</script> and
+                <script type="math/text">V = (\vec{v_1}, \vec{v_2}, \dots, \vec{v_n})</script>, we multiply
+                <script type="math/text">\vec v</script> by the <b>transition matrix</b>
+                <script type="math/text">U^{-1} V</script>. That is,</p>
+
+            <p class="text-center">
+                <script type="math/text">\vec{v'} = U^{-1} V \cdot \vec v</script>
+            </p>
+
+            <hr>
+
+            <p>In particular, we can use <a href="https://en.wikipedia.org/wiki/Rotation_matrix">rotation matrices</a>
+                as transition matrices to rotate our basis by some angle(s). The real trick is to find an appropriate
+                transition matrix, the actual change of basis isn't too bad.</p>
+    </div>
+</body>
+<!-- TODO: Find the integrity hash for *this* version. -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+<!-- <script src="https://static.agill.xyz/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script> -->
+
+</html>
