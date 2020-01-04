@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+        content="Describes string metrics, metric spaces, and in particular the definition and computation of the Levenshtein distance metric in Python.">
+    <title>Levenshtein Distance</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
+    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+        integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+        integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js"
+        integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
+        integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
+</head>
+
+<body class="d-flex flex-column">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">agill.xyz</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/blog">Blog</a>
+                    <a class="nav-item nav-link" href="http://research.agill.xyz">Research</a>
+                    <a class="nav-item nav-link" href="http://mc.agill.xyz">Minecraft</a>
+                    <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
+                </div>
+                <div class="d-flex">
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i
+                            class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container flex-grow-1">
+        <h1>Levenshtein Distance</h1>
+
+        <p>Suppose we want to transform one string into another. How might we describe the distance between the two
+            words mathematically? The most common form of distance metric for strings is the
+            <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein distance</a> between the first
+            <script type="math/text">i</script> characters of
+            <script type="math/text">a</script> and the first
+            <script type="math/text">j</script> characters of
+            <script type="math/text">b</script>, given by</p>
+
+        <p class="text-center">
+            <script
+                type="math/text">\displaystyle\operatorname{lev}_{a, b} (i, j) = \begin{cases} \max (i, j) & \text{if} \min (i, j) = 0, \\ \min\begin{cases}\operatorname{lev}_{a, b} (i-1, j) + 1 \\ \operatorname{lev}_{a, b} (i, j - 1) + 1 \\ \operatorname{lev}_{a, b} (i-1, j-1) + \operatorname{1}_{(a_i \neq b_j)}\end{cases} & \text{otherwise.} \end{cases}</script>
+        </p>
+
+        <p>where
+            <script type="math/text">\operatorname{1}_{(a_i \neq b_j)}</script> is the indicator function equal to
+            <script type="math/text">0</script> when
+            <script type="math/text">a_i = b_j</script> and equal to
+            <script type="math/text">1</script> otherwise. The Levenshtein distance corresponds to three possible
+            operations on a string to transform it into another:</p>
+        <ol>
+            <li>The <em>insertion</em> of a single character</li>
+            <li>The <em>deletion</em> of a single character</li>
+            <li>The <em>substitution</em> of one character for another</li>
+        </ol>
+
+        <p>We can compute the Levenshtein distance as follows</p>
+
+        <pre class="language-python pl-3"><code>def levenshtein(s1,s2):
+    if len(s1) > len(s2):
+        s1, s2 = s2, s1
+    distances = range(len(s1) + 1)
+    for index2, char2 in enumerate(s2):
+        newDistances = [index2+1]
+        for index1, char1 in enumerate(s1):
+            if char1 == char2:
+                newDistances.append(distances[index1])
+            else:
+                newDistances.append(1 + min((distances[index1],
+                                            distances[index1+1],
+                                            newDistances[-1])))
+        distances = newDistances
+    return distances[-1]</code></pre>
+
+        <p>and use it like so</p>
+
+        <pre class="language-python pl-3"><code>In [2]: levenshtein('philosophy', 'mathematics')
+Out[2]: 11
+
+In [3]: %timeit levenshtein('philosophy', 'mathematics')
+27 µs ± 725 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+</code></pre>
+
+        <p>Note that this does not require that the intermediate words in the transformation be valid, this merely
+            calculates the length of the shortest path between two words under the insertion, deletion, and substitution
+            operations.</p>
+
+        <p>The Levenshtein distance forms a <a href="https://en.wikipedia.org/wiki/Metric_space">metric space</a>. A
+            metric space is a set
+            <script type="math/text">M</script> and a distance operator
+            <script type="math/text">\operatorname{d}(x, y)</script>, i.e. a function
+            <script type="math/text">\operatorname{d}: M \times M \to \mathbb{R}</script>. If a set
+            <script type="math/text">M</script> and a distance operator
+            <script type="math/text">\operatorname{d}(x, y)</script> satisfy the following criteria for all
+            <script type="math/text">x, y \in M</script> then the set
+            <script type="math/text">M</script> and the metric
+            <script type="math/text">\operatorname{d}</script> form a metric space.</p>
+
+        <ol>
+            <li>The distance cannot be negative</li>
+            <li>
+                <script type="math/text">\operatorname{d}(x, y) = 0</script> if and only if
+                <script type="math/text">x = y</script>
+            </li>
+            <li> The distance operator is <em>symmetric</em>:
+                <script type="math/text">\operatorname{d}(x, y) = \operatorname{d}(y, x)</script>
+            </li>
+            <li> The distance operator follows the triangle inequality:
+                <script
+                    type="math/text">\operatorname{d}(x, z) \leq \operatorname{d}(x, y) + \operatorname{d}(y, z)</script>
+            </li>
+        </ol>
+
+        <p>In terms of the Levenshtein distance between two strings, the last item means that the path from
+            <script type="math/text">a</script> to
+            <script type="math/text">c</script> cannot be longer than a path that goes through a point
+            <script type="math/text">b</script> in between
+            <script type="math/text">a</script> and
+            <script type="math/text">c</script>. (
+            <script type="math/text">a \to b \to c</script>)</p>
+
+        <hr>
+
+        <p>There are other <a href="https://en.wikipedia.org/wiki/String_metric">string metrics</a> but the Levenshtein
+            distance is the canonical one.</p>
+        <p>Another technique is to convert each word to a vector in a continuous vector space, and then take the
+            distance between the vectors. This requires a fairly large data set to convert the words to vectors in ways
+            that preserve their meanings. However, this technique doesn't calculate the <em>edit</em> distance between
+            the words, but rather their <em>semantic</em> distance.</p>
+
+    </div>
+</body>
+<!-- TODO: Find the integrity hash for *this* version. -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+<script src="https://static.agill.xyz/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</html>
