@@ -4,29 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description"
-        content="A review of impartial classic combinatorial games from a game theory perspective. Includes description of nimber (aka Sprague-Grundy) values and N and P states.">
+    <meta name="description" content="A review of impartial classic combinatorial games from a game theory perspective. Includes description of nimber (aka Sprague-Grundy) values and N and P states.">
     <title>Impartial Classic Combinatorial Games</title>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
     <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
-        integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
-        integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
-        crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js"
-        integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv"
-        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
     <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
-        integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
-        crossorigin="anonymous"></script>
-
-    <!-- <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">  -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
+    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script> -->
 </head>
 
 <body class="d-flex flex-column">
@@ -44,27 +34,17 @@
                 <div class="d-flex">
                     <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
                     <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i
-                            class="fas fa-envelope"></i></a>
+                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container flex-grow-1">
         <h1>Impartial Classic Combinatorial Games</h1>
-
-        <p>Game Theory is the mathematical modeling of conflict, cooperation, and the analysis and search of optimal
-            solutions. The objects of study are <strong>games</strong>, which are composed of three pieces.</p>
+        <p>Game Theory is the mathematical modeling of conflict, cooperation, and the analysis and search of optimal solutions. The objects of study are <strong>games</strong>, which are composed of three pieces.</p>
         <ol>
             <li>
-                <p>A set
-                    <script type="math/text">N</script> of
-                    <script type="math/text">n</script> players.
-                    <script type="math/text">n = 1</script> is decision theory, and not a part of typical game theory.
-                    <script type="math/text">n = 2</script> is the classic von Neumann-Morgenstern game theory.
-                    <script type="math/text">n &gt; 2</script> is coalition gaming,
-                    which can be modeled as multiple
-                    <script type="math/text">n = 2</script> games, with coalitions as players.</p>
+                <p>A set \(N\) of \(n\) players. \(n = 1\) is decision theory, and not a part of typical game theory. \(n = 2\) is the classic von Neumann-Morgenstern game theory. \(n > 2\) is coalition gaming, which can be modeled as multiple \(n = 2\) games, with coalitions as players.</p>
                 <p> We make two assumptions, which are not necessarily valid in the real world:</p>
                 <ul>
                     <li>
@@ -78,224 +58,95 @@
             <li><strong>Rules</strong> &mdash; how the players agree to play.</li>
             <li><strong>Payoff</strong> &mdash; a numerical value assigned to players or subsets of players.</li>
         </ol>
-        <p>Games are essentially functions that take sets of players as input, and give their payoffs as output. Games
-            are characterized by intelligent and rational decision makers who interact, threaten, promise, form
-            coalitions, etc., all with the promise of a payoff.</p>
-        <p>Let&#39;s define some terms:</p>
-        <p><strong>Perfect Information</strong> &mdash; We say a game is a game of perfect information when (under the
-            assumption the players have perfect recall) the players know all past moves of the game, both their own and
-            their opponent&#39;s. Chess is an example of a game of perfect information.</p>
-        <p><strong>Combinatorial Games</strong> &mdash; A 2-player game of perfect information with no moves determined by
-            chance.</p>
-        <p><strong>Zero-Sum</strong> &mdash; A game is a zero-sum game if the payoffs to all the players sum to 0. For
-            2-player games, this means that my win is your loss.</p>
-        <p><strong>Classic Combinatorial Game</strong> &mdash; a 2-player game of perfect information with no chance moves
-            that is zero sum. There cannot be secrets and/or bluffing (perfect information). There is no hope for
-            cooperation (2-player, zero sum), and there is no probability involved.</p>
-        <p>The main result in Classic Combinatorial Game Theory is that there exists a winning strategy for exactly one
-            of the players. This means one player could announce their strategy and their opponent may as well just hand
-            him/her their payoff without even playing.</p>
+        <p>Games are essentially functions that take sets of players as input, and give their payoffs as output. Games are characterized by intelligent and rational decision makers who interact, threaten, promise, form coalitions, etc., all with the promise of a payoff.</p>
+        <p>Let's define some terms:</p>
+        <p><strong>Perfect Information</strong> &mdash; We say a game is a game of perfect information when (under the assumption the players have perfect recall) the players know all past moves of the game, both their own and their opponent's. Chess is an example of a game of perfect information.</p>
+        <p><strong>Combinatorial Games</strong> &mdash; A 2-player game of perfect information with no moves determined by chance.</p>
+        <p><strong>Zero-Sum</strong> &mdash; A game is a zero-sum game if the payoffs to all the players sum to 0. For 2-player games, this means that my win is your loss.</p>
+        <p><strong>Classic Combinatorial Game</strong> &mdash; a 2-player game of perfect information with no chance moves that is zero sum. There cannot be secrets and/or bluffing (perfect information). There is no hope for cooperation (2-player, zero sum), and there is no probability involved.</p>
+        <p>The main result in Classic Combinatorial Game Theory is that there exists a winning strategy for exactly one of the players. This means one player could announce their strategy and their opponent may as well just hand him/her their payoff without even playing.</p>
         <hr>
-        <p>A game where each player has <em>exactly</em> the same set of moves at the same game state is called
-            <strong>impartial</strong>. Otherwise we call it <strong>partisan</strong>. In an impartial classic
-            combinatorial game, we say it is in <strong>normal</strong> play if the last player to make a legal move is
-            the winner. If the last player to move loses, we say the game is in <strong>misere</strong> play.</p>
+        <p>A game where each player has <em>exactly</em> the same set of moves at the same game state is called <strong>impartial</strong>. Otherwise we call it <strong>partisan</strong>. In an impartial classic combinatorial game, we say it is in <strong>normal</strong> play if the last player to make a legal move is the winner. If the last player to move loses, we say the game is in <strong>misere</strong> play.</p>
         <hr>
-        <p>In an impartial classic combinatorial game, we can label each game state with either an
-            <script type="math/text">N</script> or a
-            <script type="math/text">P</script>. An
-            <strong>
-                <script type="math/text">N</script>-state</strong> is a state for which there is a winning strategy for
-            the player who starts at
-            this position. A <strong>
-                <script type="math/text">P</script>-state</strong> is not an
-            <script type="math/text">N</script>-state. In other words,
-            <script type="math/text">P</script>-states are the
-            <em>target</em> states of the current player. We have the following theorem called the
-            <strong>Characteristic Property</strong> for impartial classic combinatorial games.</p>
+        <p>In an impartial classic combinatorial game, we can label each game state with either an \(N\) or a \(P\). An <strong> \(N\)-state</strong> is a state for which there is a winning strategy for the player who starts at this position. A <strong> \(P\)-state</strong> is not an \(N\)-state. In other words, \(P\)-states are the <em>target</em> states of the current player. We have the following theorem called the <strong>Characteristic Property</strong> for impartial classic combinatorial games.</p>
         <blockquote class="blockquote border-left border-2 pl-2">
-            <p>The
-                <script type="math/text">N</script> and
-                <script type="math/text">P</script> states of an impartial classic combinatorial game are uniquely
-                characterized by the
-                following for a game in normal play.</p>
+            <p>The \(N\) and \(P\) states of an impartial classic combinatorial game are uniquely characterized by the following for a game in normal play.</p>
             <ol>
                 <li>
-                    <p>All terminal states are
-                        <script type="math/text">P</script>-states</p>
+                    <p>All terminal states are \(P\)-states</p>
                 </li>
                 <li>
-                    <p>All moves from
-                        <script type="math/text">P</script>-states are to
-                        <script type="math/text">N</script>-states</p>
+                    <p>All moves from \(P\)-states are to \(N\)-states</p>
                 </li>
                 <li>
-                    <p>All
-                        <script type="math/text">N</script>-states have at least one move to a
-                        <script type="math/text">P</script>-state</p>
+                    <p>All \(N\)-states have at least one move to a \(P\)-state</p>
                 </li>
             </ol>
         </blockquote>
-        <p>For games under misere play, terminal states become
-            <script type="math/text">N</script>-states.</p>
+        <p>For games under misere play, terminal states become \(N\)-states.</p>
         <hr>
         <blockquote class="blockquote border-left border-2 pl-2">
-            <p>The
-                <script type="math/text">P</script>-states of an
-                <script type="math/text">n</script>-pile game of <a href="https://en.wikipedia.org/wiki/Nim">Nim</a> are
-                precisely those states whose nimsum of piles is zero.</p>
-            <p>i.e.,
-                <script type="math/text">(P_1, P_2, \dots, P_n)</script> is a
-                <script type="math/text">P</script>-state if and only if
-                <script type="math/text">P_1 \oplus P_2 \oplus \dots \oplus P_n = 0</script>.</p>
+            <p>The \(P\)-states of an \(n\)-pile game of <a href="https://en.wikipedia.org/wiki/Nim">Nim</a> are precisely those states whose nimsum of piles is zero.</p>
+            <p>i.e., \((P_1, P_2, \dots, P_n)\) is a \(P\)-state if and only if \(P_1 \oplus P_2 \oplus \dots \oplus P_n = 0\).</p>
         </blockquote>
-        <p>This is known as <strong>Bouton&#39;s Theorem</strong>.</p>
-        <p>The <strong>nimsum</strong> of
-            <script type="math/text">a</script> and
-            <script type="math/text">b</script>, denoted as
-            <script type="math/text">a \oplus b</script> is the bitwise <a
-                href="https://en.wikipedia.org/wiki/Exclusive_or">XOR</a> on
-            <script type="math/text">a</script> and
-            <script type="math/text">b</script>&#39;s bitstrings. For example,
-            <script type="math/text">25_{10} \oplus 18_{10} = 11001_2 \oplus 10010_2 = 01011_2 = 11_{10}</script>
-            .</p>
+        <p>This is known as <strong>Bouton's Theorem</strong>.</p>
+        <p>The <strong>nimsum</strong> of \(a\) and \(b\), denoted as \(a \oplus b\) is the bitwise <a href="https://en.wikipedia.org/wiki/Exclusive_or">XOR</a> on \(a\) and \(b\)'s bitstrings. For example, \(25_{10} \oplus 18_{10} = 11001_2 \oplus 10010_2 = 01011_2 = 11_{10}\) .</p>
         <p>The nimsum has the following properties</p>
         <ul>
-            <li><em>Commutativity</em> &mdash;
-                <script type="math/text">a \oplus b = b \oplus a</script>
-            </li>
-            <li><em>Associativity</em> &mdash;
-                <script type="math/text">(a \oplus b) \oplus c = a \oplus(b \oplus c)</script>
-            </li>
-            <li><em>Idempotency</em> &mdash;
-                <script type="math/text">a \oplus a = 0</script>
-            </li>
-            <li>
-                <script type="math/text">a \oplus b \leq a + b</script>.</li>
-            <li>If
-                <script type="math/text">a</script> and
-                <script type="math/text">b</script> both have a
-                <script type="math/text">k</script>-bit binary expansion, then
-                <script type="math/text">a \oplus b &lt; a, b</script>
-            </li>
+            <li><em>Commutativity</em> &mdash; \(a \oplus b = b \oplus a\) </li>
+            <li><em>Associativity</em> &mdash; \((a \oplus b) \oplus c = a \oplus(b \oplus c)\) </li>
+            <li><em>Idempotency</em> &mdash; \(a \oplus a = 0\) </li>
+            <li> \(a \oplus b \leq a + b\).</li>
+            <li>If \(a\) and \(b\) both have a \(k\)-bit binary expansion, then \(a \oplus b &lt; a, b\) </li>
         </ul>
-        <p>Bouton formulated the following strategy to <em>always</em> win at a game of Nim. At an
-            <script type="math/text">N</script>-state, compute
-            the nimsum of the piles and add the nimsum to any pile with a 1 in the
-            <script type="math/text">k</script>th bit where the nimsum is a
-            <script type="math/text">k</script>-bit number. This forces the game to a
-            <script type="math/text">P</script>-state, and guarantees a win for the player making the
-            move, provided they are perfectly rational and intelligent.</p>
+        <p>Bouton formulated the following strategy to <em>always</em> win at a game of Nim. At an \(N\)-state, compute the nimsum of the piles and add the nimsum to any pile with a 1 in the \(k\)th bit where the nimsum is a \(k\)-bit number. This forces the game to a \(P\)-state, and guarantees a win for the player making the move, provided they are perfectly rational and intelligent.</p>
         <hr>
-        <p>In the mid 30s, two mathematicians R. Sprague and M. Grundy independently generalized Bouton&#39;s Theorem
-            for <em>all</em> impartial classic combinatorial games in <em>normal</em> play. First though, we define the
-            <strong>Sprague-Grundy value</strong>, or more commonly the <strong>nimber value</strong> for a game state
-            as follows.</p>
+        <p>In the mid 30s, two mathematicians R. Sprague and M. Grundy independently generalized Bouton's Theorem for <em>all</em> impartial classic combinatorial games in <em>normal</em> play. First though, we define the <strong>Sprague-Grundy value</strong>, or more commonly the <strong>nimber value</strong> for a game state as follows.</p>
         <ol>
-            <li>All terminal states
-                <script type="math/text">S</script> get
-                <script type="math/text">\operatorname{sg}(S) = 0</script>
-            </li>
+            <li>All terminal states \(S\) get \(\operatorname{sg}(S) = 0\) </li>
             <li>
-                <p>Non-termial states
-                    <script type="math/text">S</script> are assigned the <em>minimum excluded value</em> of
-                    <script type="math/text">{\operatorname{sg}(T)}</script> for all states
-                    <script type="math/text">T</script> one move away from
-                    <script type="math/text">S</script>.</p>
-                <p>
-                    <script
-                        type="math/text">\operatorname{sg}(S) = \min{k \geq 0 \vert k \neq \operatorname{sg}(T) \text{ where $T$ is one move away from $S$}}</script>
-                </p>
+                <p>Non-termial states \(S\) are assigned the <em>minimum excluded value</em> of \({\operatorname{sg}(T)}\) for all states \(T\) one move away from \(S\).</p>
+                <p class="text-center">\[\operatorname{sg}(S) = \min{k \geq 0 \vert k \neq \operatorname{sg}(T) \text{ where $T$ is one move away from $S$}}\]</p>
                 <p> or equivalently,</p>
-                <p>
-                    <script
-                        type="math/text">\operatorname{sg}(S) = \begin{cases}\text{the minimum nonnegative integer not equal to $\operatorname{sg}(T)$}\\\text{for any state $T$ attainable from $S$ in a single move}\end{cases}</script>
-                </p>
+                <p class="text-center">\[\operatorname{sg}(S) = \begin{cases}\text{the minimum nonnegative integer not equal to $\operatorname{sg}(T)$}\\\text{for any state $T$ attainable from $S$ in a single move}\end{cases}\]</p>
             </li>
         </ol>
-        <p>Further, we can define the <strong>disjoint sum</strong> or a <strong>direct sum</strong> of games
-            <script type="math/text">G_1</script> and
-            <script type="math/text">G_2</script>, denoted as
-            <script type="math/text">G_1 + G_2</script>, provided that
-            <script type="math/text">G_1</script> and
-            <script type="math/text">G_2</script> are both impartial classic combinatorial games, as follows</p>
+        <p>Further, we can define the <strong>disjoint sum</strong> or a <strong>direct sum</strong> of games \(G_1\) and \(G_2\), denoted as \(G_1 + G_2\), provided that \(G_1\) and \(G_2\) are both impartial classic combinatorial games, as follows</p>
         <ol>
-            <li>its states of play are
-                <script type="math/text">(S, T)</script> where
-                <script type="math/text">S</script> is a state of
-                <script type="math/text">G_1</script> and
-                <script type="math/text">T</script> is a state of
-                <script type="math/text">G_2</script>
-            </li>
+            <li>its states of play are \((S, T)\) where \(S\) is a state of \(G_1\) and \(T\) is a state of \(G_2\) </li>
             <li>
-                <p>a move to another state
-                    <script type="math/text">(S', T')</script> is valid if and only if either</p>
+                <p>a move to another state \((S', T')\) is valid if and only if either</p>
                 <ul>
-                    <li>
-                        <script type="math/text">T = T'</script> and
-                        <script type="math/text">S'</script> is one move away from
-                        <script type="math/text">S</script>.</li>
-                    <li>
-                        <script type="math/text">S = S'</script> and
-                        <script type="math/text">T'</script> is one move away from
-                        <script type="math/text">T</script>.</li>
+                    <li> \(T = T'\) and \(S'\) is one move away from \(S\).</li>
+                    <li> \(S = S'\) and \(T'\) is one move away from \(T\).</li>
                 </ul>
             </li>
         </ol>
         <hr>
-        <p>The <strong><a href="https://en.wikipedia.org/wiki/Sprague%E2%80%93Grundy_theorem">Sprague-Grundy
-                    Theorem</a></strong> for impartial classic combinatorial games then, is</p>
-        <blockquote>
-            <p>Let
-                <script type="math/text">\operatorname{sg}</script> denote the Sprague-Grundy function for a game.</p>
+        <p>The <strong><a href="https://en.wikipedia.org/wiki/Sprague%E2%80%93Grundy_theorem">Sprague-Grundy Theorem</a></strong> for impartial classic combinatorial games then, is</p>
+        <blockquote class="blockquote border-left border-2 pl-2">
+            <p>Let \(\operatorname{sg}\) denote the Sprague-Grundy function for a game.</p>
             <ol>
-                <li>
-                    <script type="math/text">\operatorname{sg}(S) = 0</script> if and only if
-                    <script type="math/text">S</script> is a
-                    <script type="math/text">P</script>-state</li>
-                <li>In a direct sum of games
-                    <script type="math/text">\operatorname{sg}(S, T) = \operatorname{sg}(S) \oplus \operatorname{sg}(T)</script>
-                </li>
+                <li>\(\operatorname{sg}(S) = 0\) if and only if \(S\) is a \(P\)-state</li>
+                <li>In a direct sum of games \(\operatorname{sg}(S, T) = \operatorname{sg}(S) \oplus \operatorname{sg}(T)\) </li>
             </ol>
         </blockquote>
-        <p>where
-            <script type="math/text">\oplus</script> is the nimsum described above.</p>
+        <p>where \(\oplus\) is the nimsum described above.</p>
         <hr>
-        <p>Given the following game with states
-            <script type="math/text">{a, b, \dots, o}</script>
-        </p>
-        <figure class="figure w-75 d-block mx-auto"><img class="figure-img img-fluid rounded w-100"
-                src="http://static.localhost/images/impartial-classic-combinatorial-games/game_graph.svg"
-                alt="A game with a certain configuration of states">
+        <p>Given the following game with states \({a, b, \dots, o}\) </p>
+        <figure class="figure w-75 d-block mx-auto"><img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/impartial-classic-combinatorial-games/game_graph.svg" alt="A game with a certain configuration of states">
             <figcaption class="figure-caption text-right">A game with a certain configuration of states</figcaption>
         </figure>
-        <p>we can assign nimber values to each state, starting at the terminal nodes and working inwards calculating the
-            minimum excluded value of all states one move away.</p>
-        <figure class="figure w-75 d-block mx-auto"><img class="figure-img img-fluid rounded w-100"
-                src="http://static.localhost/images/impartial-classic-combinatorial-games/sg_graph.svg"
-                alt="The same game with nimber values assigned">
+        <p>we can assign nimber values to each state, starting at the terminal nodes and working inwards calculating the minimum excluded value of all states one move away.</p>
+        <figure class="figure w-75 d-block mx-auto"><img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/impartial-classic-combinatorial-games/sg_graph.svg" alt="The same game with nimber values assigned">
             <figcaption class="figure-caption text-right">The same game with nimber values assigned</figcaption>
         </figure>
-        <p>Take, for example, state
-            <script type="math/text">n</script>.
-            <script type="math/text">n</script> is one move away from
-            <script type="math/text">o</script>, which is a terminal position with nimber value 0, so
-            <script type="math/text">n</script> gets assigned the minimum positive integer that excludes 0, that is, 1. We can then calculate the nimber value for
-            <script type="math/text">m</script>, which is the minimum positive integer that excludes all nimber values for states attainable from
-            <script type="math/text">m</script>, which is only
-            <script type="math/text">n</script>, with a nimber value of 1.
-            <script type="math/text">m</script>&#39;s nimber value is therefore 0, and is this a
-            <script type="math/text">P</script>-state.</p>
+        <p>Take, for example, state \(n\). \(n\) is one move away from \(o\), which is a terminal position with nimber value 0, so \(n\) gets assigned the minimum positive integer that excludes 0, that is, 1. We can then calculate the nimber value for \(m\), which is the minimum positive integer that excludes all nimber values for states attainable from \(m\), which is only \(n\), with a nimber value of 1. \(m\)'s nimber value is therefore 0, and is this a \(P\)-state.</p>
         <hr>
-        <p>My notes say that we can <em>always</em> assign a nimber value to every state because in this graph form we
-            can never have any loops &mdash; which is a property of classic combinatorial games. I&#39;m unsure if
-            &quot;loops&quot; in this context means cycles or self-loops.</p>
-
+        <p>My notes say that we can <em>always</em> assign a nimber value to every state because in this graph form we can never have any loops &mdash; which is a property of classic combinatorial games. I'm unsure if &quot;loops&quot; in this context means cycles or self-loops.</p>
     </div>
 </body>
 <!-- TODO: Find the integrity hash for *this* version. -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
-<!-- <script src="https://static.agill.xyz/js/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script> -->
 
 </html>
