@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Functions of complex variables, covering topics such as injective, surjective, domain, range, image, preimage, etc.">
+    <title>Complex Functions</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
+    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    <!-- <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script> -->
+    <!-- <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css"> -->
+</head>
+
+<body class="d-flex flex-column">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">agill.xyz</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/blog">Blog</a>
+                    <a class="nav-item nav-link" href="/research">Research</a>
+                    <a class="nav-item nav-link" href="http://mc.agill.xyz">Minecraft</a>
+                    <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
+                </div>
+                <div class="d-flex">
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container flex-grow-1">
+        <h1>Complex Functions</h1>
+        <div class="card m-3">
+            <div class="card-header">Definition</div>
+            <div class="card-body">
+                <p class="mb-0">A <em>function</em> \(f\) defined on a set \(S \subseteq \mathbb C\) is a <em>rule</em> that assigns to each \(z \in S\) a complex number \(w\), called the <em>value</em> of \(f\) at \(z\) and is denote by \(f(z)\).</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Definition</div>
+            <div class="card-body">
+                <p class="mb-0">We call the set \(S\) the <em>domain of definition</em> of \(f\). Note we can't use the term "domain" because we've already defined it previously to mean an open, nonempty, and connected set.</p>
+            </div>
+        </div>
+        <p>Note that both the domain of definition and the rule should be specified for a complete definition of a function. If the domain of definition is <em>not</em> given, it is assumed to be the largest possible set.</p>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p class="mb-0">For example, the function \(w = f(z) = \frac{1}{z} = z^{-1}\) is well defined except where \(z = 0\), so the domain of definition is \(\mathbb C \setminus \{0\}\).</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p>Suppose we have a function \(w = f(z)\) for \(z = x + iy\) and \(w = u + iv\). Then we have \(u + iv = f(x + iy)\), so we can express the complex-valued function \(f\) in terms of a pair of real-valued function of \(x\) and \(y\).</p>
+                <p class="text-center">\[f(z) = u(x, y) + iv(x, y)\]</p>
+                <p>And if we use polar coordinates</p>
+                <p class="text-center">\[f(re^{i\theta}) = u + iv\]</p>
+                <p>we then have</p>
+                <p class="text-center mb-0">\[f(re^{i\theta}) = u(r, \theta) + iv(r, \theta)\]</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p>For example, take the function \(f(z) = z^2\). Then we have \(f(x + iy) = (x + iy)^2 = x^2 - y^2 + 2ixy\). So then</p>
+                <p class="text-center">\[u(x, y) = x^2 - y^2\]</p>
+                <p>and</p>
+                <p class="text-center">\[v(x, y) = 2xy\]</p>
+                <p>If we use polar coordinates,</p>
+                <p class="text-center">\[f(re^{i\theta}) = (re^{i\theta})^2 = r^2 e^{i2\theta} = r^2 \cos{2\theta} + ir^2 \sin{2\theta}\]</p>
+                <p>So</p>
+                <p class="text-center">\[u(r, \theta) = r^2 \cos{2\theta}\]</p>
+                <p>and</p>
+                <p class="text-center mb-0">\[v(r, \theta) = r^2 \sin{2\theta}\]</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Definition</div>
+            <div class="card-body">
+                <p class="mb-0">If \(v\) every <em>always</em> equals 0, we call \(f\) a <em>real-valued function</em> of a complex variable.</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Definition</div>
+            <div class="card-body">
+                <p>A <em>polynomial of degree \(n\)</em> is the function</p>
+                <p class="text-center">\[P(z) = a_0 + a_1 z + a_2 z^2 + \dots + a_n z^n\]</p>
+                <p class="mb-0">for \(a_i \in \mathbb C, n \in \mathbb Z^+, \text{ and } a_n \neq 0\). Note that the requirement of \(a_n \neq 0\) simply means that the \(n\)th degreen polynomial <em>actually has an \(n\)th term</em>.</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Definition</div>
+            <div class="card-body">
+                <p class="mb-0">Quotients \(\displaystyle \frac{P(z)}{Q(z)}\) are called <em>rational functions</em> and are defined for all \(z\) such that \(Q(z) \neq 0\).</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Definition</div>
+            <div class="card-body">
+                <p>The <em>image</em> of a point \(z_0\) in the domain of definition \(S\) of a function \(f\) is the point \(w_0 = f(z_0)\). The term <em>image</em> of \(z\) is equivalent to the term <em>value</em> of \(f\) at \(z\).</p>
+                <p class="mb-0">We can also take images of <em>sets</em>. Let \(T \subseteq S\), then the <em>image</em> of \(T\) is the set of images of all the points in \(T\). We denote this by \(f(T)\).</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Definition</div>
+            <div class="card-body">
+                <p class="mb-0">The <em>range</em> of a function \(f\) is the image of the domain of definition \(S\). We denote this by \(f(S)\).</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Definition</div>
+            <div class="card-body">
+                <p class="mb-0">The <em>inverse image</em>, or <em>preimage</em> of a point \(w\) is the set of all \(z \in S\) that have an image of \(w\). Note that the preimage can have one, or many points in \(S\). My professor denotes this as \(f^{-1}(\{w\})\) to emphasize that this is <em>not</em> the inverse function of \(f\), it's just a set. Because the range is defined as the image of the domain of definition, the preimage is guaranteed to be nonempty.</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Definition</div>
+            <div class="card-body">
+                <p class="mb-0">A function \(f\) is called <em>injective</em>, or <em>one-to-one</em> if whenever \(f(z_1) = f(z_2)\), then \(z_1 = z_2\).</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Definition</div>
+            <div class="card-body">
+                <p class="mb-0">A function \(f\) is called <em>surjective</em>, or <em>onto</em> if for every \(w\) in the range of \(f\) there exists a \(z\) in the domain of definition of \(f\) such that \(f(z) = w\).</p>
+            </div>
+        </div>
+        <p>Note that how we have defined the range of a function causes every function to be surjective. This is in conflict with most textbooks that also define something called a <em>codomain</em>, or which the range of \(f\) is a subset. However, this is what my particular textbook uses, so it's what I will stick with here.</p>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p>The image \(w\) of a point \(z\) in the domain of definition \(S\) of a function \(f\) with range \(f(S)\).</p>
+                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/complex-functions/domain-of-definition.svg" alt="The domain of a function">
+                    <figcaption class="figure-caption text-right"></figcaption>
+                </figure>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p>The following is an example of a function that is <em>not</em> one-to-one (injective). Note that \(f(z_1) = f(z_2)\) yet \(z_1 \neq z_2\).</p>
+                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/complex-functions/noninjective-function.svg" alt="A noninjective function">
+                    <figcaption class="figure-caption text-right"></figcaption>
+                </figure>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p>When we take the inverse image (preimage) of a point in the range of a function, we <em>don't change the direction of the arrows</em> we aren't finding an inverse function, only tracing the line(s) back to where they came from.</p>
+                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/complex-functions/preimage.svg" alt="The preimage of a point">
+                    <figcaption class="figure-caption text-right"></figcaption>
+                </figure>
+                <p class="mb-0">Note that the preimage is a <em>set</em> that could possibly contain one or more points in the domain of definition.</p>
+            </div>
+        </div>
+        <p>Graphing complex functions is <em>hard</em>. We have 2 dimensional inputs, <em>and</em> 2 dimensional outputs. That means we're working with a 4 dimensional function &mdash; <em>even for the simple ones.</em> Since \(w = f(z)\) is a complex number, both \(z\) and \(w\) can be interpreted on points in a plane. Therefore, we can draw the \(z\) and \(w\) planes separately. We can therefore view a function \(w = f(z)\) as a <em>transformation</em>, or a <em>mapping</em> from points in the \(z\)-plane to points in the \(w\)-plane.</p>
+        <p>We can describe these transformations with the terms <em>translation</em>, <em>rotation</em>, <em>reflection</em>, and <em>scaling</em>, or <em>stretching</em>.</p>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p class="mb-0">\(w = f(z) = z + 1 = (x + 1) + iy\) is a function that <em>shifts</em>, or <em>translates</em> points one unit to the right.</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p class="mb-0">Since we know that \(i = e^{i\frac{\pi}{2}}\), the function \(f(z) = iz = ire^{i\theta} = e^{i\frac{\pi}{2}}re^{i\theta} = re^{i\theta + \frac{\pi}{2}}\) actually rotates a point \(z\) \(\frac{\pi}{2}\) radians -- that is, rotates numbers 90 degrees counterclockwise.</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p class="mb-0">The function \(f(z) = \bar z = x - iy\) is a simple reflection about the real axis.</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p>Now consider again the function \(f(z) = z^2\). We can rewrite \(f\) in terms of real-valued functions</p>
+                <p class="text-center">\[u = x^2 - y^2\]</p>
+                <p>and</p>
+                <p class="text-center">\[v = 2xy\]</p>
+                <p>And think of \(f\) as a transformation from the \(x\)-\(y\) plane to the \(u\)-\(v\) plane. Because we're so unfamiliar with complex functions, even for a function so simple as \(z^2\), we'll ask ourselves a series of questions about it.</p>
+                <p><em>I wonder what maps to a constant?</em> Just for the heck of it, we'll set \(u = c\) for some \(c > 0\) and see what falls out.</p>
+                <p>That means we have points on the family of hyperbolas \(x^2 - y^2 = c\), or \(\displaystyle \frac{x^2}{c} - \frac{y^2}{c} = 1\) in the \(x\)-\(y\) plane being mapped to points along the straight line \(u = c\) in the \(u\)-\(v\) plane.</p>
+                <figure class="figure w-75 d-block mx-auto"><img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/complex-functions/hyperbola-1.svg" alt="Hyperbola">
+                    <figcaption class="figure-caption text-right"></figcaption>
+                </figure>
+                <p>Now what happens if we let \(u = -c\)? Then we have points on the family of hyperbolas \(x^2 - y^2 = -c\), or \(\displaystyle \frac{y^2}{c} - \frac{x^2}{c} = 1\)</p>
+                <figure class="figure w-75 d-block mx-auto"><img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/complex-functions/hyperbola-2.svg" alt="Hyperbola">
+                    <figcaption class="figure-caption text-right"></figcaption>
+                </figure>
+                <p>That all is if we fix \(u\) to be some constant, what happens if we fix \(v\) to be some positive constant? Then we have points along the \(2xy = c\), or \(\displaystyle y = \frac{c}{2x}\) family of hyperbolas in the \(x\)-\(y\) plane being mapped to some positive \(v = c\) in the \(u\)-\(v\) plane.</p>
+                <figure class="figure w-75 d-block mx-auto"><img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/complex-functions/hyperbola-3.svg" alt="Hyperbola">
+                    <figcaption class="figure-caption text-right"></figcaption>
+                </figure>
+                <p>Again, what if we pick a negative constant? Then we have \(\displaystyle y = \frac{-c}{2x}\) being mapped to some negative constant \(v\) in the \(u\)-\(v\) plane.</p>
+                <figure class="figure w-75 d-block mx-auto"><img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/complex-functions/hyperbola-4.svg" alt="Hyperbola">
+                    <figcaption class="figure-caption text-right"></figcaption>
+                </figure>
+                <p>We asked ourselves what maps to a constant, now we ask, what does a constant map to? That is, let \(x = c\) and \(y\) vary. Then \(u = c^2 - y^2\) and \(v = 2cy\) which combine to make \(\displaystyle u = c^2 - \frac{v^2}{4c^2}\)</p>
+                <figure class="figure w-75 d-block mx-auto"><img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/complex-functions/hyperbola-5.svg" alt="Hyperbola">
+                    <figcaption class="figure-caption text-right"></figcaption>
+                </figure>
+            </div>
+        </div>
+        <!-- TODO: mapping regions -->
+    </div>
+</body>
+<!-- TODO: Find the integrity hash for *this* version. -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+
+</html>
