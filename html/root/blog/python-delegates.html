@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A Python implementation of delegates. A delegate is an object to which a task is delegated. The purpose of delegation is to decouple code and add flexibility.">
+    <title>Delegates in Python</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
+    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
+    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+</head>
+
+<body class="d-flex flex-column">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">agill.xyz</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/blog">Blog</a>
+                    <a class="nav-item nav-link" href="/research">Research</a>
+                    <a class="nav-item nav-link" href="http://mc.agill.xyz">Minecraft</a>
+                    <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
+                </div>
+                <div class="d-flex">
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container flex-grow-1">
+        <h1>Delegates in Python</h1>
+        <p>At my work this summer I've had the privilege to work on a code base that was very well-designed. As a result, I feel I have substantially grown as a developer. One of the neatest parts of the project I've been working on is that there are these magical things called <em>delegates</em> that glue the code together. These magical entities are what I want to talk about here.</p>
+        <p>Before we begin however, I want to define something called a <em>functor</em>. For our purposes, a functor is any kind of callable object: a function, class method, or even a class with the <code>__call__()</code> magic method defined.</p>
+        <p>Suppose you have a piece of software that looks like the following:</p>
+        <figure class="figure w-50 d-block mx-auto">
+            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/delegates/software.svg" alt="Software layout.">
+            <figcaption class="figure-caption text-right">A series of software components</figcaption>
+        </figure>
+        <p>Delegates are what handle the flow of data from one component to the next. All we do with the implementation here is set up each individual component and then choose who is subscribed to what. Then all we do is pipe data in and watch it come out the other side.</p>
+        <p>To be sure, delegates have other use cases, but this is what I was exposed to, and it was nifty enough that I wanted to take a crack at my own implementation. It was simple enough that, not including the substantial amount time I spent on a trivial misunderstanding, I only spent an hour on the implementation, plus another for some polish.</p>
+        <p>Before I show you the implementation, I want to show you how it's used. Here's a simple example that calculates the squares of the first ten even numbers. Delegates are overkill for such a simple task, but I wanted something easy to understand. Here's a diagram of what exactly is happening:</p>
+        <figure class="figure w-50 d-block mx-auto">
+            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/delegates/example-layout.svg" alt="Software layout.">
+            <figcaption class="figure-caption text-right">A serial chain of simple mathematical operations</figcaption>
+        </figure>
+        <p>The end result is that of applying the function \(\displaystyle f(n) = \left(2(n + 1)\right)^2\).</p>
+        <p>Here's how it might be implemented:</p>
+        <pre class="language-python pl-3"><code>#!/usr/bin/python3
+from modifiers import Multiplier, Exponentiator, Incrementer
+from observer import Observer
+
+def main():
+    # Modifiers that act on numbers.
+    incrementer = Incrementer(1)
+    doubler = Multiplier(2)
+    squarer = Exponentiator(2)
+
+    # An observer to view intermediate and/or final values in the delegate chain.
+    observer = Observer()
+
+    # Subscribe the doubler modifier to the output of the incrementer.
+    incrementer.subscribe(doubler)
+    # Subscribe the squarer modifier to the output of the doubler.
+    doubler.subscribe(squarer)
+    # Subscribe the observer to the output of the squarer.
+    squarer.subscribe(observer)
+
+    for i in range(10):
+        # Call the first modifier in the chain, and let the delegates handle the rest
+        incrementer(i)
+
+    # Unsubscribe functors.
+    incrementer.unsubscribe(doubler)
+    doubler.unsubscribe(squarer)
+    squarer.unsubscribe(observer)
+
+if __name__ == '__main__':
+    main()</code></pre>
+        <p>I've included an <code>Observer</code> object in the chain because we need some way to view the result of our calculations, which are as follows:</p>
+        <pre class="language-plaintext pl-3"><code>~ $ ./main-simple.py
+Observed value(s): 4
+Observed value(s): 16
+Observed value(s): 36
+Observed value(s): 64
+Observed value(s): 100
+Observed value(s): 144
+Observed value(s): 196
+Observed value(s): 256
+Observed value(s): 324
+Observed value(s): 400</code></pre>
+        <p>Now, as it stands, each of the modifier classes are implemented as callable objects. This is not necessary, I chose to do so for the convenience. We could do something like the following:</p>
+        <pre class="language-python pl-3"><code>#!/usr/bin/python3
+from delegate import Delegated
+from modifiers import Exponentiator, Incrementer
+from observer import Observer
+
+class Doubler(Delegated):
+    """A delegated class to double numbers"""
+
+    def __init__(self):
+        super().__init__()
+
+    def double(self, val):
+        """A method to double the given value"""
+        self.delegate(2 * val)
+
+def main():
+    incrementer = Incrementer(1)
+    # Equivalent to Multiplier(2)
+    doubler = Doubler()
+    squarer = Exponentiator(2)
+
+    observer = Observer()
+
+    incrementer.subscribe(doubler.double)
+    doubler.subscribe(squarer)
+    squarer.subscribe(observer)
+
+    for i in range(10):
+        # Call the first modifier in the chain, and let the delegates handle the rest
+        incrementer(i)
+
+    incrementer.unsubscribe(doubler.double)
+    doubler.unsubscribe(squarer)
+    squarer.unsubscribe(observer)
+
+if __name__ == '__main__':
+    main()</code></pre>
+        <p>Now for the implementation. I think we'll start with the simplest object: the <code>Observer</code> class. <code>Observer</code> inherits from <code>Delegated</code>, which provides a base constructor, <code>subscribe()</code>, and <code>unsubscribe()</code>. We call the base class constructor, and then we define the <code>__call__()</code> method. <code>__call__()</code> takes in arbitrary arguments, prints them, and the passes them on unchanged to the delegate.</p>
+        <pre class="language-python pl-3"><code>from delegate import Delegated
+
+class Observer(Delegated):
+    """An Observer callable object to observe values in a Delegate chain."""
+
+    def __init__(self):
+        super().__init__()
+
+    def __call__(self, *things):
+        """Observes given values and passes them along with no changes."""
+        print('Observed value(s):', *things)
+        self.delegate(*things)</code></pre>
+        <p>The next thing to look at is the modifier classes:</p>
+        <pre class="language-python pl-3"><code>from delegate import Delegated
+
+class Multiplier(Delegated):
+    """A Multiplier modifier to multiply numbers"""
+
+    def __init__(self, multiplier=2):
+        """Construct a Multiplier object with an optional multiplier. Defaults to 2."""
+        super().__init__()
+        self.multiplier = multiplier
+
+    def __call__(self, num):
+        """Multiplies a given number by a predetermined multiplier"""
+        self.delegate(num * self.multiplier)
+
+class Incrementer(Delegated):
+    """An Incrementer modifier to increment numbers"""
+
+    def __init__(self, increment_value=1):
+        """Construct an Incrementer object with an optional increment value. Defaults to 1."""
+        super().__init__()
+        self.increment_value = increment_value
+
+    def __call__(self, num):
+        """Increment num by a predetermined value"""
+        self.delegate(num + self.increment_value)
+
+class Exponentiator(Delegated):
+    """An Exponentiator modifier to exponentiate numbers"""
+
+    def __init__(self, power=2):
+        """Construct an Exponentiator object with an optional power. Defaults to 2."""
+        super().__init__()
+        self.power = power
+
+    def __call__(self, num):
+        """Exponentiates a given number by a predetermine value"""
+        self.delegate(num ** self.power)</code></pre>
+        <p>These are fairly self explanatory: instead of passing on what they are given unchanged, they modify their input somehow before calling their delegates on the values.</p>
+        <p>Now for the implementation of the <code>Delegated</code> base class. A <code>Delegated</code> class has two methods: <code>subscribe()</code> and <code>unsubscribe()</code> to, appropriately, subscribe and unsubscribe from its output.</p>
+        <pre class="language-python pl-3"><code>class Delegate(object):
+    """A class to implement delegates"""
+
+    def __init__(self):
+        self.functors = list()
+
+    def subscribe(self, functor):
+        """Subscribe a given functor to this delegate."""
+        # Verify that functor is callable. If not, don't subscribe.
+        if callable(functor):
+            self.functors.append(functor)
+        return self
+
+    def unsubscribe(self, functor):
+        """Unsubscribe a given functor to this delegate."""
+        try:
+            self.functors.remove(functor)
+        # Functor wasn't subscribed.
+        except ValueError:
+            pass
+        return self
+
+    def __call__(self, *args):
+        """Call each of the subscribed functors with the given values"""
+        for functor in self.functors:
+            functor(*args)
+
+class Delegated(object):
+"""A base class for delegated classes"""
+
+    def __init__(self):
+        self.delegate = Delegate()
+
+    def subscribe(self, functor):
+        """Subscribes the given functor to the output of self"""
+        self.delegate.subscribe(functor)
+
+    def unsubscribe(self, functor):
+        """Unsubscribes the given functor from the output of self"""
+        self.delegate.unsubscribe(functor)</code></pre>
+        <p>The <code>Delegate</code> class is where the magic happens. What I've defined a <code>Delegate</code> to be is a list of functors, all of which will be called on the given value(s) when the delegate is called. This way a <code>Delegated</code> class has <em>one</em> delegate, but an <em>arbitrary</em> number of subscribers.</p>
+        <hr>
+        <p>I've shown how delegates can be used in a very simple manner, but please realize, the magic between the input and the output could be <em>extremely</em> complex. Perhaps each <em>component</em> in a piece of software is in fact complex enough to require <em>subcomponents</em> glued together with delegates.</p>
+        <p>One of the neat things about delegates is it allows you to insert an arbitrary component in the middle of a complex system with minimal wrangling.</p>
+    </div>
+</body>
+<!-- TODO: Find the integrity hash for *this* version. -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+
+</html>
