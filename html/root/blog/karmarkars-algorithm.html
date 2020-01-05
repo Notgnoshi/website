@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A geometric explanation of linear programs, and Karmarkar's Algorithm implemented in Python.">
+    <title>Karmarkar's Algorithm</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
+    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
+</head>
+
+<body class="d-flex flex-column">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">agill.xyz</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/blog">Blog</a>
+                    <a class="nav-item nav-link" href="/research">Research</a>
+                    <a class="nav-item nav-link" href="http://mc.agill.xyz">Minecraft</a>
+                    <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
+                </div>
+                <div class="d-flex">
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container flex-grow-1">
+        <h1>Karmarkar's Algorithm<small class="text-muted"> &mdash; A geometric understanding of linear programming</small></h1>
+        <p>In this post I intend to explain what a Linear Program (LP) is, and how to solve an LP problem using Karmarkar's Algorithm implemented in Python. As always, if you see an improvement, feel free to submit a pull request.</p>
+        <h2>Introduction</h2>
+        <p>A <b>Linear Program</b> is a problem of the form</p>
+        <div class="card w-50 m-3 d-block mx-auto">
+            <div class="card-header">Linear Program</div>
+            <div class="card-body pb-0">
+                <p>Maximize:</p>
+                <p class="text-center">\[z = \vec c^T \vec x\]</p>
+                <p>Subject to:</p>
+                <p class="mb-0">\[A \vec x \leq \vec b\]</p>
+            </div>
+        </div>
+        <p>Where the inequality is element-wise. The relation between \(A \vec x\) and \(\vec b\) could be any kind of equality constraint (\(\leq\), \(\geq\), or \(=\)), but "less-than-or-equal-to" is the typical relation we will use before we try to extend our basic understanding to larger problems.</p>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p>Consider the following problem</p>
+                <div class="card w-50 m-3 d-block mx-auto">
+                    <div class="card-header">Linear Program</div>
+                    <div class="card-body pb-0">
+                        <p>Maximize:</p>
+                        <p class="text-center">\[ z = 3 x_1 + 2 x_2\]</p>
+                        <p>Subject to:</p>
+                        <p class="text-center mb-0">\[\begin{aligned}2x_1 + x_2 &\leq 100\\x_1 + x_2 &\leq 80\\x_1 &\leq 40\\x_1, x_2 &\geq 0\end{aligned}\]</p>
+                    </div>
+                </div>
+                <p>We wish to maximize the value of the <b>objective function</b></p>
+                <p class="text-center">\[z = 3x_1 + 2x_2\]</p>
+                <p>Subject to the constraints</p>
+                <p class="text-center">\[\begin{aligned} 2x_1 + x_2 &\leq 100\\ x_1 + x_2 &\leq 80\\ x_1 &\leq 40\\ x_1, x_2 &\geq 0\\ \end{aligned}\]</p>
+                <p>The last constraint, stating that \(x_1, x_2 \geq 0\) is called the <b>non-negativity constraint</b> and is typically not stated for basic problems. We call the components \(x_1, x_2\), of the vector \(\vec x\), the LP <b>decision variables</b>, and the coefficients of the objective function \(3\) and \(2\) components of the <b>cost vector</b> \(\vec c\).</p>
+                <p>We can represent the constraints in one fell swoop using the matrix inequality</p>
+                <p class="text-center">\[\begin{pmatrix}2 & 1\\1 & 1\\1 & 0\\\end{pmatrix}\begin{pmatrix}x_1\\x_2\end{pmatrix} \leq \begin{pmatrix}100\\80\\40\end{pmatrix}\]</p>
+                <p>We call the points \((x_1, x_2)\) that satisfy all of the given constraints <b>feasible points</b> and the set of all feasible points the <b>feasible set</b>.</p>
+                <p>The feasible set for this example problem is illustrated below. The constraint equations are shown, as is the region that satisfies all of the constraints. Note that these problems don't have to be 2-dimensional, and in fact, most are not. The challenge of solving these problems comes from their size.</p>
+                <figure class="figure w-50 d-block mx-auto">
+                    <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/basic.svg" alt="A Basic Linear Program">
+                    <figcaption class="figure-caption text-right">The linear constraints forming the feasible region of a basic linear program</figcaption>
+                </figure>
+                <p>Now that we can see what points are <em>possible</em>, we need to find the point in the feasible set that <em>maximizes</em> our objective function. Currently, everything we've graphed relate to the LP constraints, and not the objective function.</p>
+                <p>Recall the concept of <a href="https://en.wikipedia.org/wiki/Level_set">Level Curves</a> from Calculus III. Level curves are curves of fixed \(z\) values. The following is a graph of several level curves of \(z\) superimposed on the graph of the feasible set.</p>
+                <figure class="figure w-50 d-block mx-auto">
+                    <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/level-curves.svg" alt="A Basic Linear Program">
+                    <figcaption class="figure-caption text-right">Selected level curves for fixed \(z\) values</figcaption>
+                </figure>
+                <p class="mb-0">See how we can immediately pick out the point that maximizes the value of the objective function? Apparently the <b>optimal solution</b> - the point that maximizes the value of the objective function is directly related to the <em>slope</em> of the objective function.</p>
+            </div>
+        </div>
+        <p>Consider for example, what if the level curves of the objective function had a steeper slope? Then the optimal solution might be different, and so might the optimal value of the objective function as pictured below.</p>
+        <figure class="figure w-50 d-block mx-auto">
+            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/level-curves-b.svg" alt="A Basic Linear Program">
+            <figcaption class="figure-caption">Selected level curves for an objective function with a steeper slope constrained to the same feasible region</figcaption>
+        </figure>
+        <p>In short, our method for solving these LP problems will be to pick a random point on the interior of the feasible set, and move in the direction that maximizes the change in the objective function. In our 2-dimensional example above this means moving in the direction perpendicular to the level curves illustrated below.</p>
+        <figure class="figure w-50 d-block mx-auto">
+            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/level-curves-perpendicular.svg" alt="A Basic Linear Program">
+            <figcaption class="figure-caption text-right">Following the gradient</figcaption>
+        </figure>
+        <p>We can immediately see that we'll run into a problem however. If we naively run in the perpendicular direction, we won't always hit the point on the edge of the feasible set that maximizes our objective function. We're going to have to do something different.</p>
+        <p>True to form, linear algebra will come to our rescue.</p>
+        <h2>Standard Form</h2>
+        <p>First however, we must introduce the idea of LP problems in <b>standard form</b>. Problems in standard form look like</p>
+        <div class="card w-50 m-3 d-block mx-auto">
+            <div class="card-header">Linear Program</div>
+            <div class="card-body pb-0">
+                <p>Maximize:</p>
+                <p class="text-center">\[ z = \vec c^T \vec x\]</p>
+                <p>Subject to:</p>
+                <p class="mb-0">\[ A \vec x = \vec b\]</p>
+            </div>
+        </div>
+        <p>This is subtly different than the first form of the LP problem I introduced. This one requires that all of our constraints are that of equality. If not for an algebra trick, this would put a dampener on our plans of <del>world domination</del> solving LP problems efficiently.</p>
+        <p>We will solve our problems by introducing more variables to our problem. Our goal is to reduce problems of multiple forms into the single standard form of an LP. That way we can develop just a single strategy that will solve all of our problems.</p>
+        <p>Here's a list of different possibilities.</p>
+        <dl>
+            <dt>A \(\leq\) constraint.</dt>
+            <dd>
+                <ul>
+                    <li>Introduce a <b>slack variable</b> \(s_i\) that can take on any positive value in order to take up the slack required to turn a \(\leq\) constraint into an \(=\) constraint.</li>
+                    <li>Suppose we have the constraint <p class="text-center">\[4x_1 + 5x_2 \leq 42\]</p>
+                        <p>We introduce the slack variable \(s_1\) to turn the above constraint into</p>
+                        <p class="text-center">\[4x_1 + 5x_2 + s_1 = 42\]</p>
+                        <p>We also append \(s_1\) to the end of \(\vec x\) and append a \(0\) to the end of the cost vector \(\vec c\).</p>
+                    </li>
+                </ul>
+            </dd>
+            <dt>A \(\geq\) constraint.</dt>
+            <dd>
+                <ul>
+                    <li>Introduce an <b>excess variable</b> \(e_i\) that can take on any positive value in order to soak up the excess required to turn a \(\geq\) constraint into an \(=\) constraint.</li>
+                    <li>Suppose we have the constraint <p class="text-center">\[4x_1 + 5x_2 \geq 42\]</p>
+                        <p>We introduce the excess variable \(e_1\) to turn the above constraint into</p>
+                        <p class="text-center">\[4x_1 + 5x_2 - e_1 = 42\]</p>
+                        <p>Note the coefficient of \(-1\). We also append \(e_1\) to the end of \(\vec x\) and a \(0\) to the end of \(\vec c\).</p>
+                    </li>
+                </ul>
+            </dd>
+            <dt>A constraint with a negative right hand side.</dt>
+            <dd>
+                <ul>
+                    <li>Multiply both sides by \(-1\) and flip inequality to turn into one of the above cases.</li>
+                    <li>Suppose we have the constraint <p class="text-center">\[4x_1 + 5x_2 \leq -42\]</p>
+                        <p>We multiply by negative one</p>
+                        <p class="text-center">\[-4x_1 - 5x_2 \geq 42\]</p>
+                        <p>Then add an excess variable as dictated above</p>
+                        <p class="text-center">\[-4x_1 - 5x_2 - e_1 = 42\]</p>
+                    </li>
+                </ul>
+            </dd>
+            <dt>The problem states to <b>minimize</b> the objective function.</dt>
+            <dd>
+                <ul>
+                    <li>We maximize the negative of the objective function.</li>
+                    <li>Suppose we wish to minimize the function <p class="text-center">\[z = 2x_1 + 3x_2\]</p>
+                        <p>This is equivalent to maximizing the function</p>
+                        <p class="text-center">\[z' = -z = -2x_1 - 3x_2\]</p>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+        <p>The following cases are for constraints on decision variables. Normally we just have \(\vec x \geq 0\) elementwise. This is analogous to restricting the feasible set to the first quadrant in 2-dimensions, and its equivalent in \(n\)-dimensions.</p>
+        <dl>
+            <dt>One of the decision variables is constrained to be greater than or equal to some constant \(c\).</dt>
+            <dd>
+                <ul>
+                    <li>Suppose that, rather than all variables being greater than or equal to zero, we have some decision variable \(x_j\) with the constraint \(x_j \geq c\). Note that \(x_j - c \geq 0\). So we replace all instances of \(x_j - c\) with \(x_j'\).</li>
+                    <li>Consider the objective function \(z = 30x_1 - 4x_2\) with the constraint that \(x_2 \geq 10\). <p>We replace \(x_2\) by \(x_2' = x_2 - 10\), or rather \(x_2 = x_2' + 10\).</p>
+                        <p class="text-center">\[z = 30x_1 - 4(x_2' + 10)\]</p>
+                        <p>We now have the objective function</p>
+                        <p class="text-center">\[z = 30x_1 - 4x_2' + 40\]</p>
+                        <p>which is <em>not</em> in standard form due to the additive constant. We move the \(40\) over to the left hand side and rename the quantity \(z - 40\) to \(z'\).</p>
+                        <p class="text-center">\[z' = z - 40 = 30x_1 - 4x_2\]</p>
+                    </li>
+                    <li>We then proceed as normal, maximizing or minimizing \(z'\), from which we can easily recover the value of \(z\).</li>
+                </ul>
+            </dd>
+            <dt>One of the decision variables is <b>unrestricted in sign</b>, denoted <em>urs</em>.</dt>
+            <dd>
+                <ul>
+                    <li>Suppose that the decision variable \(x_j\) has <em>no sign restriction</em> -- it can take on <em>any</em> value.</li>
+                </ul>
+            </dd>
+        </dl>
+        <p>We define \(x_j = x_j' - x_j''\) where \(x_j', x_j'' \geq 0\) and replace all occurrences of \(x_j\) in our problem with \(x_j' - x_j''\) and simplify.</p>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p>Suppose we have the problem</p>
+                <div class="card w-50 m-3 d-block mx-auto">
+                    <div class="card-header">Linear Program</div>
+                    <div class="card-body pb-0">
+                        <p>Minimize:</p>
+                        <p class="text-center">\[ z = 2x_1 + 3x_2\]</p>
+                        <p>Subject to:</p>
+                        <p class="text-center mb-0">\[\begin{aligned}x_1 - x_2 &\geq -1\\x_1 + 3x_2 &\geq 20\\x_1 + x_2 &= 10\\x_1, x_2 &\geq 0\end{aligned}\]</p>
+                    </div>
+                </div>
+                <p>that we wish to reduce to standard form. First we note this is a minimization problem, so we negate the objective function to get</p>
+                <p class="text-center">\[-z = -2x_1 -3x_2\]</p>
+                <p>Then, taking one constraint at a time, we multiply the first by \(-1\) to get</p>
+                <p class="text-center">\[-1x_1 + x_2 \leq 1\]</p>
+                <p>to which we add a slack variable \(s_1\)</p>
+                <p class="text-center">\[-1x_1 + x_2 + s_1 = 1\]</p>
+                <p>Then we take the second constraint and add an excess variable \(e_1\) to get</p>
+                <p class="text-center">\[x_1 + 3x_2 - e_1 = 20\]</p>
+                <p>We get the last constraint for free, as it's already in standard form.</p>
+                <p>Putting this all together we get the LP in standard form</p>
+                <div class="card w-50 m-3 d-block mx-auto">
+                    <div class="card-header">Linear Program</div>
+                    <div class="card-body pb-0">
+                        <p>Maximize:</p>
+                        <p class="text-center">\[ -z = -2x_1 - 3x_2 + 0s_1 + 0e_1\]</p>
+                        <p>Subject to:</p>
+                        <p class="text-center mb-0">\[\begin{aligned}-x_1 + x_2 + s_1 + 0e_1&= 1\\x_1 + 3x_2 +0s_1 -e_1 &= 20\\x_1 + x_2 + 0s_1 + 0e_1 &= 10\\x_1, x_2 &\geq 0\end{aligned}\]</p>
+                    </div>
+                </div>
+                <p>which we can represent concisely with</p>
+                <div class="card w-50 m-3 d-block mx-auto">
+                    <div class="card-header">Linear Program</div>
+                    <div class="card-body pb-0">
+                        <p>Maximize:</p>
+                        <p class="text-center">\[ z = \vec c^T\vec x\]</p>
+                        <p>Subject to:</p>
+                        <p class="text-center mb-0">\[\begin{aligned}A\vec x &= \vec b\\\vec x &\geq 0\end{aligned}\]</p>
+                    </div>
+                </div>
+                <p>where \(\vec c = \begin{pmatrix}-2\\-3\\0\\0\end{pmatrix}\), \(\vec x = \begin{pmatrix}x_1\\x_2\\s_1\\e_1\end{pmatrix}\), \(A = \begin{pmatrix}-1 & 1 & 1 & 0\\1 & 3 & 0 & 1\\1 & 1 & 0 & 0\end{pmatrix}\), and \(\vec b = \begin{pmatrix}1\\20\\10\end{pmatrix}\).</p>
+            </div>
+        </div>
+        <h2>Karmarkar's Algorithm</h2>
+        <p>How do we describe the direction of greatest change in an \(n\)-dimensional setting. Recall the concept of the <b>gradient vector</b> \[ \vec \nabla f = \left\langle \frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \dots, \frac{\partial f}{\partial x_n} \right\rangle\] which is an \(n\)-dimensional vector of the partial derivatives of \(f\) that points in the direction of greatest change of the value of \(f\).</p>
+        <p>For the function \(f(\vec x) = \vec c^T \vec x\), the gradient vector \(\vec \nabla f = \vec c\).</p>
+        <p>A naive algorithm might therefore be: pick a point in the feasible set and travel in the direction of the gradient vector. However, it is possible (and even likely) that the gradient vector <em>does not live inside the feasible set</em>. Therefore, we work with the <b>projection</b> of \(\vec c\) onto the feasible set.</p>
+        <h3>Projections</h3>
+        <p>Suppose we have a vector \(\vec c = (3, 2, 4)\) that we wish to project onto the \(x_1, x_2\) plane, illustrated below.</p>
+        <figure class="figure w-50 d-block mx-auto">
+            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/projection.svg" alt="A Basic Linear Program">
+            <figcaption class="figure-caption text-right">The vector \(\vec c\) projected onto the \(x_1,x_2\) plane</figcaption>
+        </figure>
+        <p>This is equivalent to the linear algebra problem of projecting onto the solution set (null space) of the system \(A \vec x = \vec 0\). In this particular example, we wish to project from three dimensions onto two dimensions. This means we need the matrix \(A = \begin{pmatrix}0 & 0 & 1\end{pmatrix}\) so that in the above system \(x_3\) gets mapped to \(0\).</p>
+        <p>We ultimately wish to find a <b>projection matrix</b> \(P\) such that the projected vector \(\vec c_p = P \vec c\). We do this by the nightmarish formula \(P = I - A^T(A A^T)^{-1}A\).</p>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p>Consider the problem</p>
+                <div class="card w-50 m-3 d-block mx-auto">
+                    <div class="card-header">Linear Program</div>
+                    <div class="card-body pb-0">
+                        <p>Maximize:</p>
+                        <p class="text-center">\[ z = x_1 + 2x_2\]</p>
+                        <p>Subject to:</p>
+                        <p class="text-center mb-0">\[x_1 + x_2 \leq 8\]</p>
+                    </div>
+                </div>
+                <p>Converting to standard form we get the problem</p>
+                <div class="card w-50 m-3 d-block mx-auto">
+                    <div class="card-header">Linear Program</div>
+                    <div class="card-body pb-0">
+                        <p>Maximize:</p>
+                        <p class="text-center">\[ z = x_1 + 2x_2 + 0s_1\]</p>
+                        <p>Subject to:</p>
+                        <p class="text-center mb-0">\[x_1 + x_2 + s_1 = 8\]</p>
+                    </div>
+                </div>
+                <p>However, for geometric intuition's sake, I'm going to call \(s_1\), \(x_3\) instead:</p>
+                <div class="card w-50 m-3 d-block mx-auto">
+                    <div class="card-header">Linear Program</div>
+                    <div class="card-body pb-0">
+                        <p>Maximize:</p>
+                        <p class="text-center">\[ z = x_1 + 2x_2 + 0x_3\]</p>
+                        <p>Subject to:</p>
+                        <p class="text-center mb-0">\[x_1 + x_2 + x_3 = 8\]</p>
+                    </div>
+                </div>
+                <p>Or, rather</p>
+                <div class="card w-50 m-3 d-block mx-auto">
+                    <div class="card-header">Linear Program</div>
+                    <div class="card-body pb-0">
+                        <p>Maximize:</p>
+                        <p class="text-center">\[ z = \begin{pmatrix}1 & 2 & 0\end{pmatrix}\begin{pmatrix}x_1\\x_2\\x_3\end{pmatrix}\]</p>
+                        <p>Subject to:</p>
+                        <p class="text-center mb-0">\[\begin{pmatrix}1 & 1 & 1\end{pmatrix}\begin{pmatrix}x_1\\x_2\\x_3\end{pmatrix} = 8\]</p>
+                    </div>
+                </div>
+                <p>The feasible set and optimal solution are shown below.</p>
+                <figure class="figure w-50 d-block mx-auto">
+                    <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/plane.svg" alt="A Basic Linear Program">
+                    <figcaption class="figure-caption text-right">The feasible set for the given linear program</figcaption>
+                </figure>
+                <p>Now we calculate \(\vec \nabla z\), which, as a consequence of their linearity, for every problem will be \(\vec c\). Notice how \(\vec c\) is not within the feasible set.</p>
+                <figure class="figure w-50 d-block mx-auto">
+                    <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/plane-c.svg" alt="A Basic Linear Program">
+                    <figcaption class="figure-caption text-right">The objective function's gradient vector</figcaption>
+                </figure>
+                <p>This means we need to calculate the projection of \(\vec c\) onto the feasible set \(A\) in order to move a point \(\vec x_\text{old}\) to its new home \(\vec x_\text{new}\) shown below.</p>
+                <figure class="figure w-50 d-block mx-auto mb-0">
+                    <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/plane-cp.svg" alt="A Basic Linear Program">
+                    <figcaption class="figure-caption text-right">Stepping in the feasible region in the direction of the gradient</figcaption>
+                </figure>
+            </div>
+        </div>
+        <h3>The Algorithm</h3>
+        <p>This is an iterative algorithm. It will take in a starting point \(\vec x\) and output our next starting point \(\vec x_\text{new}\). After some unknown number of iterations, it will converge to the optimal solution. This algorithm will work for \(n\) dimensions, but for sake of notation I will only use 3. Note that all vectors are column vectors.</p>
+        <div class="card m-3">
+            <div class="card-header">Algorithm</div>
+            <div class="card-body">
+                <ol class="mb-0">
+                    <li>
+                        <p>Define a scaling matrix \(D = \begin{pmatrix}x_1 & 0 & 0\\0 & x_2 & 0\\0 & 0 & x_3\end{pmatrix}\) and its inverse \(D^{-1} = \begin{pmatrix}\frac{1}{x_1} & 0 & 0\\0 & \frac{1}{x_2} & 0\\0 & 0 & \frac{1}{x_3}\end{pmatrix}\).</p>
+                        <ul>
+                            <li>Use \(D^{-1}\) to scale \(\vec x\) to \(\begin{pmatrix}1\\1\\1\end{pmatrix}\). This calculation can effectively be ignored, just redefine \(\vec x = \mathbb 1\).</li>
+                            <li>Compute scaled versions of \(A\) and \(\vec c\), call them \(\tilde A\) and \(\tilde c\) by <p class="text-center">\[\begin{aligned}\tilde A &= AD\\ \tilde c &= D\vec c\end{aligned}\]</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>Compute the projection matrix \(P = I - \tilde A^T\left(\tilde A \tilde A^T\right)^{-1}\tilde A\).</p>
+                        <ul>
+                            <li>Compute \(\tilde c_p = P\tilde c\)</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>Compute \(\tilde x_\text{new} = \begin{pmatrix}1\\1\\1\end{pmatrix} + k \tilde c_p\) where \(k > 0\) is chosen to take us halfway between where we are and the edge of the feasible set.</p>
+                        <ul>
+                            <li>That is, let \(\displaystyle k = \frac{-\frac{1}{2}}{\min\left\{\tilde c_p\right\}}\)</li>
+                            <li>\(k\) should always be positive -- and \(\min\{\tilde c_p\}\) should always be negative, and could be read "most negative".</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>Convert \(\tilde x_\text{new}\) back into original (unscaled) coordinate system by \(\vec x_\text{new} = D \tilde x_\text{new}\)</p>
+                        <ul>
+                            <li>If \(\vec x_\text{new}\) has changed by less than some defined tolerance, we're done and \(\vec x_\text{new}\) is within some epsilon of the optimal solution.</li>
+                            <li>Otherwise, go back to step 1.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <p>Here is a graph of first few iterations of the example above.</p>
+        <figure class="figure w-50 d-block mx-auto">
+            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/karmarkar.svg" alt="A Basic Linear Program">
+            <figcaption class="figure-caption text-right">A few iterations of stepping in the direction of the gradient</figcaption>
+        </figure>
+        <p>Karmarkar's Algorithm is still not <em>the</em> standard LP solver algorithm, that title lies firmly in the hands of the <a href="https://en.wikipedia.org/wiki/Simplex_algorithm">Simplex Algorithm</a>. There are some edge cases that give us <em>very</em> poor performance with Karmarkar's Algorithm. However, for very large problems, it offers good performance most of the time. See <a href="https://en.wikipedia.org/wiki/Linear_programming#Algorithms">here</a> for a description of various LP solver algorithms.</p>
+        <h3>Python Implementation</h3>
+        <p>One of the benefits of Karmarkar's Algorithm, is that it is easy to implement. Here's a first crack at a Python implementation.</p>
+        <p>Note all vectors must be row vectors for the matrix multiplication dimensions to work out. This is different than the description above, but was necessary for simpler programming.</p>
+        <pre class="language-python pl-3"><code>import numpy as np
+
+class LPSolution(object):
+    def __init__(self):
+        self.iterations = None
+        self.tolerance = None
+        self.intermediates = []
+        self.solution = None
+        self.solution_string = None
+
+    def __str__(self):
+        self.solution_string = 'Solution: ' + str(self.solution)
+        self.solution_string += '\n\tTolerance: ' + str(self.tolerance)
+        self.solution_string += '\n\tIterations: ' + str(self.iterations)
+        return self.solution_string
+
+class LinearProgram(object):
+    """A class that implements Karmarkar's Algorithm for the solution of
+    Linear Programs in standard form."""
+    def __init__(self, A, b, c):
+        """Constructs an n-variable m-constraint Linear Program.
+
+        A -- An n x m numpy matrix of constraint coefficients
+        b -- A 1 x m numpy row vector of constraint RHS values
+        c -- A 1 x n numpy row vector of objective function coefficients
+        """
+        self.A = A
+        self.n, self.m = self.A.shape
+        self.b = b
+        self.c = c
+        self.solution = None
+
+    def karmarkar(self, start_point):
+        """Runs one iteration of Karmarkar's Algorithm.
+
+        start_point -- A 1 x n numpy row vector of decision variable values
+        """
+        D = np.diagflat(start_point)
+        c_tilde = np.matmul(self.c, D)
+        A_tilde = np.matmul(self.A, D)
+        A_tildeT = A_tilde.transpose()
+        AAT_inverse = np.linalg.inv(np.matmul(A_tilde, A_tildeT))
+        # matrix multiplication is associative
+        P = np.identity(self.m) - np.matmul(np.matmul(A_tildeT, AAT_inverse), A_tilde)
+        cp_tilde = np.matmul(c_tilde, P)
+        k = -0.5 / np.amin(cp_tilde)
+        x_tilde_new = np.ones((1, self.m), order='F') + k * cp_tilde
+        return np.matmul(x_tilde_new, D)
+
+    def solve(self, start_point, tolerance=1e-5, max_iterations=50, verbose=False):
+        """Uses Karmarkar's Algorithm to solve a Linear Program.
+
+        start_point     -- A starting point for Karmarkar's Algorithm. Must be a row vector.
+        tolerance       -- The stopping tolerance of Karmarkar's Algorithm.
+        max_iterations  -- The maximum number of iterations to run Karmarkar's Algorithm.
+        verbose         -- List all intermediate values.
+        """
+        x = start_point
+        solution = LPSolution()
+        for i in range(max_iterations):
+            x_new = self.karmarkar(x)
+            if verbose:
+                print(x_new)
+
+            dist = np.linalg.norm(x - x_new)
+            x = x_new
+            solution.intermediates.append(x)
+            if dist < tolerance:
+                break
+
+        solution.solution = x
+        solution.iterations = i
+        solution.tolerance = dist
+        self.solution = solution
+
+        return solution</code></pre>
+        <p>We use the solver as follows</p>
+        <pre class="language-python pl-3"><code>#!/usr/bin/python3
+import numpy as np
+from linear_program import LinearProgram, LPSolution
+
+def generate_tikz_plot(solution):
+    """Generates a 3D Tikz LaTeX coordinate strings for the intermediate solutions."""
+    for i, soln in enumerate(solution.intermediates):
+        coordinate = r'\coordinate (xnew{}) at '.format(i)
+        coordinate += r'({}, {}, {});'.format(*[coord for coord in soln.flat])
+        print(coordinate)
+
+    draw = r'\draw[red] (x) node[circle, fill, inner sep=1pt]{{}} '
+    for i in range(len(solution.intermediates)):
+        draw += r'-- (xnew{}) node[circle, fill, inner sep=1pt]{{}} '.format(i)
+    draw += r';'
+    print(draw)
+
+def main():
+    A = np.matrix([[1, 1, 1], ])
+    b = np.array([8, ])
+    c = np.array([1, 2, 0])
+
+    LP = LinearProgram(A, b, c)
+    LP.solve(start_point=np.array([1, 1, 6]))
+    print(LP.solution)
+
+if __name__ == '__main__':
+    main()</code></pre>
+        <p>Running the above script, we get the following output</p>
+        <pre class="language-python pl-3"><code>Solution: [[  2.97874012e-06   7.99999553e+00   1.48937006e-06]]
+    Tolerance: 5.57390111055e-06
+    Iterations: 21</code></pre>
+        <p>Which we can see in the following image.</p>
+        <figure class="figure w-50 d-block mx-auto">
+            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/karmarkar-full.svg" alt="A Basic Linear Program">
+            <figcaption class="figure-caption text-right">The figure generated by the above script</figcaption>
+        </figure>
+    </div>
+</body>
+<!-- TODO: Find the integrity hash for <em>this</em> version. -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+
+</html>
