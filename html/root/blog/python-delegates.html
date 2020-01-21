@@ -28,7 +28,7 @@
                     <a class="nav-item nav-link" href="/">Home</a>
                     <a class="nav-item nav-link" href="/blog">Blog</a>
                     <a class="nav-item nav-link" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="http://mc.agill.xyz">Minecraft</a>
+                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
                     <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
                 </div>
                 <div class="d-flex">
@@ -45,14 +45,14 @@
         <p>Before we begin however, I want to define something called a <em>functor</em>. For our purposes, a functor is any kind of callable object: a function, class method, or even a class with the <code>__call__()</code> magic method defined.</p>
         <p>Suppose you have a piece of software that looks like the following:</p>
         <figure class="figure w-50 d-block mx-auto">
-            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/delegates/software.svg" alt="Software layout.">
+            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/delegates/software.svg" alt="Software layout.">
             <figcaption class="figure-caption text-right">A series of software components</figcaption>
         </figure>
         <p>Delegates are what handle the flow of data from one component to the next. All we do with the implementation here is set up each individual component and then choose who is subscribed to what. Then all we do is pipe data in and watch it come out the other side.</p>
         <p>To be sure, delegates have other use cases, but this is what I was exposed to, and it was nifty enough that I wanted to take a crack at my own implementation. It was simple enough that, not including the substantial amount time I spent on a trivial misunderstanding, I only spent an hour on the implementation, plus another for some polish.</p>
         <p>Before I show you the implementation, I want to show you how it's used. Here's a simple example that calculates the squares of the first ten even numbers. Delegates are overkill for such a simple task, but I wanted something easy to understand. Here's a diagram of what exactly is happening:</p>
         <figure class="figure w-50 d-block mx-auto">
-            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/delegates/example-layout.svg" alt="Software layout.">
+            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/delegates/example-layout.svg" alt="Software layout.">
             <figcaption class="figure-caption text-right">A serial chain of simple mathematical operations</figcaption>
         </figure>
         <p>The end result is that of applying the function \(\displaystyle f(n) = \left(2(n + 1)\right)^2\).</p>

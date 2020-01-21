@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A short explanation of my mental model of 2D workspaces.">
+    <title>I Want my 2x2 Workspaces Back</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
+    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script> -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    <!-- <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css"> -->
+</head>
+
+<body class="d-flex flex-column">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">agill.xyz</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/blog">Blog</a>
+                    <a class="nav-item nav-link" href="/research">Research</a>
+                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                    <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
+                </div>
+                <div class="d-flex">
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container flex-grow-1">
+        <h1>I Want my 2x2 Workspaces Back<small class="text-muted"> &mdash; My constant opposition to change</small></h1>
+
+        <p>I installed Ubuntu 17.10 yesterday, which has abandoned Unity in favor of Gnome. So far it has been a smooth transition. However, one of the things I really liked about Unity over other desktop managers was the workspaces. It just clicked with my existing mental model of how to use software.</p>
+
+<p>I am a very visual person, and get lost very quickly if I cannot think about the physical layout of a piece of software, algorithm, or mathematical idea.</p>
+<p>You can install <a href="https://extensions.gnome.org/extension/1485/workspace-matrix/">Workspace Matrix</a> (<a href="https://extensions.gnome.org/extension/484/workspace-grid/">Workspace Grid</a> has the same fundamental features, but isn't under active development) if you'd like 2x2 workspaces back. You can use <a href="https://wiki.gnome.org/Apps/Tweaks">Gnome Tweaks</a> to configure several options.</p>
+
+<h2>My Mental Model</h2>
+
+<p>Here are some random musings on how I've found myself using workspaces. Note that my personal preferences are heavily skewed because I've used Unity the longest, and naturally find its solution to be the best.</p>
+
+<h3>One big layered workspace</h3>
+
+<p>Before using Linux, my mental model of my computer workspace was that of layered applications, where each application's depth was defined by when it was last used.</p>
+
+<figure class="figure w-25 d-block mx-auto">
+
+    <img class="figure-img w-100 img-fluid" src="https://static.agill.xyz/images/i-want-my-2-by-2-workspaces-back/layered-workspace.svg" alt="A layered workspace">
+    <figcaption class="figure-caption text-right"></figcaption>
+</figure>
+
+<p>Before using Unity, this was all I had known. If I had a large number of applications open, Alt-Tabbing between them became harder and harder as I struggled to form a visual picture in my mind of where things were.</p>
+
+<h3>Horizontal workspaces</h3>
+
+<p>I was very hesitant to try Gnome at first, so I spent some time test driving different window managers before the big release. One of the window managers I tried was Budgie, which offered four workspaces laid out horizontally</p>
+
+<figure class="figure w-100 d-block mx-auto">
+
+    <img class="figure-img w-100 img-fluid" src="https://static.agill.xyz/images/i-want-my-2-by-2-workspaces-back/horizontal-workspace.svg" alt="A horizontal workspace">
+    <figcaption class="figure-caption text-right"></figcaption>
+</figure>
+
+<p>However, I found myself replicating one giant layered workspace with high priority applications on the left and low priority applications on the right. Instead of Alt-Tabbing between applications, I find myself switching workspaces to get from one application (rated by some measure of importance) to the next. I'm going to call this an <em>antipattern</em> because of personal preference, but not because I have any objective reason to say one method of use is any better than another.</p>
+
+<p>I think (and I have no evidence to back me up) that this linear use pattern is because humans naturally devolve into ranking things by some metric when given some method of laying things out in a linear fashion.</p>
+
+<p>Another factor that contributed to this (that I didn't care enough to try to fix) was that if you pressed <code>ctrl+alt+T</code> to open a terminal in another workspace in Budgie, it would open another session <em>in whatever workspace an existing terminal session was open in</em>.</p>
+
+
+<figure class="figure w-100 d-block mx-auto">
+
+    <img class="figure-img w-100 img-fluid" src="https://static.agill.xyz/images/i-want-my-2-by-2-workspaces-back/horizontally-layered-workspace.svg" alt="A horizontally layered workspace">
+    <figcaption class="figure-caption text-right"></figcaption>
+</figure>
+
+<h3>Vertical workspaces</h3>
+
+<p>I've used Gnome before, and found its vertical workspaces interesting (I have other opinions too, but they're not relevant here), but still essentially the same idea as the horizontally layered workspace. Again, every time I've used the workspaces, I've found myself using each workspace for one application, and sorting them vertically by importance.</p>
+
+<figure class="figure w-25 d-block mx-auto">
+
+    <img class="figure-img w-100 img-fluid" src="https://static.agill.xyz/images/i-want-my-2-by-2-workspaces-back/vertical-workspace.svg" alt="A vertical workspace">
+    <figcaption class="figure-caption text-right"></figcaption>
+</figure>
+
+<p>Gnome is different however, in that the workspaces are dynamic. This means that closing the last application in a workspace between two others gets rid of the workspace.</p>
+
+
+<figure class="figure w-75 d-block mx-auto">
+
+    <img class="figure-img w-100 img-fluid" src="https://static.agill.xyz/images/i-want-my-2-by-2-workspaces-back/vertical-workspace-removal.svg" alt="The removal of a vertical workspace">
+    <figcaption class="figure-caption text-right"></figcaption>
+</figure>
+
+<p>I've found this frustrating and counterintuitive, especially when compared to the trusty 2x2 grid Unity provided. Now, don't get me wrong, there is a setting in <code>gnome-tweak-tool</code> to change from a dynamic number of workspaces to a static number. However, the dynamic nature of the vertical workspaces is not my primary complaint. My biggest complaint is that I confuse myself because I haven't trained my brain to think about the layout of my applications in a line.</p>
+
+<p>I've taught myself to think about switching to an application as a motion in 2-space, which inherently has a horizontal <em>and</em> a vertical dimension. If I do this, I can rely on my sense of geography to keep my overall confusion to a handleable level.</p>
+
+<h3>The 2x2 workspace</h3>
+
+<p>Oddly enough, I do not find myself using the 2x2 workspaces with this antipattern of one giant workspace with four layers. I think my applications not being laid out in a linear fashion may prevent this. Instead, I tend to use each workspace to group applications together by use.</p>
+
+<figure class="figure w-75 d-block mx-auto">
+
+    <img class="figure-img w-100 img-fluid" src="https://static.agill.xyz/images/i-want-my-2-by-2-workspaces-back/2x2-workspace.svg" alt="A 2x2 workspace">
+    <figcaption class="figure-caption text-right"></figcaption>
+</figure>
+
+<p>I often have multiple browser windows open, sometimes one window full of Stack Overflow posts alongside a text editor full of bugs. Other times (like now) I'll have a \(\LaTeX\) IDE open in one workspace, along with any relevant file browsers and terminal sessions, an editor and browser showing a live preview of this post in another, and in a third workspace I'll have several terminal sessions open.</p>
+
+<p>Over the years, I've trained my brain to think of the upper left workspace (and right monitor if I have more than one) as a text editor and documentation browser, while almost all forays into terminal land occur in the lower left workspace. If I'm working on some frustrating project that nearly everyone but me could do in their sleep and I happen to need a 2 hour Half Life 2 break (which in hindsight is probably why I find simple things so difficult), that happens in a dedicated right hand workspace. Any music players, long running terminal processes, or non project related browser windows get placed in the remaining right hand workspace.</p>
+
+<figure class="figure w-75 d-block mx-auto">
+
+    <img class="figure-img w-100 img-fluid" src="https://static.agill.xyz/images/i-want-my-2-by-2-workspaces-back/2x2-workspace-use.svg" alt="My use of a 2x2 workspace">
+    <figcaption class="figure-caption text-right"></figcaption>
+</figure>
+
+<h3>Final musings</h3>
+
+<p>I'm sure nearly all of the problems I've mentioned so far could be fixed by some obscure (to me) setting or plugin, and I'm even more sure they wouldn't be problems if I used a tiling window manager. Mostly because I'd have a whole new set of problems, but that's neither here nor there.</p>
+
+<p>I also want to be clear that these are baseless opinions that I've formed simply because I'm too stubborn to try new (possibly better, but probably much "worse") things.</p>
+
+<p>I think the takeaway, if there is one, is that I've trained my brain to associate different tasks with different locations, even if they're virtual. I'm sure I could do the same thing with a vertical or horizontal workspace layout if I had enough time. Instead however, writing ill-formed blog posts for people I've never met to disagree with is apparently a better solution.</p>
+
+<p>Finally, I'd be very interested to see a proper analysis of different workspaces and how they tend to be used. But unfortunately I'm simply not willing to do so myself.</p>
+    </div>
+</body>
+<!-- TODO: Find the integrity hash for <em>this</em> version. -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+
+</html>

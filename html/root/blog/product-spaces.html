@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="The difference between the box and product topologies in terms of their bases.">
+    <title>Product Spaces</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
+    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
+</head>
+
+<body class="d-flex flex-column">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">agill.xyz</a>
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/blog">Blog</a>
+                    <a class="nav-item nav-link" href="/research">Research</a>
+                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                    <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
+                </div>
+                <div class="d-flex">
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2 ml-auto" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container flex-grow-1">
+        <h1>Product Spaces</h1>
+        <p>There is some preliminary information we need to cover before a discussion of product spaces makes sense.</p>
+        <h2>Topological Spaces</h2>
+        <p>First, we must define a <em>topology</em> and a <em>topological space</em>.</p>
+        <div class="card m-3">
+            <div class="card-header">Defintion</div>
+            <div class="card-body">
+                <p>A <b>topology</b> defined on a set \(X\) is a collection \(\mathcal T\) of subsets of \(X\) that has the following properties:</p>
+                <ol>
+                    <li>\(\varnothing\) and \(X\) are contained in \(\mathcal T\)</li>
+                    <li>Any arbitrary union of the elements of a subcollection of \(\mathcal T\) is contained in \(\mathcal T\)</li>
+                    <li>Any finite intersection of the elements of a finite subcollection of \(\mathcal T\) is contained in \(\mathcal T\)</li>
+                </ol>
+                <p class="mb-0">Then we say that \(X\), along with a topology \(\mathcal T\) defined on \(X\) is called a <b>topological space</b>. Further, we say that if a subset \(U \subset X\) is an element of \(\mathcal T\), then \(U\) is an <b>open set</b> of \(X\).</p>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Example</div>
+            <div class="card-body">
+                <p>Let \(X = \{a, b, c\}\). Then there are many possible topologies that can be defined on \(X\). Two such topologies are the collections</p>
+                <p class="text-center">\[\mathcal T_1 = \big\{ \{\}, \{a, b\}, \{a, b, c\} \big\}\]</p>
+                <p class="text-center">\[\mathcal T_2 = \big\{ \{\}, \{a\}, \{b, c\}, \{a, b, c\} \big\}\]</p>
+                <p class="mb-0">The empty set and the whole space are clearly contained in both topologies. Now take any subcollection of either topologies, say \(T_1 \subset \mathcal T_1 = \big\{ \{\}, \{a, b\} \big\}\) or \(T_2 \subset \mathcal T_2 = \big\{ \{a\}, \{a, b, c\} \big\}\). Note that \(\bigcup T_1 = \{a, b\}\), which is contained in \(\mathcal T_1\), and \(\bigcap T_1 = \{\}\), which is also contained in \(\mathcal T_1\). Similarly, note that \(\bigcup T_2 = \{a, b, c\}\) is contained in \(\mathcal T_2\), and \(\bigcap T_2 = \{a\}\) is also contained in \(\mathcal T_2\).</p>
+            </div>
+        </div>
+        <h2>Bases for Topological Spaces</h2>
+        <p>Second, we must define what a <em>basis</em> for a topology is. Usually listing out every member of a topology \(\mathcal T\) can get a bit... tiresome. So we define something easier to get our hands on, and build a topology from there.</p>
+        <div class="card m-3">
+            <div class="card-header">Defintion</div>
+            <div class="card-body">
+                <p>If \(X\) is a set, a <b>basis</b> for a topology on \(X\) is a collection \(\mathcal B\) of subsets of \(X\) (called <b>basis elements</b>) such that</p>
+                <ol>
+                    <li>For each \(x \in X\) there is at least one basis element \(B\) containing \(x\)</li>
+                    <li>If \(x\) belongs to the intersection of two basis elements \(B_1\) and \(B_2\), then there exists a third basis element \(B_3\) such that \(x \in B_3\) and \(B_3 \subset B_1 \cap B_2\)</li>
+                </ol>
+                <figure class="figure w-50 d-block mx-auto mb-0">
+                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/product-spaces/basis.svg" alt="basis-element-intersection">
+                    <figcaption class="figure-caption text-right">The intersection of basis elements</figcaption>
+                </figure>
+            </div>
+        </div>
+        <div class="card m-3">
+            <div class="card-header">Defintion</div>
+            <div class="card-body">
+                <p class="mb-0">Then we define the <b>topology \(\mathcal T\) generated by \(\mathcal B\)</b> as follows: A subset \(U \subset X\) is said to be open in \(X\) (that is, an element of \(\mathcal T\)) if for every \(x \in U\), there exists of basis element \(B \in \mathcal B\) such that \(x \in B\) and \(B \subset U\).</p>
+            </div>
+        </div>
+        <p>If \(\mathcal B = \big\{ (a, b) \mid a < b \in \mathbb R \big\}\) is the collection of all open intervals in \(\mathbb R\), then the topology generated by \(\mathcal B\) is called the <b>standard</b> or <b>usual</b> topology on \(\mathbb R\).</p> <h2>Cartesian Products</h2>
+                <p>Third, we must discuss <em>cartesian products</em> in a more general sense than you might be familiar.</p>
+                <div class="card m-3">
+                    <div class="card-header">Defintion</div>
+                    <div class="card-body">
+                        <p class="mb-0">Let \(\mathcal A\) be a nonempty collection of sets. An <b>indexing function</b> for \(\mathcal A\) is a surjective function \(f:J \to \mathcal A\). The set \(J\) is called the <b>index set</b>. The collection \(\mathcal A\), along with the function \(f\), is called an <b>indexed family of sets</b>. For some \(\alpha \in J\), we typically denote \(f(\alpha)\) as \(A_\alpha\), and denote the whole family of sets by \(\big\{A_\alpha\big\}_{\alpha \in J}\).</p>
+                    </div>
+                </div>
+                <p>Note that no restrictions are given on the index set \(J\) or the collection \(\mathcal A\)! This means that both \(J\) and \(\mathcal A\) could be finite, countable, or even uncountable.</p>
+                <p>We will use this notation to redefine arbitrary unions, intersections, and products.</p>
+                <div class="card m-3">
+                    <div class="card-header">Defintion</div>
+                    <div class="card-body">
+                        <p>Given some indexed family of sets \(\big\{A_\alpha\big\}_{\alpha \in J}\), we define the arbitrary union of elements of \(\mathcal A\) as</p>
+                        <p class="text-center">\[\bigcup_{\alpha \in J} A_\alpha = \big\{x \mid x \in A_\alpha \text{ for at least one } \alpha \in J \big\}\]</p>
+                        <p>and the arbitrary intersection of elements of \(\mathcal A\) as</p>
+                        <p class="text-center">\[\bigcap_{\alpha \in J} A_\alpha = \big\{x \mid x \in A_\alpha \text{ for every } \alpha \in J \big\}\]</p>
+                    </div>
+                </div>
+                <p>We will define cartesian products of indexed families of sets in stages.</p>
+                <h3>Finite Products</h3>
+                <div class="card m-3">
+                    <div class="card-header">Defintion</div>
+                    <div class="card-body">
+                        <p>Let \(m \in \mathbb Z_+\). Given a set \(X\), we define an <b>\(m\)-tuple</b> of elements of \(X\) to be a function</p>
+                        <p class="text-center">\[\vec x : \{1, \dots, m\} \to X\]</p>
+                        <p>We typically denote \(\vec x(i)\) as \(x_i\), and often denote the entire function \(\vec x\) as</p>
+                        <p class="text-center">\[(x_1, \dots, x_m)\]</p>
+                    </div>
+                </div>
+                <div class="card m-3">
+                    <div class="card-header">Defintion</div>
+                    <div class="card-body">
+                        <p>Now let \(\big\{A_1, \dots, A_m\big\}\) be a <em>finite</em> family of sets indexed by the set \(\{1, \dots, m\}\), and let \(X = A_1 \cup \cdots \cup A_m\). We define the <em>finite</em> <b>cartesian product</b> of this family of sets, denoted by</p>
+                        <p class="text-center">\[\prod_{i = 1}^m A_i\]</p>
+                        <p>or equivalently</p>
+                        <p class="text-center">\[A_1 \times \cdots \times A_m\]</p>
+                        <p class="mb-0">as the collection of all \(m\)-tuples of elements of \(X\), such that \(x_i \in A_i\) for every \(i\).</p>
+                    </div>
+                </div>
+                <h3>Countable Products</h3>
+                <div class="card m-3">
+                    <div class="card-header">Defintion</div>
+                    <div class="card-body">
+                        <p>Given a set \(X\), we define an <b>\(\omega\)-tuple</b> of elements of \(X\) to be a function</p>
+                        <p class="text-center">\[\vec x : \mathbb Z_+ \to X\]</p>
+                        <p>We also call this function a <b>sequence</b> of elements of \(X\), and typically denote it by the symbols</p>
+                        <p class="text-center">\[(x_1, x_2, \dots )\]</p>
+                        <p>or</p>
+                        <p class="text-center">\[(x_n)_{n \in \mathbb Z_+}\]</p>
+                    </div>
+                </div>
+                <div class="card m-3">
+                    <div class="card-header">Defintion</div>
+                    <div class="card-body">
+                        <p>Let \(\big\{A_1, A_2, \dots\big\}\) be a family of sets indexed by \(\mathbb Z_+\), and let \(X = \bigcup_{i \in \mathbb Z_+} A_i\). Then the <em>countable</em> <b>cartesian product</b> of this family of sets, denote by</p>
+                        <p class="text-center">\[\prod_{i \in \mathbb Z_+} A_i\]</p>
+                        <p>or equivalently</p>
+                        <p class="text-center">\[A_1 \times A_2 \times \cdots\]</p>
+                        <p class="mb-0">is defined as the set of all \(\omega\)-tuples of elements of \(X\) such that \(x_i \in A_i\) for every \(i \in \mathbb Z_+\).</p>
+                    </div>
+                </div>
+                <p>If each \(A_i = X\), then the product \(\prod A_i\) is denoted by \(X^\omega\), which is the collection of <em>all</em> \(\omega\)-tuples of elements of \(X\).</p>
+                <h3>Arbitrary Products</h3>
+                <div class="card m-3">
+                    <div class="card-header">Defintion</div>
+                    <div class="card-body">
+                        <p>Let \(J\) be any index set. Given a set \(X\), we define a \(J\)-tuple of elements of \(X\) to be a function \(\vec x : J \to X\). If \(\alpha \in J\), we typically denote \(\vec x(\alpha)\) as \(x_\alpha\), and we often denote the function itself by</p>
+                        <p class="text-center">\[\big(x_\alpha\big)_{\alpha \in J}\]</p>
+                        <p class="mb-0">and we denote the set of all \(J\)-tuples of elements of \(X\) by \(X^J\).</p>
+                    </div>
+                </div>
+                <div class="card m-3">
+                    <div class="card-header">Defintion</div>
+                    <div class="card-body">
+                        <p>Now let \(\big\{A_\alpha\big\}_{\alpha \in J}\) be some indexed family of sets, and let \(X = \bigcup_{\alpha \in J} A_\alpha\). Then the <em>arbitrary</em> <b>cartesian product</b> of this indexed family of sets, denoted by</p>
+                        <p class="text-center">\[\prod_{\alpha \in J} A_\alpha\]</p>
+                        <p>is defined to be the collection of all \(J\)-tuples of elements of \(X\) such that \(x_\alpha \in A_\alpha\) for every \(\alpha \in J\). That is, it is the set of all functions</p>
+                        <p class="text-center">\[\vec x : J \to \bigcup_{\alpha \in J} A_\alpha\]</p>
+                        <p>such that \(x_\alpha \in A_\alpha\) for each \(\alpha \in J\).</p>
+                        <p class="mb-0">If \(J\) is understood, we often denote the product simply by \(\prod A_\alpha\) and an element of the product as \(\big(a_\alpha\big)\).</p>
+                    </div>
+                </div>
+                <h2>Product Spaces</h2>
+                <p>As with the cartesian product, we will build our understanding of the product space in pieces.</p>
+                <h3>The Product of Two Spaces</h3>
+                <div class="card m-3">
+                    <div class="card-header">Defintion</div>
+                    <div class="card-body">
+                        <p class="mb-0">Let \(X\) and \(Y\) be topological spaces. The <b>product topology</b> on \(X \times Y\) is the topology with basis \(\mathcal B = \big\{ U \times V \mid \text{$U$ open in $X$, and $V$ open in $Y$} \big\}\). We call \(X \times Y\) a <b>product space</b>.</p>
+                    </div>
+                </div>
+                <p>Now what if \(X\) and \(Y\) are given in terms of their bases? If \(\mathcal B\) is a basis for the topology of \(X\), and \(\mathcal C\) is a basis for the topology of \(Y\), then</p>
+                <p class="text-center">\[\mathcal D = \big\{ B \times C \mid B \in \mathcal B, C \in \mathcal C\big\}\]</p>
+                <p>is a basis for the topology of \(X \times Y\).</p>
+                <div class="card m-3">
+                    <div class="card-header">Defintion</div>
+                    <div class="card-body">
+                        <p>Define</p>
+                        <p class="text-center">\[\pi_1 : X \times Y \to X\]</p>
+                        <p>be defined by \(\pi_1(x, y) = x\) and</p>
+                        <p class="text-center">\[\pi_2 : X \times Y \to Y\]</p>
+                        <p>be defined by \(\pi_2(x, y) = y\).</p>
+                        <p class="mb-0">\(\pi_1\) and \(\pi_2\) are called <b>projections</b> of \(X \times Y\) onto the first and second factors respectively.</p>
+                    </div>
+                </div>
+                <p>But then if \(U\) is open in \(X\), then the set \(\pi_1^{-1}(U)\) is the set \(U \times Y\). Similarly, if \(V\) is open in \(Y\), then \(\pi_2^{-1}(V)\) is the set \(X \times V\).</p>
+                <p>Note that \(U \times V = \pi_1^{-1}(U) \cap \pi_2^{-1}(V)\).</p>
+                <div class="card m-3">
+                    <div class="card-header">Example</div>
+                    <div class="card-body">
+                        <p>Let us denote the space \(X\) and an open set \(U \subset X\) as</p>
+                        <figure class="figure w-50 d-block mx-auto">
+                            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/product-spaces/space-x.svg" alt="space-x">
+                            <figcaption class="figure-caption text-right">A set \(U\) open in \(X\)</figcaption>
+                        </figure>
+                        <p>Then given an open set \(V \subset Y\), we can draw \(X \times Y\), and \(U \times V\) as</p>
+                        <figure class="figure w-50 d-block mx-auto">
+                            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/product-spaces/x-times-y.svg" alt="x-times-y">
+                            <figcaption class="figure-caption text-right">The space \(X \times Y\)</figcaption>
+                        </figure>
+                        <p class="mb-0">However, we will soon see that this fails to generalize to higher dimensions, say for an uncountable product space.</p>
+                    </div>
+                </div>
+                <h3>The Product of Arbitrarily Many Spaces</h3>
+                <p>Recall that for the product of two spaces discussed above, we defined that basis of the product space \(X \times Y\) as the collection \(\big\{U \times V \big\}\) where each \(U\) and \(V\) are basis elements of the bases for \(X\) and \(Y\) respectively. However, this was a bold-faced lie. For reasons beyond the scope of this discussion, extending this definition to arbitrarily many topological spaces really <em>sucks</em>.</p>
+                <div class="card m-3">
+                    <div class="card-header">Defintion</div>
+                    <div class="card-body">
+                        <p>Let \(\displaystyle\big\{X_\alpha\big\}_{\alpha \in J}\) be an indexed family of topological spaces. We define a topology on the product space \(\displaystyle\prod_{\alpha \in J} X_\alpha\) using the basis</p>
+                        <p class="text-center">\[\left\{\prod_{\alpha \in J}U_\alpha \mid U_\alpha \text{ open in } X_\alpha\right\}\]</p>
+                        <p class="mb-0">This basis generates the <b>box topology</b> on \(\prod x_\alpha\).</p>
+                    </div>
+                </div>
+                <div class="card m-3">
+                    <div class="card-header">Defintion</div>
+                    <div class="card-body">
+                        <p>Let \(\displaystyle\big\{X_\alpha\big\}_{\alpha \in J}\) be an indexed family of topological spaces. We define a topology on the product space \(\displaystyle\prod_{\alpha \in J} X_\alpha\) using the basis</p>
+                        <p class="text-center">\[\left\{\prod_{\alpha \in J}U_\alpha\right\}\]</p>
+                        <p class="mb-0">where each \(U_\alpha = X_\alpha\) <em>except for finitely many values of \(\alpha\)</em>. This basis generates the <b>product topology</b> on \(\prod x_\alpha\).</p>
+                    </div>
+                </div>
+                <p>Note that the box and product topologies are identical when the family of topological spaces \(\big\{A_i\big\}_{i=1}^n\) is finite!</p>
+                <h3>Pictures that <em>do</em> Generalize</h3>
+                <p>As we remarked earlier, the visualization of a cartesian product below does not generalize to higher dimensions.</p>
+                <figure class="figure w-50 d-block mx-auto">
+                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/product-spaces/x-times-y.svg" alt="x-times-y">
+                    <figcaption class="figure-caption text-right">The space \(X \times Y\)</figcaption>
+                </figure>
+                <p>Let us now introduce a new visualization method. Let us begin by visualizing the ordered pairs \((x_1, y_1)\) and \((x_2, y_2)\) in \(X \times Y\). We lay the spaces \(X\) and \(Y\) vertically, and visualize points in their product as a sequence of dots joining the two spaces.</p>
+                <figure class="figure w-25 d-block mx-auto">
+                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/product-spaces/point.svg" alt="visualizing-a-point">
+                    <figcaption class="figure-caption text-right">Two points in the space \(X \times Y\)</figcaption>
+                </figure>
+                <p>Since \(X \times Y\) is a product of finitely many spaces, the box topology and the product topology are one and the same. So a basis element of one is a basis element of the other. In particular, if \(U\) and \(V\) are basis elements of \(X\) and \(Y\) respectively, then \(U \times V\) is a basis element in the product space. Well, what does \(U \times V\) look like?</p>
+                <p>Recall from the definition of the cartesian product, that \(U \times V\) is defined as the collection of all points of \(X \times Y\) such that the first coordinate is an element of \(U\) and the second an element of \(V\).</p>
+                <figure class="figure w-25 d-block mx-auto">
+                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/product-spaces/xy-basis.svg" alt="xy-basis">
+                    <figcaption class="figure-caption text-right">An open set in \(X \times Y\)</figcaption>
+                </figure>
+                <p>The point of laying each \(X_\alpha\) space vertically is intended to provide intuition for higher dimensional product spaces, even to the point of uncountably many dimensions. However it does have some limitations.</p>
+                <figure class="figure w-50 d-block mx-auto">
+                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/product-spaces/higher-dimensional-product-space.svg" alt="higher-dimensional-product-space">
+                    <figcaption class="figure-caption text-right">Many, many spaces \(X_i\)</figcaption>
+                </figure>
+                <p>For example, drawing distinct lines, and indexing them with the positive integers makes the assumption that the spaces \(\big\{X_\alpha\big\}\) are countable. It may make more sense to draw the product space as a plane, where each infinitely thin vertical slice is a particular \(X_\alpha\). However, this too has a shortcoming. It assumes that there is some order on \(\big\{X_\alpha\big\}\) -- that is, we can somehow claim that some \(X_\beta\) should be drawn before \(X_\gamma\).</p>
+                <p>However, with these (and possibly other) shortcomings, this kind of visualization does prove useful for building intuition regarding product spaces.</p>
+                <h3>How are the box and product topologies different?</h3>
+                <p>When we covered this material in class (over the span of several lectures), we had to take it on faith that the box and product topologies were different, until we covered this example. It demonstrates the difference quite well.</p>
+                <div class="card m-3 ">
+                    <div class="card-header">Example</div>
+                    <div class="card-body">
+                        <p>Let \(f : A \to \prod_{\alpha \in J} X_\alpha\) be given by</p>
+                        <p class="text-center">\[f(a) = \big(f_\alpha(a) \big)_{\alpha \in J}\]</p>
+                        <p>where \(f_\alpha : A \to X_\alpha\) for each \(\alpha \in J\). Suppose \(\prod X_\alpha\) has the product topology. Then the function \(f\) is continuous if and only if each function \(f_\alpha\) is continuous.</p>
+                        <p>This theorem only holds when \(\prod X_\alpha\) is given the product topology. It fails if \(\prod X_\alpha\) is given the box topology.</p>
+                        <h3>The Box Topology</h3>
+                        <p>To see why, consider \(\mathbb R^\omega\), the countably infinite product of \(\mathbb R\) with itself.</p>
+                        <p class="text-center">\[\mathbb R^\omega = \prod_{n \in \mathbb Z_+} \mathbb R\]</p>
+                        <p>Now for the sheer hell of it, define a function \(f : \mathbb R \to \mathbb R^\omega\) given by</p>
+                        <p class="text-center">\[f(t) = \big(f_0(t), f_1(t), f_2(t), \dots\big) = \big(t, t, t, \dots \big)\]</p>
+                        <figure class="figure w-50 d-block mx-auto">
+                            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/product-spaces/sequence.svg" alt="sequence">
+                            <figcaption class="figure-caption text-right">The topological equivalent of <code>itertools.tee</code></figcaption>
+                        </figure>
+                        <p>Note that each of the coordinate functions \(f_n : \mathbb R \to \mathbb R\) by \(f_n(t) = t\) are continuous. Therefore, if \(\mathbb R^\omega\) is given the product topology, \(f\) is continuous by the preceding theorem.</p>
+                        <p>However, what happens if we give \(\mathbb R^\omega\) to box topology?</p>
+                        <h3>The Product Topology</h3>
+                        <p>Consider \(B = \big(-1, 1\big) \times \left(-\frac{1}{2}, \frac{1}{2}\right) \times \left(-\frac{1}{3}, \frac{1}{3}\right) \times \cdots\).</p>
+                        <figure class="figure w-50 d-block mx-auto">
+                            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/product-spaces/basis-element.svg" alt="basis-element">
+                            <figcaption class="figure-caption text-right">The set \(B\) in \(\mathbb R^\omega\)</figcaption>
+                        </figure>
+                        <p>\(B\) is a basis element of the box topology, and is thus open. However, \(f^{-1}(B)\) is <em>not</em> open, so then \(f\) cannot be continuous.</p>
+                        <p>To see this, suppose by way of contradiction that \(f^{-1}(B)\) <em>was</em> open.</p>
+                        <p>Note that \(\big(0, 0, 0, \dots \big) \in B\), and thus \(0 \in f^{-1}(B)\). Now since \(f^{-1}(B)\) is open by assumption, for every point \(x\) in \(f^{-1}(B)\) there is some neighborhood \(U\) of \(x\) contained in \(f^{-1}(B)\). Thus there is some open interval \((-\delta, \delta)\) around \(0\) contained in \(f^{-1}(B)\).</p>
+                        <figure class="figure w-50 d-block mx-auto">
+                            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/product-spaces/sequence-interval.svg" alt="sequence-interval">
+                            <figcaption class="figure-caption text-right">We can't put a neighborhood around \(0\) in \(f^{-1}(B)\)</figcaption>
+                        </figure>
+                        <p>However, this implies that \(f\big((-\delta, \delta)\big) \subset B\), but this implies that \(f_n\big((-\delta, \delta)\big) = (-\delta, \delta) \subset \left(-\frac{1}{n}, \frac{1}{n}\right)\) for every \(n\), but this is absurd, stupid, and a contradiction.</p>
+                        <p class="mb-0">Therefore \(f^{-1}(B)\) cannot be open, and therefore \(f\) cannot be continuous.</p>
+                    </div>
+                </div>
+    </div>
+</body>
+<!-- TODO: Find the integrity hash for <em>this</em> version. -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+
+</html>

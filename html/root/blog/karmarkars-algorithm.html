@@ -28,7 +28,7 @@
                     <a class="nav-item nav-link" href="/">Home</a>
                     <a class="nav-item nav-link" href="/blog">Blog</a>
                     <a class="nav-item nav-link" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="http://mc.agill.xyz">Minecraft</a>
+                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
                     <a class="nav-item nav-link" href="https://git.agill.xyz">Git</a>
                 </div>
                 <div class="d-flex">
@@ -77,13 +77,13 @@
                 <p>We call the points \((x_1, x_2)\) that satisfy all of the given constraints <b>feasible points</b> and the set of all feasible points the <b>feasible set</b>.</p>
                 <p>The feasible set for this example problem is illustrated below. The constraint equations are shown, as is the region that satisfies all of the constraints. Note that these problems don't have to be 2-dimensional, and in fact, most are not. The challenge of solving these problems comes from their size.</p>
                 <figure class="figure w-50 d-block mx-auto">
-                    <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/basic.svg" alt="A Basic Linear Program">
+                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/karmarkars-algorithm/basic.svg" alt="A Basic Linear Program">
                     <figcaption class="figure-caption text-right">The linear constraints forming the feasible region of a basic linear program</figcaption>
                 </figure>
                 <p>Now that we can see what points are <em>possible</em>, we need to find the point in the feasible set that <em>maximizes</em> our objective function. Currently, everything we've graphed relate to the LP constraints, and not the objective function.</p>
                 <p>Recall the concept of <a href="https://en.wikipedia.org/wiki/Level_set">Level Curves</a> from Calculus III. Level curves are curves of fixed \(z\) values. The following is a graph of several level curves of \(z\) superimposed on the graph of the feasible set.</p>
                 <figure class="figure w-50 d-block mx-auto">
-                    <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/level-curves.svg" alt="A Basic Linear Program">
+                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/karmarkars-algorithm/level-curves.svg" alt="A Basic Linear Program">
                     <figcaption class="figure-caption text-right">Selected level curves for fixed \(z\) values</figcaption>
                 </figure>
                 <p class="mb-0">See how we can immediately pick out the point that maximizes the value of the objective function? Apparently the <b>optimal solution</b> - the point that maximizes the value of the objective function is directly related to the <em>slope</em> of the objective function.</p>
@@ -91,12 +91,12 @@
         </div>
         <p>Consider for example, what if the level curves of the objective function had a steeper slope? Then the optimal solution might be different, and so might the optimal value of the objective function as pictured below.</p>
         <figure class="figure w-50 d-block mx-auto">
-            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/level-curves-b.svg" alt="A Basic Linear Program">
+            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/karmarkars-algorithm/level-curves-b.svg" alt="A Basic Linear Program">
             <figcaption class="figure-caption">Selected level curves for an objective function with a steeper slope constrained to the same feasible region</figcaption>
         </figure>
         <p>In short, our method for solving these LP problems will be to pick a random point on the interior of the feasible set, and move in the direction that maximizes the change in the objective function. In our 2-dimensional example above this means moving in the direction perpendicular to the level curves illustrated below.</p>
         <figure class="figure w-50 d-block mx-auto">
-            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/level-curves-perpendicular.svg" alt="A Basic Linear Program">
+            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/karmarkars-algorithm/level-curves-perpendicular.svg" alt="A Basic Linear Program">
             <figcaption class="figure-caption text-right">Following the gradient</figcaption>
         </figure>
         <p>We can immediately see that we'll run into a problem however. If we naively run in the perpendicular direction, we won't always hit the point on the edge of the feasible set that maximizes our objective function. We're going to have to do something different.</p>
@@ -237,7 +237,7 @@
         <h3>Projections</h3>
         <p>Suppose we have a vector \(\vec c = (3, 2, 4)\) that we wish to project onto the \(x_1, x_2\) plane, illustrated below.</p>
         <figure class="figure w-50 d-block mx-auto">
-            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/projection.svg" alt="A Basic Linear Program">
+            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/karmarkars-algorithm/projection.svg" alt="A Basic Linear Program">
             <figcaption class="figure-caption text-right">The vector \(\vec c\) projected onto the \(x_1,x_2\) plane</figcaption>
         </figure>
         <p>This is equivalent to the linear algebra problem of projecting onto the solution set (null space) of the system \(A \vec x = \vec 0\). In this particular example, we wish to project from three dimensions onto two dimensions. This means we need the matrix \(A = \begin{pmatrix}0 & 0 & 1\end{pmatrix}\) so that in the above system \(x_3\) gets mapped to \(0\).</p>
@@ -287,17 +287,17 @@
                 </div>
                 <p>The feasible set and optimal solution are shown below.</p>
                 <figure class="figure w-50 d-block mx-auto">
-                    <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/plane.svg" alt="A Basic Linear Program">
+                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/karmarkars-algorithm/plane.svg" alt="A Basic Linear Program">
                     <figcaption class="figure-caption text-right">The feasible set for the given linear program</figcaption>
                 </figure>
                 <p>Now we calculate \(\vec \nabla z\), which, as a consequence of their linearity, for every problem will be \(\vec c\). Notice how \(\vec c\) is not within the feasible set.</p>
                 <figure class="figure w-50 d-block mx-auto">
-                    <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/plane-c.svg" alt="A Basic Linear Program">
+                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/karmarkars-algorithm/plane-c.svg" alt="A Basic Linear Program">
                     <figcaption class="figure-caption text-right">The objective function's gradient vector</figcaption>
                 </figure>
                 <p>This means we need to calculate the projection of \(\vec c\) onto the feasible set \(A\) in order to move a point \(\vec x_\text{old}\) to its new home \(\vec x_\text{new}\) shown below.</p>
                 <figure class="figure w-50 d-block mx-auto mb-0">
-                    <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/plane-cp.svg" alt="A Basic Linear Program">
+                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/karmarkars-algorithm/plane-cp.svg" alt="A Basic Linear Program">
                     <figcaption class="figure-caption text-right">Stepping in the feasible region in the direction of the gradient</figcaption>
                 </figure>
             </div>
@@ -341,7 +341,7 @@
         </div>
         <p>Here is a graph of first few iterations of the example above.</p>
         <figure class="figure w-50 d-block mx-auto">
-            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/karmarkar.svg" alt="A Basic Linear Program">
+            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/karmarkars-algorithm/karmarkar.svg" alt="A Basic Linear Program">
             <figcaption class="figure-caption text-right">A few iterations of stepping in the direction of the gradient</figcaption>
         </figure>
         <p>Karmarkar's Algorithm is still not <em>the</em> standard LP solver algorithm, that title lies firmly in the hands of the <a href="https://en.wikipedia.org/wiki/Simplex_algorithm">Simplex Algorithm</a>. There are some edge cases that give us <em>very</em> poor performance with Karmarkar's Algorithm. However, for very large problems, it offers good performance most of the time. See <a href="https://en.wikipedia.org/wiki/Linear_programming#Algorithms">here</a> for a description of various LP solver algorithms.</p>
@@ -459,7 +459,7 @@ if __name__ == '__main__':
     Iterations: 21</code></pre>
         <p>Which we can see in the following image.</p>
         <figure class="figure w-50 d-block mx-auto">
-            <img class="figure-img img-fluid w-100" src="http://static.agill.xyz/images/karmarkars-algorithm/karmarkar-full.svg" alt="A Basic Linear Program">
+            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/karmarkars-algorithm/karmarkar-full.svg" alt="A Basic Linear Program">
             <figcaption class="figure-caption text-right">The figure generated by the above script</figcaption>
         </figure>
     </div>
