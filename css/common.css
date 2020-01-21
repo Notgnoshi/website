@@ -23,3 +23,23 @@ code {
 .border-3 {
     border-width: 0.3vw !important;
 }
+
+.toggleable-content .menu-icon {
+    float: right;
+    display: none;
+}
+
+@media screen and (max-width: 992px)
+{
+    .toggleable-content .menu-icon {
+        display: block;
+        clear: both;
+    }
+    .toggleable-content .trigger {
+        display: none;
+    }
+    .toggleable-content:hover .trigger {
+        display: block;
+        clear: both;
+    }
+}
