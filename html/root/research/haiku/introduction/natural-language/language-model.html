@@ -14,9 +14,21 @@
     <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
     <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
-    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
+    <script language="javascript">
+        const katexOpts = {
+            macros: {
+                "\\norm": "\\left\\lVert#1\\right\\rVert",
+                "\\ceil": "\\left\\lceil#1\\right\\rceil",
+                "\\floor": "\\left\\lfloor#1\\right\\rfloor",
+                "\\countf": "\\operatorname{count}\\left(#1\\right)",
+                "\\entropy": "\\operatorname{H}",
+                "\\perplexity": "\\operatorname{PP}",
+                "\\model": "\\operatorname{LM}",
+                "\\softmax": "\\operatorname{softmax}",
+            },
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body, katexOpts);"></script>
 </head>
 
 <body class="d-flex flex-column">
@@ -48,7 +60,25 @@
                 <li class="breadcrumb-item active" area-current="page">How do we model natural language?</li>
             </ol>
         </nav>
-        <h1>1.b.i. How do we model natural language?<small class="text-muted"> &mdash; Subtitle</small></h1>
+        <h1>1.b.i. How do we model natural language?</h1>
+        <p>Natural language in its textual form may be represented as a sequence of tokens. The specific granularity of the tokens in these sequences varies from the coarsest word level, to individual characters, to different variations of subword morphemes, token metadata tags, and punctuation. A Language Model (LM) is a statistical model of natural language that generates a probability distribution for these sequences <cite><a href="goldberg_2017 pappas_meyer_2012"></a></cite>.</p>
+        <p>In particular, given a sequence of words \(w_{1:n}\), we wish to estimate the probability \(P(w_{1:n})\). In the general case, we can use the probability chain rule</p>
+        <p class="text-center">\[\displaystyle P(w_{1:n}) = P(w_n \mid w_{1:n - 1}) \cdot P(w_{n - 1} \mid w_{1:n - 2}) \cdots P(w_2 \mid w_1) \cdot P(w_1)\]</p>
+        <p>to confirm our intuition that a language model's understanding of a given word in a sequence relies on an understanding of the full context from the current word all the back to the first word in the sequence. That is, understanding future tokens in a sequence requires understanding not only the present, but also the entire past history of the sequence.</p>
+        <p>Of course, with any probabilistic model, we must have a method of scoring the model. In Shannon's seminal work on information theory he discussed modeling an information source inherent information using entropy <cite><a href="Shannon1948"></a></cite>. In the discrete case, <i>Shannon entropy</i> is defined as</p>
+        <p class="text-center">\[\displaystyle\entropy(p) = - \sum_{i=1}^n p(x_i) \log_b p(x_i) \]</p>
+        <p>where \(p(x_i)\) is the probability of state \(x_i\), and \(\sum_i p(x_i) = 1\). Entropy can be interpreted as the information content of the modeled information source.</p>
+        <p>Then the <i>cross entropy</i> of two distributions \(p\) and \(q\) can be defined in the discrete case as</p>
+        <p class="text-center">\[\displaystyle\entropy(p, q) = - \sum_{i=1}^n p(x_i) \log_b q(x_i) \]</p>
+        <p>Cross entropy can be thought of as a measure of the difference between two probability distributions <cite><a href="ManningSchuetze99"></a></cite>. Thus, cross entropy is often used as an objective function in optimization tasks, because we want to minimize the difference between the probability distribution of the training set (as an estimate of the <i>true</i> probability distribution of the whole), and the distribution of the statistical model's output.</p>
+        <p><i>Perplexity</i> is defined as</p>
+        <p class="text-center">\[\displaystyle\perplexity(p) = b^{- \sum_{i=1}^n p(x_i) \log_b p(x_i)} \]</p>
+        <p>which is precisely \(b^{\entropy(p)}\), or the exponentiation of Shannon entropy <cite><a href="ManningSchuetze99"></a></cite>! Due to its similarity, <cite><a href="ManningSchuetze99"></a></cite> supposes that perplexity is preferred over cross-entropy as a performance metric due to the more impressive nature of being able to claim large reductions in perplexity as opposed to a cross-entropy loss of a fraction of a bit.</p>
+        <p>However, when scoring a language model, we rarely (if ever) know the true probability distribution of the language a dataset it sampled from. So we modify the equation above to approximate the perplexity of a language model from the training set probability distribution \(\tilde p\), and the language model's output distribution</p>
+        <p class="text-center">\[\displaystyle\widetilde{\perplexity}(\tilde p, \model) = b^{- \sum_{i=1}^{n} \tilde{p}(w_i) \log_b \model(w_i)}\]</p>
+        <p>where our training dataset is formed of \(n\) words \(w_1, \dots, w_n\). But the word \(w_i\) is sampled uniformly from the dataset, so \(\tilde p(w_i) = \frac{1}{n}\), which results in the definition of perplexity that <cite><a href="goldberg_2017"></a></cite> gives.</p>
+        <p class="text-center">\[\displaystyle\perplexity(\model) = 2^{-\frac{1}{n}\sum_{i=1}^n \log_2 \model(w_i \mid w_{1:i-1})} \]</p>
+        <p>Notice that the worst possible language model would be a random choice of the next token in a sequence with a uniform distribution. Such a model would have each \(\model(w_i \mid w_{1:i-1}) = \frac{1}{n}\), which would result in a high perplexity score. A good language model &mdash; one that is reflective of "real" language &mdash; will assign high probabilities to observed events in the test corpus, which results in minimizing the perplexity score <cite><a href="goldberg_2017"></a></cite>. Notice, however, that perplexities are corpus specific &mdash; rendering it impossible to compare scores between two language models trained on different datasets.</p>
     </div>
 </body>
 <!-- TODO: Find the integrity hash for <em>this</em> version. -->
