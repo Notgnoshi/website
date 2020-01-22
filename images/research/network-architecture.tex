@@ -1,0 +1,39 @@
+\documentclass[
+    tikz,
+    convert={outext=.svg, command=\unexpanded{pdf2svg \infile\space\outfile}},
+    multi=false
+]{standalone}
+\usetikzlibrary{arrows, arrows.meta, automata, calc, fit, positioning, shapes}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=2.6cm,
+    >={Stealth[length=2mm]},
+    layer/.style={draw, minimum width=1cm},
+    input/.style={draw, dashed, minimum height=1cm, minimum width=0.8cm}
+    ]
+
+    \node[input] (x_0) {$x_0$};
+    \node[input, below=1mm of x_0, anchor=north] (x_1) {$x_1$};
+    \node[below=3mm of x_1, anchor=north] (ellipsis) {$\vdots$};
+    \node[input, below= 3mm of ellipsis, anchor=north] (x_n) {$x_{n_1}$};
+
+    \node[left=1cm of x_0] (x_0_label) {$x_0$};
+    \node[left=1cm of x_1] (x_1_label) {$x_1$};
+    \node[left=1cm of x_n] (x_n_label) {$x_{n_1}$};
+
+    \node[layer, fit={(x_0) (x_1) (ellipsis) (x_n)}, label=below:{$\vec x$}, label=above:{$n_1$}] (input) {};
+
+    \node[layer, label=below:{$\tanh$}, label=above:{$n_2$}, right of=input, minimum height=4cm] (hidden) {};
+    \node[layer, label=below:{softmax}, label=above:{$n_3$}, right of=hidden, minimum height=7cm] (softmax) {};
+    \node[right=1.2cm of softmax] (output) {$\vec y$};
+
+    \draw[->] (x_0_label) -- (x_0);
+    \draw[->] (x_1_label) -- (x_1);
+    \draw[->] (x_n_label) -- (x_n);
+
+    \draw[->] (input) -- node[midway, above]{$W_1$} (hidden);
+    \draw[->] (hidden) -- node[midway, above]{$W_2$} (softmax);
+    \draw[->] (softmax) -- (output);
+\end{tikzpicture}
+\end{document}
