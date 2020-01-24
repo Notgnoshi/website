@@ -15,7 +15,21 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    <script language="javascript">
+        const katexOpts = {
+            macros: {
+                "\\norm": "\\left\\lVert#1\\right\\rVert",
+                "\\ceil": "\\left\\lceil#1\\right\\rceil",
+                "\\floor": "\\left\\lfloor#1\\right\\rfloor",
+                "\\countf": "\\operatorname{count}\\left(#1\\right)",
+                "\\entropy": "\\operatorname{H}",
+                "\\perplexity": "\\operatorname{PP}",
+                "\\model": "\\operatorname{LM}",
+                "\\softmax": "\\operatorname{softmax}",
+            },
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body, katexOpts);"></script>
     <!-- Syntax highlighting -->
     <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
     <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
