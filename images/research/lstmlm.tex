@@ -1,0 +1,30 @@
+\documentclass[
+    tikz,
+    convert={outext=.svg, command=\unexpanded{pdf2svg \infile\space\outfile}},
+    multi=false
+]{standalone}
+\usetikzlibrary{arrows, arrows.meta, automata, calc, fit, positioning, shapes}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=2.6cm,
+    >={Stealth[length=2mm]},
+    layer/.style={draw, minimum width=1.5cm},
+    ]
+
+    \node[layer, minimum height=10cm, label=below:{input}] (input) {$\vec x$};
+    \node[layer, label=below:{dense}, right of=input, minimum height=5cm] (dense) {};
+    \node[layer, label=below:{LSTM}, right of=dense, minimum height=6cm] (lstm) {};
+    \node[layer, label=below:{softmax}, right of=lstm, minimum height=10cm] (softmax) {};
+    \node[right=1.2cm of softmax] (output) {$P(w_{k+1} \mid w_{1:k})$};
+
+    \draw[->] (input) -- (dense);
+    \draw[->] (dense) -- (lstm);
+    \draw[->] (lstm) -- (softmax);
+    \draw[->] (softmax) -- (output);
+
+    \draw[->] (lstm) to [in=95, out=85, looseness=6] node[midway, above] {\scriptsize context} (lstm);
+\end{tikzpicture}
+\end{document}

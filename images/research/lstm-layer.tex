@@ -1,0 +1,67 @@
+\documentclass[
+    tikz,
+    convert={outext=.svg, command=\unexpanded{pdf2svg \infile\space\outfile}},
+    multi=false
+]{standalone}
+\usetikzlibrary{arrows, arrows.meta, automata, calc, fit, positioning, shapes}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+\begin{tikzpicture}[>={Stealth[length=2mm]}]
+    \node[draw] (forget) {forget gate};
+    \node[draw, right=5mm of forget] (input) {input gate};
+    \node[draw, right=5mm of input] (features) {new features};
+    \node[draw, right=5mm of features] (output) {output gate};
+
+    \node[draw, circle, above=2.5cm of forget] (forget_mult) {$\times$};
+    \node[draw, circle, above=1cm of input]  (input_mult)  {$\times$};
+    \node[draw, circle, above=1cm of output] (output_mult) {$\times$};
+    \node[draw, ellipse, left=0.8cm of output_mult] (state_tanh) {$\tanh$};
+    \node[draw, circle] (input_add) at (forget_mult -| input_mult)  {$+$};
+
+    \node[below of=forget, inner sep=0, outer sep=0, xshift=4mm] (y_input_phantom) {};
+    \node[below=1.5cm of forget, inner sep=0, outer sep=0] (x_input_phantom) {};
+    \node[circle, fill, inner sep=1.5pt] (state_tanh_phantom) at (input_add -| state_tanh) {};
+
+    \node[left=2.2cm of forget_mult] (c_prev) {$c(t-1)$};
+    \node (y_prev) at (y_input_phantom -| c_prev) {$y(t-1)$};
+    \node[right=8.4cm of input_add] (c_next) {$c(t)$};
+
+    \node (y_next) at (y_prev -| c_next) {$y(t)$};
+    \node[above=3.5cm of output_mult, label=above:{\scriptsize to next layer}] (y) {$y(t)$};
+    \node[below=1.5cm of x_input_phantom, label=below:{\scriptsize from previous layer}] (x) {$x(t)$};
+
+    \draw[->, dashed] (c_prev) -- (forget_mult);
+    \draw[->] (forget_mult) -- (input_add);
+    \draw[->] (input_add) -- (c_next);
+
+    \draw[->] (forget) -- (forget_mult);
+    \draw[->] (input) -- (input_mult);
+    \draw[->] (input_mult) -- (input_add);
+    \draw[->] (state_tanh_phantom) -- (state_tanh);
+    \draw[->] (state_tanh) -- (output_mult);
+    \draw[->] (output) -- (output_mult);
+
+    \node[left=1cm of y_next, inner sep=0, outer sep=0] (output_bend_phantom) {};
+
+    \draw[->] (output_mult) -| (output_bend_phantom) -- (y_next);
+
+    \draw[->] (output_mult) -- (y);
+    \draw[->] (features) to [in=0, out=90] (input_mult);
+
+    \draw[->] (x) -- (x_input_phantom) node[circle, fill, inner sep=1.5pt] {} -| (output);
+    \draw[->] (x_input_phantom -| features) node[circle, fill, inner sep=1.5pt] {} -| (features);
+    \draw[->] (x_input_phantom -| input) node[circle, fill, inner sep=1.5pt] {} -| (input);
+    \draw[->] (x_input_phantom) node[circle, fill, inner sep=1.5pt] {} -- (forget);
+
+    \draw[->, dashed] (y_prev) -- (y_input_phantom) node[circle, fill, inner sep=1.5pt] {} -| (output.320);
+    \draw[->, dashed] (y_input_phantom -| input.320) node[circle, fill, inner sep=1.5pt] {} -| (input.320);
+    \draw[->, dashed] (y_input_phantom -| features.320) node[circle, fill, inner sep=1.5pt] {} -| (features.320);
+    \draw[->, dashed] (y_input_phantom -| forget.320) node[circle, fill, inner sep=1.5pt] {} -| (forget.320);
+
+    \node[draw, fit={(forget) (input) (features) (output) (forget_mult)
+            (input_mult) (output_mult) (y_input_phantom) (x_input_phantom)},
+    inner sep=1cm, label=below:{LSTM layer}] (layer) {};
+\end{tikzpicture}
+\end{document}
