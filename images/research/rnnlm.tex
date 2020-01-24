@@ -1,0 +1,32 @@
+\documentclass[
+    tikz,
+    convert={outext=.svg, command=\unexpanded{pdf2svg \infile\space\outfile}},
+    multi=false
+]{standalone}
+\usetikzlibrary{arrows, arrows.meta, automata, calc, fit, positioning, shapes}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=3cm,
+    >={Stealth[length=2mm]},
+    layer/.style={draw, minimum width=1.8cm},
+    ]
+    \node[draw, dashed, minimum width=1.8cm, minimum height=6cm] (input) {$x(t)$};
+    \node[draw, dashed, minimum width=1.8cm, minimum height=3cm, below=3mm of input] (prev_context) {$C(t-1)$};
+
+    \node[layer, fit={(input) (prev_context)}] (input_layer) {};
+    \node[layer, minimum height=3cm, right of=input_layer, label=below:{sigmoid}] (context) {$C(t)$};
+    \node[layer, minimum height=8cm, right of=context, label=below:{softmax}] (softmax) {$y(t)$};
+
+    \node[left=1.2cm of input] (input_label) {$w(t)$};
+    \node[right=1.2cm of softmax] (output_label) {$P(w(t+1) \mid w(t), C(t-1))$};
+
+    \draw[->] (input_label) -- (input);
+    \draw[->] (input_layer) -- (context);
+    \draw[->] (context) -- (softmax);
+    \draw[->] (context.east) to [out=350, in=0, looseness=1.6] (prev_context);
+    \draw[->] (softmax) -- (output_label);
+\end{tikzpicture}
+\end{document}
