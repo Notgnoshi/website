@@ -1,0 +1,43 @@
+\documentclass[
+    tikz,
+    convert={outext=.svg, command=\unexpanded{pdf2svg \infile\space\outfile}},
+    multi=false
+]{standalone}
+\usetikzlibrary{arrows, arrows.meta, automata, calc, fit, positioning, shapes}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=2.6cm,
+    >={Stealth[length=2mm]},
+    layer/.style={draw, minimum width=1.5cm},
+    word_vect/.style={draw, dashed, minimum height=2cm}
+    ]
+
+    \node[word_vect] (w1) {$C(w_1)$};
+    \node[word_vect, below=1mm of w1, anchor=north] (w2) {$C(w_2)$};
+
+    \node[below=3mm of w2, anchor=north] (ellipsis) {$\vdots$};
+
+    \node[word_vect, below= 3mm of ellipsis, anchor=north] (wk) {$C(w_k)$};
+
+    \node[left=1cm of w1] (w1_label) {$w_1$};
+    \node[left=1cm of w2] (w2_label) {$w_2$};
+    \node[left=1cm of wk] (wk_label) {$w_k$};
+
+    \node[layer, fit={(w1) (w2) (ellipsis) (wk)}, label=below:{$\vec x \in \mathbb R^{km}$}] (input) {};
+
+    \node[layer, label=below:{$\tanh$}, right of=input, minimum height=5cm] (hidden) {};
+    \node[layer, label=below:{softmax}, right of=hidden, minimum height=10cm] (softmax) {};
+    \node[right=1.2cm of softmax] (output) {$P(w_{k+1} \mid w_{1:k})$};
+
+    \draw[->] (w1_label) -- (w1);
+    \draw[->] (w2_label) -- (w2);
+    \draw[->] (wk_label) -- (wk);
+
+    \draw[->] (input) -- (hidden);
+    \draw[->] (hidden) -- (softmax);
+    \draw[->] (softmax) -- (output);
+\end{tikzpicture}
+\end{document}
