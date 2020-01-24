@@ -1,0 +1,33 @@
+\documentclass[
+    tikz,
+    convert={outext=.svg, command=\unexpanded{pdf2svg \infile\space\outfile}},
+    multi=false
+]{standalone}
+\usetikzlibrary{arrows, arrows.meta, automata, calc, fit, positioning, shapes}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=3cm,
+    >={Stealth[length=2mm]},
+    layer/.style={draw, minimum width=1.8cm},
+    ]
+    \node[draw, dashed, minimum width=1.8cm, minimum height=4cm] (x) {$x(t)$};
+    \node[draw, dashed, minimum width=1.8cm, minimum height=2cm, below=3mm of x] (context) {$y(t-1)$};
+    \node[draw, fit={(x) (context)}] (input) {};
+
+    \node[left of=x] (x_label) {$x(t)$};
+
+    \node[draw, label=below:{activation}, right of=input] (activation) {$f$};
+    \node[right=5mm of activation] (phantom) {};
+    \node[draw, label=below:{RNN layer}, fit={(input) (activation) (phantom)}, inner sep=5mm] (layer) {};
+
+    \node[right=1cm of layer] (output) {$y(t)$};
+
+    \draw[->] (x_label) -- (x);
+    \draw[->] (input) -- node[midway, above] {$W$} (activation);
+    \draw[->] (activation) -- (output);
+    \draw[->] (activation.east) to [in=0, out=350, looseness=2.2] (context.east);
+\end{tikzpicture}
+\end{document}
