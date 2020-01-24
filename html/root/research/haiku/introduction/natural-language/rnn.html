@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="TODO: Description">
+    <meta name="description" content="The use of recurrent (which abandons the markov assumption) networks in language mdoeling.">
     <title>1.b.iv. Recurrent Neural Network Models</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
@@ -15,8 +15,6 @@
     <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
-    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
 </head>
 
 <body class="d-flex flex-column">
@@ -48,7 +46,7 @@
                 <li class="breadcrumb-item active" area-current="page">Recurrent Neural Network Models</li>
             </ol>
         </nav>
-        <h1>1.b.iv. Recurrent Neural Network Models<small class="text-muted"> &mdash; Subtitle</small></h1>
+        <h1>1.b.iv. Recurrent Neural Network Models</h1>
         <p>For several years, Bengio's feed-forward language model shown in <a href="/research/haiku/introduction/natural-language/ffnn">Feed Forward Language Models</a> was the state-of-the-art neural network language model. Then in 2010, Tomas Mikolov <cite><a href="Mikolov2010RecurrentNN"></a></cite><cite><a href="Mikolov2011RecurrentNN"></a></cite><cite><a href="Mikolov2012ContextDR"></a></cite>proposed a recurrent neural network (RNN) architecture that made major advancements in model performance.</p>
         <p>The use of a recurrent network over the standard feed-forward models has several advantages <cite><a href="goldberg_2017"></a></cite>. Importantly, they allow representing arbitrary-length sequences as fixed-size vectors. This is of particular importance in modeling natural language, where the lengths of sentences are quite varied. RNNs also abandon the \(k\)-th order Markov assumption that Bengio's FFNN language model follows. The use of recurrent networks allows the output probabilities of a neural network language model to be conditioned on the <i>entire</i> preceding context, instead of a fixed \(k\) number of preceding tokens.</p>
         <p>Recurrent architectures are able to do by by inputting <i>a single word at a time</i> to the network, rather than a collection of \(k\)-words as in <a href="/research/haiku/introduction/natural-language/ffnn">Feed Forward Language Models</a>. Doing so allows recurrent networks to consider the past context of any words previously input to the network by storing internal context vectors, and then using the last word's context as an input to the network, in addition to the next word.</p>

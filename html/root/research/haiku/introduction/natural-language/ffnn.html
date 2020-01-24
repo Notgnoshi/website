@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="TODO: Description">
+    <meta name="description" content="The use of regular vanilla neural networks in language modeling">
     <title>1.b.iii. Feed-Forward Neural Network Models</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
@@ -15,8 +15,6 @@
     <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
-    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
 </head>
 
 <body class="d-flex flex-column">
@@ -52,7 +50,7 @@
         <p>Using feed-forward neural networks were first seriously applied to modeling natural language by Yoshua Bengio in 2003 <cite><a href="bengio2003"></a></cite>. Bengio used a feed-forward network, where each word in the vocabulary is mapped to a \(m\)-dimensional vector in a continuous vector space.</p>
         <div class="alert alert-info">The paper <cite><a href="bengio2003"></a></cite> is light on the details of the mapping \(C : V \to \mathbb R^m\). <cite><a href="pappas_meyer_2012"></a></cite> fills in some of the details, but still doesn't explicitly explain how \(C\) is constructed. It seems to indicate that \(C\) is <i>learned</i> at the same time as the rest of the network? So does that means that the actual inputs are the word indices?</div>
         <p>Then each word in the sequence \(w_{i-k:i}\) is mapped to their corresponding vectors, which are then concatenated to form the \(k \cdot m\)-dimensional input vector for the neural network.</p>
-        <figure class="figure w-50 d-block mx-auto">
+        <figure class="figure w-75 d-block mx-auto">
             <img src="https://static.agill.xyz/images/research/ffnnlm.svg" class="figure-img img-fluid w-100" alt="Bengio's feed-forward language model">
             <figcaption class="figure-caption text-right">Bengio's feed-forward language model</figcaption>
         </figure>
