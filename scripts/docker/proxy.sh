@@ -14,5 +14,6 @@ docker run \
     --volume /etc/nginx/vhost.d \
     --volume /usr/share/nginx/html \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
+    --env DEFAULT_HOST=agill.xyz \
     --restart unless-stopped \
     jwilder/nginx-proxy
