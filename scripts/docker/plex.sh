@@ -6,6 +6,7 @@ docker run \
     --name plex \
     --publish 32400:32400 \
     --expose 32400 \
+    --gpus all \
     --env TZ="MDT" \
     --env PLEX_UID=1000 \
     --env PLEX_GID=1000 \
