@@ -8,8 +8,8 @@ docker run \
     --expose 32400 \
     --gpus all \
     --env TZ="MDT" \
-    --env PLEX_UID=1000 \
-    --env PLEX_GID=1000 \
+    --env PLEX_UID=$(id -u) \
+    --env PLEX_GID=$(id -g) \
     --env VIRTUAL_HOST=plex.agill.xyz,plex.localhost \
     --env VIRTUAL_PORT=32400 \
     --env LETSENCRYPT_HOST=plex.agill.xyz \
@@ -18,5 +18,3 @@ docker run \
     --mount "type=bind,source=/srv/plex/transcode,target=/transcode" \
     --mount "type=bind,source=/srv/plex/data,target=/data" \
     plexinc/pms-docker:plexpass
-
-# TODO: Set PLEX_UID and PLEX_GID intelligently.
