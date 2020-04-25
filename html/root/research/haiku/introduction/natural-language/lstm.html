@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="The use of LSTM networks in language modeling.">
-    <title>1.b.v. LSTM Models</title>
+    <title>1.d.v. LSTM Models</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
     <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
@@ -55,12 +55,12 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/research/haiku">Home</a></li>
-                <li class="breadcrumb-item"><a href="/research/haiku/introduction">Introduction</a></li>
-                <li class="breadcrumb-item"><a href="/research/haiku/introduction/natural-language">Natural Language</a></li>
+                <li class="breadcrumb-item">Introduction</li>
+                <li class="breadcrumb-item">Natural Language</li>
                 <li class="breadcrumb-item active" area-current="page">LSTM Models</li>
             </ol>
         </nav>
-        <h1>1.b.v. LSTM Models</h1>
+        <h1>1.d.v. LSTM Models</h1>
         <p>In light of the vanishing gradients of RNN models, the use of a Long Short Term Memory (LSTM) network architecture has been found to be effective <cite><a href="lstm"></a></cite>. LSTM models are a class of recurrent networks. The figure below shows the basic structure of one layer in a recurrent neural network. Notice that the architecture is now temporal &mdash; each input and output is labeled with a timestep &mdash; and that the key difference from the basic layers of a <a href="/research/haiku/introduction/natural-language/ffnn">feed forward network</a> is that the recurrent layer also considers \(y(t-1)\) in addition to the input values \(x(t)\) when producing \(y(t)\).</p>
         <figure class="figure w-50 d-block mx-auto">
             <img src="https://static.agill.xyz/images/research/rnn-layer.svg" class="figure-img img-fluid w-100" alt="The basic RNN layer">
