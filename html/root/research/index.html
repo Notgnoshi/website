@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Research projects I've worked on in numerical linear algebra and machine learning.">
     <title>Research</title>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
     <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
 </head>
@@ -35,44 +33,33 @@
     </header>
     <div class="container flex-grow-1">
         <h1>Research Projects</h1>
-
         <div class="card m-2">
-            <div class="card-header">Generating haiku with machine learning</div>
+            <div class="card-header">Haiku Generation with Causal Language Modeling</div>
             <div class="card-body">
-                <div class="card-title text-muted">M.S. Project</div>
-                <div class="alert alert-warning">TODO: Add description and links to exploratory analysis, results,
-                    deliverable, and writeup.</div>
+                <div class="card-title text-muted">M.S. Project &mdash; 2018-2020</div>
+                <p>We examine the theoretical foundations of causal language modeling, where natural language is modeled in terms of the probability distribution of a token in a sequence. This probability distribution is dependent on the values of all of the preceding tokens in the sequence.</p>
+                <p>Due to time constraints and real-life factors, the final deliverable was changed from a traditional thesis to a project. The project was to be an implementation of an algorithm to generate haiku. This algorithm need not be original.</p>
+                <p>We tried a number of generative language models, from using Markov chains and naive LSTM networks, to using <a href="https://github.com/minimaxir/textgenrnn">textgenrnn</a> by Max Woolf, and finally by fine-tuning a pretrained GPT-2 model on haiku scraped from online haiku submission and award websites.</p>
+                <p>As expected, the results from using a fine-tuned GPT-2 model were by far the best. Some generated haiku were eerily cogent, and many (though not all) generated haiku display many traits of haiku.</p>
                 <div class="btn-group" role="group">
                     <a class="btn btn-secondary" href="https://github.com/Notgnoshi/research">Code</a>
-                    <a class="btn btn-secondary" href="/research/haiku">More</a>
+                    <a class="btn btn-secondary" href="/research/haiku">Writeup</a>
+                    <a class="btn btn-secondary" href="/generate" target="_blank">Try It!</a>
                 </div>
             </div>
         </div>
-
         <div class="card m-2">
-            <div class="card-header">Understanding <em>A Fast Contour-Integral Eigensolver for Non-Hermitian
-                    Matrices</em></div>
+            <div class="card-header">Understanding <em>A Fast Contour-Integral Eigensolver for Non-Hermitian Matrices</em></div>
             <div class="card-body">
-                <div class="card-title text-muted">2017-2018</div>
-                <blockquote class="blockquote mb-0 border-left border-2 pl-2 font-italic">
-                    <p>We examine a new complex contour integral-based eigensolver algorithm using ideas from functional
-                        analysis. This eigensolver algorithm extends previous eigensolvers that typically required some
-                        special structure, to an eigensolver that works on a more general class of complex-valued
-                        matrices.</p>
-                    <p>The algorithm consists of two stages. First, it searches the complex plane for regions dense with
-                        eigenvalues. Second, it combs through those regions to find the eigenvalues using a modified
-                        form of the FEAST algorithm.</p>
-                    <p>Due to time constraints we were only able to examine the first stage in detail, and for
-                        completeness provide a description for the second stage. Our work was exploratory in nature,
-                        which in practice consisted of building and testing a Matlab implementation of the first stage.
-                    </p>
-                </blockquote>
+                <div class="card-title text-muted">B.S. Project &mdash; 2017-2018</div>
+                <p>We examine a new complex contour integral-based eigensolver algorithm using ideas from functional analysis. This eigensolver algorithm extends previous eigensolvers that typically required some special structure, to an eigensolver that works on a more general class of complex-valued matrices.</p>
+                <p>The algorithm consists of two stages. First, it searches the complex plane for regions dense with eigenvalues. Second, it combs through those regions to find the eigenvalues using a modified form of the FEAST algorithm.</p>
+                <p>Due to time constraints we were only able to examine the first stage in detail, and for completeness provide a description for the second stage. Our work was exploratory in nature, which in practice consisted of building and testing a Matlab implementation of the first stage. </p>
                 <div class="alert alert-warning">TODO: Host the papers.</div>
                 <div class="btn-group" role="group">
                     <a class="btn btn-secondary" href="https://git.agill.xyz/Notgnoshi/math_research">Code</a>
                     <a class="btn btn-secondary" href="https://static.agill.xyz/assets/sources.bib">Sources</a>
-                    <a class="btn btn-secondary"
-                        href="https://static.agill.xyz/pdf/undergrad-presentation.pdf">Presentation</a>
+                    <a class="btn btn-secondary" href="https://static.agill.xyz/pdf/undergrad-presentation.pdf">Presentation</a>
                     <a class="btn btn-secondary" href="https://static.agill.xyz/pdf/undergrad-paper.pdf">Paper</a>
                 </div>
             </div>
