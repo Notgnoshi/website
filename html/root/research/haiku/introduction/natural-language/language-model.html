@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="How do we produce a statistical model of natural language?">
-    <title>1.b.i. How do we model natural Language?</title>
+    <title>1.d.i. How do we model natural Language?</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
     <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
@@ -55,12 +55,12 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/research/haiku">Home</a></li>
-                <li class="breadcrumb-item"><a href="/research/haiku/introduction">Introduction</a></li>
-                <li class="breadcrumb-item"><a href="/research/haiku/introduction/natural-language">Natural Language</a></li>
+                <li class="breadcrumb-item">Introduction</li>
+                <li class="breadcrumb-item">Natural Language</li>
                 <li class="breadcrumb-item active" area-current="page">How do we model natural language?</li>
             </ol>
         </nav>
-        <h1>1.b.i. How do we model natural language?</h1>
+        <h1>1.d.i. How do we model natural language?</h1>
         <p>Natural language in its textual form may be represented as a sequence of tokens. The specific granularity of the tokens in these sequences varies from the coarsest word level, to individual characters, to different variations of subword morphemes, token metadata tags, and punctuation. A Language Model (LM) is a statistical model of natural language that generates a probability distribution for these sequences <cite><a href="goldberg_2017"></a></cite><cite><a href="pappas_meyer_2012"></a></cite>.</p>
         <p>In particular, given a sequence of words \(w_{1:n}\), we wish to estimate the probability \(P(w_{1:n})\). In the general case, we can use the probability chain rule</p>
         <p class="text-center">\[\displaystyle P(w_{1:n}) = P(w_n \mid w_{1:n - 1}) \cdot P(w_{n - 1} \mid w_{1:n - 2}) \cdots P(w_2 \mid w_1) \cdot P(w_1)\]</p>
