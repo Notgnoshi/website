@@ -70,6 +70,7 @@
         <p class="text-center">\[\operatorname{sample}(\vec y, T) = \frac{\exp\left(\log(\vec y) \middle/ T\right)}{\sum\exp\left(\log(\vec y) \middle/ T\right)}\]</p>
         <p>after \(\softmax\) has been applied to the logits \(\vec x\). Note that \[\operatorname{sample}(\softmax(\vec x), T)\] and \[\softmax(\vec x, T)\] are equivalent.</p>
         <p>Lower temperature values produce a more extreme distribution profile, while higher temperatures smooth out the probability distribution. This means that text generated with a lower temperature is more confident in its choices, but that it is also more conservative than text generated with a high temperature. Likewise, text generated with a high temperature is more diverse because any peaks in the probability distribution get smoothed out. However, the added creativity and diversity that using a higher temperature provides comes at the risk of generating nonsense.</p>
+        <p>See <a href="/research/haiku/analysis/temperature-sampling-softmax-layers">Temperature Sampling</a> for an empirical treatment of temperature sampling, with plots showing the effect of temperature.</p>
     </div>
 </body>
 <!-- TODO: Find the integrity hash for <em>this</em> version. -->
