@@ -14,7 +14,21 @@
     <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
     <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    <script language="javascript">
+        const katexOpts = {
+            macros: {
+                "\\norm": "\\left\\lVert#1\\right\\rVert",
+                "\\ceil": "\\left\\lceil#1\\right\\rceil",
+                "\\floor": "\\left\\lfloor#1\\right\\rfloor",
+                "\\countf": "\\operatorname{count}\\left(#1\\right)",
+                "\\entropy": "\\operatorname{H}",
+                "\\perplexity": "\\operatorname{PP}",
+                "\\model": "\\operatorname{LM}",
+                "\\softmax": "\\operatorname{softmax}",
+            },
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body, katexOpts);"></script>
     <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
     <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
 </head>
@@ -48,6 +62,64 @@
             </ol>
         </nav>
         <h1>3.a. Temperature Sampling Softmax Layers</h1>
+        <p>Recall from <a href="/research/haiku/introduction/text-generation">Text Generation</a>, that a softmax layer is defined as</p>
+        <p class="text-center">\[\softmax(\vec x) = \frac{\exp\left(\vec x\right)}{\sum\exp\left(\vec x\right)}\]</p>
+        <p>Also recall that you can sample from a softmax layer by using \(\softmax(\vec x, T)\) defined as</p>
+        <p class="text-center">\[\softmax(\vec x, T) = \frac{\exp\left(\vec x \middle/ T \right)}{\sum\exp\left(\vec x \middle/ T\right)}\]</p>
+        <p>However, as written, this is a part of the network architecture, something that's baked into the neural network during training time. Every single implementation I've seen of temperature sampling performs the sampling on the regular softmax values output by the network <em>after</em> training is completed. These implementations are of the form</p>
+        <p class="text-center">\[\operatorname{sample}(\vec y, T) = \frac{\exp\left(\log(\vec y) \middle/ T\right)}{\sum\exp\left(\log(\vec y) \middle/ T\right)}\]</p>
+        <p><a href="/research/haiku/introduction/text-generation">Text Generation</a> claims that \(\operatorname{sample}(\softmax(\vec x), T)\) and \(\softmax(\vec x, T)\) are equivalent. You can do the math to verify this, but it's not very fun. This is an empirical verification of the ugly mathematics that I wrote down in a notebook I can no longer find. Lesson learned.</p>
+        <p>The first thing we do is define \(\softmax\) and \(\operatorname{sample}\) as regular Python functions that operate on NumPy arrays.</p>
+        <pre class="language-python pl-3"><code>import numpy as np
+import matplotlib.pyplot as plt
+import scipy as sp
+import seaborn as sns
+sns.set(style="whitegrid")
+
+def softmax(values, temperature=1.0):
+    preds = np.exp(values / temperature)
+    return preds / np.sum(preds)
+
+def sample(values, temperature=1.0):
+    preds = np.exp(np.log(values) / temperature)
+    return preds / np.sum(preds)</code></pre>
+        <p>Then we define any old probability distribution, and add gaussian noise so that the results of \(\operatorname{sample}(\softmax(\vec x), T)\) and \(\softmax(\vec x, T)\) are indistinguishable. I chose to use the Argus distribution just to have something other than a regular normal distribution to look at.</p>
+        <pre class="language-python pl-3"><code>x = np.linspace(start=0, stop=1, num=500)
+likelihoods = sp.stats.argus.pdf(x, chi=1, loc=0, scale=1)
+# Add random noise
+likelihoods_1 = likelihoods + np.random.normal(loc=0, scale=0.005, size=len(likelihoods))
+likelihoods_2 = likelihoods + np.random.normal(loc=0, scale=0.005, size=len(likelihoods))
+# Calculate the softmax, both temperature sampled and not, and sample the unsampled softmax values
+softs_1 = softmax(likelihoods_1)
+softs_2 = softmax(likelihoods_2, temperature=0.8)
+sampled = sample(softs_1, temperature=0.8)
+
+plt.plot(x, softs, label=r"$\mathrm{softmax}(\vec x)$")
+plt.plot(x, softmax(likelihoods2, temperature=0.8), label=r"$\mathrm{softmax}(\vec x, t=0.8)$")
+plt.plot(x, sample(softs, temperature=0.8), label=r"$\mathrm{sample}(\mathrm{softmax}(\vec x), t=0.8)$")
+
+plt.legend()
+plt.show()</code></pre>
+        <p>We can see from the figure below that, sans noise, the plots of \(\operatorname{sample}(\softmax(\vec x), T)\) and \(\softmax(\vec x, T)\) are indeed indistinguishable.</p>
+        <figure class="figure w-100 d-block mx-auto">
+            <img src="https://static.agill.xyz/images/temperature-sampling/softmax-sampling.svg" class="figure-img img-fluid rounded w-100" alt="softmax-sampling.svg">
+            <figcaption class="figure-caption text-right">Comparing the two methods of sampling a softmax layer</figcaption>
+        </figure>
+        <p><a href="/research/haiku/introduction/text-generation">Text Generation</a> also discusses the effect of temperature sampling on the resulting probability distribution. A picture is worth a thousand words, so let's make a nice plot showing the effect.</p>
+        <pre class="language-python pl-3"><code>x = np.linspace(start=0, stop=1, num=100)
+likelihoods = sp.stats.argus.pdf(x, chi=1, loc=0, scale=1)
+likelihoods = likelihoods + np.random.normal(loc=0, scale=0.005, size=len(likelihoods))
+
+for temp in (0.6, 0.8, 1, 1.5, 2):
+    plt.plot(x, softmax(likelihoods, temp), label=r"$\mathrm{softmax}(\vec x, t=%.1f)$" % temp)
+
+plt.legend()
+plt.show()</code></pre>
+        <p>High temperatures flatten out the distribution, raising the low probabilities, and lowering the high probabilities. Low temperatures make the peaks more pronounced. In other words, if we temperature sample, we can, in a sense, consider the temperature to be the amount of randomness used when sampling. Higher temperatures result in more randomness, resulting in more "creativity" but less coherency. Lower temperatures result in more coherency (in the extreme case you would just pick the highest probable value), but at the cost of less creativity.</p>
+        <figure class="figure w-100 d-block mx-auto">
+            <img src="https://static.agill.xyz/images/temperature-sampling/temperature-sampling.svg" class="figure-img img-fluid rounded w-100" alt="temperature-sampling.svg">
+            <figcaption class="figure-caption text-right">The effect of temperature on a probability distribution</figcaption>
+        </figure>
     </div>
 </body>
 <!-- TODO: Find the integrity hash for <em>this</em> version. -->
