@@ -48,6 +48,296 @@
             </ol>
         </nav>
         <h1>3.c. Syllables</h1>
+        <p>As discussed in <a href="/research/haiku/introduction/the-haiku-form">The Haiku Form</a>, there is more to a haiku than its syllables. There's also substantial thematic content. However, since it's a question I keep getting, I wanted to do some analysis on the syllabic structure of the haiku in my dataset.</p>
+        <pre class="language-python pl-3"><code>import collections
+import operator
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import scipy as sp
+import seaborn as sns
+
+from haikulib import data
+
+sns.set(style="whitegrid")</code></pre>
+        <p>First, we restrict our corpus to three-line haiku to make our analysis easier. The vast majority of the haiku are composed of three lines, with a few outliers on either side.</p>
+        <pre class="language-python pl-3"><code>df = data.get_df()
+# Consider only those haiku that consist of three lines.
+df = df[df["lines"] == 3]
+# Reindex, so that adding a syllable count column isn't borked.
+df.reset_index(inplace=True, drop=True)</code></pre>
+        <p>As expected, the distribution of the total number of syllables is roughly normal.</p>
+        <pre class="language-python pl-3"><code>sns.distplot(
+    df["total_syllables"], bins=np.arange(5, 25), kde_kws={"bw": 0.4}, hist_kws={"align": "left"}
+)
+plt.title("Haiku total syllable count")
+plt.xlabel("syllables")
+plt.ylabel("density")
+plt.show()</code></pre>
+        <figure class="figure d-block mx-auto w-100">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/syllables/total-syllable-distribution.svg" alt="The distribution of the total number of syllables.">
+            <figcaption class="figure-caption text-right">The total syllable distribution is roughly normal.</figcaption>
+        </figure>
+        <p>However, what isn't expected is the distribution center. I expected it to be centered on 17 syllables, as that's the traditional structure discussed in <a href="/research/haiku/introduction/the-haiku-form">The Haiku Form</a>. The actual center is thirteen syllables.</p>
+        <pre class="language-python pl-3"><code>df["total_syllables"].describe()</code></pre>
+        <pre class="language-python pl-0"><code>count    52371.000000
+mean        13.316072
+std          2.908676
+min          3.000000
+25%         11.000000
+50%         13.000000
+75%         15.000000
+max         27.000000
+Name: total_syllables, dtype: float64</code></pre>
+        <pre class="language-python pl-3"><code>df[df["total_yllables"] <= 4]</code></pre>
+        <figure class="figure d-block mx-auto w-75">
+            <table class="table table-sm table-striped table-hover w-100">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">haiku</th>
+                    <th scope="col">colors</th>
+                    <th scope="col">lines</th>
+                    <th scope="col">syllables</th>
+                    <th scope="col">total_syllables</th>
+                </tr>
+                <tr>
+                    <th scope="row">7284</th>
+                    <td>rain / silent / snow</td>
+                    <td>[snow]</td>
+                    <td>3</td>
+                    <td>(1, 2, 1)</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <th scope="row">10565</th>
+                    <td>the / smell / of snow</td>
+                    <td>[snow]</td>
+                    <td>3</td>
+                    <td>(1, 1, 2)</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <th scope="row">11868</th>
+                    <td>star / crushed / sky</td>
+                    <td>[sky]</td>
+                    <td>3</td>
+                    <td>(1, 2, 1)</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <th scope="row">13992</th>
+                    <td>heat / lightning / bugs</td>
+                    <td>[]</td>
+                    <td>3</td>
+                    <td>(1, 2, 1)</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <th scope="row">23200</th>
+                    <td>frog / pond / splash</td>
+                    <td>[]</td>
+                    <td>3</td>
+                    <td>(1, 1, 1)</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <th scope="row">28351</th>
+                    <td>frost / her / scowl</td>
+                    <td>[]</td>
+                    <td>3</td>
+                    <td>(1, 1, 1)</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <th scope="row">28479</th>
+                    <td>lies / dirty / snow</td>
+                    <td>[snow]</td>
+                    <td>3</td>
+                    <td>(1, 2, 1)</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <th scope="row">32128</th>
+                    <td>dusk / words / fail me</td>
+                    <td>[dusk]</td>
+                    <td>3</td>
+                    <td>(1, 1, 2)</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <th scope="row">46650</th>
+                    <td>mime / lifting / fog</td>
+                    <td>[]</td>
+                    <td>3</td>
+                    <td>(1, 2, 1)</td>
+                    <td>4</td>
+                </tr>
+            </table>
+        </figure>
+        <pre class="language-python pl-3"><code>df[df["total_syllables"] >= 26]</code></pre>
+        <figure class="figure d-block mx-auto w-75">
+            <table class="table table-sm table-striped table-hover w-100">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">haiku</th>
+                    <th scope="col">colors</th>
+                    <th scope="col">lines</th>
+                    <th scope="col">syllables</th>
+                    <th scope="col">total_syllables</th>
+                </tr>
+                <tr>
+                    <th scope="row">11370</th>
+                    <td>some idiot with a campfire up in the trees / but the smoke smells good / like a hundred childhood mornings</td>
+                    <td>[smoke]</td>
+                    <td>3</td>
+                    <td>(12, 6, 8)</td>
+                    <th scope="row">26</th>
+                </tr>
+                <tr>
+                    <th scope="row">42005</th>
+                    <td>can i reinvent you and me / to love until i become still / to worship until you become stone</td>
+                    <td>[stone]</td>
+                    <td>3</td>
+                    <td>(7, 9, 11)</td>
+                    <th scope="row">27</th>
+                </tr>
+            </table>
+        </figure>
+        <p>Many of the outliers on either side seem subjectively reasonable, if strict adherence to the traditional seventeen-syllable structure is abandoned.</p>
+        <div class="alert alert-info">
+            <p>This outlier analysis revealed the presence of the following amusing haiku.</p>
+            <blockquote class="blockquote mb-0 border-left border-2 pl-2">
+                <p>♡ ♡ ♡ ♡ ♡</p>
+                <p>♡ ♡ ♡ ♡ ♡ ♡ ♡</p>
+                <p>♡ ♡ ♡ ♡ ♡</p>
+            </blockquote>
+            <p class="mb-0">This was treated as zero syllables, because the dataset preprocessing step converts all haiku to ASCII-encoded alphabetic characters, along with apostrophes and <code>/</code> line separators. This "haiku" was removed from the dataset.</p>
+        </div>
+        <p>So then we look at the syllable count for each line in the corpus (restricted to three-line haiku).</p>
+        <pre class="language-python pl-3"><code>one, two, three = zip(*df["syllables"])
+
+bins = np.arange(1, 10)
+# Using the bandwidth kde kwarg to produce a smooth estimated kernel
+# that doesn't spike with every bin.
+kde_kws = {"bw": 0.4}
+hist_kws = {"align": "left"}
+
+sns.distplot(one, label="first", bins=bins, kde_kws=kde_kws, hist_kws=hist_kws)
+sns.distplot(two, label="second", bins=bins, kde_kws=kde_kws, hist_kws=hist_kws)
+sns.distplot(three, label="third", bins=bins, kde_kws=kde_kws, hist_kws=hist_kws)
+
+plt.title("Haiku syllables per line")
+plt.legend()
+plt.xlabel("syllables")
+plt.ylabel("density")
+plt.show()</code></pre>
+        <p>We wee that there is a clear distinction between the distributions of the middle and surrounding lines. This agrees with my expectations, but it's surprising to find that the middle distribution is centered on five, not seven syllables. It's also interesting to note that the distributions of the first and last lines are similar, but with the distribution of the third line's syllable count skewed slightly higher.</p>
+        <figure class="figure d-block mx-auto w-100">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/syllables/syllables-per-line.svg" alt="Syllables per line">
+            <figcaption class="figure-caption text-right">There is a clear distinction between the middle and surrounding lines</figcaption>
+        </figure>
+        <p>Again restricted to three-line haiku, we can look at the most common syllabic structures occurring in the corpus.</p>
+        <pre class="language-python pl-3"><code>counts = collections.Counter(df["syllables"])
+total = sum(counts.values())
+
+rows = {
+    "syllables": list(counts.keys()),
+    "count": list(counts.values()),
+    "proportion": [v / total for v in counts.values()],
+}
+
+syllables = pd.DataFrame(rows)
+syllables.sort_values(by="count", inplace=True, ascending=False)
+syllables.reset_index(inplace=True, drop=True)
+syllables.head(10)</code></pre>
+        <p>We see that the 5-7-5 structure <em>is</em> the most common, but that it accounts for only 2.8% of the corpus. This is surprising. I had expected the traditional form to be dominant over the others, with only a few outliers.</p>
+        <figure class="figure d-block mx-auto w-50">
+            <table class="table table-sm table-striped table-hover w-100">
+                <caption>5-7-5 <em>is</em> the most common structure, but only accounts for 3% of the corpus.</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">syllables</th>
+                        <th scope="col">count</th>
+                        <th scope="col">proportion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">0</th>
+                        <td>(5, 7, 5)</td>
+                        <td>1513</td>
+                        <td>0.028890</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>(3, 5, 4)</td>
+                        <td>1089</td>
+                        <td>0.020794</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>(3, 4, 4)</td>
+                        <td>946</td>
+                        <td>0.018063</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>(4, 5, 4)</td>
+                        <td>925</td>
+                        <td>0.017662</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>(3, 5, 3)</td>
+                        <td>917</td>
+                        <td>0.017510</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>(3, 4, 3)</td>
+                        <td>835</td>
+                        <td>0.015944</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">6</th>
+                        <td>(4, 6, 4)</td>
+                        <td>799</td>
+                        <td>0.015257</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">7</th>
+                        <td>(4, 4, 4)</td>
+                        <td>779</td>
+                        <td>0.014875</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">8</th>
+                        <td>(4, 5, 3)</td>
+                        <td>776</td>
+                        <td>0.014817</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">9</th>
+                        <td>(3, 6, 4)</td>
+                        <td>771</td>
+                        <td>0.014722</td>
+                    </tr>
+                </tbody>
+            </table>
+        </figure>
+        <pre class="language-python pl-3"><code>plt.plot(np.log(syllables["count"]))
+plt.title("Distribution of syllabic structures in haiku")
+plt.ylabel("$\log(freq)$")
+plt.xlabel("$rank$")
+plt.show()</code></pre>
+        <figure class="figure d-block mx-auto w-100">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/syllables/syllabic-exponential.svg" alt="The syllabic structure distribution">
+            <figcaption class="figure-caption text-right">The distribution of syllabic structures is roughly exponential with respect to rank.</figcaption>
+        </figure>
+        <p>With the exception of the most common structures, the distribution of syllabic structures in the corpus is exponential with respect to rank. Note that the stair-stepping at the bottom end is due to the discrete nature of the frequencies. There are a number of haiku with unique syllable structure, and there are a number of <em>pairs</em> of haiku with the same structure, and so on.</p>
+        <p>In conclusion, then, the syllabic structure of haiku (in my corpus) is empirically more varied than expected. Previous analysis on the vocabulary and thematic content of haiku met my expectations. However, it would appear that the structure in my corpus is not so well-behaved.</p>
     </div>
 </body>
 <!-- TODO: Find the integrity hash for <em>this</em> version. -->
