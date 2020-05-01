@@ -9,12 +9,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
     <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
     <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
     <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
 </head>
@@ -47,6 +41,128 @@
             </ol>
         </nav>
         <h1>2. Methodology</h1>
+        <h2>2.a. Repository Setup</h2>
+        <ol>
+            <li><a href="https://docs.docker.com/engine/install/" target="_blank">Install Docker</a></li>
+            <li>Perform the Linux <a href="https://docs.docker.com/engine/install/linux-postinstall/" target="_blank">post-install steps</a> for running Docker as a non-root user, and starting Docker on boot. This will involve a reboot.</li>
+            <li>Clone <a href="https://github.com/Notgnoshi/research">https://github.com/Notgnoshi/research</a></li>
+            <li>Use the provided makefile to build the docker images, perform data preprocessing, and run a Jupyter server, the FastAPI generation API, train a language model, or use a trained language model to generate haiku.</li>
+        </ol>
+        <p>Use <code>make help</code> to show the available make targets.</p>
+        <pre class="language-bash pl-3"><code>make help
+make docker-build
+make init-data
+# The docker images built above don't support CUDA.
+# This is unfortunate, but necessary, as the GPT-2 model doesn't fit on my GTX 1080.
+# Training on my CPU takes 4.5 hours.
+make CONFIG=data/models/gpt2/gpt2.jsonc train
+make CONFIG=data/models/gpt2/gpt2.jsonc generate
+        </code></pre>
+        <p>The <code>make docker-build</code> target build <em>two</em> images: <code>notgnoshi/research</code> and <code>notgnoshi/api</code>. The research image is where the data preprocessing, model training, and exploratory analysis are performed. It's about 3.2 GB. The API image is a bit smaller, at 2 GB, and adds the necessary dependencies to <a href="https://hub.docker.com/r/tiangolo/uvicorn-gunicorn-fastapi/" target="_blank">tiangolo/uvicorn-gunicorn-fastapi</a> to run the REST API for generation.</p>
+        <h2>2.b. Data Collection and Preprocessing</h2>
+        <p>Unfortunately, I did not keep track of which haiku came from where, and for the sources that provided it, who the author was. If I were to start over, I would be sure to do so, despite the additional complexity of scraping the author from the haiku websites. I believe that having the author and source in the dataset could enable deeper analysis, and would enable others to use the same dataset for their own purposes.</p>
+        <p>I collected haiku from the following sources:</p>
+        <ul>
+            <li><a href="https://github.com/herval/creative_machines/blob/master/haikuzao/src/main/resources/haiku.txt" target="_blank">https://github.com/herval/creative_machines/blob/master/haikuzao/src/main/resources/haiku.txt</a></li>
+            <li><a href="https://github.com/napsternxg/haiku_rnn/blob/master/haiku.txt" target="_blank">https://github.com/napsternxg/haiku_rnn/blob/master/haiku.txt</a></li>
+            <li><a href="http://www.hsa-haiku.org" target="_blank">http://www.hsa-haiku.org</a></li>
+            <li><a href="https://www.thehaikufoundation.org" target="_blank">https://www.thehaikufoundation.org</a></li>
+            <li><a href="https://www.ahapoetry.com" target="_blank">https://www.ahapoetry.com</a></li>
+            <li><a href="http://www.dailyhaiku.org/haiku/" target="_blank">http://www.dailyhaiku.org/haiku/</a></li>
+            <li><a href="http://tinywords.com/haiku/?sort=date&order=1&show=all" target="_blank">http://tinywords.com/haiku/?sort=date&order=1&show=all</a></li>
+            <li><a href="http://www.theheronsnest.com/archives.html" target="_blank">http://www.theheronsnest.com/archives.html</a></li>
+            <li><a href="http://www.haikuvillage.com/haiku" target="_blank">http://www.haikuvillage.com/haiku</a></li>
+            <li><a href="http://www.tempslibres.org/tl/tlphp/dbauteurs.php" target="_blank">http://www.tempslibres.org/tl/tlphp/dbauteurs.php</a></li>
+        </ul>
+        <p>There were other sources, particularly PDF haiku anthologies, but I do not recall which specifically. Collecting the haiku corpus was particularly difficult, because there often was not a consistent markup used for the haiku. I spent <em>many</em> hours manually cleaning the scraped "haiku", and the corpus was therefore collected in fragments as I found new sources.</p>
+        <p>I had to clean:</p>
+        <ul>
+            <li>Non-unicode characters</li>
+            <li>Miscellaneous fragments of HTML</li>
+            <li>HTML character codes like <code>&amp;amp;</code> and <code>&amp;nbsp;</code></li>
+            <li>Non-English haiku (there's still some more French, Spanish, and Japanese remaining)</li>
+            <li>Duplicate haiku</li>
+            <li>Fragments of page navbars and table of contents. (Many websites used the same markup for haiku as other portions of the pages)</li>
+            <li>Author names and dates (I shouldn't have cleaned this)</li>
+        </ul>
+        <p>I was able to scrape together 55367 haiku, available <a href="https://github.com/Notgnoshi/research/blob/master/data/haiku.csv">here</a>. The linked CSV file also contains the number of lines in each haiku, the number of syllables per line, the total number of syllables, and any colors referenced in the haiku.</p>
+        <p>The preprocessing step used to create <a href="https://github.com/Notgnoshi/research/blob/master/data/haiku.csv" target="_blank"><code>haiku.csv</code></a> from <a href="https://github.com/Notgnoshi/research/blob/master/data/haiku.txt" target="_blank"><code>haiku.txt</code></a> does the following:</p>
+        <ul>
+            <li>Convert everything to lowercase ASCII-alphabetic, leaving apostrophes and numbers intact</li>
+            <li>Remove newline and separate lines with a <code>/</code></li>
+            <li>Remove unicode, non-unicode, and punctuation</li>
+            <li>Count the number of lines in the haiku</li>
+            <li>Count the number of syllables per line</li>
+            <li>Count the total number of syllables</li>
+            <li>Find occurrences of color in each haiku</li>
+        </ul>
+        <p>Unfortunately, there's a wide range in variability in the number of lines and the number of syllables in the haiku. This is a consequence of using haiku enthusiast websites, many of which include other poetic forms, and don't always strictly adhere to the 5-7-5 form traditionally associated with haiku. See <a href="/research/haiku/analysis/syllables.html">Syllables</a> for a discussion of the wide variability.</p>
+        <h2>2.c. Model Training</h2>
+        <p>I developed three models for training. Use one of</p>
+        <ul>
+            <li><code>make CONFIG=data/models/gpt2/gpt2.jsonc train</code></li>
+            <li><code>make CONFIG=data/models/markov-word/markov-word.jsonc train</code></li>
+            <li><code>make CONFIG=data/models/markov-character/markov-character train</code></li>
+        </ul>
+        <p>The two markov models were expected to perform poorly, and were used to flesh out some of the supporting glue code before I turned my attention to GPT-2. The makefile will default to using GPT-2 if the <code>CONFIG</code> argument is not given.</p>
+        <p>There are <em>many</em> options in <code>gpt2.jsonc</code> that you can tweak.</p>
+        <pre class="language-js pl-3"><code>{
+    "name": "gpt2-default",
+    "type": "transformer",
+    // If type is "transformer", specify which model to use. Options: "gpt", "gpt2"
+    "model_type": "gpt2",
+    // A uint32_t random seed.
+    "seed": null,
+    // Batch size per GPU/CPU.
+    "batch_size": 4,
+    // Number of update steps to accumulate before performings a backward/update pass.
+    "gradient_accumulation_steps": 1,
+    "learning_rate": 5e-5,
+    "weight_decay": 0.0,
+    "adam_epsilon": 1e-8,
+    "max_gradient_norm": 1.0,
+    "num_train_epochs": 1,
+    // Maximum number of training steps to perform, if set. Overrides "num_train_epochs"
+    "max_steps": null,
+    // Use a linear warmpup over n steps.
+    "warmup_steps": 0,
+    // Proportion of the training set to use as evaluation data.
+    "evaluation_proportion": 0.1,
+    // Run model evaluation at each logging step.
+    "evaluate_during_training": true,
+    // Log every n steps.
+    "logging_steps": 1000,
+    // Save a restorable checkpoint ever n steps.
+    "checkpoint_steps": 1000,
+    // Restore and resume training from the given checkpoint, if given.
+    // Path to the checkpoint directory is relative to this file.
+    "resume_training_from": null,
+    // Number of checkpoints to save. Oldest deleted first.
+    "max_checkpoints": null,
+    // Path to save any generated haiku relative to this file.
+    "generated_path": "../../generated.csv",
+    // Maximum number of tokens to generate.
+    "max_tokens": 20,
+    // The prompt to use to generate haiku. String, if not given, random prompt will be chosen.
+    "prompt": null,
+    // The number of haiku to generate with the above prompt.
+    "number": 10,
+    // The temperature to sample the next token probability distribution. Must be positive.
+    "temperature": 1.0,
+    // Repetition penalty parameter. Between 1.0 (no penalty) and infinity.
+    "repetition_penalty": 1.0,
+    // The number of highest probability vocabulary tokens to keep for top-k filtering. Between 1 and infinity.
+    "k": 0,
+    // The cumulative probability of parameter highest probability vocabulary tokens to keep for nucleus sampling. Between 0 and 1.
+    "p": 0.9
+}</code></pre>
+        <p>These options are for both training and generation. Should I do this again, I think I would pick another configuration option, and this is fairly verbose and clunky. I wanted a single interface to multiple language models with the same script, so that precludes commandline options without a lot of additional complexity, but I think that would be the way to procede should I do something similar in the future.</p>
+        <h2>2.d. Commandline Haiku Generation</h2>
+        <p>Tune the generation parameters in <code>gpt2.jsonc</code> to your preferences, and run <code>make generate</code>. This will print the haiku to the screen, and append them to <code>data/generated.csv</code>.</p>
+        <h2>2.e. RESTful API Haiku Generation</h2>
+        <p>Run either <code>make api-dev</code> or <code>make api</code> to run the FastAPI endpoint. It was pleasantly straightforward to integrate this FastAPI container with an Nginx proxy so that I could host it on this website with minimal effort. <code>make api-dev</code> is almost the same as <code>make api</code>, except that it monitors <code>app/main.py</code> for modifications, and restarts the API service if changes are detected.</p>
+        <p>See <a href="https://agill.xyz/docs#/default/generate_haiku_generate_get" target="_blank">https://agill.xyz/docs</a> for documentation describing the API endpoint, and visit <a href="https://agill.xyz/generate" target="_blank">https://agill.xyz/generate</a> to generate your own haiku.</p>
+        <div class="alert alert-warning">You can use a random seed with both generation methods (commandline and REST API) to ensure reproducibility. However, the same seed will produce different results with each method. This is unfortunate, but unavoidable as the commandline generation step has to deserialize the model from disk, and is therefore in a fresh state on every generation. The API however, keeps a single model in memory, and thus has slightly different initialization semantics. I think this could probably be fixed, but I don't really care to.</div>
     </div>
 </body>
 <!-- TODO: Find the integrity hash for <em>this</em> version. -->
