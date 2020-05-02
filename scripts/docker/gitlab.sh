@@ -5,6 +5,8 @@ docker run \
     --hostname git.agill.xyz \
     --publish 2200:22 \
     --name gitlab \
+    --cpus=2 \
+    --memory=4g \
     --restart unless-stopped \
     --volume /srv/gitlab/etc/gitlab:/etc/gitlab \
     --volume /srv/gitlab/var/log/gitlab:/var/log/gitlab \
