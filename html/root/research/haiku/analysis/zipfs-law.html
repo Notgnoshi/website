@@ -97,7 +97,7 @@ plt.xlabel("$\log(rank)$")
 plt.ylabel("$\log(freq)$")
 plt.show()</code></pre>
         <figure class="figure d-block mx-auto w-100">
-            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/contrived.png" alt="A contrived log-log plot of rank vs frequency">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/zipf/contrived.png" alt="A contrived log-log plot of rank vs frequency">
             <figcaption class="figure-caption text-right">A log-log plot of the rank vs frequency of the contrived data</figcaption>
         </figure>
         <p>The supposition was that haiku are a compressed form of expression, so perhaps Zipf's law might not hold. That means that we should examine how Zipf's law holds up for a non-haiku corpus to build a baseline before we procede to haiku. I'm a sucker for the dark, cynical, misanthropic Ambrose Bierce, so let's download his collected works from Project Gutenberg and examine how the look with respect to Zipf's law.</p>
@@ -177,7 +177,7 @@ plt.xlabel("$\log(rank)$")
 plt.ylabel("$\log(freq)$")
 plt.show()</code></pre>
         <figure class="figure d-block mx-auto w-100">
-            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/bierce.png" alt="A log-log plot of the rank vs frequency for Ambrose Bierce's works">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/zipf/bierce.png" alt="A log-log plot of the rank vs frequency for Ambrose Bierce's works">
             <figcaption class="figure-caption text-right">A log-log plot of rank vs frequency for Ambrose Bierce's works</figcaption>
         </figure>
         <p>We see that Zipf's law <em>does</em> indeed hold for Ambrose Bierce's work. The log-log plot is roughly linear!</p>
@@ -208,7 +208,7 @@ plt.ylabel("$\log(freq)$")
 plt.legend()
 plt.show()</code></pre>
         <figure class="figure d-block mx-auto w-100">
-            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/bierce-nostopwords.png" alt="A log-log plot of rank vs frequency for Ambrose Bierce's works without stopwords">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/zipf/bierce-nostopwords.png" alt="A log-log plot of rank vs frequency for Ambrose Bierce's works without stopwords">
             <figcaption class="figure-caption text-right">A log-log plot of rank vs frequency for Ambrose Bierce's works without stopwords</figcaption>
         </figure>
         <p>Notice that the log-log plot has a slight <em>curve</em> in it, when stopwords are removed! So what might we expect from haiku, a condensed form of natural language expression, with limitations on the words one can use?</p>
@@ -281,7 +281,7 @@ plt.show()</code></pre>
             <li>The haiku plot is slightly curved!</li>
         </ol>
         <figure class="figure d-block mx-auto w-100">
-            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/haiku.png" alt="A log-log plot of rank vs frequency for Bierce's works and the haiku corpus">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/zipf/haiku.png" alt="A log-log plot of rank vs frequency for Bierce's works and the haiku corpus">
             <figcaption class="figure-caption text-right">A log-log plot of rank vs frequency for Bierce's works and the haiku corpus</figcaption>
         </figure>
         <p>Now for illustrative purposes, let's grab a few of the top most frequent words and annotate the plot with them.</p>
@@ -321,7 +321,7 @@ plt.ylabel("$\log(freq)$")
 plt.ylim((-0.5, 11.9))
 plt.show()</code></pre>
         <figure class="figure d-block mx-auto w-100">
-            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/haiku-annotated.png" alt="The haiku log-log rank vs frequency plot annotated with a few of the most frequent words">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/zipf/haiku-annotated.png" alt="The haiku log-log rank vs frequency plot annotated with a few of the most frequent words">
             <figcaption class="figure-caption text-right">The haiku log-log rank vs frequency plot annotated with a few of the most frequent words</figcaption>
         </figure>
         <p>We proceed with removing stopwords from the haiku corpus.</p>
@@ -352,7 +352,7 @@ plt.legend()
 plt.show()</code></pre>
         <p>The result is similar to that of Bierce's works, but the difference between the plot for the haiku corpus with and without stopwords is much less pronounced. I interpret this as indicating that haiku are a compressed form of expression, but not as compressed as Bierce's written works without stopwords. Haiku become even more compressed when stopwords are removed, but the compression factor is not as severe as it is with Bierce's works.</p>
         <figure class="figure d-block mx-auto w-100">
-            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/haiku-nostopwords.png" alt="The haiku log-log rank vs frequency plot with and without stopwords">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/zipf/haiku-nostopwords.png" alt="The haiku log-log rank vs frequency plot with and without stopwords">
             <figcaption class="figure-caption text-right">The haiku log-log rank vs frequency plot with and without stopwords</figcaption>
         </figure>
         <p>We proceed building the annotated log-log plot for the haiku without stopwords as well.</p>
@@ -481,7 +481,7 @@ plt.xlim((-0.5, 10.5))
 plt.ylim((-0.5, 9.2))
 plt.show()</code></pre>
         <figure class="figure d-block mx-auto w-100">
-            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/haiku-no-stopwords-annotated.png" alt="The annotated log-log plot for the haiku corpus without stopwords">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/zipf/haiku-no-stopwords-annotated.png" alt="The annotated log-log plot for the haiku corpus without stopwords">
             <figcaption class="figure-caption text-right">The annotated log-log plot for the haiku corpus without stopwords</figcaption>
         </figure>
         <p>So my conclusion, is that <b>yes!</b> haiku <em>are</em> a compressed form of expression, and that compression is observable by comparing the rank vs frequency plots of the haiku corpus with that of an English prose corpus (Bierce, in this case).</p>
