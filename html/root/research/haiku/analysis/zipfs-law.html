@@ -9,12 +9,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
     <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
     <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
     <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
 </head>
@@ -48,6 +42,449 @@
             </ol>
         </nav>
         <h1>3.e. Zipf's Law</h1>
+        <p>This was the first exploratory data analysis I did on the haiku corpus, and is also the least illuminating. However, it provided an opportunity to get started digging in to the dataset, and inspired some of the other explorations that <em>were</em> useful.</p>
+        <p>Zipf's law states that the frequencies of words from a natural language corpus are inversely proportional to their rank in a frequency table. That is, a plot of their rank vs frequency on a log-log scale will be roughly linear. Consider the following entirely contrived example. The first word is twice as frequent as the second, and three times as frequent as the third.</p>
+        <figure class="figure d-block mx-auto w-50">
+            <table class="table table-sm table-striped table-hover w-100">
+                <caption></caption>
+                <thead>
+                    <tr>
+                        <th scope="col">rank</th>
+                        <th scope="col">value</th>
+                        <th scope="col">occurrences</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>word 1</td>
+                        <td>21</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>word 2</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>word 3</td>
+                        <td>7</td>
+                    </tr>
+                </tbody>
+            </table>
+        </figure>
+        <p>If we plot the rank vs frequency on a log-log plot, we get the following</p>
+        <pre class="language-python pl-3"><code>import operator
+from collections import Counter
+from urllib.request import urlopen
+
+import matplotlib.pyplot as plt
+import nltk
+import numpy as np
+import pandas as pd
+import seaborn as sns
+
+from haikulib import data, nlp, utils
+sns.set(style="whitegrid")
+
+ranks = np.array([1, 2, 3])
+frequencies = np.array([21, 10, 7])
+
+plt.plot(np.log(ranks), np.log(frequencies))
+plt.plot(np.log(ranks), np.log(frequencies), ".")
+
+plt.xlabel("$\log(rank)$")
+plt.ylabel("$\log(freq)$")
+plt.show()</code></pre>
+        <figure class="figure d-block mx-auto w-100">
+            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/contrived.png" alt="A contrived log-log plot of rank vs frequency">
+            <figcaption class="figure-caption text-right">A log-log plot of the rank vs frequency of the contrived data</figcaption>
+        </figure>
+        <p>The supposition was that haiku are a compressed form of expression, so perhaps Zipf's law might not hold. That means that we should examine how Zipf's law holds up for a non-haiku corpus to build a baseline before we procede to haiku. I'm a sucker for the dark, cynical, misanthropic Ambrose Bierce, so let's download his collected works from Project Gutenberg and examine how the look with respect to Zipf's law.</p>
+        <p>One of the ways to represent a natural language corpus, is with what's called a bag-of-words representation, where all of the individual words in the corpus have been tossed into a bag, <em>without their surrounding context</em>, much like a bag of Scrabble tiles. This is a natural representation for the present work, as examining individual word frequencies does not require surrounding context.</p>
+        <p>The frequency table is just another view of the bag-of-words. It contains no new information, it's just formatted a little differently to make mathematical analysis a bit easier.</p>
+        <pre class="language-python pl-3"><code>def get_freq_table(bag):
+    """Get a frequency table representation of the given bag-of-words representation."""
+    assert isinstance(bag, Counter)
+    words, frequencies = zip(
+        *sorted(bag.items(), key=operator.itemgetter(1), reverse=True)
+    )
+    words = np.array(words)
+    frequencies = np.array(frequencies)
+    ranks = np.arange(1, len(words) + 1)
+
+    freq_table = pd.DataFrame({"rank": ranks, "word": words, "frequency": frequencies})
+    return freq_table
+
+part1 = 'https://www.gutenberg.org/cache/epub/13541/pg13541.txt'
+part2 = 'https://www.gutenberg.org/cache/epub/13334/pg13334.txt'
+
+part1 = urlopen(part1).read().decode("utf-8")
+part2 = urlopen(part2).read().decode("utf-8")
+
+corpus = " ".join(part1.split()) + " ".join(part2.split())
+tokens = [nlp.preprocess(t) for t in corpus.split()]
+bag = Counter(tokens)
+freq_table_bierce = get_freq_table(bag)
+freq_table_bierce.head()</code></pre>
+        <figure class="figure d-block mx-auto w-50">
+            <table class="table table-sm table-striped table-hover w-100">
+                <caption></caption>
+                <thead>
+                    <tr>
+                        <th scope="col">rank</th>
+                        <th scope="col">word</th>
+                        <th scope="col">frequency</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>the</td>
+                        <td>11255</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>of</td>
+                        <td>6628</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>and</td>
+                        <td>4648</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>a</td>
+                        <td>4056</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>to</td>
+                        <td>3943</td>
+                    </tr>
+                </tbody>
+            </table>
+        </figure>
+        <pre class="language-python pl-3"><code>plt.plot(
+    np.log(freq_table_bierce["rank"]),
+    np.log(freq_table_bierce["frequency"]),
+    ".",
+    markersize=3,
+)
+
+plt.xlabel("$\log(rank)$")
+plt.ylabel("$\log(freq)$")
+plt.show()</code></pre>
+        <figure class="figure d-block mx-auto w-100">
+            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/bierce.png" alt="A log-log plot of the rank vs frequency for Ambrose Bierce's works">
+            <figcaption class="figure-caption text-right">A log-log plot of rank vs frequency for Ambrose Bierce's works</figcaption>
+        </figure>
+        <p>We see that Zipf's law <em>does</em> indeed hold for Ambrose Bierce's work. The log-log plot is roughly linear!</p>
+        <p>Now, consider what happens when we remove the stopwords (fillers) from the corpus. These are words like "a", "an", "the", "to", etc. What might happen to the log-log plot?</p>
+        <pre class="language-python pl-3"><code>for stopword in nlp.STOPWORDS:
+    if stopword in bag:
+        del bag[stopword]
+
+stop_table_bierce = get_freq_table(bag)
+
+plt.plot(
+    np.log(freq_table_bierce["rank"]),
+    np.log(freq_table_bierce["frequency"]),
+    ".",
+    markersize=3,
+    label="bierce with stopwords",
+)
+plt.plot(
+    np.log(stop_table_bierce["rank"]),
+    np.log(stop_table_bierce["frequency"]),
+    ".",
+    markersize=3,
+    label="bierce without stopwords",
+)
+
+plt.xlabel("$\log(rank)$")
+plt.ylabel("$\log(freq)$")
+plt.legend()
+plt.show()</code></pre>
+        <figure class="figure d-block mx-auto w-100">
+            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/bierce-nostopwords.png" alt="A log-log plot of rank vs frequency for Ambrose Bierce's works without stopwords">
+            <figcaption class="figure-caption text-right">A log-log plot of rank vs frequency for Ambrose Bierce's works without stopwords</figcaption>
+        </figure>
+        <p>Notice that the log-log plot has a slight <em>curve</em> in it, when stopwords are removed! So what might we expect from haiku, a condensed form of natural language expression, with limitations on the words one can use?</p>
+        <pre class="language-python pl-3"><code>bag = data.get_bag_of(kind="words", add_tags=False)
+del bag["/"]
+freq_table = get_freq_table(bag)
+freq_table.head()</code></pre>
+        <p>Looking at the top few words in the frequency table for the haiku bag-of-words, we see mostly the same most-frequent words as we did for Bierce's works. This isn't surprising, so we'll do as we did above, plot the ranks vs frequencies for the haiku corpus with that of Bierce's works, and compare.</p>
+        <figure class="figure d-block mx-auto w-50">
+            <table class="table table-sm table-striped table-hover w-100">
+                <caption></caption>
+                <thead>
+                    <tr>
+                        <th scope="col">rank</th>
+                        <th scope="col">word</th>
+                        <th scope="col">frequency</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>the</td>
+                        <td>41980</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>a</td>
+                        <td>18511</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>of</td>
+                        <td>13732</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>in</td>
+                        <td>10090</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>my</td>
+                        <td>6855</td>
+                    </tr>
+                </tbody>
+            </table>
+        </figure>
+        <pre class="language-python pl-3"><code>plt.plot(
+    np.log(freq_table["rank"]),
+    np.log(freq_table["frequency"]),
+    ".",
+    markersize=3,
+    label="haiku with stopwords",
+)
+plt.plot(
+    np.log(freq_table_bierce["rank"]),
+    np.log(freq_table_bierce["frequency"]),
+    ".",
+    markersize=3,
+    label="bierce with stopwords",
+)
+
+plt.xlabel("$\log(rank)$")
+plt.ylabel("$\log(freq)$")
+plt.legend()
+plt.show()</code></pre>
+        <p>There are two things to notice:</p>
+        <ol>
+            <li>The plots are offset from each other. This is expected, because the haiku corpus is larger than Bierce's (at least what I downloaded from Project Gutenberg).</li>
+            <li>The haiku plot is slightly curved!</li>
+        </ol>
+        <figure class="figure d-block mx-auto w-100">
+            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/haiku.png" alt="A log-log plot of rank vs frequency for Bierce's works and the haiku corpus">
+            <figcaption class="figure-caption text-right">A log-log plot of rank vs frequency for Bierce's works and the haiku corpus</figcaption>
+        </figure>
+        <p>Now for illustrative purposes, let's grab a few of the top most frequent words and annotate the plot with them.</p>
+        <pre class="language-python pl-3"><code>def get_indices(df, column, values):
+    """Gets the indices of values from the given column of the given dataframe."""
+    indices = []
+    for value in values:
+        indices += df[column][df[column] == value].index.tolist()
+    return indices
+
+indices = get_indices(freq_table, "word", ["the", "a", "of", "to", "i", "her", "his"])
+interesting = freq_table.loc[indices]</code></pre>
+        <p>What comes next is unfortunate, but I'm not sure how to do it otherwise without <em>a lot</em> of extra work.</p>
+        <pre class="language-python pl-3"><code>plt.plot(np.log(freq_table["rank"]), np.log(freq_table["frequency"]), ".", markersize=3)
+
+# This should be a crime.
+x_adjust = np.array([0.1, -0.6, 0.15, -0.6, 0.2, -0.6, 0.0])
+y_adjust = np.array([1.0, -1.2, 1.0, -1.3, 1.0, -1.3, 1.0])
+
+for word, freq, rank, xa, ya in zip(
+    interesting["word"],
+    interesting["frequency"],
+    interesting["rank"],
+    x_adjust,
+    y_adjust,
+):
+    plt.annotate(
+        word,
+        xy=(np.log(rank), np.log(freq) + ya / 20),
+        xytext=(np.log(rank) + xa, np.log(freq) + ya),
+        size=9,
+        arrowprops={"arrowstyle": "-", "color": "k"},
+    )
+
+plt.xlabel("$\log(rank)$")
+plt.ylabel("$\log(freq)$")
+plt.ylim((-0.5, 11.9))
+plt.show()</code></pre>
+        <figure class="figure d-block mx-auto w-100">
+            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/haiku-annotated.png" alt="The haiku log-log rank vs frequency plot annotated with a few of the most frequent words">
+            <figcaption class="figure-caption text-right">The haiku log-log rank vs frequency plot annotated with a few of the most frequent words</figcaption>
+        </figure>
+        <p>We proceed with removing stopwords from the haiku corpus.</p>
+        <pre class="language-python pl-3"><code>for stopword in nlp.STOPWORDS:
+    if stopword in bag:
+        del bag[stopword]
+
+stop_table = get_freq_table(bag)
+
+plt.plot(
+    np.log(freq_table["rank"]),
+    np.log(freq_table["frequency"]),
+    ".",
+    markersize=3,
+    label="haiku with stopwords",
+)
+plt.plot(
+    np.log(stop_table["rank"]),
+    np.log(stop_table["frequency"]),
+    ".",
+    markersize=3,
+    label="haiku without stopwords",
+)
+
+plt.xlabel("$\log(rank)$")
+plt.ylabel("$\log(freq)$")
+plt.legend()
+plt.show()</code></pre>
+        <p>The result is similar to that of Bierce's works, but the difference between the plot for the haiku corpus with and without stopwords is much less pronounced. I interpret this as indicating that haiku are a compressed form of expression, but not as compressed as Bierce's written works without stopwords. Haiku become even more compressed when stopwords are removed, but the compression factor is not as severe as it is with Bierce's works.</p>
+        <figure class="figure d-block mx-auto w-100">
+            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/haiku-nostopwords.png" alt="The haiku log-log rank vs frequency plot with and without stopwords">
+            <figcaption class="figure-caption text-right">The haiku log-log rank vs frequency plot with and without stopwords</figcaption>
+        </figure>
+        <p>We proceed building the annotated log-log plot for the haiku without stopwords as well.</p>
+        <pre class="language-python pl-3"><code>stop_table.head(15)</code></pre>
+        <figure class="figure d-block mx-auto w-50">
+            <table class="table table-sm table-striped table-hover w-100">
+                <caption></caption>
+                <thead>
+                    <tr>
+                        <th scope="col">rank</th>
+                        <th scope="col">word</th>
+                        <th scope="col">frequency</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>moon</td>
+                        <td>2883</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>rain</td>
+                        <td>2603</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>day</td>
+                        <td>2405</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>night</td>
+                        <td>2239</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>snow</td>
+                        <td>1981</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">6</th>
+                        <td>winter</td>
+                        <td>1975</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">7</th>
+                        <td>morning</td>
+                        <td>1778</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">8</th>
+                        <td>summer</td>
+                        <td>1726</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">9</th>
+                        <td>spring</td>
+                        <td>1628</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">10</th>
+                        <td>old</td>
+                        <td>1590</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">11</th>
+                        <td>wind</td>
+                        <td>1589</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">12</th>
+                        <td>autumn</td>
+                        <td>1377</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">13</th>
+                        <td>dog</td>
+                        <td>1274</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">14</th>
+                        <td>sky</td>
+                        <td>1232</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">15</th>
+                        <td>new</td>
+                        <td>1189</td>
+                    </tr>
+                </tbody>
+            </table>
+        </figure>
+        <pre class="language-python pl-3"><code>indices = get_indices(
+    stop_table,
+    "word",
+    ["moon", "rain", "day", "night", "snow", "winter", "summer", "spring", "autumn"],
+)
+
+interesting = stop_table.loc[indices]
+
+plt.plot(np.log(stop_table["rank"]), np.log(stop_table["frequency"]), ".", markersize=3)
+
+# This should also be a crime.
+x_adjust = np.array([-0.35, -0.9, -0.23, -0.9, -0.1, -0.7, 0.3, -0.7, 0.4])
+y_adjust = np.array([1.0, -1.0, 1.1, -1.1, 1.1, -1.4, 1.0, -1.45, 1.0])
+
+for word, freq, rank, xa, ya in zip(
+    interesting["word"],
+    interesting["frequency"],
+    interesting["rank"],
+    x_adjust,
+    y_adjust,
+):
+    plt.annotate(
+        word,
+        xy=(np.log(rank), np.log(freq) + ya / 20),
+        xytext=(np.log(rank) + xa, np.log(freq) + ya),
+        size=8,
+        arrowprops={"arrowstyle": "-", "color": "k"},
+    )
+
+plt.xlabel("$\log(rank)$")
+plt.ylabel("$\log(freq)$")
+plt.xlim((-0.5, 10.5))
+plt.ylim((-0.5, 9.2))
+plt.show()</code></pre>
+        <figure class="figure d-block mx-auto w-100">
+            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/zipf/haiku-no-stopwords-annotated.png" alt="The annotated log-log plot for the haiku corpus without stopwords">
+            <figcaption class="figure-caption text-right">The annotated log-log plot for the haiku corpus without stopwords</figcaption>
+        </figure>
+        <p>So my conclusion, is that <b>yes!</b> haiku <em>are</em> a compressed form of expression, and that compression is observable by comparing the rank vs frequency plots of the haiku corpus with that of an English prose corpus (Bierce, in this case).</p>
     </div>
 </body>
 <!-- TODO: Find the integrity hash for <em>this</em> version. -->
