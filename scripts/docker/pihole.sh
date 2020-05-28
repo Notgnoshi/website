@@ -11,14 +11,17 @@ docker run \
     --detach \
     --name pihole \
     --publish 53:53 \
-    --env TZ="America/Denver" \
+    --publish 67:67 \
+    --expose 80 \
+    --expose 443 \
+    --dns 127.0.0.1 \
+    --restart=unless-stopped \
     --mount "type=bind,source=/srv/pihole/etc/pihole/,target=/etc/pihole/" \
     --mount "type=bind,source=/srv/pihole/etc/dnsmasq.d/,target=/etc/dnsmasq.d/" \
-    --dns=127.0.0.1 --dns=1.1.1.1 \
-    --env "VIRTUAL_HOST=pihole.agill.xyz,pihole.localhost" \
+    --env TZ="America/Chicago" \
+    --env "VIRTUAL_HOST=pihole.agill.xyz,pihole.local" \
     --env "LETSENCRYPT_HOST=pihole.agill.xyz" \
     --env "LETSENCRYPT_EMAIL=notgnoshi@gmail.com" \
-    --restart=unless-stopped \
     pihole/pihole:latest
 
 printf 'Starting up pihole container '
