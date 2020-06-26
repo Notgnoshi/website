@@ -67,7 +67,7 @@ wordcloud = WordCloud(
 wordcloud.to_file("all-words.png")</code></pre>
         <p>We can see <em>some</em> of the interesting bits, but they're overwhelmed by words like "a", "the", "in", and "and". These words are called "stop words", and we should remove them.</p>
         <figure class="figure d-block mx-auto w-100">
-            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/word-clouds/all-words.png" alt="word cloud with stop words">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/word-clouds/all-words.png" alt="word cloud with stop words">
             <figcaption class="figure-caption text-right">Word cloud with stop words</figcaption>
         </figure>
         <pre class="language-python pl-3"><code>bag = {k: v for k, v in bag.items() if k not in nlp.STOPWORDS}
@@ -79,7 +79,7 @@ wordcloud = WordCloud(
 wordcloud.to_file("without-stopwords.png")</code></pre>
         <p>The results are much more interesting. The resulting word cloud follows my preconceived notions about haiku, and in this particular case, they seem to be supported by evidence.</p>
         <figure class="figure d-block mx-auto w-100">
-            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/word-clouds/without-stopwords.png" alt="word cloud without stop words">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/word-clouds/without-stopwords.png" alt="word cloud without stop words">
             <figcaption class="figure-caption text-right">Word cloud without stop words</figcaption>
         </figure>
         <p>Another set of word clouds I'd like to make is the occurrence of flora and fauna in the haiku corpus.</p>
@@ -115,7 +115,7 @@ for haiku in corpus:
 
 wordcloud.to_file("flora.png")</code></pre>
         <figure class="figure d-block mx-auto w-100">
-            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/word-clouds/flora.png" alt="Flora in the haiku corpus">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/word-clouds/flora.png" alt="Flora in the haiku corpus">
             <figcaption class="figure-caption text-right">Flora in the haiku corpus</figcaption>
         </figure>
         <p>My big <a href="https://github.com/Notgnoshi/research/blob/master/data/fauna.txt">list</a> of fauna also contains a number of flora, but I've done my best to filter those out.</p>
@@ -125,7 +125,7 @@ wordcloud.to_file("flora.png")</code></pre>
 
 wordcloud.to_file("fauna.png")</code></pre>
         <figure class="figure d-block mx-auto w-100">
-            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/word-clouds/fauna.png" alt="Fauna in the haiku corpus">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/word-clouds/fauna.png" alt="Fauna in the haiku corpus">
             <figcaption class="figure-caption text-right">Fauna in the haiku corpus</figcaption>
         </figure>
         <p>Lastly, here's a simple representation of the color palette of the haiku. Note I had to modify some of the light and dark color values so that they're visible with a transparent background.</p>
@@ -151,7 +151,7 @@ wordcloud = WordCloud(
 
 wordcloud.to_file("colors.png")</code></pre>
         <figure class="figure d-block mx-auto w-100">
-            <img class="figure-img img-fluid rounded w-100" src="http://static.localhost/images/word-clouds/colors.png" alt="Color palette word cloud">
+            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/word-clouds/colors.png" alt="Color palette word cloud">
             <figcaption class="figure-caption text-right">Color palette word cloud</figcaption>
         </figure>
     </div>
