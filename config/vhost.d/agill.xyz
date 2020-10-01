@@ -10,14 +10,14 @@ location ^~ /.well-known/acme-challenge/ {
 ## End of configuration add by letsencrypt container
 # Proxy agill.xyz/generate through to api.localhost/generate
 
-location /generate {
-    proxy_pass http://api.localhost/generate;
-}
+# location /generate {
+#     proxy_pass http://api.localhost/generate;
+# }
 
-location /docs {
-    proxy_pass http://api.localhost/docs;
-}
+# location /docs {
+#     proxy_pass http://api.localhost/docs;
+# }
 
-location /openapi.json {
-    proxy_pass http://api.localhost/openapi.json;
-}
+# location /openapi.json {
+#     proxy_pass http://api.localhost/openapi.json;
+# }
