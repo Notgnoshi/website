@@ -50,3 +50,18 @@ cite a::before {
     counter-increment: citation;
     content: "[" counter(citation) "]";
 }
+
+nav[data-toggle="toc"] {
+    top: 74px;
+}
+
+@media (max-width: 768px) {
+    nav[data-toggle="toc"] {
+        margin-bottom: 74px;
+        position:static;
+    }
+
+    nav[data-toggle="toc"] .nav .nav {
+        display: block;
+    }
+}
