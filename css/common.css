@@ -24,7 +24,8 @@ body {
     min-height: 100vh;
     font-family: Georgia, Times, "Times New Roman", serif;
     font-size: 1.1rem;
-    counter-reset: citation;
+    counter-reset: sidenote-counter;
+    background-color: var(--light);
 }
 
 pre, code, kbd {
@@ -51,6 +52,95 @@ pre, code, kbd {
 .toggleable-content .menu-icon {
     float: right;
     display: none;
+}
+
+/* sidenotes and marginnotes. Modified from tufte.css */
+p {
+    width: 70%;
+}
+
+.sidenote,
+.marginnote {
+    float: right;
+    clear: right;
+    margin-right: -50%;
+    width: 40%;
+    margin-top: 0.3rem;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    vertical-align: baseline;
+    position: relative;
+}
+
+.sidenote-number {
+    counter-increment: sidenote-counter;
+}
+
+.sidenote-number:after,
+.sidenote:before {
+    position: relative;
+    vertical-align: baseline;
+}
+
+.sidenote-number:after {
+    content: counter(sidenote-counter);
+    font-size: 0.8rem;
+    top: -0.5rem;
+}
+
+.sidenote:before {
+    content: counter(sidenote-counter) " ";
+    font-size: 0.8rem;
+    top: -0.5rem;
+}
+
+input.margin-toggle {
+    display: none;
+}
+
+label.sidenote-number {
+    display: inline;
+}
+
+label.margin-toggle:not(.sidenote-number) {
+    display: none;
+}
+
+@media (max-width: 780px) {
+    p {
+        width: 100%;
+    }
+    label.margin-toggle:not(.sidenote-number) {
+        display: inline;
+    }
+
+    .sidenote,
+    .marginnote {
+        display: none;
+    }
+
+    .margin-toggle:checked + .sidenote,
+    .margin-toggle:checked + .marginnote {
+        display: block;
+        float: left;
+        left: 1rem;
+        clear: both;
+        width: 95%;
+        margin: 1rem 2.5%;
+        vertical-align: baseline;
+        position: relative;
+    }
+
+    label {
+        cursor: pointer;
+    }
+}
+
+@media only screen and (min-width: 1440px) {
+    .container {
+        max-width: 1340px;
+    }
 }
 
 @media screen and (max-width: 992px)
