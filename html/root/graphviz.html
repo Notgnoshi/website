@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A brief Graphviz tutorial">
+    <title>Graphviz</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css">
+    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
+    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
+    <script defer src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"
+        onload="Toc.init({$nav: $('#toc'), $scope: $(['h1', 'h2', 'h3'])});"></script>
+    <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+</head>
+<body class="d-flex flex-column" data-spy="scroll" data-target="#toc">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">agill.xyz</a>
+            <div class="toggleable-content text-right">
+                <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                <div class="trigger navbar-nav">
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/research">Research</a>
+                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <nav id="toc" data-toggle="toc" class="sticky-top"></nav>
+            </div>
+            <div class="col-sm-9">
+                <h1>Graphviz</h1>
+                <p><a href="https://graphviz.org/">Graphviz</a> is a very hand graph vizualization tool.<label for="sn-every-problem-is-a-graph-problem" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-every-problem-is-a-graph-problem" class="margin-toggle"/>
+                <span class="sidenote">And since every problem is a graph problem in disguise, it's a handy tool to have in your arsenal.</span> I will discuss the Dot Graphviz renderer (there are many)</p>
+                <h2>Basic Syntax</h2>
+                    <p>The basic syntax is fairly simple, but can be highly configurable. Graphs are defined by listing their edges.</p>
+                    <div class="row">
+                        <pre class="language-graphviz pl-3 col-8"><code>graph example01 {
+    NODE_1 -- NODE_2;
+    NODE_1 -- NODE_3;
+    NODE_2 -- NODE_3;
+}</code></pre>
+                        <figure class="figure d-block mx-auto w-100 col-4">
+                            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/graphviz/example01.svg" alt="Define a graph by listing its edges">
+                        </figure>
+                    </div>
+                    <p>Despite the simplicity, and the generally good defaults, here are some common tweaks that you might need.</p>
+                    <h3>Top-to-bottom and left-to-right layouts</h3>
+                        <p>By default, graphs are layed out top-to-bottom in the order nodes are specified. But you can add <code>rankdir=LR</code> grapha ttribute to force a left-to-right layout. This can make the graph more legible if you add edge labels.</p>
+                        <div class="row">
+                            <pre class="language-graphviz pl-3 col-7"><code>graph example02 {
+        rankdir=LR;
+
+        NODE_1 -- NODE_2;
+        NODE_1 -- NODE_3;
+    }</code></pre>
+                            <figure class="figure d-block mx-auto w-100 col-5">
+                                <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/graphviz/example02.svg">
+                            </figure>
+                        </div>
+                        <p>You do not have control of node placement. The goal here isn't to produce a perfect diagram a la TikZ, it's to produce a decent diagram that gets the point across with minimal effort.</p>
+                        <p>Notice that the nodes were split into two <em>ranks</em> (columns).</p>
+                    <h3>Directed graphs</h3>
+                        <div class="row">
+                            <pre class="language-graphviz pl-3 col-8"><code>digraph example03 {
+    NODE_1 -> NODE_2;
+    NODE_1 -> NODE_3;
+    NODE_3 -> NODE_2;
+}</code></pre>
+                            <figure class="figure d-block mx-auto w-100 col-4">
+                                <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/graphviz/example03.svg">
+                            </figure>
+                        </div>
+                        <p>Notice here that there are three ranks.</p>
+                    <h3>Increasing distance between nodes</h3>
+                        <p>You can use the <code>nodesep</code> and <code>ranksep</code> graph parameters to set the distance between nodes and ranks respectively. Units are in inches.</p>
+                        <div class="row">
+                            <pre class="language-graphviz pl-3 col-7"><code>digraph example04 {
+    ranksep=0.5;
+
+    NODE_1 -> NODE_3;
+    NODE_2 -> NODE_3;
+}</code></pre>
+                            <figure class="figure d-block mx-auto w-100 col-5">
+                                <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/graphviz/example04.svg">
+                            </figure>
+                        </div>
+                        <p>Note that the <code>ranksep</code> is the <em>vertical</em> distance between the horizontal ranks.</p>
+                        <div class="row">
+                            <pre class="language-graphviz pl-3 col-7"><code>digraph example05 {
+    ranksep=0.75;
+
+    NODE_1 -> NODE_3;
+    NODE_2 -> NODE_3;
+}</code></pre>
+                            <figure class="figure d-block mx-auto w-100 col-5">
+                                <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/graphviz/example05.svg">
+                            </figure>
+                        </div>
+                        <div class="row">
+                            <pre class="language-graphviz pl-3 col-7"><code>digraph example06 {
+    nodesep=1;
+
+    NODE_1 -> NODE_3;
+    NODE_2 -> NODE_3;
+}</code></pre>
+                            <figure class="figure d-block mx-auto w-100 col-5">
+                                <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/graphviz/example06.svg">
+                            </figure>
+                        </div>
+                        <p>Notice that <code>nodesep</code> also applies to the distance between ranks, but that this distance is measured from node to node.</p>
+                    <h3>Node shape</h3>
+                        <p>Perhaps ovals aren't your thing. See <a href="https://graphviz.org/doc/info/shapes.html">https://graphviz.org/doc/info/shapes.html</a> for the different node shapes you can use. Note that <code>record</code> shapes are special, and are how you can build things like tables or arrays.</p>
+                        <div class="row">
+                            <pre class="language-graphviz pl-3 col-8"><code>digraph example07 {
+    node [shape=box] NODE_2;
+    // The node keyword is optional.
+    NODE_1 [shape=circle];
+    // Sets default node shape.
+    node [shape=square];
+
+    NODE_1 -> NODE_2 -> NODE_3;
+    NODE_1 -> NODE_4;
+}</code></pre>
+                            <figure class="figure d-block mx-auto w-100 col-4">
+                                <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/graphviz/example07.svg">
+                            </figure>
+                        </div>
+                    <h3>Node and edge labels</h3>
+                        <p>A very common thing you'll want to do is to add labels to your nodes and edges</p>
+                        <pre class="language-graphviz pl-3"><code>digraph example08 {
+    rankdir=LR;
+    ranksep=0.75;
+    nodesep=0.5;
+
+    node [shape=point] START;
+    node [shape=doublecircle] INITIAL;
+    node [shape=circle];
+
+    START -> INITIAL [label="startup"];
+    INITIAL -> STATE_1 [label="event a\naction 1"];
+    INITIAL -> STATE_2 [label="event b\naction 2"];
+    STATE_1 -> STATE_1 [label="event c"];
+}</code></pre>
+                        <figure class="figure d-block mx-auto w-100">
+                            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/graphviz/example08.svg">
+                        </figure>
+                    <h3>Edge and multi-edge colors</h3>
+                        <pre class="language-graphviz pl-3"><code>digraph example09 {
+    rankdir=LR;
+
+    node [shape=point] START;
+    node [shape=doublecircle] INITIAL;
+    node [shape=circle];
+
+    START -> INITIAL;
+
+    INITIAL -> STATE_1;
+    STATE_1 -> STATE_2 [color=blue];
+    STATE_1 -> STATE_3 [style=dashed];
+    // quotes necessary when specifying multiple colors.
+    STATE_2 -> STATE_3 [color="black:red:black"];
+    STATE_3 -> STATE_3;
+}</code></pre>
+                        <figure class="figure d-block mx-auto w-100">
+                            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/graphviz/example09.svg">
+                        </figure>
+                    <h3>Subgraphs</h3>
+                        <pre class="language-graphviz pl-3"><code>digraph example10 {
+    rankdir=LR;
+
+    subgraph cluster_1 {
+        node [style=box];
+        color=red;
+        label="process 1";
+        a1 -> a2 -> a3;
+    }
+    subgraph cluster_2 {
+        node [style=dashed];
+        label="process 2";
+        b1 -> b2;
+    }
+    // Shorthand for start -> a1; start -> b1;
+    start -> {a1, b1};
+    {a3, b2} -> end;
+}</code></pre>
+                        <figure class="figure d-block mx-auto w-100">
+                            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/graphviz/example10.svg">
+                        </figure>
+                <h2>Live X11 Preview</h2>
+                <p>This is very handy for prototyping Graphviz diagrams. Use <code>dot -Tx11 &lt;filename&gt;</code> to run the live preview in an X11 window. The preview is regenerated every time the given file is written to. Note that the zooming is a bit touchy; use <code>&lt;ctrl-scroll&gt;</code> to zoom to/from the cursor.</p>
+                <h2>Generating PNG/SVG Output</h2>
+                <p>Use <code> dot -Tsvg -o &lt;output&gt; &lt;input&gt;</code>. Or you can use <code>-Tpng</code> if you <em>really</em> want to.</p>
+                <h2>Embedding Graphviz in Doxygen Documentation</h2>
+                <p>This is one of the things that makes Graphviz really quite powerful as a design tool. You can embed your design directly in the source code where the desgin is implemented. This makes it easier to update the diagrams when you refactor (something that should be caught in code review).</p>
+                <p>Include the Graphviz code wrapped between <code>@dot</code> and <code>@enddot</code> Doxygen tags. You can also use <a href="https://www.doxygen.nl/manual/commands.html#cmddotfile"><code>@dotfile</code></a> to read the diagram from a <code>*.dot</code> file saved in the <a href="https://www.doxygen.nl/manual/config.html#cfg_dotfile_dirs"><code>DOTFILES_DIRS</code></a> configuration variable.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        anchors.add();
+    </script>
+</body>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+</html>

@@ -1,0 +1,6 @@
+graph example02 {
+    rankdir=LR;
+
+    NODE_1 -- NODE_2;
+    NODE_1 -- NODE_3;
+}

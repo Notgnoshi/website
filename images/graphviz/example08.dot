@@ -1,0 +1,14 @@
+digraph example08 {
+    rankdir=LR;
+    ranksep=0.75;
+    nodesep=0.5;
+
+    node [shape=point] START;
+    node [shape=doublecircle] INITIAL;
+    node [shape=circle];
+
+    START -> INITIAL [label="startup"];
+    INITIAL -> STATE_1 [label="event a\naction 1"];
+    INITIAL -> STATE_2 [label="event b\naction 2"];
+    STATE_1 -> STATE_1 [label="event c"];
+}

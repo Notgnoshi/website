@@ -1,0 +1,16 @@
+digraph example09 {
+    rankdir=LR;
+
+    node [shape=point] START;
+    node [shape=doublecircle] INITIAL;
+    node [shape=circle];
+
+    START -> INITIAL;
+
+    INITIAL -> STATE_1;
+    STATE_1 -> STATE_2 [color=blue];
+    STATE_1 -> STATE_3 [style=dashed];
+    // quotes necessary when specifying multiple colors.
+    STATE_2 -> STATE_3 [color="black:red:black"];
+    STATE_3 -> STATE_3;
+}

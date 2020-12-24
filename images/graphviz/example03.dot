@@ -1,0 +1,5 @@
+digraph example03 {
+    NODE_1 -> NODE_2;
+    NODE_1 -> NODE_3;
+    NODE_3 -> NODE_2;
+}

@@ -25,7 +25,8 @@ body {
     font-family: Georgia, Times, "Times New Roman", serif;
     font-size: 1.1rem;
     counter-reset: sidenote-counter;
-    background-color: var(--light);
+    background-color: #FFF;
+    position: relative;
 }
 
 pre, code, kbd {
@@ -168,7 +169,7 @@ nav[data-toggle="toc"] {
     top: 74px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     nav[data-toggle="toc"] {
         margin-bottom: 74px;
         position:static;

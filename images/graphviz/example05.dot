@@ -1,0 +1,6 @@
+digraph example05 {
+    ranksep=0.75;
+
+    NODE_1 -> NODE_3;
+    NODE_2 -> NODE_3;
+}

@@ -1,0 +1,5 @@
+graph example01 {
+    NODE_1 -- NODE_2;
+    NODE_1 -- NODE_3;
+    NODE_2 -- NODE_3;
+}

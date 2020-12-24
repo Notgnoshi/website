@@ -1,0 +1,10 @@
+digraph example07 {
+    node [shape=box] NODE_2;
+    // The node keyword is optional.
+    NODE_1 [shape=circle];
+    // Sets default node shape.
+    node [shape=square];
+
+    NODE_1 -> NODE_2 -> NODE_3;
+    NODE_1 -> NODE_4;
+}

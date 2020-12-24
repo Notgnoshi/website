@@ -1,0 +1,18 @@
+digraph example10 {
+    rankdir=LR;
+
+    subgraph cluster_1 {
+        node [style=box];
+        color=red;
+        label="process 1";
+        a1 -> a2 -> a3;
+    }
+    subgraph cluster_2 {
+        node [style=dashed];
+        label="process 2";
+        b1 -> b2;
+    }
+    // Shorthand for start -> a1; start -> b1;
+    start -> {a1, b1};
+    {a3, b2} -> end;
+}
