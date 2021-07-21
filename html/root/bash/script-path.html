@@ -52,6 +52,49 @@
                 </ol>
             </nav>
             <h1>Bash: Getting the path of the current script</h1>
+            <p>
+                I've often wanted to make a script perform an action on some resource that's located relative to the
+                script.<label for="sn-code-format" class="margin-toggle sidenote-number"></label
+                ><input type="checkbox" id="sn-code-format" class="margin-toggle" /><span class="sidenote"
+                    >E.g., run <code>clang-format</code> on all of the C++ files in a repository, without running
+                    <code>clang-format</code> on any generated files, or submodule content, and without the restriction
+                    that you need to run the script from the repository root.</span
+                >
+            </p>
+            <pre class="language-bash pl-3"><code>SOURCE="${BASH_SOURCE[0]}"
+SCRIPT_DIRECTORY="$(cd "$(dirname "$SOURCE")" >/dev/null && pwd)"
+</code></pre>
+            <p>
+                But if there are symlinks that you want to resolve, you need to resolve them until
+                <code>$SOURCE</code> is no longer a symlink.<label
+                    for="sn-symlinks"
+                    class="margin-toggle sidenote-number"
+                ></label
+                ><input type="checkbox" id="sn-symlinks" class="margin-toggle" /><span class="sidenote"
+                    >This seems like a pretty niche thing that you might not want to do. I found in helpful in my
+                    <code>~/.bashrc</code> because I clone my
+                    <a href="https://github.com/Notgnoshi/dotfiles" target="_blank">dotfiles repository</a> to
+                    <code>~/.config/dotfiles/</code> and symlink the contents into my home directory.</span
+                >
+            </p>
+            <pre class="language-bash pl-3"><code>SOURCE="${BASH_SOURCE[0]}"
+# resolve $SOURCE until the file is no longer a symlink
+while [ -h "$SOURCE" ]; do
+    SCRIPT_DIRECTORY="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+    [[ $SOURCE != /* ]] && SOURCE="$SCRIPT_DIRECTORY/$SOURCE"
+done
+SCRIPT_DIRECTORY="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+</code></pre>
+            <p>
+                Then take the path to the script directory, and resolve the relative path to whatever resource you're
+                interested in.
+            </p>
+            <pre class="language-bash pl-3"><code>RELATIVE_ASSET="$SCRIPT_DIRECTORY/../relative/path/to/asset/"
+# Resolve $RELATIVE_ASSET to an absolute path. May or may not be necessary.
+ABSOLUTE_ASSET="$(readlink --canonicalize --no-newline "$RELATIVE_ASSET")"
+</code></pre>
         </div>
     </body>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
