@@ -1,91 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="The use of LSTM networks in language modeling." />
+        <title>1.d.v. LSTM Models</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+            integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+            crossorigin="anonymous"
+        />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+            integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+            crossorigin="anonymous"
+        ></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <script
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
+            integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
+            crossorigin="anonymous"
+        ></script>
+        <script language="javascript">
+            const katexOpts = {
+                macros: {
+                    "\\norm": "\\left\\lVert#1\\right\\rVert",
+                    "\\ceil": "\\left\\lceil#1\\right\\rceil",
+                    "\\floor": "\\left\\lfloor#1\\right\\rfloor",
+                    "\\countf": "\\operatorname{count}\\left(#1\\right)",
+                    "\\entropy": "\\operatorname{H}",
+                    "\\perplexity": "\\operatorname{PP}",
+                    "\\model": "\\operatorname{LM}",
+                    "\\softmax": "\\operatorname{softmax}",
+                },
+            };
+        </script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+            integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+            crossorigin="anonymous"
+            onload="renderMathInElement(document.body, katexOpts);"
+        ></script>
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="The use of LSTM networks in language modeling.">
-    <title>1.d.v. LSTM Models</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
-    <script language="javascript">
-        const katexOpts = {
-            macros: {
-                "\\norm": "\\left\\lVert#1\\right\\rVert",
-                "\\ceil": "\\left\\lceil#1\\right\\rceil",
-                "\\floor": "\\left\\lfloor#1\\right\\rfloor",
-                "\\countf": "\\operatorname{count}\\left(#1\\right)",
-                "\\entropy": "\\operatorname{H}",
-                "\\perplexity": "\\operatorname{PP}",
-                "\\model": "\\operatorname{LM}",
-                "\\softmax": "\\operatorname{softmax}",
-            },
-        };
-    </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body, katexOpts);"></script>
-</head>
-
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home</a>
-                    <a class="nav-item nav-link active" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link active" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/research/haiku">Home</a></li>
-                <li class="breadcrumb-item">Introduction</li>
-                <li class="breadcrumb-item">Natural Language</li>
-                <li class="breadcrumb-item active" area-current="page">LSTM Models</li>
-            </ol>
-        </nav>
-        <h1>1.d.v. LSTM Models</h1>
-        <p>In light of the vanishing gradients of RNN models, the use of a Long Short Term Memory (LSTM) network architecture has been found to be effective <cite><a href="lstm"></a></cite>. LSTM models are a class of recurrent networks. The figure below shows the basic structure of one layer in a recurrent neural network. Notice that the architecture is now temporal &mdash; each input and output is labeled with a timestep &mdash; and that the key difference from the basic layers of a <a href="/research/haiku/introduction/natural-language/ffnn">feed forward network</a> is that the recurrent layer also considers \(y(t-1)\) in addition to the input values \(x(t)\) when producing \(y(t)\).</p>
-        <figure class="figure w-50 d-block mx-auto">
-            <img src="https://static.agill.xyz/images/research/rnn-layer.svg" class="figure-img img-fluid w-100" alt="The basic RNN layer">
-            <figcaption class="figure-caption text-right">The basic RNN layer</figcaption>
-        </figure>
-        <p>As the next figure shows, LSTM layers have many of the same characteristics &mdash; a single vector \(x(t)\) input, a single vector \(y(t)\) output, and the general recurrent property that internal context wraps back around as input for the next time step.</p>
-        <p>In an RNN model, the context that wraps around is the output vector \(y(t)\), but in LSTM models, both the output \(y(t)\) <i>and</i> a new, hidden context vector \(c(t)\) wraps around. LSTM models also differ in the addition of several gates to control how much context to remember, when it should forget the context, and when it should output the value of the activation function. As this is a slightly more involved architecture, some amount of explanatory remarks are necessary.</p>
-        <figure class="figure w-75 d-block mx-auto">
-            <img src="https://static.agill.xyz/images/research/lstm-layer.svg" class="figure-img img-fluid w-100" alt="An LSTM layer">
-            <figcaption class="figure-caption text-right">An LSTM layer</figcaption>
-        </figure>
-        <p>LSTM networks have an internal state called \(c(t)\), and an output \(y(t)\). The internal state is recurrently passed from the output of the layer to its input on the next time step, as is the output \(y(t)\). However, the output is also passed to the next layer in the network.</p>
-        <p>The internal state can be modified by the network, in a manner that is controlled by several different <i>gates</i>. Each gate, is a normal feed-forward network layer with a sigmoid activation function. The layer to learn new features is a normal feed-forward layer too, but its activation function is most often the hyperbolic tangent.</p>
-        <p>Since the sigmoid function outputs values between 0 and 1, and each of the gates are immediately followed by an element-wise multiplication (\(\otimes\)), the gates are aptly named --- as they control how much of a signal passes. The forget gate controls how much of the previous timestep's internal state is remembered, while the input gate controls how much of the new features are added element-wise (\(\oplus\)) to the internal state. Finally, the internal state is passed element-wise through a hyperbolic tangent activation function before being multiplied by the results of the output gate.</p>
-        <p>We can formalize this architecture mathematically as</p>
-        <p class="text-center">\[\begin{aligned} f_g(t) & = \sigma\left(W_f \cdot [y(t-1), x(t)] + b_f\right) & \text{forget gate} \\ i_g(t) & = \sigma\left(W_i \cdot [y(t-1), x(t)] + b_i\right) & \text{input gate} \\ o_g(t) & = \sigma\left(W_o \cdot [y(t-1), x(t)] + b_o\right) & \text{output gate} \\ g(t) & = \tanh \left(U \cdot [y(t-1), x(t)] + d \right) & \text{new features} \\ c(t) & = \left(f_g(t) \otimes c(t-1)\right) \oplus \left(i_g(t) \otimes g(t)\right) & \text{internal state} \\ y(t) & = o_g(t) \otimes \tanh\left(c(t)\right) & \text{output} \end{aligned}\]</p> where \([y(t-1), x(t)]\) is the concatenation of the \(y(t-1)\) and \(x(t)\) vectors, \(\otimes\) and \(\oplus\) are element-wise multiplication and addition respectively, \(W_f, W_i, W_o\), and \(U\) are weight matrices, and \(b_f, b_i, b_o\), and \(d\) are bias vectors <cite><a href="jing_survey"></a></cite>.</p>
-        <p>The application of LSTM networks to modeling natural language is a relatively recent development <cite><a href="Sundermeyer2012LSTMNN"></a></cite>. The figure below shows the proposed neural network topology.</p>
-        <figure class="figure w-75 d-block mx-auto">
-            <img src="https://static.agill.xyz/images/research/lstmlm.svg" class="figure-img img-fluid w-100" alt="The LSTM language model architecture">
-            <figcaption class="figure-caption text-right">The LSTM language model architecture</figcaption>
-        </figure>
-        <p>The input vector \(\vec x\) is one-hot encoded, which means that, given a vocabulary of size \(n\), \(\vec x\) is \(n\)-dimensional and zero everywhere except for the index corresponding to the word \(\vec x\) represents where its value is one. This is a common word representation for neural network models, and in the implementations of the network training and computation the supporting linear algebra and optimization libraries are free to abuse the sparse nature of the input vector.</p>
-        <p>The first hidden layer, in effect, projects the one-hot encoded input vector to a continuous vector space. Then this continuous word representation is passed through the LSTM network that is able to keep track of the context between different \(\vec x\) vectors (each representing a word in the vocabulary) fed to the network. Finally, note that the softmax output layer outputs a probability value for each word in the vocabulary, making it the dominating computational factor in the network training <cite><a href="Sundermeyer2012LSTMNN"></a></cite>.</p>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for <em>this</em> version. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
-
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/research/haiku">Home</a></li>
+                    <li class="breadcrumb-item">Introduction</li>
+                    <li class="breadcrumb-item">Natural Language</li>
+                    <li class="breadcrumb-item active" area-current="page">LSTM Models</li>
+                </ol>
+            </nav>
+            <h1>1.d.v. LSTM Models</h1>
+            <p>
+                In light of the vanishing gradients of RNN models, the use of a Long Short Term Memory (LSTM) network
+                architecture has been found to be effective
+                <cite><a href="lstm"></a></cite>. LSTM models are a class of recurrent networks. The figure below shows
+                the basic structure of one layer in a recurrent neural network. Notice that the architecture is now
+                temporal &mdash; each input and output is labeled with a timestep &mdash; and that the key difference
+                from the basic layers of a
+                <a href="/research/haiku/introduction/natural-language/ffnn">feed forward network</a>
+                is that the recurrent layer also considers \(y(t-1)\) in addition to the input values \(x(t)\) when
+                producing \(y(t)\).
+            </p>
+            <figure class="figure w-50 d-block mx-auto">
+                <img
+                    src="https://static.agill.xyz/images/research/rnn-layer.svg"
+                    class="figure-img img-fluid w-100"
+                    alt="The basic RNN layer"
+                />
+                <figcaption class="figure-caption text-right">The basic RNN layer</figcaption>
+            </figure>
+            <p>
+                As the next figure shows, LSTM layers have many of the same characteristics &mdash; a single vector
+                \(x(t)\) input, a single vector \(y(t)\) output, and the general recurrent property that internal
+                context wraps back around as input for the next time step.
+            </p>
+            <p>
+                In an RNN model, the context that wraps around is the output vector \(y(t)\), but in LSTM models, both
+                the output \(y(t)\) <i>and</i> a new, hidden context vector \(c(t)\) wraps around. LSTM models also
+                differ in the addition of several gates to control how much context to remember, when it should forget
+                the context, and when it should output the value of the activation function. As this is a slightly more
+                involved architecture, some amount of explanatory remarks are necessary.
+            </p>
+            <figure class="figure w-75 d-block mx-auto">
+                <img
+                    src="https://static.agill.xyz/images/research/lstm-layer.svg"
+                    class="figure-img img-fluid w-100"
+                    alt="An LSTM layer"
+                />
+                <figcaption class="figure-caption text-right">An LSTM layer</figcaption>
+            </figure>
+            <p>
+                LSTM networks have an internal state called \(c(t)\), and an output \(y(t)\). The internal state is
+                recurrently passed from the output of the layer to its input on the next time step, as is the output
+                \(y(t)\). However, the output is also passed to the next layer in the network.
+            </p>
+            <p>
+                The internal state can be modified by the network, in a manner that is controlled by several different
+                <i>gates</i>. Each gate, is a normal feed-forward network layer with a sigmoid activation function. The
+                layer to learn new features is a normal feed-forward layer too, but its activation function is most
+                often the hyperbolic tangent.
+            </p>
+            <p>
+                Since the sigmoid function outputs values between 0 and 1, and each of the gates are immediately
+                followed by an element-wise multiplication (\(\otimes\)), the gates are aptly named --- as they control
+                how much of a signal passes. The forget gate controls how much of the previous timestep's internal state
+                is remembered, while the input gate controls how much of the new features are added element-wise
+                (\(\oplus\)) to the internal state. Finally, the internal state is passed element-wise through a
+                hyperbolic tangent activation function before being multiplied by the results of the output gate.
+            </p>
+            <p>We can formalize this architecture mathematically as</p>
+            <p class="text-center">
+                \[\begin{aligned} f_g(t) & = \sigma\left(W_f \cdot [y(t-1), x(t)] + b_f\right) & \text{forget gate} \\
+                i_g(t) & = \sigma\left(W_i \cdot [y(t-1), x(t)] + b_i\right) & \text{input gate} \\ o_g(t) & =
+                \sigma\left(W_o \cdot [y(t-1), x(t)] + b_o\right) & \text{output gate} \\ g(t) & = \tanh \left(U \cdot
+                [y(t-1), x(t)] + d \right) & \text{new features} \\ c(t) & = \left(f_g(t) \otimes c(t-1)\right) \oplus
+                \left(i_g(t) \otimes g(t)\right) & \text{internal state} \\ y(t) & = o_g(t) \otimes
+                \tanh\left(c(t)\right) & \text{output} \end{aligned}\]
+            </p>
+            <p>
+                where \([y(t-1), x(t)]\) is the concatenation of the \(y(t-1)\) and \(x(t)\) vectors, \(\otimes\) and
+                \(\oplus\) are element-wise multiplication and addition respectively, \(W_f, W_i, W_o\), and \(U\) are
+                weight matrices, and \(b_f, b_i, b_o\), and \(d\) are bias vectors
+                <cite><a href="jing_survey"></a></cite>.
+            </p>
+            <p>
+                The application of LSTM networks to modeling natural language is a relatively recent development
+                <cite><a href="Sundermeyer2012LSTMNN"></a></cite>. The figure below shows the proposed neural network
+                topology.
+            </p>
+            <figure class="figure w-75 d-block mx-auto">
+                <img
+                    src="https://static.agill.xyz/images/research/lstmlm.svg"
+                    class="figure-img img-fluid w-100"
+                    alt="The LSTM language model architecture"
+                />
+                <figcaption class="figure-caption text-right">The LSTM language model architecture</figcaption>
+            </figure>
+            <p>
+                The input vector \(\vec x\) is one-hot encoded, which means that, given a vocabulary of size \(n\),
+                \(\vec x\) is \(n\)-dimensional and zero everywhere except for the index corresponding to the word
+                \(\vec x\) represents where its value is one. This is a common word representation for neural network
+                models, and in the implementations of the network training and computation the supporting linear algebra
+                and optimization libraries are free to abuse the sparse nature of the input vector.
+            </p>
+            <p>
+                The first hidden layer, in effect, projects the one-hot encoded input vector to a continuous vector
+                space. Then this continuous word representation is passed through the LSTM network that is able to keep
+                track of the context between different \(\vec x\) vectors (each representing a word in the vocabulary)
+                fed to the network. Finally, note that the softmax output layer outputs a probability value for each
+                word in the vocabulary, making it the dominating computational factor in the network training
+                <cite><a href="Sundermeyer2012LSTMNN"></a></cite>.
+            </p>
+        </div>
+    </body>
+    <!-- TODO: Find the integrity hash for <em>this</em> version. -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

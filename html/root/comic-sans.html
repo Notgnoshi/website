@@ -1,60 +1,105 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Why, and how I use a monospace variant of universally hated font.">
-    <title>Programming in Comic Sans</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
-    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
-</head>
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
-                <div class="trigger navbar-nav">
-                    <a class="nav-item nav-link" href="/">Home</a>
-                    <a class="nav-item nav-link" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Why, and how I use a monospace variant of universally hated font." />
+        <title>Programming in Comic Sans</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <script
+            defer
+            src="https://static.agill.xyz/js/highlight.min.js"
+            onload="hljs.initHighlightingOnLoad();"
+        ></script>
+        <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <h1>Programming in Comic Sans</h1>
-        <p>A little while into my first internship, I went looking for a monospace version of The Universally Hated font, because it felt like I had no clue what I was doing, and I thought it'd be funny if as much were visually obvious. I was amused to find <a href="https://www.dafont.com/pointfree.font" target="_blank">pointfree.ttf</a> and immediately installed it.</p>
-        <p>A few internships and a full time position later, and I'm still using it. It started as a joke, but I've since become attached.</p>
-        <p>In preparation for this post, I went searching for more monospace variants of Comic Sans, and I was pleasantly surprised to find that the family has grown over the last few years!
-        <ul>
-            <li><a href="https://www.myfonts.com/fonts/tabular-type-foundry/comic-code" target="_blank">Comic Code</a> - 12$ per style with group discounts, but who would pay for a font?</li>
-            <li><a href="https://github.com/belluzj/fantasque-sans" target="_blank">Fantasque Sans Mono</a> - A popular variant with several different styles. Not hateable enough for me.</li>
-            <li><a href="https://www.dafont.com/pointfree.font" target="_blank">Pointfree</a> - The original version that I use. ASCII-only.</li>
-            <li><a href="https://github.com/shannpersand/comic-shanns" target="_blank">comic-shanns</a> - An ASCII-only variant with no styles. Sufficiently hateable.</li>
-            <li><a href="https://github.com/dtinth/comic-mono-font" target="_blank">comic-mono-font</a> - A fork of comic-shanns with small adjustments and a bold style.</li>
-        </ul></p>
-        <p>To install Pointfree on a fresh Ubuntu installation, I do the following</p>
-        <pre class="language-bash pl-3"><code>mkdir -p ~/.local/share/fonts
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>Programming in Comic Sans</h1>
+            <p>
+                A little while into my first internship, I went looking for a monospace version of The Universally Hated
+                font, because it felt like I had no clue what I was doing, and I thought it'd be funny if as much were
+                visually obvious. I was amused to find
+                <a href="https://www.dafont.com/pointfree.font" target="_blank">pointfree.ttf</a>
+                and immediately installed it.
+            </p>
+            <p>
+                A few internships and a full time position later, and I'm still using it. It started as a joke, but I've
+                since become attached.
+            </p>
+            <p>
+                In preparation for this post, I went searching for more monospace variants of Comic Sans, and I was
+                pleasantly surprised to find that the family has grown over the last few years!
+            </p>
+            <ul>
+                <li>
+                    <a href="https://www.myfonts.com/fonts/tabular-type-foundry/comic-code" target="_blank">
+                        Comic Code
+                    </a>
+                    - 12$ per style with group discounts, but who would pay for a font?
+                </li>
+                <li>
+                    <a href="https://github.com/belluzj/fantasque-sans" target="_blank">Fantasque Sans Mono</a>
+                    - A popular variant with several different styles. Not hateable enough for me.
+                </li>
+                <li>
+                    <a href="https://www.dafont.com/pointfree.font" target="_blank">Pointfree</a>
+                    - The original version that I use. ASCII-only.
+                </li>
+                <li>
+                    <a href="https://github.com/shannpersand/comic-shanns" target="_blank">comic-shanns</a>
+                    - An ASCII-only variant with no styles. Sufficiently hateable.
+                </li>
+                <li>
+                    <a href="https://github.com/dtinth/comic-mono-font" target="_blank">comic-mono-font</a>
+                    - A fork of comic-shanns with small adjustments and a bold style.
+                </li>
+            </ul>
+            <p>To install Pointfree on a fresh Ubuntu installation, I do the following</p>
+            <pre class="language-bash pl-3"><code>mkdir -p ~/.local/share/fonts
 curl --location --output /tmp/pointfree.zip "https://dl.dafont.com/dl/?f=pointfree"
 unzip -d /tmp/ /tmp/pointfree.zip
 mv /tmp/pointfree.ttf ~/.local/share/fonts/
 fc-cache -f -v
 gsettings set org.gnome.desktop.interface monospace-font-name 'Pointfree 11'
 </code></pre>
-    <p>Alternatively, you could install ComicMono, but it doesn't feel quite right, so I'm sticking with Pointfree.</p>
-    <pre class="language-bash pl-3"><code>mkdir -p ~/.local/share/fonts
+            <p>
+                Alternatively, you could install ComicMono, but it doesn't feel quite right, so I'm sticking with
+                Pointfree.
+            </p>
+            <pre class="language-bash pl-3"><code>mkdir -p ~/.local/share/fonts
 curl --location --output ~/.local/share/fonts/ComicMono.ttf "https://dtinth.github.io/comic-mono-font/ComicMono.ttf"
 fc-cache -f -v
 gsettings set org.gnome.desktop.interface monospace-font-name 'Comic Mono 11'
 </code></pre>
-    </div>
-</body>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

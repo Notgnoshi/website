@@ -1,62 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Process for setting up a new Ubuntu installation">
-    <title>Ubuntu Configuration</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css" />
-    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
-    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
-</head>
-
-<body class="d-flex flex-column" data-spy="scroll" data-target="#toc">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Process for setting up a new Ubuntu installation" />
+        <title>Ubuntu Configuration</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css" />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css" />
+        <script
+            defer
+            src="https://static.agill.xyz/js/highlight.min.js"
+            onload="hljs.initHighlightingOnLoad();"
+        ></script>
+    </head>
+    <body class="d-flex flex-column" data-spy="scroll" data-target="#toc">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">
+                            Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>Ubuntu Configuration</h1>
+            <div class="card">
+                <div class="card-header">TL;DR</div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        <li>
+                            Clone my
+                            <a href="https://github.com/Notgnoshi/dotfiles" class="">dotfiles repository</a>
+                        </li>
+                        <li>
+                            Run
+                            <a href="https://github.com/Notgnoshi/dotfiles/blob/master/deploy.py" class="">
+                                <code>deploy.py</code>
+                            </a>
+                            to symlink dotfiles in the right places
+                        </li>
+                        <li>
+                            Run
+                            <a href="https://github.com/Notgnoshi/dotfiles/blob/master/bin/configure.sh" class="">
+                                <code>configure.sh</code>
+                            </a>
+                            to install packages and tweak settings
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <h1>Ubuntu Configuration</h1>
-        <div class="card">
-            <div class="card-header">TL;DR</div>
-            <div class="card-body">
-                <ul class="mb-0">
-                    <li>Clone my <a href="https://github.com/Notgnoshi/dotfiles" class="">dotfiles repository</a></li>
-                    <li>Run <a href="https://github.com/Notgnoshi/dotfiles/blob/master/deploy.py" class=""><code>deploy.py</code></a> to symlink dotfiles in the right places</li>
-                    <li>Run <a href="https://github.com/Notgnoshi/dotfiles/blob/master/bin/configure.sh" class=""><code>configure.sh</code></a> to install packages and tweak settings</li>
-                </ul>
-            </div>
-        </div>
-        <p class="pt-2">I end up installing and reinstalling Ubuntu a lot. As with many Linux users, I cannot <em>not</em> customize my installation. However, I use multiple devices with several accounts, some of which are not managed by me. This leads to a massive headache when trying to keep customizations in sync, especially when they keep changing as I learn new things.</p>
-        <p>This page documents the process I follow to configure a fresh Ubuntu installation to my preferences. Much of it is finally automated in a manner I'm satisfied with, but there is still quite a bit left on my backlog I need to add. Additionally, due to limitations outside my control, on some systems I have to jump through hoops to get things set up the way I like.</p>
-        <h2>Pre-configure Steps</h2>
-        <div>
-            <h3>Prerequisite packages</h3>
-            <p>The following packages are necessary to proceed.</p>
-            <pre class="pl-3"><code class="language-bash">sudo apt install vim git curl</code></pre class="pl-3">
-            <h3>SSH Keys</h3>
-            <p>Before I can clone my dotfiles repository, I need to generate (or copy from backup) an SSH key and <a
-                    href="https://github.com/settings/ssh/new">add it to GitHub</a></p>
+            <p class="pt-2">
+                I end up installing and reinstalling Ubuntu a lot. As with many Linux users, I cannot
+                <em>not</em>
+                customize my installation. However, I use multiple devices with several accounts, some of which are not
+                managed by me. This leads to a massive headache when trying to keep customizations in sync, especially
+                when they keep changing as I learn new things.
+            </p>
+            <p>
+                This page documents the process I follow to configure a fresh Ubuntu installation to my preferences.
+                Much of it is finally automated in a manner I'm satisfied with, but there is still quite a bit left on
+                my backlog I need to add. Additionally, due to limitations outside my control, on some systems I have to
+                jump through hoops to get things set up the way I like.
+            </p>
+            <h2>Pre-configure Steps</h2>
+            <div>
+                <h3>Prerequisite packages</h3>
+                <p>The following packages are necessary to proceed.</p>
+                <pre class="pl-3"><code class="language-bash">sudo apt install vim git curl</code></pre>
+                <h3>SSH Keys</h3>
+                <p>
+                    Before I can clone my dotfiles repository, I need to generate (or copy from backup) an SSH key and
+                    <a href="https://github.com/settings/ssh/new">add it to GitHub</a>
+                </p>
 
-            <pre class="pl-3"><code class="language-bash">mkdir -p ~/.ssh
+                <pre class="pl-3"><code class="language-bash">mkdir -p ~/.ssh
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/git
 echo "AddKeysToAgent yes
 IdentitiesOnly yes
@@ -67,45 +109,151 @@ IdentityFile ~/.ssh/git
 Host anguish
 HostName xxx.xxx.xxx.xxx
 IdentityFile ~/.ssh/anguish" > ~/.ssh/config</code></pre>
-            <p>Note that until SSH keys are generated and copied to their respective hosts, and the rest of the SSH config file is added, it may be necessary to add the <code>-o 'IdentitiesOnly yes'</code> argument to disable <code>ssh</code> from attempting to authenticate <em>every</em> key it knows about.</p>
-            <div class="alert alert-warning">I still need to find a good way to generate <code>~/.ssh/config</code> from the <code>configure.sh</code> script in a manner that doesn't break things. Perhaps this will always have to be a manual step.</div>
-        </div>
-        <h2>Installing the dotfiles</h2>
-        <div>
-            <h3>Cloning the dotfiles repository</h3>
-            <p>My dotfiles repository include several Vim plugins, as well as <a href="https://github.com/junegunn/fzf" target="_blank">fzf</a> as Git submodules. Thus be sure to clone with the <code>--recurse-submodules</code> option, or run <code>git submodule update --init --recursive</code> after cloning.</p>
-            <pre class="pl-3"><code class="language-bash">git clone --recurse-submodules git@github.com:Notgnoshi/dotfiles.git ~/.config/dotfiles
+                <p>
+                    Note that until SSH keys are generated and copied to their respective hosts, and the rest of the SSH
+                    config file is added, it may be necessary to add the
+                    <code>-o 'IdentitiesOnly yes'</code>
+                    argument to disable
+                    <code>ssh</code>
+                    from attempting to authenticate
+                    <em>every</em>
+                    key it knows about.
+                </p>
+                <div class="alert alert-warning">
+                    I still need to find a good way to generate
+                    <code>~/.ssh/config</code>
+                    from the
+                    <code>configure.sh</code>
+                    script in a manner that doesn't break things. Perhaps this will always have to be a manual step.
+                </div>
+            </div>
+            <h2>Installing the dotfiles</h2>
+            <div>
+                <h3>Cloning the dotfiles repository</h3>
+                <p>
+                    My dotfiles repository include several Vim plugins, as well as
+                    <a href="https://github.com/junegunn/fzf" target="_blank">fzf</a>
+                    as Git submodules. Thus be sure to clone with the
+                    <code>--recurse-submodules</code>
+                    option, or run
+                    <code>git submodule update --init --recursive</code>
+                    after cloning.
+                </p>
+                <pre
+                    class="pl-3"
+                ><code class="language-bash">git clone --recurse-submodules git@github.com:Notgnoshi/dotfiles.git ~/.config/dotfiles
 git submodule update --init --recursive</code></pre>
-            <h3>Deploying dotfiles to home folder</h3>
-            <pre class="pl-3"><code class="language-bash">~/.config/dotfiles/deploy.py ~
+                <h3>Deploying dotfiles to home folder</h3>
+                <pre class="pl-3"><code class="language-bash">~/.config/dotfiles/deploy.py ~
 source ~/.bashrc</code></pre>
+            </div>
+            <h2>Running the configuration script</h2>
+            <div>
+                <p>
+                    Run
+                    <code>~/.local/bin/configure.sh</code>
+                    and answer
+                    <code>y</code>
+                    to the prompts you wish to accept. The script will interactively perform the following tasks
+                </p>
+                <ul>
+                    <li>Updates the Git submodules in the dotfile repository</li>
+                    <li>
+                        Installs
+                        <a href="https://github.com/junegunn/fzf" target="_blank">fzf</a>
+                    </li>
+                    <li>
+                        Installs
+                        <a href="https://github.com/koalaman/shellcheck" target="_blank">shellcheck</a>
+                        and
+                        <a href="https://github.com/mvdan/sh" target="_blank">shfmt</a>
+                    </li>
+                    <li>
+                        Installs
+                        <code>vim</code>
+                        ,
+                        <code>git</code>
+                        , and
+                        <code>curl</code>
+                    </li>
+                    <li>Installs LaTeX and related packages</li>
+                    <li>
+                        Installs development packages like
+                        <code>gcc</code>
+                        ,
+                        <code>clang</code>
+                        , and
+                        <code>doxygen</code>
+                    </li>
+                    <li>
+                        Installs must-have terminal programs like
+                        <code>htop</code>
+                        ,
+                        <code>nmap</code>
+                        ,
+                        <code>traceroute</code>
+                        , and
+                        <code>screen</code>
+                    </li>
+                    <li>
+                        Installs Gnome Shell customizations, like
+                        <a href="https://github.com/numixproject/numix-icon-theme-circle" target="_blank">
+                            <code>numix-icon-theme-circle</code>
+                        </a>
+                        and
+                        <code>gnome-tweak-tool</code>
+                    </li>
+                    <li>
+                        Installs
+                        <a href="https://code.visualstudio.com/" target="_blank">VS Code</a>
+                        and the
+                        <a
+                            href="https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync"
+                            target="_blank"
+                        >
+                            settings-sync
+                        </a>
+                        extension
+                    </li>
+                    <li>Installs Discord and Spotify</li>
+                    <li>Installs Steam, Minecraft, and Lutris</li>
+                    <li>
+                        Installs Pip, either as root or as a user, and some Python packages I use on almost every
+                        project, like
+                        <a href="https://www.pylint.org/" target="_blank"><code>pylint</code></a>
+                        ,
+                        <a href="http://www.pydocstyle.org/en/stable/" target="_blank"><code>pydocstyle</code></a>
+                        , and
+                        <a href="https://black.readthedocs.io/en/stable/" target="_blank"><code>black</code></a>
+                    </li>
+                    <li>Opens my browser to each of the Gnome Shell extensions I want to install</li>
+                    <li>
+                        Uses
+                        <code>gsettings</code>
+                        to configure all of the Ubuntu settings I want
+                    </li>
+                    <li>
+                        Configures
+                        <code>/etc/fstab</code>
+                        to automatically mount my NAS shares
+                    </li>
+                    <li>
+                        Edits
+                        <code>/etc/sudoers</code>
+                        to insult me when I mistype my sudo password
+                    </li>
+                </ul>
+                <div class="alert alert-warning">
+                    Note that the Gnome extensions should be installed from the browser by visiting
+                    <a href="https://extensions.gnome.org/">extensions.gnome.org</a>
+                    when prompted
+                    <em>before</em>
+                    tweaking the Ubuntu system settings through
+                    <code>gsettings</code>
+                </div>
+            </div>
         </div>
-        <h2>Running the configuration script</h2>
-        <div>
-            <p>Run <code>~/.local/bin/configure.sh</code> and answer <code>y</code> to the prompts you wish to accept. The script will interactively perform the following tasks</p>
-            <ul>
-                <li>Updates the Git submodules in the dotfile repository</li>
-                <li>Installs <a href="https://github.com/junegunn/fzf" target="_blank">fzf</a></li>
-                <li>Installs <a href="https://github.com/koalaman/shellcheck" target="_blank">shellcheck</a> and <a href="https://github.com/mvdan/sh" target="_blank">shfmt</a></li>
-                <li>Installs <code>vim</code>, <code>git</code>, and <code>curl</code></li>
-                <li>Installs LaTeX and related packages</li>
-                <li>Installs development packages like <code>gcc</code>, <code>clang</code>, and <code>doxygen</code>
-                </li>
-                <li>Installs must-have terminal programs like <code>htop</code>, <code>nmap</code>, <code>traceroute</code>, and <code>screen</code></li>
-                <li>Installs Gnome Shell customizations, like <a href="https://github.com/numixproject/numix-icon-theme-circle" target="_blank"><code>numix-icon-theme-circle</code></a> and <code>gnome-tweak-tool</code></li>
-                <li>Installs <a href="https://code.visualstudio.com/" target="_blank">VS Code</a> and the <a href="https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync" target="_blank">settings-sync</a> extension</li>
-                <li>Installs Discord and Spotify</li>
-                <li>Installs Steam, Minecraft, and Lutris</li>
-                <li>Installs Pip, either as root or as a user, and some Python packages I use on almost every project, like <a href="https://www.pylint.org/" target="_blank"><code>pylint</code></a>, <a href="http://www.pydocstyle.org/en/stable/" target="_blank"><code>pydocstyle</code></a>, and <a href="https://black.readthedocs.io/en/stable/" target="_blank"><code>black</code></a></li>
-                <li>Opens my browser to each of the Gnome Shell extensions I want to install</li>
-                <li>Uses <code>gsettings</code> to configure all of the Ubuntu settings I want</li>
-                <li>Configures <code>/etc/fstab</code> to automatically mount my NAS shares</li>
-                <li>Edits <code>/etc/sudoers</code> to insult me when I mistype my sudo password</li>
-            </ul>
-            <div class="alert alert-warning">Note that the Gnome extensions should be installed from the browser by visiting <a href="https://extensions.gnome.org/">extensions.gnome.org</a> when prompted <em>before</em> tweaking the Ubuntu system settings through <code>gsettings</code></div>
-        </div>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for *this* version. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+    </body>
+    <!-- TODO: Find the integrity hash for *this* version. -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

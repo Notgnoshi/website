@@ -1,1646 +1,1693 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Personal recipes that I like, or plan on trying soon.">
-    <title>Recipes</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <!-- Table of contents -->
-    <script defer src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
-    <script defer src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"
-        onload="Toc.init({$nav: $('#toc'), $scope: $(['h1', 'h2', 'h3'])});"></script>
-    <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
-</head>
-<body class="d-flex flex-column" data-spy="scroll" data-target="#toc">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home</a>
-                    <a class="nav-item nav-link" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Personal recipes that I like, or plan on trying soon." />
+        <title>Recipes</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.css" />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <!-- Table of contents -->
+        <script
+            defer
+            src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            defer
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            defer
+            src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"
+            onload="Toc.init({$nav: $('#toc'), $scope: $(['h1', 'h2', 'h3'])});"
+        ></script>
+        <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+    </head>
+    <body class="d-flex flex-column" data-spy="scroll" data-target="#toc">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <nav id="toc" data-toggle="toc" class="sticky-top"></nav>
+                </div>
+                <div class="col-sm-9">
+                    <h1>Recipes</h1>
+                    <p>
+                        The following recipes are offered free of charge, commentary, ads, life stories, pictures, or
+                        promises.
+                    </p>
+                    <h2>Cheeseburger Pie</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Crescent rolls</td>
+                                <td>2 tubes</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Ground Beef</td>
+                                <td>2 lbs</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Tomato Sauce</td>
+                                <td>8 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Sloppy Joe Mix</td>
+                                <td>1 envelope</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Oregano</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Shredded Mozzarella</td>
+                                <td>2 cups</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Shredded Cheddar</td>
+                                <td>2 cups</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Lay one package of crescent roll dough in a 9-by-13 pan.</li>
+                        <li>Brown and drain ground beef</li>
+                        <li>Add tomato sauce, sloppy joe mix, and oregano to taste. Spread over dough.</li>
+                        <li>Cover beef mixture with cheese, and top with second package of crescent roll dough</li>
+                        <li>Bake at 350 for 25 minutes. Serves 4</li>
+                    </ol>
+
+                    <h2>Bean Pie</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ground beef</td>
+                                <td>1 lb</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Garlic</td>
+                                <td>2-3 cloves</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Condensed bean and bacon soup</td>
+                                <td>12 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Picante Sauce</td>
+                                <td>1 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cornstarch</td>
+                                <td>1/4 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Chopped parsely</td>
+                                <td>1 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Salt</td>
+                                <td>1 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Pepper</td>
+                                <td>1/4 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Kidney beans</td>
+                                <td>16 oz</td>
+                                <td>rinsed, drained</td>
+                            </tr>
+                            <tr>
+                                <td>Black beans</td>
+                                <td>15 oz</td>
+                                <td>rinsed, drained</td>
+                            </tr>
+                            <tr>
+                                <td>Shredded cheddar cheese</td>
+                                <td>2 cups</td>
+                                <td>divided</td>
+                            </tr>
+                            <tr>
+                                <td>Green onions</td>
+                                <td>3/4 cup</td>
+                                <td>sliced, divided</td>
+                            </tr>
+                            <tr>
+                                <td>Pie pastry</td>
+                                <td>2x 10in</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Egg</td>
+                                <td>1</td>
+                                <td>beaten</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Brown and drain beef and garlic</li>
+                        <li>In large bowl, mix soup, picante sauce, cornstarch, and spices</li>
+                        <li>Add beans, 1 1/4 cup cheese, 1/2 cup green onions, and beef to bean soup mixture</li>
+                        <li>
+                            Line deep pie pan with bottom pastry, and fill with bean mixture. Top with remaining pastry
+                        </li>
+                        <li>Seal and flute edges, and cut slits in top crust.</li>
+                        <li>Brush top crust with egg</li>
+                        <li>Bake at 425 for 30-35 minutes, or until golden brown. Cool for 5 minutes.</li>
+                        <li>Garnish with sour cream, and remaining cheese and onions. Serves 6</li>
+                    </ol>
+
+                    <h2>French Meat Pie</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ground beef</td>
+                                <td>1 lb</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Ground sausage</td>
+                                <td>1 lb</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Mashed potatoes</td>
+                                <td>1 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Allspice</td>
+                                <td>2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Salt</td>
+                                <td>1 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Pepper</td>
+                                <td>1/4 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Pie crust</td>
+                                <td>2x 10in</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Egg</td>
+                                <td>1</td>
+                                <td>beaten</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Brown and drain meat</li>
+                        <li>Combine meat, potatos, and spices</li>
+                        <li>Line pie pan with bottom pastry</li>
+                        <li>Fill with meat mixture and top with remaining pastry</li>
+                        <li>Seal and flute edges, cut slits in top crust</li>
+                        <li>Brush top crust with egg</li>
+                        <li>
+                            Bake at 375 for 30-35 minutes or until golden brown. Cool for 5 minutes before slicing.
+                            Serves 6.
+                        </li>
+                    </ol>
+
+                    <h2>Tamale Pie</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Corn muffin mix</td>
+                                <td>1 box</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Egg</td>
+                                <td>1</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Sour cream</td>
+                                <td>1/2 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Creamed Corn</td>
+                                <td>1/2 cup</td>
+                                <td>canned</td>
+                            </tr>
+                            <tr>
+                                <td>Ground cumin</td>
+                                <td>1 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>chili powder</td>
+                                <td>1 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Garlic</td>
+                                <td>2 cloves</td>
+                                <td>minced</td>
+                            </tr>
+                            <tr>
+                                <td>Ground beef</td>
+                                <td>1 lb</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Red enchlada sauce</td>
+                                <td>1/3 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Shredded cheddar</td>
+                                <td>1 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Shredded monterey jack</td>
+                                <td>1 cup</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>In large bowl, mix muffin mix, egg, source cream, and creamed corn.</li>
+                        <li>
+                            Transfer to greased dish, and back for 20 minutes at 400 degrees or until golden. Let cool
+                        </li>
+                        <li>Brown and drain beef</li>
+                        <li>Poke surface of cornbread with fork, and pour enchilada sauce</li>
+                        <li>Add beef, and cover with cheese</li>
+                        <li>Cover with foil and back for 20 minutes at 400 degrees, until cheese is melty</li>
+                        <li>
+                            Switch oven to broil, remove foil, and broil for 15 minutes, until cheese turns golden.
+                            Serves 8
+                        </li>
+                    </ol>
+
+                    <h2>Enchilada Sloppy Joe Pie</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ground beef</td>
+                                <td>1 lb</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Chopped green chiles</td>
+                                <td>4 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Green enchilada sauce</td>
+                                <td>10 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Shredded cheddar</td>
+                                <td>1 1/2 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Bisquick mix</td>
+                                <td>1 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Milk</td>
+                                <td>1/2 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Egg</td>
+                                <td>1</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Brown and drain ground beef. Add to greased pan</li>
+                        <li>Stir in green chiles and enchilada sauce. Top with cheese</li>
+                        <li>In bowl, combine Bisquick mix, milk, and egg. Pour over cheese</li>
+                        <li>Bake at 400 for 30 minutes or until crust is golden brown. Serves 4</li>
+                    </ol>
+
+                    <h2>Stuffed Hamburger Roll</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>French bread</td>
+                                <td>1 loaf</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Ground beef</td>
+                                <td>1 lb</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cream of chicken/mushroom soup</td>
+                                <td>2 cans</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Velveeta cheese</td>
+                                <td>1 cup</td>
+                                <td>cubed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Cut bread lengthwise.</li>
+                        <li>Scoop out inside of both pieces and break into small pieces</li>
+                        <li>Brown and drain ground beef</li>
+                        <li>Mix soup, cheese, and bread pieces into the beef</li>
+                        <li>Place filling into both sides of the loaf</li>
+                        <li>Wrap in tin foil and bake at 350 for 35 minutes</li>
+                    </ol>
+
+                    <h2>Sausage Bread</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Frozen white bread dough</td>
+                                <td>2 loaves</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Ground sausage</td>
+                                <td>1 lb</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Egg</td>
+                                <td>3</td>
+                                <td>divided</td>
+                            </tr>
+                            <tr>
+                                <td>Shredded mozzarella</td>
+                                <td>2 1/2 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Dried basil</td>
+                                <td>1 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Parsely flakes</td>
+                                <td>1 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Crushed rosemary</td>
+                                <td>1 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Garlic powder</td>
+                                <td>1 tsp</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Cover dough, and let rise in warm place until doubled in size</li>
+                        <li>Flatten each loaf into a 16-by-12 rectangle</li>
+                        <li>Brown and drain sausage</li>
+                        <li>Stir in two eggs, cheese, seasonings</li>
+                        <li>Spread mixutre over both dough sheets, leaving a 1 inch gap around the edges</li>
+                        <li>Start with short side and roll up the dough sheets</li>
+                        <li>Pinch seams and place on greased baking sheet</li>
+                        <li>Whisk remaining egg, and brush over top of loaves</li>
+                        <li>Bake at 350 for 24-30 minutes, or until golden brown</li>
+                    </ol>
+
+                    <h2>Sausage and Spinach Pizza Bread</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ground sausage</td>
+                                <td>1 lb</td>
+                                <td>add pepperoni or other pizza-compatible meats</td>
+                            </tr>
+                            <tr>
+                                <td>Spinach leaves</td>
+                                <td>2 cups</td>
+                                <td>chopped</td>
+                            </tr>
+                            <tr>
+                                <td>Pizza sauce</td>
+                                <td>1/2 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Pillsbury dough</td>
+                                <td>1 tube</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Shredded mozzarella</td>
+                                <td>1 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Butter</td>
+                                <td>1 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Italian seasoning</td>
+                                <td>1/4 tsp</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Brown and drain sausage</li>
+                        <li>Stir in spinach leaves and cook until just starting to wilt. Remove from heat</li>
+                        <li>Mix in pizza sauce</li>
+                        <li>Unroll dough onto greased baking sheet into a 13-by-8 rectangle</li>
+                        <li>Sprinkle half the cheese in a 4 inch strip down the middle</li>
+                        <li>Top with sausage mixture and cover with remaining cheese</li>
+                        <li>Make cuts 1 inch apart on each side of rectangle just to edge of filling</li>
+                        <li>
+                            Alternating from side to side, fold strips across filling, slightly overlapping the ends
+                        </li>
+                        <li>Melt butter and seasoning. Brush onto dough</li>
+                        <li>Bake at 375 for 20-25 minutes or until deep golden brown</li>
+                    </ol>
+
+                    <h2>Lasagna</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ground beef and sausage</td>
+                                <td>3 lbs</td>
+                                <td>any more won't fit in a 3-by-13 pan</td>
+                            </tr>
+                            <tr>
+                                <td>Tomato sauce</td>
+                                <td>15 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Water</td>
+                                <td>1/2 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Brown sugar</td>
+                                <td>2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Salt</td>
+                                <td>1 1/2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Oregano</td>
+                                <td>1 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Garlic powder</td>
+                                <td>1/2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Pepper</td>
+                                <td>1/4 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Lasagna noodles</td>
+                                <td>8 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cottage cheese</td>
+                                <td>32 oz</td>
+                                <td>can't straight substitute ricotta</td>
+                            </tr>
+                            <tr>
+                                <td>Shredded mozzarella</td>
+                                <td>4 cups</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Brown and drain ground beef, sausage</li>
+                        <li>Add tomato sauce, water, and spices to meat. Simmer for 30 minutes, stirring often</li>
+                        <li>Cook noodles as directed. Drain</li>
+                        <li>Beat egg and combine with cottage cheese</li>
+                        <li>Place half of noodles in 9-by-13 pan</li>
+                        <li>Cover with half of the meat sauce</li>
+                        <li>Spoon half of the cottage cheese mixture, and follow with half of the mozzarella</li>
+                        <li>Repeat</li>
+                        <li>Bake at 375 for 45 minutes. Let sit for 10 minutes before serving</li>
+                    </ol>
+
+                    <h2>Carbonara</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Egg</td>
+                                <td>2</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Egg yolk</td>
+                                <td>2</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Pasta water</td>
+                                <td>small bit</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Pepper</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Fried pancetta cubes</td>
+                                <td>Some</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Pasta</td>
+                                <td>Enough</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Parmesan</td>
+                                <td></td>
+                                <td>the real stuff you heathen</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Whisk eggs, yolks, paster water, and pepper together to form sauce</li>
+                        <li>Mix sauce with paster, and stir until thickened</li>
+                        <li>Top with parmesan</li>
+                    </ol>
+
+                    <h2>Italian Bean and Sausage Pasta</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Olive oil</td>
+                                <td>1 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Italian sausage links</td>
+                                <td>16 oz</td>
+                                <td>what kind of sausage makes a difference</td>
+                            </tr>
+                            <tr>
+                                <td>Pasta</td>
+                                <td>8 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Chicken broth</td>
+                                <td>2 cups</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Tomato paste</td>
+                                <td>2 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Salt</td>
+                                <td>1/2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cannellini beans</td>
+                                <td>1 large can</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Parmesan</td>
+                                <td>1/2 cup</td>
+                                <td>the real stuff you heathen</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Head oil over medium heat. Brown sausages</li>
+                        <li>
+                            Add uncooked pasta to broth, sauce, and salt. Heat to boiling, cover, and reduce heat. Cook
+                            for 9 to 11 minutes, stirring occasionally
+                        </li>
+                        <li>Add beans, and cook for 3 to 4 more minutes</li>
+                        <li>Stir in parmesan cheese and serve</li>
+                    </ol>
+
+                    <h2>Sausage and Penne Casserole</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pasta</td>
+                                <td>8 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Andouille sausage</td>
+                                <td>16 oz</td>
+                                <td>thinly sliced</td>
+                            </tr>
+                            <tr>
+                                <td>Butter</td>
+                                <td>2 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Flour</td>
+                                <td>2 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Milk</td>
+                                <td>1 1/2 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Creole seasoning</td>
+                                <td>1 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Shredded cheddar</td>
+                                <td>2 cups</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Fine bread crumbs</td>
+                                <td>1 cup</td>
+                                <td>tossed with 2 tsp melted butter</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Cook and drain pasta</li>
+                        <li>Cook sausage, set aside</li>
+                        <li>
+                            In same skillet over medium heat, melt mitter and mix with flour. Gradually add milk and
+                            Creole seasoning. Cook until thickened, stirring constantly
+                        </li>
+                        <li>Add cheese, and stir until melted</li>
+                        <li>Add pasta and sausage</li>
+                        <li>Mix and add to greased pan</li>
+                        <li>Bake at 350 for 30 minutes</li>
+                    </ol>
+
+                    <h2>Andouille Mac &amp; Cheese</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pasta</td>
+                                <td>8 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Olive oil</td>
+                                <td>1 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Andouille sausage</td>
+                                <td>16 oz</td>
+                                <td>thinly sliced</td>
+                            </tr>
+                            <tr>
+                                <td>Green onions</td>
+                                <td>6</td>
+                                <td>thinly sliced</td>
+                            </tr>
+                            <tr>
+                                <td>Garlic</td>
+                                <td>2 cloves</td>
+                                <td>minced</td>
+                            </tr>
+                            <tr>
+                                <td>Butter</td>
+                                <td>4 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Flour</td>
+                                <td>1/4 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cajun seasoning</td>
+                                <td>1 tsp</td>
+                                <td>can be liberally applied</td>
+                            </tr>
+                            <tr>
+                                <td>Pepper</td>
+                                <td>1 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Milk</td>
+                                <td>2 1/3 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Shredded cheddar</td>
+                                <td>3 cups</td>
+                                <td>divided</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Cook and drain pasta</li>
+                        <li>Heat oil, and brown sausage with green onions and garlic. Set aside</li>
+                        <li>
+                            Make a light roux. Melt butter in same skillet, add flour and stir until smooth. Cook for 2
+                            minutes, continually stirring
+                        </li>
+                        <li>Add seasoning, gradually add milk. Cook until thickened, continually stirring</li>
+                        <li>Add 2 cups of the cheese, stirring until melted.</li>
+                        <li>Add pasta to greased pan, and mix in sauce</li>
+                        <li>Top with remaining cheese</li>
+                        <li>Bake at 350 for 20-25 minutes. Serves 4</li>
+                    </ol>
+
+                    <h2>Mac &amp; Cheese</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Bacon</td>
+                                <td></td>
+                                <td>thick, cooked, chunked</td>
+                            </tr>
+                            <tr>
+                                <td>Onion</td>
+                                <td>1 medium</td>
+                                <td>minced</td>
+                            </tr>
+                            <tr>
+                                <td>Bay leaves</td>
+                                <td>2</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Paprika</td>
+                                <td>1 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cayenne</td>
+                                <td>1/2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Flour</td>
+                                <td>1/3 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Milk</td>
+                                <td>6 cups</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Patsta</td>
+                                <td>1 lb</td>
+                                <td>undercooked</td>
+                            </tr>
+                            <tr>
+                                <td>Shredded cheddar</td>
+                                <td>5 cups</td>
+                                <td>divided</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Cook onion and bay leaves until softened.</li>
+                        <li>Add paprika and cayenne, and cook until fragrant</li>
+                        <li>Stir in flour until smooth</li>
+                        <li>Gradually add milk and whisk until smooth</li>
+                        <li>Bring to boil and cook until thickened</li>
+                        <li>Simmer for 30 minutes, wisking frequently</li>
+                        <li>Discard the bay leaves</li>
+                        <li>Stir in 4 cups of cheddar, and add cooked bacon chunks</li>
+                        <li>Mix pasta and sauce, and add to greased 9-by-13 baking dish</li>
+                        <li>Top with remaining cheese</li>
+                        <li>Bake at 350 for 30 minutes, until golden brown and bubbling</li>
+                        <li>Let stand for 10 minutes</li>
+                    </ol>
+
+                    <h2>Slow Cooker BBQ Pork Mac &amp; Cheese</h2>
+                    <p>
+                        The pulled pork doesn't taste like root beer until you drink the rest of the 12-pack afterwards.
+                    </p>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pork tenderloin, butt, or shoulder</td>
+                                <td>2 lbs</td>
+                                <td>more also works</td>
+                            </tr>
+                            <tr>
+                                <td>Root beer</td>
+                                <td>1 can</td>
+                                <td>add more if adding more pork</td>
+                            </tr>
+                            <tr>
+                                <td>BBQ sauce</td>
+                                <td>3/4 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Evaporated milk</td>
+                                <td>24 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Condensed cheddar soup</td>
+                                <td>22 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Water</td>
+                                <td>2 1/2 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Dry mustard</td>
+                                <td>1 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cayenne</td>
+                                <td>1/2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Shredded cheddar</td>
+                                <td>4 cups</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Pasta</td>
+                                <td>1 lb</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>
+                            Cook pork in crock pot with root beer until shreddable. Roughly 4 hours on high, or 6-7 on
+                            low
+                        </li>
+                        <li>Shred pork and drain slow cooker</li>
+                        <li>Mix pork with BBQ sauce</li>
+                        <li>Heat evaporated milk, soup, water, and spices to a simmer</li>
+                        <li>Add shredded cheese and stir until melted</li>
+                        <li>Add uncooked pasta to crock pot, and stir in sauce</li>
+                        <li>Top with pulled pork</li>
+                        <li>Cook on high for 1 1/2 hours</li>
+                    </ol>
+
+                    <h2>Baked Spaghetti</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Spaghetti</td>
+                                <td>1 lb</td>
+                                <td>cooked</td>
+                            </tr>
+                            <tr>
+                                <td>Ground beef or sausage</td>
+                                <td>1 lb</td>
+                            </tr>
+                            <tr>
+                                <td>Onion</td>
+                                <td>1</td>
+                                <td>minced</td>
+                            </tr>
+                            <tr>
+                                <td>Spaghetti sauce</td>
+                                <td>32 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Salt</td>
+                                <td>1/2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Egg</td>
+                                <td>2</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Parmesan</td>
+                                <td>1/3 cup</td>
+                                <td>the real stuff you heathen</td>
+                            </tr>
+                            <tr>
+                                <td>Butter</td>
+                                <td>5 tbsp</td>
+                                <td>melted</td>
+                            </tr>
+                            <tr>
+                                <td>Cottage cheese</td>
+                                <td>2 cups</td>
+                                <td>divided</td>
+                            </tr>
+                            <tr>
+                                <td>Shredded mozzarella</td>
+                                <td>4 cups</td>
+                                <td>divided</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Brown meat and onion</li>
+                        <li>Add spaghetti sauce and salt</li>
+                        <li>Whisk eggs, parmesan, and butter</li>
+                        <li>Add cooked spaghetti and toss to coat</li>
+                        <li>Spoon half of the spaghetti into greased 9-by-13 pan</li>
+                        <li>Top with half the cottage cheese, mozzarella and meat sauce</li>
+                        <li>Repeat and cover with foil</li>
+                        <li>Bake at 350 for 40 minutes</li>
+                        <li>Remove foil and bake 20-25 minutes longer, until cheese is melted and lightly browned</li>
+                    </ol>
+
+                    <h2>Chorizo Tomato Rotini</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Olive oil</td>
+                                <td>1 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Chorizo</td>
+                                <td>4 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Onion</td>
+                                <td>1/2</td>
+                                <td>minced</td>
+                            </tr>
+                            <tr>
+                                <td>Ground beef</td>
+                                <td>1 lb</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Salt</td>
+                                <td>2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Pepper</td>
+                                <td>2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Tomato sauce</td>
+                                <td>3 cups</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Pasta</td>
+                                <td>1 1/4 cup</td>
+                                <td>cooked</td>
+                            </tr>
+                            <tr>
+                                <td>Parmesan</td>
+                                <td>1/2 cup</td>
+                                <td>the real stuff you heathen</td>
+                            </tr>
+                            <tr>
+                                <td>Fresh basil</td>
+                                <td>1/2 cup</td>
+                                <td>chopped</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Heat oil on pan, and cook chorizo until slightly crispy</li>
+                        <li>Add onions and cook until translucent</li>
+                        <li>Add beef, salt, and pepper, cook until done</li>
+                        <li>Add tomato sauce, and cook until thickened</li>
+                        <li>Add cooked pasta, parmesane, and basil</li>
+                    </ol>
+
+                    <h2>Baked Ziti</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pasta</td>
+                                <td>1 lb</td>
+                                <td>ziti, penne</td>
+                            </tr>
+                            <tr>
+                                <td>Olive oil</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Italian sausage</td>
+                                <td>1 lb</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Yello onion</td>
+                                <td>1</td>
+                                <td>minced</td>
+                            </tr>
+                            <tr>
+                                <td>Garlic</td>
+                                <td>3-4 cloves</td>
+                                <td>minced</td>
+                            </tr>
+                            <tr>
+                                <td>Rosemary</td>
+                                <td>1 tbsp</td>
+                                <td>fresh, mined. Can substitute basil</td>
+                            </tr>
+                            <tr>
+                                <td>Italian seasoning</td>
+                                <td>1 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Red pepper flakes</td>
+                                <td>1/2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Marinara sauce</td>
+                                <td>32 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Shredded mozzarella</td>
+                                <td>1/2 lb</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Ricotta cheese</td>
+                                <td>1 heaping cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Parmesan</td>
+                                <td>1 cup</td>
+                                <td>the real stuff you heathen</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Cook pasta al dente, drain, and toss with olive oil</li>
+                        <li>Brown sausage</li>
+                        <li>Add onions and saute until beginning to brown</li>
+                        <li>Add spices, add tomato sauce, and simmer</li>
+                        <li>Spread thin layer of sauce in 9-by-13 pan, and dot with half the ricotta cheese</li>
+                        <li>Ladle a spoonful of sauce into the pasta, stir, and add pasta to dish</li>
+                        <li>Top with rest of sauce</li>
+                        <li>Dot with remaining ricotta, and top with mozzarella and parmesan</li>
+                        <li>Bake at 350 for 20-25 minutes, until lightly browned and cheese melted</li>
+                    </ol>
+
+                    <h2>Southwest Casserole</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ground beef</td>
+                                <td>1 lb</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cream of chicken soup</td>
+                                <td>11 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Milk</td>
+                                <td>1/2 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Green chiles</td>
+                                <td>4 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Small flour tortillas</td>
+                                <td>12</td>
+                                <td>cut into 2 inch strips</td>
+                            </tr>
+                            <tr>
+                                <td>Green enchilada sauce</td>
+                                <td>20 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Shredded cheddar</td>
+                                <td>1 cup</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Brown and drain ground beef</li>
+                        <li>Add soup, milk, and green chiles. Simmer for 3 minutes</li>
+                        <li>Arrange half the tortilla strips in the bottom of a greased 9-by-13 pan</li>
+                        <li>Cover with half of the enchilada sauce and half of the beef mixture</li>
+                        <li>Repeat layer and cover with cheese</li>
+                        <li>Bake at 375 for 25 minutes</li>
+                    </ol>
+
+                    <h2>Effie Chicken</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Chicken</td>
+                                <td>3 cups</td>
+                                <td>chopped, cooked</td>
+                            </tr>
+                            <tr>
+                                <td>Cream of chicken soup</td>
+                                <td>11 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Sour cream</td>
+                                <td>16 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Poppy seeds</td>
+                                <td>3 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Lemon juice</td>
+                                <td></td>
+                                <td>discovery requires experimentation</td>
+                            </tr>
+                            <tr>
+                                <td>Ritz crackers</td>
+                                <td>1 tube</td>
+                                <td>crushed</td>
+                            </tr>
+                            <tr>
+                                <td>Butter</td>
+                                <td>1/4 cup</td>
+                                <td>melted</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Combine chicken, soup, sour cream, poppy seeds, and lemon juice</li>
+                        <li>Spread mixture into lightly greased 11-by-7 pan</li>
+                        <li>Mix crumbs and butter. Spread over chicken mixture</li>
+                        <li>Bake at 350 for 35 to 40 minutes, or until bubbly</li>
+                    </ol>
+
+                    <h2>Ham and Potato Chowder</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Bacon</td>
+                                <td></td>
+                                <td>thick, cooked, chunked</td>
+                            </tr>
+                            <tr>
+                                <td>Yellow onion</td>
+                                <td>1</td>
+                                <td>minced</td>
+                            </tr>
+                            <tr>
+                                <td>Carrot</td>
+                                <td>2 medium</td>
+                                <td>peeled and thinly sliced</td>
+                            </tr>
+                            <tr>
+                                <td>Flour</td>
+                                <td>3 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Milk</td>
+                                <td>3 cups</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Water</td>
+                                <td>1 1/2 cups</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Better than Bouillon</td>
+                                <td>2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Pepper</td>
+                                <td>1/2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Garlic powder</td>
+                                <td>1/2 tsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Potatoes</td>
+                                <td>3 medium</td>
+                                <td>diced</td>
+                            </tr>
+                            <tr>
+                                <td>Ham</td>
+                                <td>2 cups</td>
+                                <td>diced</td>
+                            </tr>
+                            <tr>
+                                <td>Shredded cheddar</td>
+                                <td>2 cups</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Cook onion and carrots in backon grease until soft</li>
+                        <li>Add flour, stir, and cook for 1 minute</li>
+                        <li>Gradually stir in milk and water</li>
+                        <li>
+                            Add potatoes and spices and bring to a simmer for 15-20 minutes or until potatoes are soft
+                        </li>
+                        <li>Add ham and cheese. Stir until cheese is melted. Sprinkle bacon</li>
+                    </ol>
+
+                    <h2>Pollo Chico</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Vegetable oil</td>
+                                <td>1 qt</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Green chiles</td>
+                                <td>4 oz</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Chicken</td>
+                                <td>3 breasts</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Tortillas</td>
+                                <td>1 package</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cream cheese</td>
+                                <td>2 packages</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Shredded cheddar</td>
+                                <td>2 cups</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Rice</td>
+                                <td>1 cup</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Chicken broth</td>
+                                <td>enough?</td>
+                                <td>optional</td>
+                            </tr>
+                            <tr>
+                                <td>Black beans</td>
+                                <td>1 can</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Rotella</td>
+                                <td>1 can</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cilantro</td>
+                                <td>1 bunch</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Cook chicken with salsa and rotella in crock pot on high, until shreddable (1/2 day)</li>
+                        <li>Cook black beans and rice, optionally in chicken broth</li>
+                        <li>Soften cream cheese</li>
+                        <li>Soften tortillas by microwaving 2-to-3 at a time for 15-20 seconds</li>
+                        <li>Add equal parts rice and chicken to tortilla</li>
+                        <li>Add cheese</li>
+                        <li>Roll and wrap</li>
+                        <li>Heat oil. To test, drop small piece of tortilla. If it bubbles, it's ready</li>
+                        <li>Place burrito into oil, and fry until golden brown. Turn</li>
+                        <li>Drain oil from burrito and place on baking sheet</li>
+                        <li>Spread with cream cheese and sprinkle with shredded cheese</li>
+                        <li>Bake at 350 until cheese is melted</li>
+                    </ol>
+
+                    <h2>Chicken Tortilla Soup</h2>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Vegetable oil</td>
+                                <td>2 tbsp</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Onion</td>
+                                <td>1 small</td>
+                                <td>minced</td>
+                            </tr>
+                            <tr>
+                                <td>Garlic</td>
+                                <td>3 cloves</td>
+                                <td>minced</td>
+                            </tr>
+                            <tr>
+                                <td>Jalepenos</td>
+                                <td>2</td>
+                                <td>finely diced</td>
+                            </tr>
+                            <tr>
+                                <td>Chicken Broth</td>
+                                <td>6 cups</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Fire roasted diced tomatoes</td>
+                                <td>14.5oz can</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Black beans</td>
+                                <td>1 can</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Corn</td>
+                                <td>1 can</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Chicken</td>
+                                <td>3 breats</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Lime</td>
+                                <td>2+</td>
+                                <td>2 juiced, more for garnish</td>
+                            </tr>
+                            <tr>
+                                <td>salt and pepper</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Cilantro</td>
+                                <td>1 cup</td>
+                                <td>roughly chopped</td>
+                            </tr>
+                            <tr>
+                                <td>Tortilla</td>
+                                <td>4</td>
+                                <td>grilled or browed in additional vegetable oil</td>
+                            </tr>
+                            <tr>
+                                <td>Avacado</td>
+                                <td>1</td>
+                                <td>sliced</td>
+                            </tr>
+                            <tr>
+                                <td>Monterrey Cheese</td>
+                                <td>1 cup</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol>
+                        <li>Heat vegatable oil in skillet</li>
+                        <li>Cook onions until translucent</li>
+                        <li>Add garlic and jalepenos. Cook another minute</li>
+                        <li>Add chicken broth, tomatoes, beans to pot and bring to boil</li>
+                        <li>Once boiling, reduce heat, add chicken, and simmer for 20-25 minutes</li>
+                        <li>Shred chicken when finished</li>
+                        <li>Add lime juice and cilantro to broth</li>
+                        <li>Serve shredded chicken and ladle soup over top</li>
+                        <li>Garnish with tortilla strips, avacado, lime, and cheese</li>
+                    </ol>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <nav id="toc" data-toggle="toc" class="sticky-top"></nav>
-            </div>
-            <div class="col-sm-9">
-                <h1>Recipes</h1>
-                <p>The following recipes are offered free of charge, commentary, ads, life stories, pictures, or promises.</p>
-                <h2>Cheeseburger Pie</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Crescent rolls</td>
-                            <td>2 tubes</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Ground Beef</td>
-                            <td>2 lbs</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Tomato Sauce</td>
-                            <td>8 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Sloppy Joe Mix</td>
-                            <td>1 envelope</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Oregano</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Shredded Mozzarella</td>
-                            <td>2 cups</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Shredded Cheddar</td>
-                            <td>2 cups</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Lay one package of crescent roll dough in a 9-by-13 pan.</li>
-                    <li>Brown and drain ground beef</li>
-                    <li>Add tomato sauce, sloppy joe mix, and oregano to taste. Spread over dough.</li>
-                    <li>Cover beef mixture with cheese, and top with second package of crescent roll dough</li>
-                    <li>Bake at 350 for 25 minutes. Serves 4</li>
-                </ol>
-
-                <h2>Bean Pie</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Ground beef</td>
-                            <td>1 lb</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Garlic</td>
-                            <td>2-3 cloves</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Condensed bean and bacon soup</td>
-                            <td>12 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Picante Sauce</td>
-                            <td>1 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cornstarch</td>
-                            <td>1/4 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Chopped parsely</td>
-                            <td>1 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Salt</td>
-                            <td>1 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Pepper</td>
-                            <td>1/4 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Kidney beans</td>
-                            <td>16 oz</td>
-                            <td>rinsed, drained</td>
-                        </tr>
-                        <tr>
-                            <td>Black beans</td>
-                            <td>15 oz</td>
-                            <td>rinsed, drained</td>
-                        </tr>
-                        <tr>
-                            <td>Shredded cheddar cheese</td>
-                            <td>2 cups</td>
-                            <td>divided</td>
-                        </tr>
-                        <tr>
-                            <td>Green onions</td>
-                            <td>3/4 cup</td>
-                            <td>sliced, divided</td>
-                        </tr>
-                        <tr>
-                            <td>Pie pastry</td>
-                            <td>2x 10in</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Egg</td>
-                            <td>1</td>
-                            <td>beaten</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Brown and drain beef and garlic</li>
-                    <li>In large bowl, mix soup, picante sauce, cornstarch, and spices</li>
-                    <li>Add beans, 1 1/4 cup cheese, 1/2 cup green onions, and beef to bean soup mixture</li>
-                    <li>Line deep pie pan with bottom pastry, and fill with bean mixture. Top with remaining pastry</li>
-                    <li>Seal and flute edges, and cut slits in top crust.</li>
-                    <li>Brush top crust with egg</li>
-                    <li>Bake at 425 for 30-35 minutes, or until golden brown. Cool for 5 minutes.</li>
-                    <li>Garnish with sour cream, and remaining cheese and onions. Serves 6</li>
-                </ol>
-
-                <h2>French Meat Pie</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Ground beef</td>
-                            <td>1 lb</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Ground sausage</td>
-                            <td>1 lb</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Mashed potatoes</td>
-                            <td>1 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Allspice</td>
-                            <td>2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Salt</td>
-                            <td>1 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Pepper</td>
-                            <td>1/4 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Pie crust</td>
-                            <td>2x 10in</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Egg</td>
-                            <td>1</td>
-                            <td>beaten</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Brown and drain meat</li>
-                    <li>Combine meat, potatos, and spices</li>
-                    <li>Line pie pan with bottom pastry</li>
-                    <li>Fill with meat mixture and top with remaining pastry</li>
-                    <li>Seal and flute edges, cut slits in top crust</li>
-                    <li>Brush top crust with egg</li>
-                    <li>Bake at 375 for 30-35 minutes or until golden brown. Cool for 5 minutes before slicing. Serves
-                        6.</li>
-                </ol>
-
-                <h2>Tamale Pie</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Corn muffin mix</td>
-                            <td>1 box</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Egg</td>
-                            <td>1</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Sour cream</td>
-                            <td>1/2 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Creamed Corn</td>
-                            <td>1/2 cup</td>
-                            <td>canned</td>
-                        </tr>
-                        <tr>
-                            <td>Ground cumin</td>
-                            <td>1 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>chili powder</td>
-                            <td>1 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Garlic</td>
-                            <td>2 cloves</td>
-                            <td>minced</td>
-                        </tr>
-                        <tr>
-                            <td>Ground beef</td>
-                            <td>1 lb</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Red enchlada sauce</td>
-                            <td>1/3 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Shredded cheddar</td>
-                            <td>1 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Shredded monterey jack</td>
-                            <td>1 cup</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>In large bowl, mix muffin mix, egg, source cream, and creamed corn.</li>
-                    <li>Transfer to greased dish, and back for 20 minutes at 400 degrees or until golden. Let cool</li>
-                    <li>Brown and drain beef</li>
-                    <li>Poke surface of cornbread with fork, and pour enchilada sauce</li>
-                    <li>Add beef, and cover with cheese</li>
-                    <li>Cover with foil and back for 20 minutes at 400 degrees, until cheese is melty</li>
-                    <li>Switch oven to broil, remove foil, and broil for 15 minutes, until cheese turns golden. Serves 8
-                    </li>
-                </ol>
-
-                <h2>Enchilada Sloppy Joe Pie</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Ground beef</td>
-                            <td>1 lb</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Chopped green chiles</td>
-                            <td>4 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Green enchilada sauce</td>
-                            <td>10 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Shredded cheddar</td>
-                            <td>1 1/2 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Bisquick mix</td>
-                            <td>1 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Milk</td>
-                            <td>1/2 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Egg</td>
-                            <td>1</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Brown and drain ground beef. Add to greased pan</li>
-                    <li>Stir in green chiles and enchilada sauce. Top with cheese</li>
-                    <li>In bowl, combine Bisquick mix, milk, and egg. Pour over cheese</li>
-                    <li>Bake at 400 for 30 minutes or until crust is golden brown. Serves 4</li>
-                </ol>
-
-                <h2>Stuffed Hamburger Roll</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>French bread</td>
-                            <td>1 loaf</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Ground beef</td>
-                            <td>1 lb</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cream of chicken/mushroom soup</td>
-                            <td>2 cans</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Velveeta cheese</td>
-                            <td>1 cup</td>
-                            <td>cubed</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Cut bread lengthwise.</li>
-                    <li>Scoop out inside of both pieces and break into small pieces</li>
-                    <li>Brown and drain ground beef</li>
-                    <li>Mix soup, cheese, and bread pieces into the beef</li>
-                    <li>Place filling into both sides of the loaf</li>
-                    <li>Wrap in tin foil and bake at 350 for 35 minutes</li>
-                </ol>
-
-                <h2>Sausage Bread</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Frozen white bread dough</td>
-                            <td>2 loaves</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Ground sausage</td>
-                            <td>1 lb</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Egg</td>
-                            <td>3</td>
-                            <td>divided</td>
-                        </tr>
-                        <tr>
-                            <td>Shredded mozzarella</td>
-                            <td>2 1/2 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Dried basil</td>
-                            <td>1 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Parsely flakes</td>
-                            <td>1 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Crushed rosemary</td>
-                            <td>1 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Garlic powder</td>
-                            <td>1 tsp</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Cover dough, and let rise in warm place until doubled in size</li>
-                    <li>Flatten each loaf into a 16-by-12 rectangle</li>
-                    <li>Brown and drain sausage</li>
-                    <li>Stir in two eggs, cheese, seasonings</li>
-                    <li>Spread mixutre over both dough sheets, leaving a 1 inch gap around the edges</li>
-                    <li>Start with short side and roll up the dough sheets</li>
-                    <li>Pinch seams and place on greased baking sheet</li>
-                    <li>Whisk remaining egg, and brush over top of loaves</li>
-                    <li>Bake at 350 for 24-30 minutes, or until golden brown</li>
-                </ol>
-
-                <h2>Sausage and Spinach Pizza Bread</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Ground sausage</td>
-                            <td>1 lb</td>
-                            <td>add pepperoni or other pizza-compatible meats</td>
-                        </tr>
-                        <tr>
-                            <td>Spinach leaves</td>
-                            <td>2 cups</td>
-                            <td>chopped</td>
-                        </tr>
-                        <tr>
-                            <td>Pizza sauce</td>
-                            <td>1/2 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Pillsbury dough</td>
-                            <td>1 tube</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Shredded mozzarella</td>
-                            <td>1 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Butter</td>
-                            <td>1 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Italian seasoning</td>
-                            <td>1/4 tsp</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Brown and drain sausage</li>
-                    <li>Stir in spinach leaves and cook until just starting to wilt. Remove from heat</li>
-                    <li>Mix in pizza sauce</li>
-                    <li>Unroll dough onto greased baking sheet into a 13-by-8 rectangle</li>
-                    <li>Sprinkle half the cheese in a 4 inch strip down the middle</li>
-                    <li>Top with sausage mixture and cover with remaining cheese</li>
-                    <li>Make cuts 1 inch apart on each side of rectangle just to edge of filling</li>
-                    <li>Alternating from side to side, fold strips across filling, slightly overlapping the ends</li>
-                    <li>Melt butter and seasoning. Brush onto dough</li>
-                    <li>Bake at 375 for 20-25 minutes or until deep golden brown</li>
-                </ol>
-
-                <h2>Lasagna</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Ground beef and sausage</td>
-                            <td>3 lbs</td>
-                            <td>any more won't fit in a 3-by-13 pan</td>
-                        </tr>
-                        <tr>
-                            <td>Tomato sauce</td>
-                            <td>15 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Water</td>
-                            <td>1/2 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Brown sugar</td>
-                            <td>2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Salt</td>
-                            <td>1 1/2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Oregano</td>
-                            <td>1 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Garlic powder</td>
-                            <td>1/2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Pepper</td>
-                            <td>1/4 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Lasagna noodles</td>
-                            <td>8 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cottage cheese</td>
-                            <td>32 oz</td>
-                            <td>can't straight substitute ricotta</td>
-                        </tr>
-                        <tr>
-                            <td>Shredded mozzarella</td>
-                            <td>4 cups</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Brown and drain ground beef, sausage</li>
-                    <li>Add tomato sauce, water, and spices to meat. Simmer for 30 minutes, stirring often</li>
-                    <li>Cook noodles as directed. Drain</li>
-                    <li>Beat egg and combine with cottage cheese</li>
-                    <li>Place half of noodles in 9-by-13 pan</li>
-                    <li>Cover with half of the meat sauce</li>
-                    <li>Spoon half of the cottage cheese mixture, and follow with half of the mozzarella</li>
-                    <li>Repeat</li>
-                    <li>Bake at 375 for 45 minutes. Let sit for 10 minutes before serving</li>
-                </ol>
-
-                <h2>Carbonara</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Egg</td>
-                            <td>2</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Egg yolk</td>
-                            <td>2</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Pasta water</td>
-                            <td>small bit</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Pepper</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Fried pancetta cubes</td>
-                            <td>Some</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Pasta</td>
-                            <td>Enough</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Parmesan</td>
-                            <td></td>
-                            <td>the real stuff you heathen</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Whisk eggs, yolks, paster water, and pepper together to form sauce</li>
-                    <li>Mix sauce with paster, and stir until thickened</li>
-                    <li>Top with parmesan</li>
-                </ol>
-
-                <h2>Italian Bean and Sausage Pasta</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Olive oil</td>
-                            <td>1 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Italian sausage links</td>
-                            <td>16 oz</td>
-                            <td>what kind of sausage makes a difference</td>
-                        </tr>
-                        <tr>
-                            <td>Pasta</td>
-                            <td>8 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Chicken broth</td>
-                            <td>2 cups</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Tomato paste</td>
-                            <td>2 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Salt</td>
-                            <td>1/2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cannellini beans</td>
-                            <td>1 large can</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Parmesan</td>
-                            <td>1/2 cup</td>
-                            <td>the real stuff you heathen</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Head oil over medium heat. Brown sausages</li>
-                    <li>Add uncooked pasta to broth, sauce, and salt. Heat to boiling, cover, and reduce heat. Cook for
-                        9 to 11 minutes, stirring occasionally</li>
-                    <li>Add beans, and cook for 3 to 4 more minutes</li>
-                    <li>Stir in parmesan cheese and serve</li>
-                </ol>
-
-                <h2>Sausage and Penne Casserole</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Pasta</td>
-                            <td>8 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Andouille sausage</td>
-                            <td>16 oz</td>
-                            <td>thinly sliced</td>
-                        </tr>
-                        <tr>
-                            <td>Butter</td>
-                            <td>2 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Flour</td>
-                            <td>2 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Milk</td>
-                            <td>1 1/2 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Creole seasoning</td>
-                            <td>1 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Shredded cheddar</td>
-                            <td>2 cups</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Fine bread crumbs</td>
-                            <td>1 cup</td>
-                            <td>tossed with 2 tsp melted butter</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Cook and drain pasta</li>
-                    <li>Cook sausage, set aside</li>
-                    <li>In same skillet over medium heat, melt mitter and mix with flour. Gradually add milk and Creole
-                        seasoning. Cook until thickened, stirring constantly</li>
-                    <li>Add cheese, and stir until melted</li>
-                    <li>Add pasta and sausage</li>
-                    <li>Mix and add to greased pan</li>
-                    <li>Bake at 350 for 30 minutes</li>
-                </ol>
-
-                <h2>Andouille Mac &amp; Cheese</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Pasta</td>
-                            <td>8 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Olive oil</td>
-                            <td>1 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Andouille sausage</td>
-                            <td>16 oz</td>
-                            <td>thinly sliced</td>
-                        </tr>
-                        <tr>
-                            <td>Green onions</td>
-                            <td>6</td>
-                            <td>thinly sliced</td>
-                        </tr>
-                        <tr>
-                            <td>Garlic</td>
-                            <td>2 cloves</td>
-                            <td>minced</td>
-                        </tr>
-                        <tr>
-                            <td>Butter</td>
-                            <td>4 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Flour</td>
-                            <td>1/4 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cajun seasoning</td>
-                            <td>1 tsp</td>
-                            <td>can be liberally applied</td>
-                        </tr>
-                        <tr>
-                            <td>Pepper</td>
-                            <td>1 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Milk</td>
-                            <td>2 1/3 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Shredded cheddar</td>
-                            <td>3 cups</td>
-                            <td>divided</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Cook and drain pasta</li>
-                    <li>Heat oil, and brown sausage with green onions and garlic. Set aside</li>
-                    <li>Make a light roux. Melt butter in same skillet, add flour and stir until smooth. Cook for 2
-                        minutes, continually stirring</li>
-                    <li>Add seasoning, gradually add milk. Cook until thickened, continually stirring</li>
-                    <li>Add 2 cups of the cheese, stirring until melted.</li>
-                    <li>Add pasta to greased pan, and mix in sauce</li>
-                    <li>Top with remaining cheese</li>
-                    <li>Bake at 350 for 20-25 minutes. Serves 4</li>
-                </ol>
-
-                <h2>Mac &amp; Cheese</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Bacon</td>
-                            <td></td>
-                            <td>thick, cooked, chunked</td>
-                        </tr>
-                        <tr>
-                            <td>Onion</td>
-                            <td>1 medium</td>
-                            <td>minced</td>
-                        </tr>
-                        <tr>
-                            <td>Bay leaves</td>
-                            <td>2</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Paprika</td>
-                            <td>1 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cayenne</td>
-                            <td>1/2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Flour</td>
-                            <td>1/3 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Milk</td>
-                            <td>6 cups</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Patsta</td>
-                            <td>1 lb</td>
-                            <td>undercooked</td>
-                        </tr>
-                        <tr>
-                            <td>Shredded cheddar</td>
-                            <td>5 cups</td>
-                            <td>divided</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Cook onion and bay leaves until softened.</li>
-                    <li>Add paprika and cayenne, and cook until fragrant</li>
-                    <li>Stir in flour until smooth</li>
-                    <li>Gradually add milk and whisk until smooth</li>
-                    <li>Bring to boil and cook until thickened</li>
-                    <li>Simmer for 30 minutes, wisking frequently</li>
-                    <li>Discard the bay leaves</li>
-                    <li>Stir in 4 cups of cheddar, and add cooked bacon chunks</li>
-                    <li>Mix pasta and sauce, and add to greased 9-by-13 baking dish</li>
-                    <li>Top with remaining cheese</li>
-                    <li>Bake at 350 for 30 minutes, until golden brown and bubbling</li>
-                    <li>Let stand for 10 minutes</li>
-                </ol>
-
-                <h2>Slow Cooker BBQ Pork Mac &amp; Cheese</h2>
-                <p>The pulled pork doesn't taste like root beer until you drink the rest of the 12-pack afterwards.</p>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Pork tenderloin, butt, or shoulder</td>
-                            <td>2 lbs</td>
-                            <td>more also works</td>
-                        </tr>
-                        <tr>
-                            <td>Root beer</td>
-                            <td>1 can</td>
-                            <td>add more if adding more pork</td>
-                        </tr>
-                        <tr>
-                            <td>BBQ sauce</td>
-                            <td>3/4 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Evaporated milk</td>
-                            <td>24 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Condensed cheddar soup</td>
-                            <td>22 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Water</td>
-                            <td>2 1/2 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Dry mustard</td>
-                            <td>1 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cayenne</td>
-                            <td>1/2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Shredded cheddar</td>
-                            <td>4 cups</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Pasta</td>
-                            <td>1 lb</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Cook pork in crock pot with root beer until shreddable. Roughly 4 hours on high, or 6-7 on low</li>
-                    <li>Shred pork and drain slow cooker</li>
-                    <li>Mix pork with BBQ sauce</li>
-                    <li>Heat evaporated milk, soup, water, and spices to a simmer</li>
-                    <li>Add shredded cheese and stir until melted</li>
-                    <li>Add uncooked pasta to crock pot, and stir in sauce</li>
-                    <li>Top with pulled pork</li>
-                    <li>Cook on high for 1 1/2 hours</li>
-                </ol>
-
-                <h2>Baked Spaghetti</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Spaghetti</td>
-                            <td>1 lb</td>
-                            <td>cooked</td>
-                        </tr>
-                        <tr>
-                            <td>Ground beef or sausage</td>
-                            <td>1 lb</td>
-                        </tr>
-                        <tr>
-                            <td>Onion</td>
-                            <td>1</td>
-                            <td>minced</td>
-                        </tr>
-                        <tr>
-                            <td>Spaghetti sauce</td>
-                            <td>32 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Salt</td>
-                            <td>1/2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Egg</td>
-                            <td>2</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Parmesan</td>
-                            <td>1/3 cup</td>
-                            <td>the real stuff you heathen</td>
-                        </tr>
-                        <tr>
-                            <td>Butter</td>
-                            <td>5 tbsp</td>
-                            <td>melted</td>
-                        </tr>
-                        <tr>
-                            <td>Cottage cheese</td>
-                            <td>2 cups</td>
-                            <td>divided</td>
-                        </tr>
-                        <tr>
-                            <td>Shredded mozzarella</td>
-                            <td>4 cups</td>
-                            <td>divided</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Brown meat and onion</li>
-                    <li>Add spaghetti sauce and salt</li>
-                    <li>Whisk eggs, parmesan, and butter</li>
-                    <li>Add cooked spaghetti and toss to coat</li>
-                    <li>Spoon half of the spaghetti into greased 9-by-13 pan</li>
-                    <li>Top with half the cottage cheese, mozzarella and meat sauce</li>
-                    <li>Repeat and cover with foil</li>
-                    <li>Bake at 350 for 40 minutes</li>
-                    <li>Remove foil and bake 20-25 minutes longer, until cheese is melted and lightly browned</li>
-                </ol>
-
-                <h2>Chorizo Tomato Rotini</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Olive oil</td>
-                            <td>1 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Chorizo</td>
-                            <td>4 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Onion</td>
-                            <td>1/2</td>
-                            <td>minced</td>
-                        </tr>
-                        <tr>
-                            <td>Ground beef</td>
-                            <td>1 lb</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Salt</td>
-                            <td>2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Pepper</td>
-                            <td>2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Tomato sauce</td>
-                            <td>3 cups</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Pasta</td>
-                            <td>1 1/4 cup</td>
-                            <td>cooked</td>
-                        </tr>
-                        <tr>
-                            <td>Parmesan</td>
-                            <td>1/2 cup</td>
-                            <td>the real stuff you heathen</td>
-                        </tr>
-                        <tr>
-                            <td>Fresh basil</td>
-                            <td>1/2 cup</td>
-                            <td>chopped</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Heat oil on pan, and cook chorizo until slightly crispy</li>
-                    <li>Add onions and cook until translucent</li>
-                    <li>Add beef, salt, and pepper, cook until done</li>
-                    <li>Add tomato sauce, and cook until thickened</li>
-                    <li>Add cooked pasta, parmesane, and basil</li>
-                </ol>
-
-                <h2>Baked Ziti</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Pasta</td>
-                            <td>1 lb</td>
-                            <td>ziti, penne</td>
-                        </tr>
-                        <tr>
-                            <td>Olive oil</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Italian sausage</td>
-                            <td>1 lb</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Yello onion</td>
-                            <td>1</td>
-                            <td>minced</td>
-                        </tr>
-                        <tr>
-                            <td>Garlic</td>
-                            <td>3-4 cloves</td>
-                            <td>minced</td>
-                        </tr>
-                        <tr>
-                            <td>Rosemary</td>
-                            <td>1 tbsp</td>
-                            <td>fresh, mined. Can substitute basil</td>
-                        </tr>
-                        <tr>
-                            <td>Italian seasoning</td>
-                            <td>1 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Red pepper flakes</td>
-                            <td>1/2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Marinara sauce</td>
-                            <td>32 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Shredded mozzarella</td>
-                            <td>1/2 lb</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Ricotta cheese</td>
-                            <td>1 heaping cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Parmesan</td>
-                            <td>1 cup</td>
-                            <td>the real stuff you heathen</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Cook pasta al dente, drain, and toss with olive oil</li>
-                    <li>Brown sausage</li>
-                    <li>Add onions and saute until beginning to brown</li>
-                    <li>Add spices, add tomato sauce, and simmer</li>
-                    <li>Spread thin layer of sauce in 9-by-13 pan, and dot with half the ricotta cheese</li>
-                    <li>Ladle a spoonful of sauce into the pasta, stir, and add pasta to dish</li>
-                    <li>Top with rest of sauce</li>
-                    <li>Dot with remaining ricotta, and top with mozzarella and parmesan</li>
-                    <li>Bake at 350 for 20-25 minutes, until lightly browned and cheese melted</li>
-                </ol>
-
-                <h2>Southwest Casserole</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Ground beef</td>
-                            <td>1 lb</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cream of chicken soup</td>
-                            <td>11 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Milk</td>
-                            <td>1/2 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Green chiles</td>
-                            <td>4 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Small flour tortillas</td>
-                            <td>12</td>
-                            <td>cut into 2 inch strips</td>
-                        </tr>
-                        <tr>
-                            <td>Green enchilada sauce</td>
-                            <td>20 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Shredded cheddar</td>
-                            <td>1 cup</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Brown and drain ground beef</li>
-                    <li>Add soup, milk, and green chiles. Simmer for 3 minutes</li>
-                    <li>Arrange half the tortilla strips in the bottom of a greased 9-by-13 pan</li>
-                    <li>Cover with half of the enchilada sauce and half of the beef mixture</li>
-                    <li>Repeat layer and cover with cheese</li>
-                    <li>Bake at 375 for 25 minutes</li>
-                </ol>
-
-                <h2>Effie Chicken</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Chicken</td>
-                            <td>3 cups</td>
-                            <td>chopped, cooked</td>
-                        </tr>
-                        <tr>
-                            <td>Cream of chicken soup</td>
-                            <td>11 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Sour cream</td>
-                            <td>16 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Poppy seeds</td>
-                            <td>3 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Lemon juice</td>
-                            <td></td>
-                            <td>discovery requires experimentation</td>
-                        </tr>
-                        <tr>
-                            <td>Ritz crackers</td>
-                            <td>1 tube</td>
-                            <td>crushed</td>
-                        </tr>
-                        <tr>
-                            <td>Butter</td>
-                            <td>1/4 cup</td>
-                            <td>melted</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Combine chicken, soup, sour cream, poppy seeds, and lemon juice</li>
-                    <li>Spread mixture into lightly greased 11-by-7 pan</li>
-                    <li>Mix crumbs and butter. Spread over chicken mixture</li>
-                    <li>Bake at 350 for 35 to 40 minutes, or until bubbly</li>
-                </ol>
-
-                <h2>Ham and Potato Chowder</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Bacon</td>
-                            <td></td>
-                            <td>thick, cooked, chunked</td>
-                        </tr>
-                        <tr>
-                            <td>Yellow onion</td>
-                            <td>1</td>
-                            <td>minced</td>
-                        </tr>
-                        <tr>
-                            <td>Carrot</td>
-                            <td>2 medium</td>
-                            <td>peeled and thinly sliced</td>
-                        </tr>
-                        <tr>
-                            <td>Flour</td>
-                            <td>3 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Milk</td>
-                            <td>3 cups</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Water</td>
-                            <td>1 1/2 cups</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Better than Bouillon</td>
-                            <td>2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Pepper</td>
-                            <td>1/2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Garlic powder</td>
-                            <td>1/2 tsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Potatoes</td>
-                            <td>3 medium</td>
-                            <td>diced</td>
-                        </tr>
-                        <tr>
-                            <td>Ham</td>
-                            <td>2 cups</td>
-                            <td>diced</td>
-                        </tr>
-                        <tr>
-                            <td>Shredded cheddar</td>
-                            <td>2 cups</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Cook onion and carrots in backon grease until soft</li>
-                    <li>Add flour, stir, and cook for 1 minute</li>
-                    <li>Gradually stir in milk and water</li>
-                    <li>Add potatoes and spices and bring to a simmer for 15-20 minutes or until potatoes are soft</li>
-                    <li>Add ham and cheese. Stir until cheese is melted. Sprinkle bacon</li>
-                </ol>
-
-                <h2>Pollo Chico</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Vegetable oil</td>
-                            <td>1 qt</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Green chiles</td>
-                            <td>4 oz</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Chicken</td>
-                            <td>3 breasts</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Tortillas</td>
-                            <td>1 package</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cream cheese</td>
-                            <td>2 packages</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Shredded cheddar</td>
-                            <td>2 cups</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Rice</td>
-                            <td>1 cup</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Chicken broth</td>
-                            <td>enough?</td>
-                            <td>optional</td>
-                        </tr>
-                        <tr>
-                            <td>Black beans</td>
-                            <td>1 can</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Rotella</td>
-                            <td>1 can</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cilantro</td>
-                            <td>1 bunch</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Cook chicken with salsa and rotella in crock pot on high, until shreddable (1/2 day)</li>
-                    <li>Cook black beans and rice, optionally in chicken broth</li>
-                    <li>Soften cream cheese</li>
-                    <li>Soften tortillas by microwaving 2-to-3 at a time for 15-20 seconds</li>
-                    <li>Add equal parts rice and chicken to tortilla</li>
-                    <li>Add cheese</li>
-                    <li>Roll and wrap</li>
-                    <li>Heat oil. To test, drop small piece of tortilla. If it bubbles, it's ready</li>
-                    <li>Place burrito into oil, and fry until golden brown. Turn</li>
-                    <li>Drain oil from burrito and place on baking sheet</li>
-                    <li>Spread with cream cheese and sprinkle with shredded cheese</li>
-                    <li>Bake at 350 until cheese is melted</li>
-                </ol>
-
-                <h2>Chicken Tortilla Soup</h2>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Vegetable oil</td>
-                            <td>2 tbsp</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Onion</td>
-                            <td>1 small</td>
-                            <td>minced</td>
-                        </tr>
-                        <tr>
-                            <td>Garlic</td>
-                            <td>3 cloves</td>
-                            <td>minced</td>
-                        </tr>
-                        <tr>
-                            <td>Jalepenos</td>
-                            <td>2</td>
-                            <td>finely diced</td>
-                        </tr>
-                        <tr>
-                            <td>Chicken Broth</td>
-                            <td>6 cups</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Fire roasted diced tomatoes</td>
-                            <td>14.5oz can</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Black beans</td>
-                            <td>1 can</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Corn</td>
-                            <td>1 can</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Chicken</td>
-                            <td>3 breats</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Lime</td>
-                            <td>2+</td>
-                            <td>2 juiced, more for garnish</td>
-                        </tr>
-                        <tr>
-                            <td>salt and pepper</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Cilantro</td>
-                            <td>1 cup</td>
-                            <td>roughly chopped</td>
-                        </tr>
-                        <tr>
-                            <td>Tortilla</td>
-                            <td>4</td>
-                            <td>grilled or browed in additional vegetable oil</td>
-                        </tr>
-                        <tr>
-                            <td>Avacado</td>
-                            <td>1</td>
-                            <td>sliced</td>
-                        </tr>
-                        <tr>
-                            <td>Monterrey Cheese</td>
-                            <td>1 cup</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ol>
-                    <li>Heat vegatable oil in skillet</li>
-                    <li>Cook onions until translucent</li>
-                    <li>Add garlic and jalepenos. Cook another minute</li>
-                    <li>Add chicken broth, tomatoes, beans to pot and bring to boil</li>
-                    <li>Once boiling, reduce heat, add chicken, and simmer for 20-25 minutes</li>
-                    <li>Shred chicken when finished</li>
-                    <li>Add lime juice and cilantro to broth</li>
-                    <li>Serve shredded chicken and ladle soup over top</li>
-                    <li>Garnish with tortilla strips, avacado, lime, and cheese</li>
-                </ol>
-            </div>
         </div>
-    </div>
-    <script>
-        anchors.add();
-    </script>
-</body>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+        <script>
+            anchors.add();
+        </script>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

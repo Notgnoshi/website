@@ -1,47 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="A basic tutorial on drawing digital circuit diagrams with TikZ">
-    <title>Drawing Logic Gates with TikZ</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="A basic tutorial on drawing digital circuit diagrams with TikZ" />
+        <title>Drawing Logic Gates with TikZ</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script> -->
-    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
-    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
-</head>
+        <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css" />
+        <script
+            defer
+            src="https://static.agill.xyz/js/highlight.min.js"
+            onload="hljs.initHighlightingOnLoad();"
+        ></script>
+    </head>
 
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">
+                            Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <h1>Drawing Logic Gates with TikZ</h1>
-        <p>TikZ is an extremely powerful tool, but it can be hard to get a grasp of. Here's a few examples of drawing digital circuit diagrams using the <code>shapes.gates.logic</code> TikZ library. Each of these examples uses the <a href="https://static.agill.xyz/assets/standalone.cfg"><code>standalone.cfg</code></a> file introduced in <a href="/producing-svg-images-with-tikz">this</a> post.</p>
-        <h2>Basic gates and wiring</h2>
-        <pre class="language-tex pl-3"><code>\documentclass[tikz, border=1mm]{standalone}
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>Drawing Logic Gates with TikZ</h1>
+            <p>
+                TikZ is an extremely powerful tool, but it can be hard to get a grasp of. Here's a few examples of
+                drawing digital circuit diagrams using the
+                <code>shapes.gates.logic</code>
+                TikZ library. Each of these examples uses the
+                <a href="https://static.agill.xyz/assets/standalone.cfg"><code>standalone.cfg</code></a>
+                file introduced in
+                <a href="/producing-svg-images-with-tikz">this</a>
+                post.
+            </p>
+            <h2>Basic gates and wiring</h2>
+            <pre class="language-tex pl-3"><code>\documentclass[tikz, border=1mm]{standalone}
 
 \usetikzlibrary{arrows, shapes.gates.logic.US, calc}
 
@@ -63,12 +87,16 @@
     \draw (xory.output) -- node[above]{$\bar x + \bar y$} ($(xory) + (1.5, 0)$);
 \end{tikzpicture}
 \end{document}</code></pre>
-        <p>which produces</p>
-        <figure class="figure d-block w-50 mx-auto">
-            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/drawing-logic-gates-with-tikz/ex1.svg" alt="not x or not y">
-        </figure>
-        <h2>More complicated wiring</h2>
-        <pre class="language-tex pl-3"><code>\documentclass[tikz, border=1mm]{standalone}
+            <p>which produces</p>
+            <figure class="figure d-block w-50 mx-auto">
+                <img
+                    class="figure-img img-fluid rounded w-100"
+                    src="https://static.agill.xyz/images/drawing-logic-gates-with-tikz/ex1.svg"
+                    alt="not x or not y"
+                />
+            </figure>
+            <h2>More complicated wiring</h2>
+            <pre class="language-tex pl-3"><code>\documentclass[tikz, border=1mm]{standalone}
 
 \usetikzlibrary{arrows, shapes.gates.logic.US, calc}
 \tikzstyle{branch}=[fill, shape=circle, minimum size=3pt, inner sep=0pt]
@@ -96,14 +124,18 @@
     \draw (xory.output) -- node[above]{$\overline{x + \bar x + \bar y + z}$} ($(xory) + (3, 0)$);
 \end{tikzpicture}
 \end{document}</code></pre>
-        <p>which produces</p>
-        <figure class="figure d-block w-50 mx-auto">
-            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/drawing-logic-gates-with-tikz/ex2.svg" alt="useless circuit">
-        </figure>
-        <p>While not a very good circuit to diagram, it shows many of the capabilities of TikZ.</p>
-        <h3>Graphing functions</h3>
-        <p>Just because it's useful and I have nowhere else to put it, here's how you graph functions with TikZ</p>
-        <pre class="language-tex pl-3"><code>\documentclass[tikz]{standalone}
+            <p>which produces</p>
+            <figure class="figure d-block w-50 mx-auto">
+                <img
+                    class="figure-img img-fluid rounded w-100"
+                    src="https://static.agill.xyz/images/drawing-logic-gates-with-tikz/ex2.svg"
+                    alt="useless circuit"
+                />
+            </figure>
+            <p>While not a very good circuit to diagram, it shows many of the capabilities of TikZ.</p>
+            <h3>Graphing functions</h3>
+            <p>Just because it's useful and I have nowhere else to put it, here's how you graph functions with TikZ</p>
+            <pre class="language-tex pl-3"><code>\documentclass[tikz]{standalone}
 
 \begin{document}
 \begin{tikzpicture}
@@ -118,11 +150,15 @@
         plot ({\x}, {sin(deg(\x))});
 \end{tikzpicture}
 \end{document}</code></pre>
-        <figure class="figure d-block w-50 mx-auto">
-            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/drawing-logic-gates-with-tikz/ex3.svg" alt="graphing functions">
-        </figure>
-        <p>Something more advanced:</p>
-        <pre class="language-tex pl-3"><code>\documentclass[tikz]{standalone}
+            <figure class="figure d-block w-50 mx-auto">
+                <img
+                    class="figure-img img-fluid rounded w-100"
+                    src="https://static.agill.xyz/images/drawing-logic-gates-with-tikz/ex3.svg"
+                    alt="graphing functions"
+                />
+            </figure>
+            <p>Something more advanced:</p>
+            <pre class="language-tex pl-3"><code>\documentclass[tikz]{standalone}
 
 \usepackage{pgfplots}
 \usetikzlibrary{patterns}
@@ -162,12 +198,15 @@
     \end{axis}
 \end{tikzpicture}
 \end{document}</code></pre>
-        <figure class="figure d-block w-50 mx-auto">
-            <img class="figure-img img-fluid rounded w-100" src="https://static.agill.xyz/images/drawing-logic-gates-with-tikz/ex4.svg" alt="graphing functions">
-        </figure>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for *this* version. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
-
+            <figure class="figure d-block w-50 mx-auto">
+                <img
+                    class="figure-img img-fluid rounded w-100"
+                    src="https://static.agill.xyz/images/drawing-logic-gates-with-tikz/ex4.svg"
+                    alt="graphing functions"
+                />
+            </figure>
+        </div>
+    </body>
+    <!-- TODO: Find the integrity hash for *this* version. -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>
