@@ -1,150 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta
+            name="description"
+            content="Research projects I've worked on in numerical linear algebra and machine learning."
+        />
+        <title>Research</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Research projects I've worked on in numerical linear algebra and machine learning.">
-    <title>Research</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-</head>
-
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home</a>
-                    <a class="nav-item nav-link active" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link active" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>Research Projects</h1>
+            <div class="card m-2">
+                <div class="card-header">Haiku Generation with Causal Language Modeling</div>
+                <div class="card-body">
+                    <div class="card-title text-muted">M.S. Project &mdash; 2018-2020</div>
+                    <p>
+                        We examine the theoretical foundations of causal language modeling, where natural language is
+                        modeled in terms of the probability distribution of a token in a sequence. This probability
+                        distribution is dependent on the values of all of the preceding tokens in the sequence.
+                    </p>
+                    <p>
+                        Due to time constraints and real-life factors, the final deliverable was changed from a
+                        traditional thesis to a project. The project was to be an implementation of an algorithm to
+                        generate haiku. This algorithm need not be original.
+                    </p>
+                    <p>
+                        We tried a number of generative language models, from using Markov chains and naive LSTM
+                        networks, to using
+                        <a href="https://github.com/minimaxir/textgenrnn">textgenrnn</a> by Max Woolf, and finally by
+                        fine-tuning a pretrained GPT-2 model on haiku scraped from online haiku submission and award
+                        websites.
+                    </p>
+                    <p>
+                        As expected, the results from using a fine-tuned GPT-2 model were by far the best. Some
+                        generated haiku were eerily cogent, and many (though not all) generated haiku display many
+                        traits of haiku. A sample of some of the generated haiku is given below.
+                    </p>
+                    <figure class="figure d-block mx-auto w-100">
+                        <table class="table table-sm table-striped table-hover w-100">
+                            <caption></caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">model</th>
+                                    <th scope="col">seed</th>
+                                    <th scope="col">haiku</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Markov</td>
+                                    <td>-<br /></td>
+                                    <td>summer / all these extra prayers / at the dead puppies</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-2 commandline</td>
+                                    <td>3191532796</td>
+                                    <td>spoonfuls / of medication / and loneliness</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-2 web</td>
+                                    <td>2607968983</td>
+                                    <td>vodka in the bottle / i go through / the exam</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-2 web</td>
+                                    <td>2913164516</td>
+                                    <td>thunder / the stock market goes up / and down</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-2 commandline</td>
+                                    <td>718585002</td>
+                                    <td>http haiku / some thoughts im afraid of / all alone at the coffee shop</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-2 web</td>
+                                    <td>1691016217</td>
+                                    <td>
+                                        bang bang bang bang bang bang bang bang bang bang bang bang bang bang bang bang
+                                        bang bang bang bang
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-2 web</td>
+                                    <td>3138988667</td>
+                                    <td>system failure / a distant train / making a sudden silence</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-2 web</td>
+                                    <td>921792121</td>
+                                    <td>may the force of life / reminding me / not to call it quits</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-2 web</td>
+                                    <td>1338062952</td>
+                                    <td>team meeting / everyone is still / talking about joining us</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-2 web</td>
+                                    <td>2926333899</td>
+                                    <td>guidance meeting / each path and its source / is a lie</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-2 web</td>
+                                    <td>80003916</td>
+                                    <td>guidance curves / the plowman chews / his tongue</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-2 web</td>
+                                    <td>1391183336</td>
+                                    <td>faulty hardware / i remember / why i lost my job</td>
+                                </tr>
+                                <tr>
+                                    <td>GPT-2 web</td>
+                                    <td>3506727018</td>
+                                    <td>faulty hardware / once again on a computer / it never shows</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </figure>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-secondary" href="https://github.com/Notgnoshi/research">Code</a>
+                        <a class="btn btn-secondary" href="/research/haiku">Writeup</a>
+                        <a class="btn btn-secondary" href="/generate" target="_blank">Try It!</a>
+                        <a class="btn btn-secondary" href="/docs#/default/generate_haiku_generate_get" target="_blank"
+                            >API Docs</a
+                        >
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <h1>Research Projects</h1>
-        <div class="card m-2">
-            <div class="card-header">Haiku Generation with Causal Language Modeling</div>
-            <div class="card-body">
-                <div class="card-title text-muted">M.S. Project &mdash; 2018-2020</div>
-                <p>We examine the theoretical foundations of causal language modeling, where natural language is modeled in terms of the probability distribution of a token in a sequence. This probability distribution is dependent on the values of all of the preceding tokens in the sequence.</p>
-                <p>Due to time constraints and real-life factors, the final deliverable was changed from a traditional thesis to a project. The project was to be an implementation of an algorithm to generate haiku. This algorithm need not be original.</p>
-                <p>We tried a number of generative language models, from using Markov chains and naive LSTM networks, to using <a href="https://github.com/minimaxir/textgenrnn">textgenrnn</a> by Max Woolf, and finally by fine-tuning a pretrained GPT-2 model on haiku scraped from online haiku submission and award websites.</p>
-                <p>As expected, the results from using a fine-tuned GPT-2 model were by far the best. Some generated haiku were eerily cogent, and many (though not all) generated haiku display many traits of haiku. A sample of some of the generated haiku is given below.</p>
-                <figure class="figure d-block mx-auto w-100">
-                    <table class="table table-sm table-striped table-hover w-100">
-                        <caption></caption>
-                        <thead>
-                            <tr>
-                                <th scope="col">model</th>
-                                <th scope="col">seed</th>
-                                <th scope="col">haiku</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Markov</td>
-                                <td>-<br></td>
-                                <td>summer / all these extra prayers / at the dead puppies</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-2 commandline</td>
-                                <td>3191532796</td>
-                                <td>spoonfuls / of medication / and loneliness</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-2 web</td>
-                                <td>2607968983</td>
-                                <td>vodka in the bottle / i go through / the exam</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-2 web</td>
-                                <td>2913164516</td>
-                                <td>thunder / the stock market goes up / and down</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-2 commandline</td>
-                                <td>718585002</td>
-                                <td>http haiku / some thoughts im afraid of / all alone at the coffee shop</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-2 web</td>
-                                <td>1691016217</td>
-                                <td>bang bang bang bang bang bang bang bang bang bang bang bang bang bang bang bang bang bang bang bang</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-2 web</td>
-                                <td>3138988667</td>
-                                <td>system failure / a distant train / making a sudden silence</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-2 web</td>
-                                <td>921792121</td>
-                                <td>may the force of life / reminding me / not to call it quits</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-2 web</td>
-                                <td>1338062952</td>
-                                <td>team meeting / everyone is still / talking about joining us</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-2 web</td>
-                                <td>2926333899</td>
-                                <td>guidance meeting / each path and its source / is a lie</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-2 web</td>
-                                <td>80003916</td>
-                                <td>guidance curves / the plowman chews / his tongue</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-2 web</td>
-                                <td>1391183336</td>
-                                <td>faulty hardware / i remember / why i lost my job</td>
-                            </tr>
-                            <tr>
-                                <td>GPT-2 web</td>
-                                <td>3506727018</td>
-                                <td>faulty hardware / once again on a computer / it never shows</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </figure>
-                <div class="btn-group" role="group">
-                    <a class="btn btn-secondary" href="https://github.com/Notgnoshi/research">Code</a>
-                    <a class="btn btn-secondary" href="/research/haiku">Writeup</a>
-                    <a class="btn btn-secondary" href="/generate" target="_blank">Try It!</a>
-                    <a class="btn btn-secondary" href="/docs#/default/generate_haiku_generate_get" target="_blank">API Docs</a>
+            <div class="card m-2">
+                <div class="card-header">
+                    Understanding
+                    <em>A Fast Contour-Integral Eigensolver for Non-Hermitian Matrices</em>
+                </div>
+                <div class="card-body">
+                    <div class="card-title text-muted">B.S. Project &mdash; 2017-2018</div>
+                    <p>
+                        We examine a new complex contour integral-based eigensolver algorithm using ideas from
+                        functional analysis. This eigensolver algorithm extends previous eigensolvers that typically
+                        required some special structure, to an eigensolver that works on a more general class of
+                        complex-valued matrices.
+                    </p>
+                    <p>
+                        The algorithm consists of two stages. First, it searches the complex plane for regions dense
+                        with eigenvalues. Second, it combs through those regions to find the eigenvalues using a
+                        modified form of the FEAST algorithm.
+                    </p>
+                    <p>
+                        Due to time constraints we were only able to examine the first stage in detail, and for
+                        completeness provide a description for the second stage. Our work was exploratory in nature,
+                        which in practice consisted of building and testing a Matlab implementation of the first stage.
+                    </p>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-secondary" href="https://git.agill.xyz/Notgnoshi/math_research">Code</a>
+                        <a class="btn btn-secondary" href="https://static.agill.xyz/assets/sources.bib">Sources</a>
+                        <a class="btn btn-secondary" href="https://static.agill.xyz/pdf/undergrad-presentation.pdf"
+                            >Presentation</a
+                        >
+                        <a class="btn btn-secondary" href="https://static.agill.xyz/pdf/undergrad-paper.pdf">Paper</a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="card m-2">
-            <div class="card-header">Understanding <em>A Fast Contour-Integral Eigensolver for Non-Hermitian Matrices</em></div>
-            <div class="card-body">
-                <div class="card-title text-muted">B.S. Project &mdash; 2017-2018</div>
-                <p>We examine a new complex contour integral-based eigensolver algorithm using ideas from functional analysis. This eigensolver algorithm extends previous eigensolvers that typically required some special structure, to an eigensolver that works on a more general class of complex-valued matrices.</p>
-                <p>The algorithm consists of two stages. First, it searches the complex plane for regions dense with eigenvalues. Second, it combs through those regions to find the eigenvalues using a modified form of the FEAST algorithm.</p>
-                <p>Due to time constraints we were only able to examine the first stage in detail, and for completeness provide a description for the second stage. Our work was exploratory in nature, which in practice consisted of building and testing a Matlab implementation of the first stage. </p>
-                <div class="btn-group" role="group">
-                    <a class="btn btn-secondary" href="https://git.agill.xyz/Notgnoshi/math_research">Code</a>
-                    <a class="btn btn-secondary" href="https://static.agill.xyz/assets/sources.bib">Sources</a>
-                    <a class="btn btn-secondary" href="https://static.agill.xyz/pdf/undergrad-presentation.pdf">Presentation</a>
-                    <a class="btn btn-secondary" href="https://static.agill.xyz/pdf/undergrad-paper.pdf">Paper</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for *this* version. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
-
+    </body>
+    <!-- TODO: Find the integrity hash for *this* version. -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

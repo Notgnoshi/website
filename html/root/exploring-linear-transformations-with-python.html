@@ -1,54 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta
+            name="description"
+            content="Animating linear transformations using matplotlib and numpy in a Jupyter Notebook."
+        />
+        <title>Exploring Linear Transformations with Python</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+            integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+            crossorigin="anonymous"
+        />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+            integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+            crossorigin="anonymous"
+        ></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <script
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
+            integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+            integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+            crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"
+        ></script>
+        <script
+            defer
+            src="https://static.agill.xyz/js/highlight.min.js"
+            onload="hljs.initHighlightingOnLoad();"
+        ></script>
+        <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css" />
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Animating linear transformations using matplotlib and numpy in a Jupyter Notebook.">
-    <title>Exploring Linear Transformations with Python</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
-    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
-</head>
-
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">
+                            Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <h1>Exploring Linear Transformations with Python<small class="text-muted"> &mdash; Subtitle</small></h1>
-        <p>Every undergraduate math student knows that matrices are <em>linear transformations.</em> That's all well and good, but what is a transformation, and what does it mean for one to be linear?</p>
-        <p>Essentially, a transformation is a function \(T\) that takes in stuff and transforms it into new stuff</p>
-        <figure class="figure w-50 d-block mx-auto">
-            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/transformation.svg" alt="A mock transformation">
-        </figure>
-        <p>More specifically, a transformation \(T\) is a function \(T : X \to X\). That is, it's a function that maps a set onto itself. For example, when you multiply a matrix by a vector, you get another vector.</p>
-        <p class="text-center">\[A \vec x = \vec b\]</p>
-        <p>Here's an example. Note that in Python, the <code>@</code> operator means matrix multiplication, where the <code>*</code> operator means elementwise (Hadamard) product.</p>
-        <pre class="pl-3 language-python"><code>In [1]: import numpy as np
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>
+                Exploring Linear Transformations with Python
+                <small class="text-muted">&mdash; Subtitle</small>
+            </h1>
+            <p>
+                Every undergraduate math student knows that matrices are
+                <em>linear transformations.</em>
+                That's all well and good, but what is a transformation, and what does it mean for one to be linear?
+            </p>
+            <p>
+                Essentially, a transformation is a function \(T\) that takes in stuff and transforms it into new stuff
+            </p>
+            <figure class="figure w-50 d-block mx-auto">
+                <img
+                    class="figure-img img-fluid w-100"
+                    src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/transformation.svg"
+                    alt="A mock transformation"
+                />
+            </figure>
+            <p>
+                More specifically, a transformation \(T\) is a function \(T : X \to X\). That is, it's a function that
+                maps a set onto itself. For example, when you multiply a matrix by a vector, you get another vector.
+            </p>
+            <p class="text-center">\[A \vec x = \vec b\]</p>
+            <p>
+                Here's an example. Note that in Python, the
+                <code>@</code>
+                operator means matrix multiplication, where the
+                <code>*</code>
+                operator means elementwise (Hadamard) product.
+            </p>
+            <pre class="pl-3 language-python"><code>In [1]: import numpy as np
 In [2]: A = np.matrix([[2, -1], [1, 1]])
 In [3]: v = np.array([3, 4])  # A row vector
 In [4]: A @ v.T  # we right multiply by column vectors
@@ -59,42 +123,101 @@ In [5]: v @ A  # we left multiply by row vectors
 Out[5]:
 matrix([[10,  1]])
 </code></pre>
-        <p>Now what about a <em>linear</em> transformation? In a word, a linear transformation \(L : W \to V\), where \(W\) and \(V\) are vector spaces, is a transformation that preserves the vector space operations of addition and scalar multiplications. If you want more theory than that, go pick up a linear algebra textbook. It'll explain things quite a bit better than I can.</p>
-        <p>Otherwise, a good way to think about linear transformations is that things that started parallel end up parallel, and things that started perpendicular end up perpendicular. These are harder to visualize in higher dimensions, but here we'll be sticking with 2D.</p>
-        <p>There are several different kinds of 2D linear transformations that we can describe using matrices.</p>
-        <ul>
-            <li>Shear transformations <figure class="figure w-50 d-block mx-auto">
-                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/shear.svg" alt="A shear transformation">
-                    <figcaption class="figure-caption text-right">A shear transformation</figcaption>
-                </figure>
-            </li>
-            <li>Scale transformations <figure class="figure w-50 d-block mx-auto">
-                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/scale.svg" alt="A scale transformation">
-                    <figcaption class="figure-caption text-right">A scale transformation in one direction</figcaption>
-                </figure>
-            </li>
-            <li>Reflection transformations <figure class="figure w-50 d-block mx-auto">
-                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/reflection.svg" alt="A reflection transformation">
-                    <figcaption class="figure-caption text-right">A reflection transformation</figcaption>
-                </figure>
-            </li>
-            <li>Projection transformations <figure class="figure w-50 d-block mx-auto">
-                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/projection.svg" alt="A projection transformation">
-                    <figcaption class="figure-caption text-right">A projection onto the \(x\) axis</figcaption>
-                </figure>
-            </li>
-            <li>Rotation transformations <figure class="figure w-50 d-block mx-auto">
-                    <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/rotation.svg" alt="A rotation transformation">
-                    <figcaption class="figure-caption text-right">A rotation transformation</figcaption>
-                </figure>
-            </li>
-            <li>And others!</li>
-        </ul>
-        <p>Each of these transformations can be fully represented as a matrix. Further, every (square) matrix encodes a linear transformation. Interestingly, if you want to apply two transformations, you can multiply the transformation matrices, and the result will be the same as applying one transformation and then the other. Note that this process is <em>not</em> commutative.</p>
-        <hr>
-        <p>While the above pictures are nice, I wanted to animate the transformation to get a more intuitive feel for how they work. My Python code to do so is heavily influenced by <a href="https://github.com/dododas">@dododas</a>'s work <a href="https://dododas.github.io/linear-algebra-with-python/posts/16-12-29-2d-transformations.html">here</a>.</p>
-        <p>Here's a function to animate a transformation:</p>
-        <pre class="pl-3 language-python"><code>%matplotlib inline
+            <p>
+                Now what about a
+                <em>linear</em>
+                transformation? In a word, a linear transformation \(L : W \to V\), where \(W\) and \(V\) are vector
+                spaces, is a transformation that preserves the vector space operations of addition and scalar
+                multiplications. If you want more theory than that, go pick up a linear algebra textbook. It'll explain
+                things quite a bit better than I can.
+            </p>
+            <p>
+                Otherwise, a good way to think about linear transformations is that things that started parallel end up
+                parallel, and things that started perpendicular end up perpendicular. These are harder to visualize in
+                higher dimensions, but here we'll be sticking with 2D.
+            </p>
+            <p>There are several different kinds of 2D linear transformations that we can describe using matrices.</p>
+            <ul>
+                <li>
+                    Shear transformations
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/shear.svg"
+                            alt="A shear transformation"
+                        />
+                        <figcaption class="figure-caption text-right">A shear transformation</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    Scale transformations
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/scale.svg"
+                            alt="A scale transformation"
+                        />
+                        <figcaption class="figure-caption text-right">
+                            A scale transformation in one direction
+                        </figcaption>
+                    </figure>
+                </li>
+                <li>
+                    Reflection transformations
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/reflection.svg"
+                            alt="A reflection transformation"
+                        />
+                        <figcaption class="figure-caption text-right">A reflection transformation</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    Projection transformations
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/projection.svg"
+                            alt="A projection transformation"
+                        />
+                        <figcaption class="figure-caption text-right">A projection onto the \(x\) axis</figcaption>
+                    </figure>
+                </li>
+                <li>
+                    Rotation transformations
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/rotation.svg"
+                            alt="A rotation transformation"
+                        />
+                        <figcaption class="figure-caption text-right">A rotation transformation</figcaption>
+                    </figure>
+                </li>
+                <li>And others!</li>
+            </ul>
+            <p>
+                Each of these transformations can be fully represented as a matrix. Further, every (square) matrix
+                encodes a linear transformation. Interestingly, if you want to apply two transformations, you can
+                multiply the transformation matrices, and the result will be the same as applying one transformation and
+                then the other. Note that this process is
+                <em>not</em>
+                commutative.
+            </p>
+            <hr />
+            <p>
+                While the above pictures are nice, I wanted to animate the transformation to get a more intuitive feel
+                for how they work. My Python code to do so is heavily influenced by
+                <a href="https://github.com/dododas">@dododas</a>
+                's work
+                <a href="https://dododas.github.io/linear-algebra-with-python/posts/16-12-29-2d-transformations.html">
+                    here
+                </a>
+                .
+            </p>
+            <p>Here's a function to animate a transformation:</p>
+            <pre class="pl-3 language-python"><code>%matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -164,76 +287,131 @@ def animate_transform(A, grid=None, num_steps=50, repeat=False):
                                    frames=num_steps,
                                    blit=True,
                                    repeat=repeat)</code></pre>
-        <p>Note that this code is meant to be ran in a Jupyter Notebook.</p>
-        <p>Here are some examples.</p>
-        <ul>
-            <li>A <a href="https://en.wikipedia.org/wiki/Shear_matrix">shear</a> transform:
-                <pre class="pl-3 language-python"><code>A = np.column_stack([[1, 0], [2, 1]])
+            <p>Note that this code is meant to be ran in a Jupyter Notebook.</p>
+            <p>Here are some examples.</p>
+            <ul>
+                <li>
+                    A
+                    <a href="https://en.wikipedia.org/wiki/Shear_matrix">shear</a>
+                    transform:
+                    <pre class="pl-3 language-python"><code>A = np.column_stack([[1, 0], [2, 1]])
 anim = animate_transform(A, repeat=True)
 anim.save('shear.mp4')
 anim</code></pre>
-                <figure class="figure w-50 d-block mx-auto">
-                    <video class="figure-img img-fluid w-100" autoplay loop>
-                        <source src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/shear.mp4" type="video/mp4"> Your browser does not support the video tag. </video>
-                </figure>
-            </li>
-            <li>A <a href="https://en.wikipedia.org/wiki/Projection_(linear_algebra)">projection</a> onto the \(x\) axis:
-                <pre class="pl-3 language-python"><code>A = np.column_stack([[1, 0], [0, 0]])
+                    <figure class="figure w-50 d-block mx-auto">
+                        <video class="figure-img img-fluid w-100" autoplay loop>
+                            <source
+                                src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/shear.mp4"
+                                type="video/mp4"
+                            />
+                            Your browser does not support the video tag.
+                        </video>
+                    </figure>
+                </li>
+                <li>
+                    A
+                    <a href="https://en.wikipedia.org/wiki/Projection_(linear_algebra)">projection</a>
+                    onto the \(x\) axis:
+                    <pre class="pl-3 language-python"><code>A = np.column_stack([[1, 0], [0, 0]])
 anim = animate_transform(A, repeat=True)
 anim.save('projection.mp4')
 anim</code></pre>
-                <figure class="figure w-50 d-block mx-auto">
-                    <video class="figure-img img-fluid w-100" autoplay loop>
-                        <source src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/projection.mp4" type="video/mp4"> Your browser does not support the video tag. </video>
-                </figure>
-            </li>
-            <li>A <a href="https://en.wikipedia.org/wiki/Rotation_matrix">rotation</a> by \(\frac{\pi}{6}\) radians: A rotation matrix \(A\), that rotates space by \(\theta\) radians is given by \(A = \begin{pmatrix}\cos\theta & -\sin\theta \\ \sin\theta & \cos\theta\end{pmatrix}\)
-                <pre class="pl-3 language-python"><code>theta = np.pi / 6 # 30 degree counter-clockwise rotation
+                    <figure class="figure w-50 d-block mx-auto">
+                        <video class="figure-img img-fluid w-100" autoplay loop>
+                            <source
+                                src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/projection.mp4"
+                                type="video/mp4"
+                            />
+                            Your browser does not support the video tag.
+                        </video>
+                    </figure>
+                </li>
+                <li>
+                    A
+                    <a href="https://en.wikipedia.org/wiki/Rotation_matrix">rotation</a>
+                    by \(\frac{\pi}{6}\) radians: A rotation matrix \(A\), that rotates space by \(\theta\) radians is
+                    given by \(A = \begin{pmatrix}\cos\theta & -\sin\theta \\ \sin\theta & \cos\theta\end{pmatrix}\)
+                    <pre class="pl-3 language-python"><code>theta = np.pi / 6 # 30 degree counter-clockwise rotation
 A = np.column_stack([[np.cos(theta), np.sin(theta)], [-np.sin(theta), np.cos(theta)]])
 anim = animate_transform(A, repeat=True)
 anim.save('rotation.mp4')
 anim</code></pre>
-                <figure class="figure w-50 d-block mx-auto">
-                    <video class="figure-img img-fluid w-100" autoplay loop>
-                        <source src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/rotation.mp4" type="video/mp4"> Your browser does not support the video tag. </video>
-                </figure>
-            </li>
-            <li>A <a href="https://en.wikipedia.org/wiki/Permutation_matrix">permutation</a> matrix:
-                <pre class="pl-3 language-python"><code>A = np.column_stack([[0, 1], [1, 0]])
+                    <figure class="figure w-50 d-block mx-auto">
+                        <video class="figure-img img-fluid w-100" autoplay loop>
+                            <source
+                                src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/rotation.mp4"
+                                type="video/mp4"
+                            />
+                            Your browser does not support the video tag.
+                        </video>
+                    </figure>
+                </li>
+                <li>
+                    A
+                    <a href="https://en.wikipedia.org/wiki/Permutation_matrix">permutation</a>
+                    matrix:
+                    <pre class="pl-3 language-python"><code>A = np.column_stack([[0, 1], [1, 0]])
 anim = animate_transform(A, repeat=True)
 anim.save('permutation.mp4')
 anim</code></pre>
-                <figure class="figure w-50 d-block mx-auto">
-                    <video class="figure-img img-fluid w-100" autoplay loop>
-                        <source src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/permutation.mp4" type="video/mp4"> Your browser does not support the video tag. </video>
-                </figure>
-            </li> Note that this is different than a matrix transpose. Interestingly, you cannot represent the transpose as a matrix multiplication. <li>A <a href="https://en.wikipedia.org/wiki/Scaling_(geometry)">scale</a> matrix:
-                <pre class="pl-3 language-python"><code>A = np.column_stack([[2, 0], [0, 5]])
+                    <figure class="figure w-50 d-block mx-auto">
+                        <video class="figure-img img-fluid w-100" autoplay loop>
+                            <source
+                                src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/permutation.mp4"
+                                type="video/mp4"
+                            />
+                            Your browser does not support the video tag.
+                        </video>
+                    </figure>
+                </li>
+                Note that this is different than a matrix transpose. Interestingly, you cannot represent the transpose
+                as a matrix multiplication.
+                <li>
+                    A
+                    <a href="https://en.wikipedia.org/wiki/Scaling_(geometry)">scale</a>
+                    matrix:
+                    <pre class="pl-3 language-python"><code>A = np.column_stack([[2, 0], [0, 5]])
 anim = animate_transform(A, repeat=True)
 anim.save('scale.mp4')
 anim</code></pre>
-                <figure class="figure w-50 d-block mx-auto">
-                    <video class="figure-img img-fluid w-100" autoplay loop>
-                        <source src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/scale.mp4" type="video/mp4"> Your browser does not support the video tag. </video>
-                </figure>
-            </li>
-        </ul>
-        <p>Now we can visualize combining different transformations!</p>
-        <pre class="pl-3 language-python"><code>theta = np.pi / 6 # 30 degree counter-clockwise rotation
+                    <figure class="figure w-50 d-block mx-auto">
+                        <video class="figure-img img-fluid w-100" autoplay loop>
+                            <source
+                                src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/scale.mp4"
+                                type="video/mp4"
+                            />
+                            Your browser does not support the video tag.
+                        </video>
+                    </figure>
+                </li>
+            </ul>
+            <p>Now we can visualize combining different transformations!</p>
+            <pre class="pl-3 language-python"><code>theta = np.pi / 6 # 30 degree counter-clockwise rotation
 A = np.column_stack([[np.cos(theta), np.sin(theta)], [-np.sin(theta), np.cos(theta)]])
 B = np.column_stack([[2, 0], [0, 1]])  # A scale by 2 units in the x direction
 anim = animate_transform(A @ B, repeat=True)
 anim.save('combination.mp4')
 anim</code></pre>
-        <figure class="figure w-50 d-block mx-auto">
-            <video class="figure-img img-fluid w-100" autoplay loop>
-                <source src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/combination.mp4" type="video/mp4"> Your browser does not support the video tag. </video>
-        </figure>
-        <hr>
-        <p>The notebook all of this is taken from can be found <a href="https://static.agill.xyz/images/exploring-linear-transformations-with-python/linear-transformations.ipynb">here</a></p>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for <em>this</em> version. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
-
+            <figure class="figure w-50 d-block mx-auto">
+                <video class="figure-img img-fluid w-100" autoplay loop>
+                    <source
+                        src="https://static.agill.xyz/images/exploring-linear-transformations-with-python/combination.mp4"
+                        type="video/mp4"
+                    />
+                    Your browser does not support the video tag.
+                </video>
+            </figure>
+            <hr />
+            <p>
+                The notebook all of this is taken from can be found
+                <a
+                    href="https://static.agill.xyz/images/exploring-linear-transformations-with-python/linear-transformations.ipynb"
+                >
+                    here
+                </a>
+            </p>
+        </div>
+    </body>
+    <!-- TODO: Find the integrity hash for <em>this</em> version. -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

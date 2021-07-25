@@ -1,108 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta
+            name="description"
+            content="Reproducing the AND, OR, XOR, etc. boolean functions using neural networks implemented in Keras"
+        />
+        <title>Learning Boolean Functions with Neural Networks</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+            integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+            crossorigin="anonymous"
+        />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+            integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+            crossorigin="anonymous"
+        ></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <script
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
+            integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+            integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+            crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"
+        ></script>
+        <script
+            defer
+            src="https://static.agill.xyz/js/highlight.min.js"
+            onload="hljs.initHighlightingOnLoad();"
+        ></script>
+        <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css" />
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Reproducing the AND, OR, XOR, etc. boolean functions using neural networks implemented in Keras">
-    <title>Learning Boolean Functions with Neural Networks</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
-    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
-</head>
-
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">
+                            Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <h1>Learning Boolean Functions with Neural Networks</h1>
-        <p>I'm currently taking a deep learning course, which used learning the <a href="https://en.wikipedia.org/wiki/Exclusive_or">XOR</a> function as its first example of feedforward networks. The XOR function has the following truth table</p>
-        <table class="table w-25 mx-auto table-striped table-hover table-bordered text-center">
-            <thead class="thead-light">
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>Learning Boolean Functions with Neural Networks</h1>
+            <p>
+                I'm currently taking a deep learning course, which used learning the
+                <a href="https://en.wikipedia.org/wiki/Exclusive_or">XOR</a>
+                function as its first example of feedforward networks. The XOR function has the following truth table
+            </p>
+            <table class="table w-25 mx-auto table-striped table-hover table-bordered text-center">
+                <thead class="thead-light">
+                    <tr>
+                        <th>\(x\)</th>
+                        <th>\(y\)</th>
+                        <th>\(x \oplus y\)</th>
+                    </tr>
+                </thead>
                 <tr>
-                    <th>\(x\)</th>
-                    <th>\(y\)</th>
-                    <th>\(x \oplus y\)</th>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
                 </tr>
-            </thead>
-            <tr>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-            </tr>
-            <tr>
-                <td>0</td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>0</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>0</td>
-            </tr>
-        </table>
-        <p>which when graphed, is not linearly separable (1s cannot be separated from the 0s by drawing a line)</p>
-        <figure class="figure d-block mx-auto w-50">
-            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/learning-boolean-functions-with-neural-networks/xor.svg" alt="XOR is not linearly separable">
-            <figcaption class="figure-caption text-right">XOR is not linearly separable</figcaption>
-        </figure>
-        <p>So if a linear model won't work, I guess that means we need a nonlinear one. We can do this by using the \(relu(x)\) activation function on the outputs of our neurons. \(relu(x)\) is defined as</p>
-        <p class="text-center">\[relu(x) = \max\{0, x\}\]</p>
-        <p>and graphed below.</p>
-        <figure class="figure d-block mx-auto w-50">
-            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/learning-boolean-functions-with-neural-networks/relu.svg" alt="The RELU function">
-            <figcaption class="figure-caption text-right">The RELU function</figcaption>
-        </figure>
-        <p>However, since \(relu(x)\) has sharp corners, it is not differentiable at \(x = 0\), so gradient based learning methods won't work as well. So we use the \(softplus(x)\) function instead, which is a softened version of \(relu(x)\) defined as</p>
-        <p class="text-center">\[softplus(x) = \log(1 + \exp(x))\]</p>
-        <p>shown below.</p>
-        <figure class="figure d-block mx-auto w-50">
-            <img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/learning-boolean-functions-with-neural-networks/softplus.svg" alt="The softplus function">
-            <figcaption class="figure-caption text-right">The softplus function</figcaption>
-        </figure>
-        <p>We begin with your usual imports</p>
-        <pre class="pl-3 language-python"><code>import numpy as np
+                <tr>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                </tr>
+            </table>
+            <p>which when graphed, is not linearly separable (1s cannot be separated from the 0s by drawing a line)</p>
+            <figure class="figure d-block mx-auto w-50">
+                <img
+                    class="figure-img img-fluid w-100"
+                    src="https://static.agill.xyz/images/learning-boolean-functions-with-neural-networks/xor.svg"
+                    alt="XOR is not linearly separable"
+                />
+                <figcaption class="figure-caption text-right">XOR is not linearly separable</figcaption>
+            </figure>
+            <p>
+                So if a linear model won't work, I guess that means we need a nonlinear one. We can do this by using the
+                \(relu(x)\) activation function on the outputs of our neurons. \(relu(x)\) is defined as
+            </p>
+            <p class="text-center">\[relu(x) = \max\{0, x\}\]</p>
+            <p>and graphed below.</p>
+            <figure class="figure d-block mx-auto w-50">
+                <img
+                    class="figure-img img-fluid w-100"
+                    src="https://static.agill.xyz/images/learning-boolean-functions-with-neural-networks/relu.svg"
+                    alt="The RELU function"
+                />
+                <figcaption class="figure-caption text-right">The RELU function</figcaption>
+            </figure>
+            <p>
+                However, since \(relu(x)\) has sharp corners, it is not differentiable at \(x = 0\), so gradient based
+                learning methods won't work as well. So we use the \(softplus(x)\) function instead, which is a softened
+                version of \(relu(x)\) defined as
+            </p>
+            <p class="text-center">\[softplus(x) = \log(1 + \exp(x))\]</p>
+            <p>shown below.</p>
+            <figure class="figure d-block mx-auto w-50">
+                <img
+                    class="figure-img img-fluid w-100"
+                    src="https://static.agill.xyz/images/learning-boolean-functions-with-neural-networks/softplus.svg"
+                    alt="The softplus function"
+                />
+                <figcaption class="figure-caption text-right">The softplus function</figcaption>
+            </figure>
+            <p>We begin with your usual imports</p>
+            <pre class="pl-3 language-python"><code>import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.optimizers import SGD</code></pre>
-        <p>Then define the inputs and expected outputs of the neural network</p>
-        <pre class="pl-3 language-python"><code>inputs = np.array([[0, 0],
+            <p>Then define the inputs and expected outputs of the neural network</p>
+            <pre class="pl-3 language-python"><code>inputs = np.array([[0, 0],
                    [0, 1],
                    [1, 0],
                    [1, 1]])
 
 xor_outputs = np.array([0, 1, 1, 0])</code></pre>
-        <p>Next, we define the structure of the neural network. Note that I had to increase the learning rate from the default value.</p>
-        <pre class="pl-3 language-python"><code>XOR = Sequential()
+            <p>
+                Next, we define the structure of the neural network. Note that I had to increase the learning rate from
+                the default value.
+            </p>
+            <pre class="pl-3 language-python"><code>XOR = Sequential()
 XOR.add(Dense(2, activation='softplus', input_dim=2))
 XOR.add(Dense(1, activation='sigmoid'))
 
@@ -111,32 +179,58 @@ sgd = SGD(lr=0.1)
 XOR.compile(loss='binary_crossentropy',
             optimizer=sgd,
             metrics=['accuracy'])</code></pre>
-        <p>This defines the network</p>
-        <img class="centered-real" src="https://static.agill.xyz/learning-boolean-functions-with-neural-networks/xor-nn.svg" alt="The XOR network">
-        <p>where the hidden layer activation function is \(softplus(x)\) and the output layer activation function is the traditional <a href="https://en.wikipedia.org/wiki/Sigmoid_function">sigmoid</a> function used to output a number between 0 and 1, indicating the probability of the output being a logical 0 or a logical 1. Note that Keras does not require us to explicitly form the input layer.</p>
-        <p>Now we actually train the network.</p>
-        <pre class="pl-3 language-python"><code>XOR.fit(inputs, xor_outputs, epochs=5000, verbose=0)
+            <p>This defines the network</p>
+            <img
+                class="centered-real"
+                src="https://static.agill.xyz/learning-boolean-functions-with-neural-networks/xor-nn.svg"
+                alt="The XOR network"
+            />
+            <p>
+                where the hidden layer activation function is \(softplus(x)\) and the output layer activation function
+                is the traditional
+                <a href="https://en.wikipedia.org/wiki/Sigmoid_function">sigmoid</a>
+                function used to output a number between 0 and 1, indicating the probability of the output being a
+                logical 0 or a logical 1. Note that Keras does not require us to explicitly form the input layer.
+            </p>
+            <p>Now we actually train the network.</p>
+            <pre class="pl-3 language-python"><code>XOR.fit(inputs, xor_outputs, epochs=5000, verbose=0)
 cost, acc = XOR.evaluate(inputs, xor_outputs, verbose=0)
 print(f'cost: {cost}, acc: {acc * 100}%')
 print(XOR.predict(inputs))</code></pre>
-        <p>which outputs</p>
-        <pre class="pl-3 language-python"><code>cost: 0.007737404201179743, acc: 100.0%
+            <p>which outputs</p>
+            <pre class="pl-3 language-python"><code>cost: 0.007737404201179743, acc: 100.0%
 [[0.00496492]
  [0.9978434 ]
  [0.98019916]
  [0.00380662]]</code></pre>
-        <p>Training the network on other boolean functions work exactly the same way, so much so that the only difference is using a different output array.</p>
-        <hr>
-        <p>This was my first experience with a neural network, so here are some things that I learned for your amusement:</p>
-        <ul>
-            <li>I originally expected this model to train very quickly because the problem was so small, so I only used 10-20 training epochs and got absolutely garbage results. Here, I'm using 5000 training epochs.</li>
-            <li>I had to increase the learning rate to train in a reasonable amount of time.</li>
-            <li>One should not blindly upgrade TensorFlow without reading the release notes. All-in-all, I spent more time trying to install the correct versions of Tensorflow and CUDA than I did trying to get even this simple of a neural network to work correctly.</li>
-        </ul>
-        <p>Note that boolean functions are bad functions for neural networks to learn. This is because their domain and ranges are discrete and (typically) small. Learning the function takes more time and space than simply listing a truth table.</p>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for <em>this</em> version. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
-
+            <p>
+                Training the network on other boolean functions work exactly the same way, so much so that the only
+                difference is using a different output array.
+            </p>
+            <hr />
+            <p>
+                This was my first experience with a neural network, so here are some things that I learned for your
+                amusement:
+            </p>
+            <ul>
+                <li>
+                    I originally expected this model to train very quickly because the problem was so small, so I only
+                    used 10-20 training epochs and got absolutely garbage results. Here, I'm using 5000 training epochs.
+                </li>
+                <li>I had to increase the learning rate to train in a reasonable amount of time.</li>
+                <li>
+                    One should not blindly upgrade TensorFlow without reading the release notes. All-in-all, I spent
+                    more time trying to install the correct versions of Tensorflow and CUDA than I did trying to get
+                    even this simple of a neural network to work correctly.
+                </li>
+            </ul>
+            <p>
+                Note that boolean functions are bad functions for neural networks to learn. This is because their domain
+                and ranges are discrete and (typically) small. Learning the function takes more time and space than
+                simply listing a truth table.
+            </p>
+        </div>
+    </body>
+    <!-- TODO: Find the integrity hash for <em>this</em> version. -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

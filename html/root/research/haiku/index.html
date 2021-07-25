@@ -1,67 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="My graduate project to generate haiku with machine learning." />
+        <title>Haiku Generation</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="My graduate project to generate haiku with machine learning.">
-    <title>Haiku Generation</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-</head>
-
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link active" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">
+                            Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                        <a class="nav-item nav-link active" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <h1>Haiku Generation with Causal Language Modeling<small class="text-muted"> &mdash; Table of Contents</small></h1>
-        <ol class="d-flex flex-column">
-            <li>Introduction<ol type="a">
-                    <li><a href="/research/haiku/introduction/the-haiku-form">The Haiku Form</a></li>
-                    <li><a class="text-danger" href="/research/haiku/introduction/computational-poetry">Computational Poetry</a></li>
-                    <li><a href="/research/haiku/introduction/neural-networks">Neural Networks</a></li>
-                    <li>Natural Language<ol type="i">
-                            <li><a href="/research/haiku/introduction/natural-language/language-model">How do we model natural language?</a></li>
-                            <li><a href="/research/haiku/introduction/natural-language/markov">Markov Models</a></li>
-                            <li><a href="/research/haiku/introduction/natural-language/ffnn">Feed-Forward Neural Network Models</a></li>
-                            <li><a href="/research/haiku/introduction/natural-language/rnn">Recurrent Neural Network Models</a></li>
-                            <li><a href="/research/haiku/introduction/natural-language/lstm">LSTM Models</a></li>
-                            <li><a href="https://openai.com/blog/better-language-models/" target="_blank">GPT-2</a></li>
-                        </ol>
-                    </li>
-                    <li><a href="/research/haiku/introduction/text-generation">Text Generation</a></li>
-                </ol>
-            </li>
-            <li><a href="/research/haiku/methodology">Methodology</a></li>
-            <li>Analysis and Experimentation<ol type="a">
-                    <li><a href="/research/haiku/analysis/temperature-sampling-softmax-layers">Temperature Sampling Softmax Layers</a></li>
-                    <li><a href="/research/haiku/analysis/colors">Colors</a></li>
-                    <li><a href="/research/haiku/analysis/syllables">Syllables</a></li>
-                    <li><a href="/research/haiku/analysis/word-clouds">Word Clouds</a></li>
-                    <li><a href="/research/haiku/analysis/zipfs-law">Zipf's Law</a></li>
-                </ol>
-            </li>
-        </ol>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for *this* version. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
-
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>
+                Haiku Generation with Causal Language Modeling
+                <small class="text-muted">&mdash; Table of Contents</small>
+            </h1>
+            <ol class="d-flex flex-column">
+                <li>
+                    Introduction
+                    <ol type="a">
+                        <li>
+                            <a href="/research/haiku/introduction/the-haiku-form">The Haiku Form</a>
+                        </li>
+                        <li>
+                            <a class="text-danger" href="/research/haiku/introduction/computational-poetry">
+                                Computational Poetry
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/research/haiku/introduction/neural-networks">Neural Networks</a>
+                        </li>
+                        <li>
+                            Natural Language
+                            <ol type="i">
+                                <li>
+                                    <a href="/research/haiku/introduction/natural-language/language-model">
+                                        How do we model natural language?
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/research/haiku/introduction/natural-language/markov">Markov Models</a>
+                                </li>
+                                <li>
+                                    <a href="/research/haiku/introduction/natural-language/ffnn">
+                                        Feed-Forward Neural Network Models
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/research/haiku/introduction/natural-language/rnn">
+                                        Recurrent Neural Network Models
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/research/haiku/introduction/natural-language/lstm">LSTM Models</a>
+                                </li>
+                                <li>
+                                    <a href="https://openai.com/blog/better-language-models/" target="_blank">GPT-2</a>
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            <a href="/research/haiku/introduction/text-generation">Text Generation</a>
+                        </li>
+                    </ol>
+                </li>
+                <li><a href="/research/haiku/methodology">Methodology</a></li>
+                <li>
+                    Analysis and Experimentation
+                    <ol type="a">
+                        <li>
+                            <a href="/research/haiku/analysis/temperature-sampling-softmax-layers">
+                                Temperature Sampling Softmax Layers
+                            </a>
+                        </li>
+                        <li><a href="/research/haiku/analysis/colors">Colors</a></li>
+                        <li><a href="/research/haiku/analysis/syllables">Syllables</a></li>
+                        <li><a href="/research/haiku/analysis/word-clouds">Word Clouds</a></li>
+                        <li><a href="/research/haiku/analysis/zipfs-law">Zipf's Law</a></li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+    </body>
+    <!-- TODO: Find the integrity hash for *this* version. -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

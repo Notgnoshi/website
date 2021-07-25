@@ -1,20 +1,18 @@
 @font-face {
-    font-family: 'Pointfree';
-    src: local(Pointfree),
-         url('https://static.agill.xyz/fonts/pointfree.woff2') format('woff2'),
-         url('https://static.agill.xyz/fonts/pointfree.woff')  format('woff'),
-         url('https://static.agill.xyz/fonts/pointfree.ttf')   format('truetype');
+    font-family: "Pointfree";
+    src: local(Pointfree), url("https://static.agill.xyz/fonts/pointfree.woff2") format("woff2"),
+        url("https://static.agill.xyz/fonts/pointfree.woff") format("woff"),
+        url("https://static.agill.xyz/fonts/pointfree.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Comic Mono';
-    src: local('Comic Mono'),
-         url('https://static.agill.xyz/fonts/comicmono.woff2') format('woff2'),
-         url('https://static.agill.xyz/fonts/comicmono.woff') format('woff'),
-         url('https://static.agill.xyz/fonts/comicmono.ttf') format('truetype');
+    font-family: "Comic Mono";
+    src: local("Comic Mono"), url("https://static.agill.xyz/fonts/comicmono.woff2") format("woff2"),
+        url("https://static.agill.xyz/fonts/comicmono.woff") format("woff"),
+        url("https://static.agill.xyz/fonts/comicmono.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
     font-display: swap;
@@ -25,12 +23,14 @@ body {
     font-family: Georgia, Times, "Times New Roman", serif;
     font-size: 1.1rem;
     counter-reset: sidenote-counter;
-    background-color: #FFF;
+    background-color: #fff;
     position: relative;
 }
 
-pre, code, kbd {
-    font-family: Pointfree, 'Comic Mono', 'Comic Code', 'Fantasque Sans Mono', var(--font-family-monospace);
+pre,
+code,
+kbd {
+    font-family: Pointfree, "Comic Mono", "Comic Code", "Fantasque Sans Mono", var(--font-family-monospace);
     color: var(--gray);
 }
 
@@ -144,8 +144,7 @@ label.margin-toggle:not(.sidenote-number) {
     }
 }
 
-@media screen and (max-width: 992px)
-{
+@media screen and (max-width: 992px) {
     .toggleable-content .menu-icon {
         display: block;
         clear: both;
@@ -172,7 +171,7 @@ nav[data-toggle="toc"] {
 @media (max-width: 767px) {
     nav[data-toggle="toc"] {
         margin-bottom: 74px;
-        position:static;
+        position: static;
     }
 
     nav[data-toggle="toc"] .nav .nav {

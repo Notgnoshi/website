@@ -1,78 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="The application of a language model to generate text." />
+        <title>1.e. Text Generation</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+            integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+            crossorigin="anonymous"
+        />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+            integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+            crossorigin="anonymous"
+        ></script>
+        <link
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <script
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
+            integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
+            crossorigin="anonymous"
+        ></script>
+        <script language="javascript">
+            const katexOpts = {
+                macros: {
+                    "\\norm": "\\left\\lVert#1\\right\\rVert",
+                    "\\ceil": "\\left\\lceil#1\\right\\rceil",
+                    "\\floor": "\\left\\lfloor#1\\right\\rfloor",
+                    "\\countf": "\\operatorname{count}\\left(#1\\right)",
+                    "\\entropy": "\\operatorname{H}",
+                    "\\perplexity": "\\operatorname{PP}",
+                    "\\model": "\\operatorname{LM}",
+                    "\\softmax": "\\operatorname{softmax}",
+                },
+            };
+        </script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+            integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+            crossorigin="anonymous"
+            onload="renderMathInElement(document.body, katexOpts);"
+        ></script>
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="The application of a language model to generate text.">
-    <title>1.e. Text Generation</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
-    <script language="javascript">
-        const katexOpts = {
-            macros: {
-                "\\norm": "\\left\\lVert#1\\right\\rVert",
-                "\\ceil": "\\left\\lceil#1\\right\\rceil",
-                "\\floor": "\\left\\lfloor#1\\right\\rfloor",
-                "\\countf": "\\operatorname{count}\\left(#1\\right)",
-                "\\entropy": "\\operatorname{H}",
-                "\\perplexity": "\\operatorname{PP}",
-                "\\model": "\\operatorname{LM}",
-                "\\softmax": "\\operatorname{softmax}",
-            },
-        };
-    </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body, katexOpts);"></script>
-</head>
-
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home</a>
-                    <a class="nav-item nav-link active" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link active" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/research/haiku">Home</a></li>
-                <li class="breadcrumb-item">Introduction</li>
-                <li class="breadcrumb-item active" area-current="page">Text Generation</li>
-            </ol>
-        </nav>
-        <h1>1.e. Text Generation</h1>
-        <p>Recall from <a href="/research/haiku/introduction/natural-language/language-model">here</a> that a language model \(\model\) is a statistical model of a sequence of tokens \(\{w_1, w_2, w_3, \dots\}\) where the probability of the token \(w_{k+1}\) is conditioned on <i>all</i> of the preceding tokens \(w_{1:k}\), denoted \(\model\left(w_{k+1} \mid w_{1:k}\right)\). Since the output of a language model is a probability distribution, we sample the distribution generated by \(\model(w_2 \mid w_1)\) to generate \(w_2\) conditioned on \(w_1\). Then we sample the distribution generated by \(\model(w_3 \mid w_{1:2})\) to generate \(w_3\) conditioned on \(\{w_1, w_2\}\), and so on <cite><a href="goldberg_2017"></a></cite>. The method used to sample the probability distribution can vary, as does the quality of the generated sequence.</p>
-        <p>The sequence of tokens \(\{w_1, w_2, w_3, \dots\}\) can be a sequence of characters, or a sequence of words. Often, we also insert meta-tokens into the sequence, such as punctuation, a start-of-sequence tag (<code>&lt;s&gt;</code>), and an end-of-sequence tag (<code>&lt;/s&gt;</code>) so that the language model can condition its predictions based on even more information.</p>
-        <p>When sampling the probability distribution generated by \(\model\left(w_{k+1} \mid w_{1:k}\right)\), one strategy is to always pick the token with the highest probability. Another strategy might be to randomly sample the probability distribution. This way the output of the generative network is more diverse and creative.</p>
-        <p>We do this by transforming the softmax distribution</p>
-        <p class="text-center">\[\softmax(\vec x) = \frac{\exp\left(\vec x\right)}{\sum\exp\left(\vec x\right)}\]</p>
-        <p>with a given temperature <cite><a href="hinton2015distilling"></a></cite>.</p>
-        <p class="text-center">\[\softmax(\vec x, T) = \frac{\exp\left(\vec x \middle/ T \right)}{\sum\exp\left(\vec x \middle/ T\right)}\]</p>
-        <p>This temperature transformation can occur during the training of the network, where the normal softmax activation layer is replaced with the above transformation. We can also apply the temperature transformation <i>after</i> training during the generation phase by piping the softmax output values through the temperature transformation</p>
-        <p class="text-center">\[\operatorname{sample}(\vec y, T) = \frac{\exp\left(\log(\vec y) \middle/ T\right)}{\sum\exp\left(\log(\vec y) \middle/ T\right)}\]</p>
-        <p>after \(\softmax\) has been applied to the logits \(\vec x\). Note that \[\operatorname{sample}(\softmax(\vec x), T)\] and \[\softmax(\vec x, T)\] are equivalent.</p>
-        <p>Lower temperature values produce a more extreme distribution profile, while higher temperatures smooth out the probability distribution. This means that text generated with a lower temperature is more confident in its choices, but that it is also more conservative than text generated with a high temperature. Likewise, text generated with a high temperature is more diverse because any peaks in the probability distribution get smoothed out. However, the added creativity and diversity that using a higher temperature provides comes at the risk of generating nonsense.</p>
-        <p>See <a href="/research/haiku/analysis/temperature-sampling-softmax-layers">Temperature Sampling</a> for an empirical treatment of temperature sampling, with plots showing the effect of temperature.</p>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for <em>this</em> version. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
-
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/research/haiku">Home</a></li>
+                    <li class="breadcrumb-item">Introduction</li>
+                    <li class="breadcrumb-item active" area-current="page">Text Generation</li>
+                </ol>
+            </nav>
+            <h1>1.e. Text Generation</h1>
+            <p>
+                Recall from
+                <a href="/research/haiku/introduction/natural-language/language-model">here</a> that a language model
+                \(\model\) is a statistical model of a sequence of tokens \(\{w_1, w_2, w_3, \dots\}\) where the
+                probability of the token \(w_{k+1}\) is conditioned on <i>all</i> of the preceding tokens \(w_{1:k}\),
+                denoted \(\model\left(w_{k+1} \mid w_{1:k}\right)\). Since the output of a language model is a
+                probability distribution, we sample the distribution generated by \(\model(w_2 \mid w_1)\) to generate
+                \(w_2\) conditioned on \(w_1\). Then we sample the distribution generated by \(\model(w_3 \mid
+                w_{1:2})\) to generate \(w_3\) conditioned on \(\{w_1, w_2\}\), and so on
+                <cite><a href="goldberg_2017"></a></cite>. The method used to sample the probability distribution can
+                vary, as does the quality of the generated sequence.
+            </p>
+            <p>
+                The sequence of tokens \(\{w_1, w_2, w_3, \dots\}\) can be a sequence of characters, or a sequence of
+                words. Often, we also insert meta-tokens into the sequence, such as punctuation, a start-of-sequence tag
+                (<code>&lt;s&gt;</code>), and an end-of-sequence tag (<code>&lt;/s&gt;</code>) so that the language
+                model can condition its predictions based on even more information.
+            </p>
+            <p>
+                When sampling the probability distribution generated by \(\model\left(w_{k+1} \mid w_{1:k}\right)\), one
+                strategy is to always pick the token with the highest probability. Another strategy might be to randomly
+                sample the probability distribution. This way the output of the generative network is more diverse and
+                creative.
+            </p>
+            <p>We do this by transforming the softmax distribution</p>
+            <p class="text-center">
+                \[\softmax(\vec x) = \frac{\exp\left(\vec x\right)}{\sum\exp\left(\vec x\right)}\]
+            </p>
+            <p>
+                with a given temperature <cite><a href="hinton2015distilling"></a></cite>.
+            </p>
+            <p class="text-center">
+                \[\softmax(\vec x, T) = \frac{\exp\left(\vec x \middle/ T \right)}{\sum\exp\left(\vec x \middle/
+                T\right)}\]
+            </p>
+            <p>
+                This temperature transformation can occur during the training of the network, where the normal softmax
+                activation layer is replaced with the above transformation. We can also apply the temperature
+                transformation <i>after</i> training during the generation phase by piping the softmax output values
+                through the temperature transformation
+            </p>
+            <p class="text-center">
+                \[\operatorname{sample}(\vec y, T) = \frac{\exp\left(\log(\vec y) \middle/
+                T\right)}{\sum\exp\left(\log(\vec y) \middle/ T\right)}\]
+            </p>
+            <p>
+                after \(\softmax\) has been applied to the logits \(\vec x\). Note that
+                \[\operatorname{sample}(\softmax(\vec x), T)\] and \[\softmax(\vec x, T)\] are equivalent.
+            </p>
+            <p>
+                Lower temperature values produce a more extreme distribution profile, while higher temperatures smooth
+                out the probability distribution. This means that text generated with a lower temperature is more
+                confident in its choices, but that it is also more conservative than text generated with a high
+                temperature. Likewise, text generated with a high temperature is more diverse because any peaks in the
+                probability distribution get smoothed out. However, the added creativity and diversity that using a
+                higher temperature provides comes at the risk of generating nonsense.
+            </p>
+            <p>
+                See
+                <a href="/research/haiku/analysis/temperature-sampling-softmax-layers">Temperature Sampling</a>
+                for an empirical treatment of temperature sampling, with plots showing the effect of temperature.
+            </p>
+        </div>
+    </body>
+    <!-- TODO: Find the integrity hash for <em>this</em> version. -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

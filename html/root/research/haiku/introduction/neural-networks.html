@@ -1,120 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Background information on neural networks." />
+        <title>1.c. Neural Networks</title>
+        <!-- Regular styles -->
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <!-- LaTeX -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+            integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+            crossorigin="anonymous"
+        />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+            integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+            crossorigin="anonymous"
+        ></script>
+        <link
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <script
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
+            integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
+            crossorigin="anonymous"
+        ></script>
+        <script language="javascript">
+            const katexOpts = {
+                macros: {
+                    "\\norm": "\\left\\lVert#1\\right\\rVert",
+                    "\\ceil": "\\left\\lceil#1\\right\\rceil",
+                    "\\floor": "\\left\\lfloor#1\\right\\rfloor",
+                    "\\countf": "\\operatorname{count}\\left(#1\\right)",
+                    "\\entropy": "\\operatorname{H}",
+                    "\\perplexity": "\\operatorname{PP}",
+                    "\\model": "\\operatorname{LM}",
+                    "\\softmax": "\\operatorname{softmax}",
+                },
+            };
+        </script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+            integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+            crossorigin="anonymous"
+            onload="renderMathInElement(document.body, katexOpts);"
+        ></script>
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Background information on neural networks.">
-    <title>1.c. Neural Networks</title>
-    <!-- Regular styles -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <!-- LaTeX -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
-    <script language="javascript">
-        const katexOpts = {
-            macros: {
-                "\\norm": "\\left\\lVert#1\\right\\rVert",
-                "\\ceil": "\\left\\lceil#1\\right\\rceil",
-                "\\floor": "\\left\\lfloor#1\\right\\rfloor",
-                "\\countf": "\\operatorname{count}\\left(#1\\right)",
-                "\\entropy": "\\operatorname{H}",
-                "\\perplexity": "\\operatorname{PP}",
-                "\\model": "\\operatorname{LM}",
-                "\\softmax": "\\operatorname{softmax}",
-            },
-        };
-    </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body, katexOpts);"></script>
-</head>
-
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home</a>
-                    <a class="nav-item nav-link active" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link active" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                    </div>
                 </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/research/haiku">Home</a></li>
+                    <li class="breadcrumb-item">Introduction</li>
+                    <li class="breadcrumb-item active" area-current="page">Neural Networks</li>
+                </ol>
+            </nav>
+            <h1>1.c. Neural Networks</h1>
+            <div class="alert alert-info">
+                Note: There are many good introductions to neural networks available online. This is only intended to
+                provide a baseline vocabulary, and has been reproduced from the author's memory. It is not guaranteed to
+                be factually accurate.
             </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/research/haiku">Home</a></li>
-                <li class="breadcrumb-item">Introduction</li>
-                <li class="breadcrumb-item active" area-current="page">Neural Networks</li>
-            </ol>
-        </nav>
-        <h1>1.c. Neural Networks</h1>
-        <div class="alert alert-info">Note: There are many good introductions to neural networks available online. This is only intended to provide a baseline vocabulary, and has been reproduced from the author's memory. It is not guaranteed to be factually accurate.</div>
-        <p>Much of the future discussion on neural network language models will require at least an intuitive understanding of neural networks. This section aims to provide enough background and vocabulary to facilitate discussion of neural networks as a concept without becoming bogged down in a nontrivial amount of detail.</p>
-        <figure class="figure w-50 d-block mx-auto">
-            <img src="https://static.agill.xyz/images/research/machine_learning.png" class="figure-img img-fluid w-100 drop-shadow" alt="The pile gets soaked with data and starts to get mushy over time, so it's technically recurrent">
-            <figcaption class="figure-caption text-right">The pile gets soaked with data and starts to get mushy over time, so it's technically recurrent.</figcaption>
-        </figure>
-        <p>There are many other excellent introductions to neural networks that provide much more detail such as <cite><a href="goodfellow_bengio_courville_2016"></a></cite> for a general mathematical treatment, or <cite><a href="goldberg_2017"></a></cite> for a treatment specific to processing natural language.</p>
-        <h2>A Biological Metaphor</h2>
-        <p>If our intent is to produce intelligent, sophisticated statistical models, it is useful to motivate our model with the biological metaphor of a single neuron. Of course, our intent is not to emulate, nor is it to simulate a collection of biological neurons. We simply wish to motivate a mathematical discussion of a statistical model that has proved useful in data analysis, modeling, and prediction. In this spirit, we note that it is well beyond the scope of this paper to provide a biologically correct description of the hugely complex field of neuroscience. In fact, it would be reasonable to present neural networks devoid of any biological motivation simply as a mathematical model that has proven to be useful.</p>
-        <figure class="figure w-50 d-block mx-auto">
-            <img src="https://static.agill.xyz/images/research/biological_neuron.png" class="figure-img img-fluid w-100" alt="A biological neuron">
-            <figcaption class="figure-caption text-right">A biological neuron</figcaption>
-        </figure>
-        <p>The figure above shows a "typical" neuron (of course there is no such thing) with various labeled components. In the most general sense, a neuron takes electrical stimulation through its dendrites, processes the received information, and under the right conditions emits a signal through its axon to the dendrites of an adjacent neuron <cite><a href="bio_neuron"></a></cite>. Somehow, through an organization of many such neurons, intelligent behavior emerges <cite><a href="castro_2006"></a></cite>.</p>
-        <h2>An Artificial Neuron</h2>
-        <p>Even such a grossly simplified treatment of a neuron provides motivation for the artificial neuron shown below</p>
-        <figure class="figure w-50 d-block mx-auto">
-            <img src="https://static.agill.xyz/images/research/artificial-neuron.svg" class="figure-img img-fluid w-100" alt="An artificial neuron">
-            <figcaption class="figure-caption text-right">An artificial neuron</figcaption>
-        </figure>
-        <p>The artificial neuron, called a <i>unit</i>, takes a fixed number of inputs \(x_0, \dots, x_n\), multiplies each with its corresponding weight, and adds the weighted inputs together before piping the result through the activation function \(f\). Note that if the inputs are treated as a column vector \(\vec x\), and the weights as a vector \(\vec w\), the output is the result of the operation \(y = f(\vec w \cdot \vec x)\).</p>
-        <p>Often it is useful to add a bias term \(b\)</p>
-        <p class="text-center">\[y = f(\vec w \cdot \vec x + b)\]</p>
-        <p>by adding a fixed unitary input to the neuron. This allows us to treat the bias term exactly like one of the weights when assembling multiple such units together to form a network.</p>
-        <figure class="figure w-50 d-block mx-auto">
-            <img src="https://static.agill.xyz/images/research/artificial-neuron-bias.svg" class="figure-img img-fluid w-100" alt="An artificial neuron with a unitary bias input">
-            <figcaption class="figure-caption text-right">An artificial neuron with a unitary bias input</figcaption>
-        </figure>
-        <h2>Assembling Collections of Neurons into Networks</h2>
-        <p>Presumably then, the intelligence of a neural network has something to do with how the units are assembled together, and with the magical weight values associated with each unit. Unlike the chaotic and organic layout in the human body, we assemble the artificial neurons into sequential layers, and connect the outputs of the previous layer to the inputs of the next.</p>
-        <figure class="figure w-50 d-block mx-auto">
-            <img src="https://static.agill.xyz/images/research/multilayer-perceptron.svg" class="figure-img img-fluid w-100" alt="Multiple units arranged into a network">
-            <figcaption class="figure-caption text-right">Multiple units arranged into a network</figcaption>
-        </figure>
-        <p>When we treat the cells as a vertical layer, we get</p>
-        <p class="text-center">\[\vec y = f(W^T \vec x + \vec b)\]</p>
-        <p>where each of the weight vectors \(\vec w\) for each cell is arranged into the matrix \(W\), and each of the \(y\)-values are concatenated to form \(\vec y\). Common choices for the activation function \(f\) are the hyperbolic tangent, sigmoid, rectified linear unit, and softmax functions. Note that the use of \(f\) in the above equation assumes that the same activation function is used for every unit in the layer.</p>
-        <p>Due to the large amount of homogeneity in the units for each layer, we almost never draw schematic diagrams of a network's architecture showing the individual units. Instead, we treat the layer of units as the basic abstraction as in the figure below</p>
-        <figure class="figure w-50 d-block mx-auto">
-            <img src="https://static.agill.xyz/images/research/network-architecture.svg" class="figure-img img-fluid w-100" alt="An example neural network architecture diagram">
-            <figcaption class="figure-caption text-right">An example neural network architecture diagram</figcaption>
-        </figure>
-        <p>The dimension of each layer is shown at the top of each layer, and the activation function of the non-input layers is indicated below each layer. The underlying mathematical operation that this architecture defines is</p>
-        <p class="text-center">\[\vec y = \softmax\left(W_2^T \tanh(W_1^T \vec x + \vec{b_1}) + \vec{b_2}\right)\]</p>
-        <p>where \(\vec{b_1}\) and \(\vec{b_2}\) are the implicit bias vectors, and \(W_1\) and \(W_2\) are the weight matrices for the \(\tanh\) and \(\softmax\) layers respectively.</p>
-        <p>Here, the softmax activation function</p>
-        <p class="text-center">\[\softmax(\vec x) = \frac{\exp\left(\vec x\right)}{\sum\exp\left(\vec x\right)}\]</p>
-        <p>is applied element-wise to the vector \(\vec x\), and produces the vector \(\vec y\) which can be treated as a probability distribution over \(n\) values. That is, the vector \(y\) sums to 1. The softmax activation function is often used in neural networks whose output is to be treated as a probability, and will be used extensively in language modeling.</p>
-        <div class="alert alert-warning">
-            <p>TODO: Add a brief discussion on datasets, objective functions, and optimization methods.</p>
-            <p>TODO: See also <cite><a href="eisenstein_2019"></a></cite> for a brief but mathematically rigorous introduction.</p>
+            <p>
+                Much of the future discussion on neural network language models will require at least an intuitive
+                understanding of neural networks. This section aims to provide enough background and vocabulary to
+                facilitate discussion of neural networks as a concept without becoming bogged down in a nontrivial
+                amount of detail.
+            </p>
+            <figure class="figure w-50 d-block mx-auto">
+                <img
+                    src="https://static.agill.xyz/images/research/machine_learning.png"
+                    class="figure-img img-fluid w-100 drop-shadow"
+                    alt="The pile gets soaked with data and starts to get mushy over time, so it's technically recurrent"
+                />
+                <figcaption class="figure-caption text-right">
+                    The pile gets soaked with data and starts to get mushy over time, so it's technically recurrent.
+                </figcaption>
+            </figure>
+            <p>
+                There are many other excellent introductions to neural networks that provide much more detail such as
+                <cite><a href="goodfellow_bengio_courville_2016"></a></cite> for a general mathematical treatment, or
+                <cite><a href="goldberg_2017"></a></cite> for a treatment specific to processing natural language.
+            </p>
+            <h2>A Biological Metaphor</h2>
+            <p>
+                If our intent is to produce intelligent, sophisticated statistical models, it is useful to motivate our
+                model with the biological metaphor of a single neuron. Of course, our intent is not to emulate, nor is
+                it to simulate a collection of biological neurons. We simply wish to motivate a mathematical discussion
+                of a statistical model that has proved useful in data analysis, modeling, and prediction. In this
+                spirit, we note that it is well beyond the scope of this paper to provide a biologically correct
+                description of the hugely complex field of neuroscience. In fact, it would be reasonable to present
+                neural networks devoid of any biological motivation simply as a mathematical model that has proven to be
+                useful.
+            </p>
+            <figure class="figure w-50 d-block mx-auto">
+                <img
+                    src="https://static.agill.xyz/images/research/biological_neuron.png"
+                    class="figure-img img-fluid w-100"
+                    alt="A biological neuron"
+                />
+                <figcaption class="figure-caption text-right">A biological neuron</figcaption>
+            </figure>
+            <p>
+                The figure above shows a "typical" neuron (of course there is no such thing) with various labeled
+                components. In the most general sense, a neuron takes electrical stimulation through its dendrites,
+                processes the received information, and under the right conditions emits a signal through its axon to
+                the dendrites of an adjacent neuron <cite><a href="bio_neuron"></a></cite>. Somehow, through an
+                organization of many such neurons, intelligent behavior emerges <cite><a href="castro_2006"></a></cite>.
+            </p>
+            <h2>An Artificial Neuron</h2>
+            <p>
+                Even such a grossly simplified treatment of a neuron provides motivation for the artificial neuron shown
+                below
+            </p>
+            <figure class="figure w-50 d-block mx-auto">
+                <img
+                    src="https://static.agill.xyz/images/research/artificial-neuron.svg"
+                    class="figure-img img-fluid w-100"
+                    alt="An artificial neuron"
+                />
+                <figcaption class="figure-caption text-right">An artificial neuron</figcaption>
+            </figure>
+            <p>
+                The artificial neuron, called a <i>unit</i>, takes a fixed number of inputs \(x_0, \dots, x_n\),
+                multiplies each with its corresponding weight, and adds the weighted inputs together before piping the
+                result through the activation function \(f\). Note that if the inputs are treated as a column vector
+                \(\vec x\), and the weights as a vector \(\vec w\), the output is the result of the operation \(y =
+                f(\vec w \cdot \vec x)\).
+            </p>
+            <p>Often it is useful to add a bias term \(b\)</p>
+            <p class="text-center">\[y = f(\vec w \cdot \vec x + b)\]</p>
+            <p>
+                by adding a fixed unitary input to the neuron. This allows us to treat the bias term exactly like one of
+                the weights when assembling multiple such units together to form a network.
+            </p>
+            <figure class="figure w-50 d-block mx-auto">
+                <img
+                    src="https://static.agill.xyz/images/research/artificial-neuron-bias.svg"
+                    class="figure-img img-fluid w-100"
+                    alt="An artificial neuron with a unitary bias input"
+                />
+                <figcaption class="figure-caption text-right">
+                    An artificial neuron with a unitary bias input
+                </figcaption>
+            </figure>
+            <h2>Assembling Collections of Neurons into Networks</h2>
+            <p>
+                Presumably then, the intelligence of a neural network has something to do with how the units are
+                assembled together, and with the magical weight values associated with each unit. Unlike the chaotic and
+                organic layout in the human body, we assemble the artificial neurons into sequential layers, and connect
+                the outputs of the previous layer to the inputs of the next.
+            </p>
+            <figure class="figure w-50 d-block mx-auto">
+                <img
+                    src="https://static.agill.xyz/images/research/multilayer-perceptron.svg"
+                    class="figure-img img-fluid w-100"
+                    alt="Multiple units arranged into a network"
+                />
+                <figcaption class="figure-caption text-right">Multiple units arranged into a network</figcaption>
+            </figure>
+            <p>When we treat the cells as a vertical layer, we get</p>
+            <p class="text-center">\[\vec y = f(W^T \vec x + \vec b)\]</p>
+            <p>
+                where each of the weight vectors \(\vec w\) for each cell is arranged into the matrix \(W\), and each of
+                the \(y\)-values are concatenated to form \(\vec y\). Common choices for the activation function \(f\)
+                are the hyperbolic tangent, sigmoid, rectified linear unit, and softmax functions. Note that the use of
+                \(f\) in the above equation assumes that the same activation function is used for every unit in the
+                layer.
+            </p>
+            <p>
+                Due to the large amount of homogeneity in the units for each layer, we almost never draw schematic
+                diagrams of a network's architecture showing the individual units. Instead, we treat the layer of units
+                as the basic abstraction as in the figure below
+            </p>
+            <figure class="figure w-50 d-block mx-auto">
+                <img
+                    src="https://static.agill.xyz/images/research/network-architecture.svg"
+                    class="figure-img img-fluid w-100"
+                    alt="An example neural network architecture diagram"
+                />
+                <figcaption class="figure-caption text-right">
+                    An example neural network architecture diagram
+                </figcaption>
+            </figure>
+            <p>
+                The dimension of each layer is shown at the top of each layer, and the activation function of the
+                non-input layers is indicated below each layer. The underlying mathematical operation that this
+                architecture defines is
+            </p>
+            <p class="text-center">
+                \[\vec y = \softmax\left(W_2^T \tanh(W_1^T \vec x + \vec{b_1}) + \vec{b_2}\right)\]
+            </p>
+            <p>
+                where \(\vec{b_1}\) and \(\vec{b_2}\) are the implicit bias vectors, and \(W_1\) and \(W_2\) are the
+                weight matrices for the \(\tanh\) and \(\softmax\) layers respectively.
+            </p>
+            <p>Here, the softmax activation function</p>
+            <p class="text-center">
+                \[\softmax(\vec x) = \frac{\exp\left(\vec x\right)}{\sum\exp\left(\vec x\right)}\]
+            </p>
+            <p>
+                is applied element-wise to the vector \(\vec x\), and produces the vector \(\vec y\) which can be
+                treated as a probability distribution over \(n\) values. That is, the vector \(y\) sums to 1. The
+                softmax activation function is often used in neural networks whose output is to be treated as a
+                probability, and will be used extensively in language modeling.
+            </p>
+            <div class="alert alert-warning">
+                <p>TODO: Add a brief discussion on datasets, objective functions, and optimization methods.</p>
+                <p>
+                    TODO: See also <cite><a href="eisenstein_2019"></a></cite> for a brief but mathematically rigorous
+                    introduction.
+                </p>
+            </div>
         </div>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for <em>this</em> version. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
-
+    </body>
+    <!-- TODO: Find the integrity hash for <em>this</em> version. -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

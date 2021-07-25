@@ -1,299 +1,666 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta
+            name="description"
+            content="The topological definitions that form the foundation for the development of limits and consideration of regions in the complex plane in complex analysis"
+        />
+        <title>Regions in the Complex Plane</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+            integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+            crossorigin="anonymous"
+        />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+            integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+            crossorigin="anonymous"
+        ></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <script
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
+            integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+            integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+            crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"
+        ></script>
+        <!-- <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script> -->
+        <!-- <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css"> -->
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="The topological definitions that form the foundation for the development of limits and consideration of regions in the complex plane in complex analysis">
-    <title>Regions in the Complex Plane</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    <!-- <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script> -->
-    <!-- <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css"> -->
-</head>
-
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">
+                            Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>Regions in the Complex Plane</h1>
+            <p>
+                Before we can rigorously develop a good foundation for the concepts of functions and limits we need some
+                set theoretic definitions that will presumably come in handy later.
+            </p>
+            <h2>Definitions</h2>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p>
+                        An
+                        <em>\(\varepsilon\)-neighborhood</em>
+                        of a point \(z_0\), often denoted as \(N_\varepsilon (z_0)\) is the set of all points \(z\)
+                        lying inside but not on a circle of radius \(\varepsilon\) centered at \(z_0\).
+                    </p>
+                    <p class="text-center mb-0">
+                        \[N_\varepsilon (z_0) = \{z \in \mathbb C : \vert z - z_0 \vert \lt \varepsilon\}\]
+                    </p>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <h1>Regions in the Complex Plane</h1>
-        <p>Before we can rigorously develop a good foundation for the concepts of functions and limits we need some set theoretic definitions that will presumably come in handy later.</p>
-        <h2>Definitions</h2>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p>An <em>\(\varepsilon\)-neighborhood</em> of a point \(z_0\), often denoted as \(N_\varepsilon (z_0)\) is the set of all points \(z\) lying inside but not on a circle of radius \(\varepsilon\) centered at \(z_0\).</p>
-                <p class="text-center mb-0">\[N_\varepsilon (z_0) = \{z \in \mathbb C : \vert z - z_0 \vert \lt \varepsilon\}\]</p>
+            <p>
+                It is understood that when we speak of a
+                <em>neighborhood</em>
+                we are speaking of an \(\varepsilon\)-neighborhood. Also note that the value of \(\varepsilon\) is
+                unspecified -- it could be 0.1, 1000, or 42 -- whatever we need for the current circumstance.
+            </p>
+            <p>
+                Topologists are fond of calling these structures
+                <em>open balls</em>
+                .
+            </p>
+            <figure class="figure w-50 d-block mx-auto">
+                <img
+                    class="figure-img img-fluid w-100"
+                    src="https://static.agill.xyz/images/regions-in-the-complex-plane/e-neighborhood.svg"
+                    alt="Epsilon Neighborhood"
+                />
+                <figcaption class="figure-caption text-right">An epsilon neighborhood</figcaption>
+            </figure>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        A
+                        <em>deleted neighborhood</em>
+                        , also called a
+                        <em>punctured disk</em>
+                        , of a point \(z_0\) is an \(\varepsilon\)-neighborhood of \(z_0\) that does not contain
+                        \(z_0\). In set-theoretic notation we can write the deleted neighborhood of \(z_0\) as
+                        \(N_\varepsilon (z_0) \setminus \{z_0\}\)
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        An
+                        <em>interior point</em>
+                        is a point \(z_0\) of a set \(S\) such that there exists some neighborhood of \(z_0\) that is
+                        entirely contained in \(S\). Or, \(\exists \varepsilon > 0\) such that \(N_\varepsilon (z_0)
+                        \subseteq S\)
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        An
+                        <em>exterior point</em>
+                        is a point \(z_0\) such that there exists some neighborhood of \(z_0\) containing no points in
+                        \(S\). Or, \(\exists \varepsilon > 0\) such that \(N_\varepsilon (z_0) \not\subseteq S\)
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p>
+                        A
+                        <em>boundary point</em>
+                        is a point \(z_0\) of a set \(S\) that is neither an interior point of \(S\) or an exterior
+                        point of \(S\). Equivalently, a boundary point is a point \(z_0\) such that every neighborhood
+                        of \(z_0\) contains at least one point in \(S\) and at least one point not in \(S\).
+                    </p>
+                    <p class="mb-0">
+                        Or, \(\forall \varepsilon > 0,\, \exists p_1, p_2 \in N_\varepsilon (z_0)\) such that \(p_1 \in
+                        S\) and \(p_2 \not\in S\).
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        The
+                        <em>boundary</em>
+                        of a set \(S\) is the set of all the boundary points of \(S\).
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        An
+                        <em>open set</em>
+                        is a set that contains none of its boundary points. A set is open if and only if each of its
+                        points is an interior point.
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        A
+                        <em>closed set</em>
+                        is a set that contains all of its boundary points.
+                    </p>
+                </div>
+            </div>
+            <p>
+                Note that not being open
+                <em>does not imply</em>
+                being closed! E.g. if a set contains a
+                <em>single</em>
+                boundary point it is not open, but is not closed either. Also note that a set can be
+                <em>both</em>
+                open
+                <em>and</em>
+                closed. For example, \(\mathbb C\) has no boundary points, so it contains all of them, yet each of its
+                points is an interior point, so it is both open
+                <em>and</em>
+                closed. A tongue in cheek name for such sets is
+                <em>clopen</em>
+                .
+            </p>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        The
+                        <em>closure</em>
+                        of a set is the closed set consisting of all points in \(S\) together with the boundary of
+                        \(S\), denoted by \(\operatorname{Cl}(S)\). The closure can be thought of as an operation to a
+                        set.
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        A
+                        <em>connected set</em>
+                        is an open set \(S\) such that any pair of points \(z_1, z_2 \in S\) can be joined by a
+                        polygonal line that lies entirely in \(S\).
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        A
+                        <em>polygonal line</em>
+                        is a finite number of line segments joined end to end.
+                    </p>
+                </div>
+            </div>
+            <figure class="figure w-50 d-block mx-auto">
+                <img
+                    class="figure-img img-fluid w-100"
+                    src="https://static.agill.xyz/images/regions-in-the-complex-plane/connected-set.svg"
+                    alt="A connected set"
+                />
+                <figcaption class="figure-caption text-right">A connected set</figcaption>
+            </figure>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        A
+                        <em>domain</em>
+                        is a nonempty, open, connected set. Note that any neighborhood is a domain.
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        A
+                        <em>region</em>
+                        is a domain together with none, some, or all of its boundary points.
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        A set is
+                        <em>bounded</em>
+                        if every point in \(S\) lies inside some circle \(\vert z \vert = R\) with some finite radius
+                        \(R\). Otherwise, \(S\) is
+                        <em>unbounded</em>
+                        .
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        An
+                        <em>accumulation point</em>
+                        of a set \(S\) is a point \(z_0\) such that every deleted neighborhood of \(z_0\) contains at
+                        least one point of \(S\). Note that closed sets contain all of their accumulation points.
+                    </p>
+                </div>
+            </div>
+            <h2>Examples</h2>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p>
+                        Is the set \(S = \{z \in \mathbb C : \operatorname{Re}z \geq 1, \text{ and } \operatorname{Im}z
+                        > 2\}\) illustrated below, open, closed, or neither? How can a set be neither open or closed??
+                    </p>
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/regions-in-the-complex-plane/not-open-closed.svg"
+                            alt="A set that is neither open nor closed"
+                        />
+                        <figcaption class="figure-caption text-right">A set that is neither open nor closed</figcaption>
+                    </figure>
+                    <p>
+                        We ask ourselves, does \(S\) contain any of its boundary points (is it open?) No, \(S\) contains
+                        at least one of its boundary points, so it is therefore
+                        <em>not</em>
+                        open.
+                    </p>
+                    <p>
+                        Does \(S\) contain
+                        <em>all</em>
+                        of its boundary points (is it closed?) No, \(S\) is missing a part of its boundary -- namely the
+                        \(\operatorname{Im}z = 2\) boundary. So therefore \(S\) is
+                        <em>not</em>
+                        closed.
+                    </p>
+                    <p class="mb-0">
+                        We can then see that the definitions of open and closed are
+                        <em>not</em>
+                        opposites -- A set can be neither open nor closed.
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        Now consider the set \(\mathbb C\). First, we ask if \(\mathbb C\) has any boundary points. It
+                        doesn't. Does \(\mathbb C\) contain all of its 0 boundary points? Yes. Also, \(\mathbb C\)
+                        <em>doesn't</em>
+                        contain its 0 boundary points -- because they don't exist!
+                    </p>
+                    \(\mathbb C\) is therefore
+                    <em>both</em>
+                    open
+                    <em>and</em>
+                    closed!
+                    <p>
+                        What about \(\emptyset\)? It certainly does not contain any of its boundary points -- namely
+                        because it contains absolutely nothing! However, as there are no boundary points to contain, it
+                        contains all of them. So the empty set is
+                        <em>both</em>
+                        empty
+                        <em>and</em>
+                        closed!
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p>
+                        Now what about \(S = \{z \in \mathbb C : \operatorname{Re}z \geq 1, \text{ and }
+                        \operatorname{Im}z \geq 2, z \neq 0\}\) illustrated below?
+                    </p>
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/regions-in-the-complex-plane/not-open-closed-2.svg"
+                            alt="Another set that is neither open nor closed"
+                        />
+                        <figcaption class="figure-caption text-right">
+                            Another set that is neither open nor closed
+                        </figcaption>
+                    </figure>
+                    <p class="mb-0">
+                        Again, there's
+                        <em>a</em>
+                        boundary point that is not in \(S\), so \(S\) is not closed, but it's also not open, as \(S\)
+                        does contain
+                        <em>some</em>
+                        of its boundary points.
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p>Now what if we take \(T = S \cup \{0\}\), or rather, include 0 in the above set?</p>
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/regions-in-the-complex-plane/closed-set.svg"
+                            alt="Finally a set that's closed"
+                        />
+                        <figcaption class="figure-caption text-right">A closed set</figcaption>
+                    </figure>
+                    <p class="mb-0">
+                        Now, \(T\)
+                        <em>does</em>
+                        contain
+                        <em>all</em>
+                        of its boundary points, so \(T\) is closed! We also ask ourselves again if \(T\) is open, but
+                        because it contains at least one of its boundary points, \(T\) is not open.
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p>
+                        Finally, consider the set \(S = \{z \in \mathbb C : \operatorname{Re}z > 1, \text{ and }
+                        \operatorname{Im}z > 2\}\).
+                    </p>
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/regions-in-the-complex-plane/open-set.svg"
+                            alt="An open set for completeness sake"
+                        />
+                        <figcaption class="figure-caption text-right">An open set</figcaption>
+                    </figure>
+                    <p class="mb-0">
+                        This set is
+                        <em>open</em>
+                        because it does not contain
+                        <em>any</em>
+                        of its boundary points.
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p>Now consider the set \(S = \{z \in \mathbb C : \operatorname{Im}z > 1\}\) drawn below</p>
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/regions-in-the-complex-plane/domain.svg"
+                            alt="An example of a simple domain"
+                        />
+                        <figcaption class="figure-caption text-right">A simple domain</figcaption>
+                    </figure>
+                    <p>We ask ourselves a series of questions about \(S\).</p>
+                    <ul class="mb-0">
+                        <li>Is it open? Yes. It contains none of its boundary points.</li>
+                        <li>
+                            Is it bounded? No. The set goes on forever in the positive \(y\) direction and along the
+                            real axis.
+                        </li>
+                        <li>Is it connected? Yes. Every pair of points in \(S\) can be joined by a polygonal line.</li>
+                        <li>Is it a domain? Yes, it's nonempty, open, and connected.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p>Now consider the region bounded by the inequality</p>
+                    <p class="text-center">\[\vert z - 4 \vert \geq \vert z \vert\]</p>
+                    <p>
+                        Graphing certainly makes interpreting regions in the complex plane easier, so we work on
+                        simplifying the above inequality into something we can work with.
+                    </p>
+                    <p>First, we use the definition of the modulus of complex numbers</p>
+                    <p class="text-center">\[\sqrt{(x - 4)^2 + y^2} \geq \sqrt{x^2 + y^2}\]</p>
+                    <p>
+                        Since the modulus is by definition positive, we can square both sides without committing a
+                        mathematical sin
+                    </p>
+                    <p class="text-center">
+                        \[\begin{aligned} (x - 4)^2 + y^2 &\geq x^2 + y^2\\ (x - 4)^2 + \cancel{y^2} &\geq x^2 +
+                        \cancel{y^2}\\ x^2 - 8x + 16 &\geq x^2\\ \cancel{x^2} - 8x + 16 &\geq \cancel{x^2}\\ 16 &\geq
+                        8x\\ 2 &\geq x\\ \end{aligned}\]
+                    </p>
+                    <p>
+                        In other words, we are dealing with the set \(S = \{z \in \mathbb C : \operatorname{Re}z \leq
+                        2\}\)
+                    </p>
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/regions-in-the-complex-plane/region-1.svg"
+                            alt="An example of a simple region"
+                        />
+                        <figcaption class="figure-caption text-right">A simple region</figcaption>
+                    </figure>
+                    <p class="mb-0">This set is closed, not open, not a domain, and not bounded.</p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p>
+                        What about \(\displaystyle S = \left\{z \in \mathbb C : z \neq 0, 0 \leq \operatorname{arg}z
+                        \leq \frac{\pi}{4}\right\}\)?
+                    </p>
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/regions-in-the-complex-plane/region-2.svg"
+                            alt="An example of a simple region"
+                        />
+                        <figcaption class="figure-caption text-right">A simple region</figcaption>
+                    </figure>
+                    <p class="mb-0">
+                        This set is not open, not closed (\(z \not\in S\)), not a domain, not bounded, but is connected.
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p>
+                        Now consider the region of the complex plane defined by the inequality \(\vert
+                        \operatorname{Re}z \vert \lt \vert z \vert\). Using our brains (gasp) we might be able to
+                        convince ourselves that this inequality is true unless \(z \in \mathbb R\). However, to make
+                        sure, we perform the algebra.
+                    </p>
+                    <p class="text-center">
+                        \[\begin{aligned} \vert \operatorname{Re}z \vert &\lt \vert z \vert\\ \vert x \vert &\lt
+                        \sqrt{x^2 + y^2}\\ \vert x \vert^2 &\lt x^2 + y^2\\ \cancel{\vert x \vert^2} &\lt \cancel{x^2} +
+                        y^2\\ 0 &\lt y^2\\ 0 &\lt \pm y\\ \end{aligned}\]
+                    </p>
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/regions-in-the-complex-plane/unbounded.svg"
+                            alt="An example of an unbounded set"
+                        />
+                        <figcaption class="figure-caption text-right">An unbounded set</figcaption>
+                    </figure>
+                    <p class="mb-0">
+                        Another way of defining this region might be \(S = \left\{z \in \mathbb C : \operatorname{Im}z
+                        \neq 0\right\}\). Note that \(\operatorname{Cl}(S) = \mathbb C\)
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p>
+                        Consider the set \(\displaystyle{Z_n = \left\{\frac{i}{n} : n \in \mathbb N\right\}}\)
+                        illustrated below
+                    </p>
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/regions-in-the-complex-plane/accumulation-example.svg"
+                            alt="accumulation point example"
+                        />
+                        <figcaption class="figure-caption text-right">An accumulation point</figcaption>
+                    </figure>
+                    <p>
+                        Note that 0 is not contained in this set. We can get as close as we like to 0, but we can never
+                        quite get there. That means that 0 is a boundary point of \(Z_n\).
+                    </p>
+                    <p>
+                        Also note that every point is not an interior point, as any neighborhood of any point is not
+                        entirely contained in \(Z_n\).
+                    </p>
+                    <p>
+                        Let us now consider the deleted neighborhood of 0. No matter what \(\varepsilon\) we pick, we
+                        can
+                        <em>always</em>
+                        find an element of \(Z_n\) that is within the deleted neighborhood. This means that
+                        <em>every</em>
+                        deleted neighborhood of 0 contains at least one point of \(Z_n\), so 0 is an accumulation point
+                        of \(Z_n\). We can also see that 0 is the
+                        <em>only</em>
+                        accumulation point of \(Z_n\), because no matter what point we pick, there will always be some
+                        distance between the point we pick and its neighbors that is not in \(Z_n\).
+                    </p>
+                    <p class="mb-0">
+                        Also note that 0 is \(Z_n\)'s only boundary point, so \(\operatorname{Cl}(Z_n) = \{Z_n, 0\}\)
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p>
+                        Now consider the set \(Z_n = \{i^n : n \in \mathbb N\} = \{i, -1, i , 1\}\) illustrated below.
+                    </p>
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/regions-in-the-complex-plane/accumulation-example-2.svg"
+                            alt="accumulation point example 2"
+                        />
+                        <figcaption class="figure-caption text-right">A set with no accumulation points</figcaption>
+                    </figure>
+                    <p class="mb-0">
+                        This set has
+                        <em>no</em>
+                        accumulation points.
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p>Consider the set \( Z_n = \left\{\frac{i^n}{n} : n \in \mathbb N\right\}\)</p>
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/regions-in-the-complex-plane/accumulation-example-3.svg"
+                            alt="accumulation point example 3"
+                        />
+                        <figcaption class="figure-caption text-right">An accumulation point</figcaption>
+                    </figure>
+                    <p class="mb-0">
+                        Note how the sequence spirals closer and closer to 0, but never actually hits it. It's very
+                        similar to the first accumulation point example. \(0 \not\in Z_n\), but no matter what
+                        \(\varepsilon\) we pick around 0, we can
+                        <em>always</em>
+                        find a point within that \(\varepsilon\). Therefore 0 is an accumulation point, and is actually
+                        the
+                        <em>only</em>
+                        accumulation point of this set.
+                    </p>
+                </div>
+            </div>
+            <div class="card m-3">
+                <div class="card-header">Example</div>
+                <div class="card-body">
+                    <p>Lastly, consider the set</p>
+                    <p class="text-center">
+                        \[ Z_n = \left\{(-1)^n(1 + i)\frac{n - 1}{n} : n \in \mathbb N\right\} = \left\{-0,\,
+                        \frac{1}{2}(1 + i),\, \frac{-2}{3}(1 + i),\, \frac{3}{4}(1 + i),\, \frac{-4}{5}(1 + i),\,
+                        \dots\right\}\]
+                    </p>
+                    <figure class="figure w-50 d-block mx-auto">
+                        <img
+                            class="figure-img img-fluid w-100"
+                            src="https://static.agill.xyz/images/regions-in-the-complex-plane/accumulation-example-4.svg"
+                            alt="accumulation point example 4"
+                        />
+                        <figcaption class="figure-caption text-right">Two accumulation points</figcaption>
+                    </figure>
+                    <p>
+                        \(1 + i\) and \(-(1 + i)\) are the only accumulation points of \(Z_n\), but are
+                        <em>not in</em>
+                        \(Z_n\).
+                    </p>
+                    <p class="mb-0">
+                        Also note that for a little bit of intuition, points
+                        <em>accumulate</em>
+                        at the
+                        <em>accumulation</em>
+                        points -- though not necessarily from one direction.
+                    </p>
+                </div>
             </div>
         </div>
-        <p>It is understood that when we speak of a <em>neighborhood</em> we are speaking of an \(\varepsilon\)-neighborhood. Also note that the value of \(\varepsilon\) is unspecified -- it could be 0.1, 1000, or 42 -- whatever we need for the current circumstance.</p>
-        <p>Topologists are fond of calling these structures <em>open balls</em>.</p>
-        <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/e-neighborhood.svg" alt="Epsilon Neighborhood">
-            <figcaption class="figure-caption text-right">An epsilon neighborhood</figcaption>
-        </figure>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">A <em>deleted neighborhood</em>, also called a <em>punctured disk</em>, of a point \(z_0\) is an \(\varepsilon\)-neighborhood of \(z_0\) that does not contain \(z_0\). In set-theoretic notation we can write the deleted neighborhood of \(z_0\) as \(N_\varepsilon (z_0) \setminus \{z_0\}\)</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">An <em>interior point</em> is a point \(z_0\) of a set \(S\) such that there exists some neighborhood of \(z_0\) that is entirely contained in \(S\). Or, \(\exists \varepsilon > 0\) such that \(N_\varepsilon (z_0) \subseteq S\)</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">An <em>exterior point</em> is a point \(z_0\) such that there exists some neighborhood of \(z_0\) containing no points in \(S\). Or, \(\exists \varepsilon > 0\) such that \(N_\varepsilon (z_0) \not\subseteq S\)</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p>A <em>boundary point</em> is a point \(z_0\) of a set \(S\) that is neither an interior point of \(S\) or an exterior point of \(S\). Equivalently, a boundary point is a point \(z_0\) such that every neighborhood of \(z_0\) contains at least one point in \(S\) and at least one point not in \(S\).</p>
-                <p class="mb-0">Or, \(\forall \varepsilon > 0,\, \exists p_1, p_2 \in N_\varepsilon (z_0)\) such that \(p_1 \in S\) and \(p_2 \not\in S\).</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">The <em>boundary</em> of a set \(S\) is the set of all the boundary points of \(S\).</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">An <em>open set</em> is a set that contains none of its boundary points. A set is open if and only if each of its points is an interior point.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">A <em>closed set</em> is a set that contains all of its boundary points.</p>
-            </div>
-        </div>
-        <p>Note that not being open <em>does not imply</em> being closed! E.g. if a set contains a <em>single</em> boundary point it is not open, but is not closed either. Also note that a set can be <em>both</em> open <em>and</em> closed. For example, \(\mathbb C\) has no boundary points, so it contains all of them, yet each of its points is an interior point, so it is both open <em>and</em> closed. A tongue in cheek name for such sets is <em>clopen</em>.</p>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">The <em>closure</em> of a set is the closed set consisting of all points in \(S\) together with the boundary of \(S\), denoted by \(\operatorname{Cl}(S)\). The closure can be thought of as an operation to a set.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">A <em>connected set</em> is an open set \(S\) such that any pair of points \(z_1, z_2 \in S\) can be joined by a polygonal line that lies entirely in \(S\).</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">A <em>polygonal line</em> is a finite number of line segments joined end to end.</p>
-            </div>
-        </div>
-        <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/connected-set.svg" alt="A connected set">
-            <figcaption class="figure-caption text-right">A connected set</figcaption>
-        </figure>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">A <em>domain</em> is a nonempty, open, connected set. Note that any neighborhood is a domain.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">A <em>region</em> is a domain together with none, some, or all of its boundary points.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">A set is <em>bounded</em> if every point in \(S\) lies inside some circle \(\vert z \vert = R\) with some finite radius \(R\). Otherwise, \(S\) is <em>unbounded</em>.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p class="mb-0">An <em>accumulation point</em> of a set \(S\) is a point \(z_0\) such that every deleted neighborhood of \(z_0\) contains at least one point of \(S\). Note that closed sets contain all of their accumulation points.</p>
-            </div>
-        </div>
-        <h2>Examples</h2>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p>Is the set \(S = \{z \in \mathbb C : \operatorname{Re}z \geq 1, \text{ and } \operatorname{Im}z > 2\}\) illustrated below, open, closed, or neither? How can a set be neither open or closed??</p>
-                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/not-open-closed.svg" alt="A set that is neither open nor closed">
-                    <figcaption class="figure-caption text-right">A set that is neither open nor closed</figcaption>
-                </figure>
-                <p>We ask ourselves, does \(S\) contain any of its boundary points (is it open?) No, \(S\) contains at least one of its boundary points, so it is therefore <em>not</em> open.</p>
-                <p>Does \(S\) contain <em>all</em> of its boundary points (is it closed?) No, \(S\) is missing a part of its boundary -- namely the \(\operatorname{Im}z = 2\) boundary. So therefore \(S\) is <em>not</em> closed.</p>
-                <p class="mb-0">We can then see that the definitions of open and closed are <em>not</em> opposites -- A set can be neither open nor closed.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p class="mb-0">Now consider the set \(\mathbb C\). First, we ask if \(\mathbb C\) has any boundary points. It doesn't. Does \(\mathbb C\) contain all of its 0 boundary points? Yes. Also, \(\mathbb C\) <em>doesn't</em> contain its 0 boundary points -- because they don't exist!</p> \(\mathbb C\) is therefore <em>both</em> open <em>and</em> closed! <p>What about \(\emptyset\)? It certainly does not contain any of its boundary points -- namely because it contains absolutely nothing! However, as there are no boundary points to contain, it contains all of them. So the empty set is <em>both</em> empty <em>and</em> closed!</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p>Now what about \(S = \{z \in \mathbb C : \operatorname{Re}z \geq 1, \text{ and } \operatorname{Im}z \geq 2, z \neq 0\}\) illustrated below?</p>
-                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/not-open-closed-2.svg" alt="Another set that is neither open nor closed">
-                    <figcaption class="figure-caption text-right">Another set that is neither open nor closed</figcaption>
-                </figure>
-                <p class="mb-0">Again, there's <em>a</em> boundary point that is not in \(S\), so \(S\) is not closed, but it's also not open, as \(S\) does contain <em>some</em> of its boundary points.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p>Now what if we take \(T = S \cup \{0\}\), or rather, include 0 in the above set?</p>
-                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/closed-set.svg" alt="Finally a set that's closed">
-                    <figcaption class="figure-caption text-right">A closed set</figcaption>
-                </figure>
-                <p class="mb-0">Now, \(T\) <em>does</em> contain <em>all</em> of its boundary points, so \(T\) is closed! We also ask ourselves again if \(T\) is open, but because it contains at least one of its boundary points, \(T\) is not open.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p>Finally, consider the set \(S = \{z \in \mathbb C : \operatorname{Re}z > 1, \text{ and } \operatorname{Im}z > 2\}\).</p>
-                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/open-set.svg" alt="An open set for completeness sake">
-                    <figcaption class="figure-caption text-right">An open set</figcaption>
-                </figure>
-                <p class="mb-0">This set is <em>open</em> because it does not contain <em>any</em> of its boundary points.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p>Now consider the set \(S = \{z \in \mathbb C : \operatorname{Im}z > 1\}\) drawn below</p>
-                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/domain.svg" alt="An example of a simple domain">
-                    <figcaption class="figure-caption text-right">A simple domain</figcaption>
-                </figure>
-                <p>We ask ourselves a series of questions about \(S\).</p>
-                <ul class="mb-0">
-                    <li>Is it open? Yes. It contains none of its boundary points. </li>
-                    <li>Is it bounded? No. The set goes on forever in the positive \(y\) direction and along the real axis. </li>
-                    <li>Is it connected? Yes. Every pair of points in \(S\) can be joined by a polygonal line.</li>
-                    <li>Is it a domain? Yes, it's nonempty, open, and connected.</li>
-                </ul>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p>Now consider the region bounded by the inequality</p>
-                <p class="text-center">\[\vert z - 4 \vert \geq \vert z \vert\]</p>
-                <p>Graphing certainly makes interpreting regions in the complex plane easier, so we work on simplifying the above inequality into something we can work with.</p>
-                <p>First, we use the definition of the modulus of complex numbers</p>
-                <p class="text-center">\[\sqrt{(x - 4)^2 + y^2} \geq \sqrt{x^2 + y^2}\]</p>
-                <p>Since the modulus is by definition positive, we can square both sides without committing a mathematical sin</p>
-                <p class="text-center">\[\begin{aligned} (x - 4)^2 + y^2 &\geq x^2 + y^2\\ (x - 4)^2 + \cancel{y^2} &\geq x^2 + \cancel{y^2}\\ x^2 - 8x + 16 &\geq x^2\\ \cancel{x^2} - 8x + 16 &\geq \cancel{x^2}\\ 16 &\geq 8x\\ 2 &\geq x\\ \end{aligned}\]</p>
-                <p>In other words, we are dealing with the set \(S = \{z \in \mathbb C : \operatorname{Re}z \leq 2\}\)</p>
-                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/region-1.svg" alt="An example of a simple region">
-                    <figcaption class="figure-caption text-right">A simple region</figcaption>
-                </figure>
-                <p class="mb-0">This set is closed, not open, not a domain, and not bounded.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p>What about \(\displaystyle S = \left\{z \in \mathbb C : z \neq 0, 0 \leq \operatorname{arg}z \leq \frac{\pi}{4}\right\}\)?</p>
-                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/region-2.svg" alt="An example of a simple region">
-                    <figcaption class="figure-caption text-right">A simple region</figcaption>
-                </figure>
-                <p class="mb-0">This set is not open, not closed (\(z \not\in S\)), not a domain, not bounded, but is connected.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p>Now consider the region of the complex plane defined by the inequality \(\vert \operatorname{Re}z \vert \lt \vert z \vert\). Using our brains (gasp) we might be able to convince ourselves that this inequality is true unless \(z \in \mathbb R\). However, to make sure, we perform the algebra.</p>
-                <p class="text-center">\[\begin{aligned} \vert \operatorname{Re}z \vert &\lt \vert z \vert\\ \vert x \vert &\lt \sqrt{x^2 + y^2}\\ \vert x \vert^2 &\lt x^2 + y^2\\ \cancel{\vert x \vert^2} &\lt \cancel{x^2} + y^2\\ 0 &\lt y^2\\ 0 &\lt \pm y\\ \end{aligned}\]</p>
-                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/unbounded.svg" alt="An example of an unbounded set">
-                    <figcaption class="figure-caption text-right">An unbounded set</figcaption>
-                </figure>
-                <p class="mb-0">Another way of defining this region might be \(S = \left\{z \in \mathbb C : \operatorname{Im}z \neq 0\right\}\). Note that \(\operatorname{Cl}(S) = \mathbb C\)</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p>Consider the set \(\displaystyle{Z_n = \left\{\frac{i}{n} : n \in \mathbb N\right\}}\) illustrated below</p>
-                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/accumulation-example.svg" alt="accumulation point example">
-                    <figcaption class="figure-caption text-right">An accumulation point</figcaption>
-                </figure>
-                <p>Note that 0 is not contained in this set. We can get as close as we like to 0, but we can never quite get there. That means that 0 is a boundary point of \(Z_n\).</p>
-                <p>Also note that every point is not an interior point, as any neighborhood of any point is not entirely contained in \(Z_n\).</p>
-                <p>Let us now consider the deleted neighborhood of 0. No matter what \(\varepsilon\) we pick, we can <em>always</em> find an element of \(Z_n\) that is within the deleted neighborhood. This means that <em>every</em> deleted neighborhood of 0 contains at least one point of \(Z_n\), so 0 is an accumulation point of \(Z_n\). We can also see that 0 is the <em>only</em> accumulation point of \(Z_n\), because no matter what point we pick, there will always be some distance between the point we pick and its neighbors that is not in \(Z_n\).</p>
-                <p class="mb-0">Also note that 0 is \(Z_n\)'s only boundary point, so \(\operatorname{Cl}(Z_n) = \{Z_n, 0\}\)</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p>Now consider the set \(Z_n = \{i^n : n \in \mathbb N\} = \{i, -1, i , 1\}\) illustrated below.</p>
-                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/accumulation-example-2.svg" alt="accumulation point example 2">
-                    <figcaption class="figure-caption text-right">A set with no accumulation points</figcaption>
-                </figure>
-                <p class="mb-0">This set has <em>no</em> accumulation points.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p>Consider the set \( Z_n = \left\{\frac{i^n}{n} : n \in \mathbb N\right\}\)</p>
-                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/accumulation-example-3.svg" alt="accumulation point example 3">
-                    <figcaption class="figure-caption text-right">An accumulation point</figcaption>
-                </figure>
-                <p class="mb-0">Note how the sequence spirals closer and closer to 0, but never actually hits it. It's very similar to the first accumulation point example. \(0 \not\in Z_n\), but no matter what \(\varepsilon\) we pick around 0, we can <em>always</em> find a point within that \(\varepsilon\). Therefore 0 is an accumulation point, and is actually the <em>only</em> accumulation point of this set.</p>
-            </div>
-        </div>
-        <div class="card m-3">
-            <div class="card-header">Example</div>
-            <div class="card-body">
-                <p>Lastly, consider the set</p>
-                <p class="text-center">\[ Z_n = \left\{(-1)^n(1 + i)\frac{n - 1}{n} : n \in \mathbb N\right\} = \left\{-0,\, \frac{1}{2}(1 + i),\, \frac{-2}{3}(1 + i),\, \frac{3}{4}(1 + i),\, \frac{-4}{5}(1 + i),\, \dots\right\}\]</p>
-                <figure class="figure w-50 d-block mx-auto"><img class="figure-img img-fluid w-100" src="https://static.agill.xyz/images/regions-in-the-complex-plane/accumulation-example-4.svg" alt="accumulation point example 4">
-                    <figcaption class="figure-caption text-right">Two accumulation points</figcaption>
-                </figure>
-                <p>\(1 + i\) and \(-(1 + i)\) are the only accumulation points of \(Z_n\), but are <em>not in</em> \(Z_n\).</p>
-                <p class="mb-0">Also note that for a little bit of intuition, points <em>accumulate</em> at the <em>accumulation</em> points -- though not necessarily from one direction.</p>
-            </div>
-        </div>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for <em>this</em> version. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
-
+    </body>
+    <!-- TODO: Find the integrity hash for <em>this</em> version. -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

@@ -1,55 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Exploratory data analysis on the color palette of haiku." />
+        <title>3.b. Colors</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <script
+            defer
+            src="https://static.agill.xyz/js/highlight.min.js"
+            onload="hljs.initHighlightingOnLoad();"
+        ></script>
+        <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css" />
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Exploratory data analysis on the color palette of haiku.">
-    <title>3.b. Colors</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
-    <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css">
-</head>
-
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home</a>
-                    <a class="nav-item nav-link active" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link active" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/research/haiku">Home</a></li>
-                <li class="breadcrumb-item">Analysis</li>
-                <li class="breadcrumb-item active" area-current="page">Colors</li>
-            </ol>
-        </nav>
-        <h1>3.b. Colors</h1>
-        <p>The goal of this analysis is to build a color palette of my haiku dataset, in the same vein as a 2017 PyCon talk titled <a href="https://www.youtube.com/watch?v=3dDtACSYVx0"><em>Gothic Colors: Using Python to understand color in nineteenth century literature</em></a>. This talk was the first exposure I can recall of the application of (hard) computer science to a (soft) natural science, and that made a lasting impression. The field of <a href="https://en.wikipedia.org/wiki/Natural_computing">natural computing</a> is eminently fascinating to me, and this conference talk was, in part, the inspiration behind my entire haiku generation project, going back even before <a href="https://github.com/Notgnoshi/trumperator">trumperator</a>, my first attempt at text generation. As an aside, after this project is good and finished, and I've settled into gainfully-employed life as a software engineer, I'd like to return to the generation of Trump tweets, using the same strategy as I've used here for haiku.</p>
-        <p>I'm getting carried away, however. Here, all I want to do, is parse the usage of color from the haiku in an intelligent manner&mdash;one that is aware that the word "rose" has three distinct meanings in the sentences</p>
-        <ul>
-            <li>"I picked a rose."</li>
-            <li>"Her shoes were rose-colored."</li>
-            <li>"He rose to meet me."</li>
-        </ul>
-        <p>In the context of color parsing, it makes sense to treat the first two both as uses of the color "rose". In order to perform this parsing, we must part-of-speech tag the haiku corpus. Fortunately, doing so is not a new problem, so we use an out-of-the-box POS tagger.</p>
-        <pre class="language-python pl-3"><code>import collections
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/research/haiku">Home</a></li>
+                    <li class="breadcrumb-item">Analysis</li>
+                    <li class="breadcrumb-item active" area-current="page">Colors</li>
+                </ol>
+            </nav>
+            <h1>3.b. Colors</h1>
+            <p>
+                The goal of this analysis is to build a color palette of my haiku dataset, in the same vein as a 2017
+                PyCon talk titled
+                <a href="https://www.youtube.com/watch?v=3dDtACSYVx0"
+                    ><em>Gothic Colors: Using Python to understand color in nineteenth century literature</em></a
+                >. This talk was the first exposure I can recall of the application of (hard) computer science to a
+                (soft) natural science, and that made a lasting impression. The field of
+                <a href="https://en.wikipedia.org/wiki/Natural_computing">natural computing</a> is eminently fascinating
+                to me, and this conference talk was, in part, the inspiration behind my entire haiku generation project,
+                going back even before <a href="https://github.com/Notgnoshi/trumperator">trumperator</a>, my first
+                attempt at text generation. As an aside, after this project is good and finished, and I've settled into
+                gainfully-employed life as a software engineer, I'd like to return to the generation of Trump tweets,
+                using the same strategy as I've used here for haiku.
+            </p>
+            <p>
+                I'm getting carried away, however. Here, all I want to do, is parse the usage of color from the haiku in
+                an intelligent manner&mdash;one that is aware that the word "rose" has three distinct meanings in the
+                sentences
+            </p>
+            <ul>
+                <li>"I picked a rose."</li>
+                <li>"Her shoes were rose-colored."</li>
+                <li>"He rose to meet me."</li>
+            </ul>
+            <p>
+                In the context of color parsing, it makes sense to treat the first two both as uses of the color "rose".
+                In order to perform this parsing, we must part-of-speech tag the haiku corpus. Fortunately, doing so is
+                not a new problem, so we use an out-of-the-box POS tagger.
+            </p>
+            <pre class="language-python pl-3"><code>import collections
 import colorsys
 import itertools
 
@@ -65,9 +98,16 @@ import haikulib.eda.colors
 from haikulib import data, nlp, utils
 sns.set(style="whitegrid")
         </code></pre>
-        <h2>The Naive Approach</h2>
-        <p>It's often useful to implement a simpler version of a feature before implementing the full functionality. So before performing POS-tagging and more intelligent color identification, we simply look for color names in the corpus. We do so by looking for any n-grams that are in our <a href="https://github.com/Notgnoshi/research/blob/master/data/colors.csv">master list of color names</a>. We use 1, 2, and 3-grams.</p>
-        <pre class="language-python pl-3"><code>df = data.get_df()
+            <h2>The Naive Approach</h2>
+            <p>
+                It's often useful to implement a simpler version of a feature before implementing the full
+                functionality. So before performing POS-tagging and more intelligent color identification, we simply
+                look for color names in the corpus. We do so by looking for any n-grams that are in our
+                <a href="https://github.com/Notgnoshi/research/blob/master/data/colors.csv"
+                    >master list of color names</a
+                >. We use 1, 2, and 3-grams.
+            </p>
+            <pre class="language-python pl-3"><code>df = data.get_df()
 corpus = []
 
 for haiku in df["haiku"]:
@@ -78,8 +118,8 @@ naive_colors = collections.Counter()
 for haiku in corpus:
     # Update the color counts for this haiku.
     naive_colors.update(nlp.count_tokens_from(haiku, color_names, ngrams=[1, 2, 3]))</code></pre>
-        <p>For ease of use in visualization, I build a data frame of the color occurrences.</p>
-        <pre class="language-python pl-3"><code>naive_color_counts = pd.DataFrame({
+            <p>For ease of use in visualization, I build a data frame of the color occurrences.</p>
+            <pre class="language-python pl-3"><code>naive_color_counts = pd.DataFrame({
         "color": list(naive_colors.keys()),
         "count": list(naive_colors.values()),
         "hex": [color_names[c] for c in naive_colors],
@@ -89,88 +129,104 @@ total_color_count = sum(row["count"] for index, row in naive_color_counts.iterro
 print(f"There are {total_color_count} occurences of color in the corpus")
 print(f"There are {len(naive_color_counts)} unique colors")
 naive_color_counts.head(10)</code></pre>
-        <figure class="figure d-block w-75 mx-auto">
-            <table class="table table-sm table-striped table-hover w-100">
-                <caption>(Naive) There are 22709 uses of color, and 498 unique colors in the haiku corpus</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">color</th>
-                        <th scope="col">count</th>
-                        <th scope="col">hex</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">0</th>
-                        <td>green</td>
-                        <td>415</td>
-                        <td><code>#3aa655</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>snow</td>
-                        <td>1981</td>
-                        <td><code>#fffafa</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>dusk</td>
-                        <td>482</td>
-                        <td><code>#4e5481</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>sea</td>
-                        <td>679</td>
-                        <td><code>#3c9992</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>watermelon</td>
-                        <td>27</td>
-                        <td><code>#fd4659</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">5</th>
-                        <td>sky</td>
-                        <td>1232</td>
-                        <td><code>#82cafc</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">6</th>
-                        <td>stone</td>
-                        <td>275</td>
-                        <td><code>#ada587</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">7</th>
-                        <td>jasmine</td>
-                        <td>66</td>
-                        <td><code>#f8de7e</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">8</th>
-                        <td>sand</td>
-                        <td>300</td>
-                        <td><code>#c2b280</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">9</th>
-                        <td>rust</td>
-                        <td>27</td>
-                        <td><code>#b7410e</code></td>
-                    </tr>
-                </tbody>
-            </table>
-        </figure>
-        <h2>Color Parsing with Part-Of-Speech Tagging</h2>
-        <div class="alert alert-info">
-            <p>These analyses were originally done in Jupyter Notebooks, and converted to HTML (by hand, because I'm not good enough with pandoc or nbconvert to match my website's custom CSS and boostrap classes).</p>
-            <p>Rather than implement the color parsing as a part of the notebook, and then copy paste the implementation to do analysis later, the color parsing was done in the <code>haikulib.eda</code> module. But for the sake of self-contained notebooks, I wanted a way to show the source of an arbitrary function so I'm not copy-pasting out-of-sync versions of function around. So I wrote a small introspective helper function to grab the source code of a function and render it in syntax-highlighted HTML in the Jupyter notebook.</p>
-            <pre class="language-python pl-3"><code># Use display_source() to display its own source. This feels dirty.
+            <figure class="figure d-block w-75 mx-auto">
+                <table class="table table-sm table-striped table-hover w-100">
+                    <caption>
+                        (Naive) There are 22709 uses of color, and 498 unique colors in the haiku corpus
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">color</th>
+                            <th scope="col">count</th>
+                            <th scope="col">hex</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">0</th>
+                            <td>green</td>
+                            <td>415</td>
+                            <td><code>#3aa655</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>snow</td>
+                            <td>1981</td>
+                            <td><code>#fffafa</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>dusk</td>
+                            <td>482</td>
+                            <td><code>#4e5481</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>sea</td>
+                            <td>679</td>
+                            <td><code>#3c9992</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>watermelon</td>
+                            <td>27</td>
+                            <td><code>#fd4659</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>sky</td>
+                            <td>1232</td>
+                            <td><code>#82cafc</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6</th>
+                            <td>stone</td>
+                            <td>275</td>
+                            <td><code>#ada587</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">7</th>
+                            <td>jasmine</td>
+                            <td>66</td>
+                            <td><code>#f8de7e</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8</th>
+                            <td>sand</td>
+                            <td>300</td>
+                            <td><code>#c2b280</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9</th>
+                            <td>rust</td>
+                            <td>27</td>
+                            <td><code>#b7410e</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </figure>
+            <h2>Color Parsing with Part-Of-Speech Tagging</h2>
+            <div class="alert alert-info">
+                <p>
+                    These analyses were originally done in Jupyter Notebooks, and converted to HTML (by hand, because
+                    I'm not good enough with pandoc or nbconvert to match my website's custom CSS and boostrap classes).
+                </p>
+                <p>
+                    Rather than implement the color parsing as a part of the notebook, and then copy paste the
+                    implementation to do analysis later, the color parsing was done in the
+                    <code>haikulib.eda</code> module. But for the sake of self-contained notebooks, I wanted a way to
+                    show the source of an arbitrary function so I'm not copy-pasting out-of-sync versions of function
+                    around. So I wrote a small introspective helper function to grab the source code of a function and
+                    render it in syntax-highlighted HTML in the Jupyter notebook.
+                </p>
+                <pre
+                    class="language-python pl-3"
+                ><code># Use display_source() to display its own source. This feels dirty.
 utils.display_source("haikulib.utils", "display_source")</code></pre>
-            <pre class="language-python pl-3"><code>def display_source(module: str, function: str) -> IPython.display.Code:
+                <pre
+                    class="language-python pl-3"
+                ><code>def display_source(module: str, function: str) -> IPython.display.Code:
     """Display the source of the provided function in a notebook.
 
     :param module: The module containing function. Must be importable.
@@ -194,10 +250,20 @@ utils.display_source("haikulib.utils", "display_source")</code></pre>
     # Mmmm. Slimy.
     IPython.display.Code._repr_html_ = _jupyterlab_repr_html_
     return IPython.display.Code(data=inspect.getsource(__methods[function]), language="python3")</code></pre>
-            <p>However, I haven't figured out a good (minimal) way to style individual notebook cells, so I'll break from the <a href="https://github.com/Notgnoshi/research/blob/master/experiments/eda/colors.md">real notebook</a> and continue as if the color parsing functions are defined in the notebook itself.</p>
-        </div>
-        <p>We can determine if a word is a color simply by checking if it is contained in our color master list, and by checking if it is an adjective or a noun.</p>
-        <pre class="language-python pl-3"><code>def __get_colors() -> pd.DataFrame:
+                <p>
+                    However, I haven't figured out a good (minimal) way to style individual notebook cells, so I'll
+                    break from the
+                    <a href="https://github.com/Notgnoshi/research/blob/master/experiments/eda/colors.md"
+                        >real notebook</a
+                    >
+                    and continue as if the color parsing functions are defined in the notebook itself.
+                </p>
+            </div>
+            <p>
+                We can determine if a word is a color simply by checking if it is contained in our color master list,
+                and by checking if it is an adjective or a noun.
+            </p>
+            <pre class="language-python pl-3"><code>def __get_colors() -> pd.DataFrame:
     """Get a DataFrame of color -> HTML colors.
     Note that this CSV file uses hex RGB color codes for many of the colors, but falls back to using
     HTML named colors for colors without an RGB value.
@@ -221,13 +287,16 @@ def is_color(tagged_word: Tuple[str, str]) -> bool:
     """
     word, pos = tagged_word
     return pos in COLOR_POS_TAGS and word in COLORS</code></pre>
-        <p>However, this requires on each work in the corpus being tagged with its part of speech. This too is simple</p>
-        <pre class="language-python pl-3"><code>def pos_tag(text: str) -> Iterable[Tuple[str, str]]:
+            <p>
+                However, this requires on each work in the corpus being tagged with its part of speech. This too is
+                simple
+            </p>
+            <pre class="language-python pl-3"><code>def pos_tag(text: str) -> Iterable[Tuple[str, str]]:
     """Part-of-speech tag the given text.
     """
     return nltk.pos_tag([w for w in text.split() if w not in {"/"}])</code></pre>
-        <p>Now we can quite simply find the colors in a particular haiku as follows.</p>
-        <pre class="language-python pl-3"><code># A made-up haiku for testing purposes.
+            <p>Now we can quite simply find the colors in a particular haiku as follows.</p>
+            <pre class="language-python pl-3"><code># A made-up haiku for testing purposes.
 haiku = "dark blue lines / in a light olive green sea salt / dreams"
 haiku_colors = [
     tagged_word[0]
@@ -235,10 +304,15 @@ haiku_colors = [
     if haikulib.eda.colors.is_color(tagged_word)
 ]
 print(haiku_colors)</code></pre>
-        <p>this gives</p>
-        <pre class="language-python pl-3"><code>['dark', 'blue', 'olive', 'green', 'sea']</code></pre>
-        <p>But wait a minute! What about the color "dark blue", or "olive green"? In order to find multi-word colors, we need to parse and test n-grams from the haiku. Unfortunately it was quite late when I implemented this, so I was frustrated, and made it "just work" with no care for doing it right. It shows.</p>
-        <pre class="language-python pl-3"><code>def find_colors(text: Iterable[Tuple[str, str]]) -> List[str]:
+            <p>this gives</p>
+            <pre class="language-python pl-3"><code>['dark', 'blue', 'olive', 'green', 'sea']</code></pre>
+            <p>
+                But wait a minute! What about the color "dark blue", or "olive green"? In order to find multi-word
+                colors, we need to parse and test n-grams from the haiku. Unfortunately it was quite late when I
+                implemented this, so I was frustrated, and made it "just work" with no care for doing it right. It
+                shows.
+            </p>
+            <pre class="language-python pl-3"><code>def find_colors(text: Iterable[Tuple[str, str]]) -> List[str]:
     """Return an unordered list of colors from the given POS-tagged text.
 
     Check for 1, 2, and 3-gram colors like "dark blue".
@@ -290,112 +364,124 @@ print(haiku_colors)</code></pre>
         pass
 
     return colors</code></pre>
-        <p>Notice that we only use <code>is_color()</code> for checking if 1-grams are colors. 2-grams and 3-grams use a simple containment check against the color master list. Further, notice that there is soul-crushing logic used to parse the colors <code>["light olive green", "sea"]</code> from the string <code>"light olive green sea"</code> instead of the colors <code>["olive", "green", "sea", "olive green", "light olive green"]</code>.</p>
-        <p>It even works on our test haiku that we defined.</p>
-        <pre class="language-python pl-3"><code>find_colors(nlp.pos_tag(haiku))</code></pre>
-        <p>gives us <code>['dark blue', 'light olive green', 'sea']</code>.</p>
-        <p>Then we parse the colors from the haiku during the repository data initialization step so that they are stored in the <code>data/haiku.csv</code> file. If we record the color usage for each haiku individually, that enables <em>spatial</em> exploration of the colors.</p>
-        <pre class="language-python pl-3"><code>df = data.get_df()
+            <p>
+                Notice that we only use <code>is_color()</code> for checking if 1-grams are colors. 2-grams and 3-grams
+                use a simple containment check against the color master list. Further, notice that there is
+                soul-crushing logic used to parse the colors <code>["light olive green", "sea"]</code> from the string
+                <code>"light olive green sea"</code> instead of the colors
+                <code>["olive", "green", "sea", "olive green", "light olive green"]</code>.
+            </p>
+            <p>It even works on our test haiku that we defined.</p>
+            <pre class="language-python pl-3"><code>find_colors(nlp.pos_tag(haiku))</code></pre>
+            <p>gives us <code>['dark blue', 'light olive green', 'sea']</code>.</p>
+            <p>
+                Then we parse the colors from the haiku during the repository data initialization step so that they are
+                stored in the <code>data/haiku.csv</code> file. If we record the color usage for each haiku
+                individually, that enables <em>spatial</em> exploration of the colors.
+            </p>
+            <pre class="language-python pl-3"><code>df = data.get_df()
 df.tail(6)</code></pre>
-        <figure class="figure d-block w-100 mx-auto">
-            <table class="table table-sm table-striped table-hover w-100">
-                <caption>An example of the color parsing from the initialization step</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">#<br></th>
-                        <th scope="col">haiku</th>
-                        <th scope="col">colors<br></th>
-                        <th scope="col">lines</th>
-                        <th scope="col">syllables</th>
-                        <th scope="col">total_syllables</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">55357</th>
-                        <td>shadows a window ledge / just big enough to hold / two doves</td>
-                        <td>[]</td>
-                        <td>3</td>
-                        <td>(7, 6, 3)</td>
-                        <td>16</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">55358</th>
-                        <td>sparks / in the heat of blue / dragonflies</td>
-                        <td>[blue]</td>
-                        <td>3</td>
-                        <td>(1, 5, 3)</td>
-                        <td>9</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">55359</th>
-                        <td>half moon / only broken crackers / in the tin</td>
-                        <td>[]</td>
-                        <td>3</td>
-                        <td>(2, 6, 3)</td>
-                        <td>11</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">55360</th>
-                        <td>revision notes / brushing sand / into the gaps</td>
-                        <td>[sand]</td>
-                        <td>3</td>
-                        <td>(5, 3, 4)</td>
-                        <td>12</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">55361</th>
-                        <td>the first dusk of may / it's suddenly there / a pale orange poppy</td>
-                        <td>[dusk, pale orange]</td>
-                        <td>3</td>
-                        <td>(5, 6, 7)</td>
-                        <td>18</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">55362</th>
-                        <td>dandelions / two drinkers unzip / by the path</td>
-                        <td>[]</td>
-                        <td>3</td>
-                        <td>(3, 5, 3)</td>
-                        <td>11</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">55363</th>
-                        <td>scrunched up clouds / a blue plastic bag / in the nettles</td>
-                        <td>[blue]</td>
-                        <td>3</td>
-                        <td>(4, 5, 4)</td>
-                        <td>13</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">55364</th>
-                        <td>early spring / one morning the clang of / scaffolding poles</td>
-                        <td>[]</td>
-                        <td>3</td>
-                        <td>(3, 7, 5)</td>
-                        <td>15</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">55365</th>
-                        <td>platform 9 / through the glass roof the shapes / of swooping gulls</td>
-                        <td>[glass]</td>
-                        <td>3</td>
-                        <td>(3, 7, 4)</td>
-                        <td>14</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">55366</th>
-                        <td>sneaking out / thru' the bathroom window / steam meets fog</td>
-                        <td>[]</td>
-                        <td>3</td>
-                        <td>(3, 6, 3)</td>
-                        <td>12</td>
-                    </tr>
-                </tbody>
-            </table>
-        </figure>
-        <p>As above, we also produce a data frame containing the corpus color counts and HTML color codes.</p>
-        <pre class="language-python pl-3"><code>pos_tagging_color_counts = haikulib.eda.colors.get_colors()
+            <figure class="figure d-block w-100 mx-auto">
+                <table class="table table-sm table-striped table-hover w-100">
+                    <caption>
+                        An example of the color parsing from the initialization step
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">#<br /></th>
+                            <th scope="col">haiku</th>
+                            <th scope="col">colors<br /></th>
+                            <th scope="col">lines</th>
+                            <th scope="col">syllables</th>
+                            <th scope="col">total_syllables</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">55357</th>
+                            <td>shadows a window ledge / just big enough to hold / two doves</td>
+                            <td>[]</td>
+                            <td>3</td>
+                            <td>(7, 6, 3)</td>
+                            <td>16</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">55358</th>
+                            <td>sparks / in the heat of blue / dragonflies</td>
+                            <td>[blue]</td>
+                            <td>3</td>
+                            <td>(1, 5, 3)</td>
+                            <td>9</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">55359</th>
+                            <td>half moon / only broken crackers / in the tin</td>
+                            <td>[]</td>
+                            <td>3</td>
+                            <td>(2, 6, 3)</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">55360</th>
+                            <td>revision notes / brushing sand / into the gaps</td>
+                            <td>[sand]</td>
+                            <td>3</td>
+                            <td>(5, 3, 4)</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">55361</th>
+                            <td>the first dusk of may / it's suddenly there / a pale orange poppy</td>
+                            <td>[dusk, pale orange]</td>
+                            <td>3</td>
+                            <td>(5, 6, 7)</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">55362</th>
+                            <td>dandelions / two drinkers unzip / by the path</td>
+                            <td>[]</td>
+                            <td>3</td>
+                            <td>(3, 5, 3)</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">55363</th>
+                            <td>scrunched up clouds / a blue plastic bag / in the nettles</td>
+                            <td>[blue]</td>
+                            <td>3</td>
+                            <td>(4, 5, 4)</td>
+                            <td>13</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">55364</th>
+                            <td>early spring / one morning the clang of / scaffolding poles</td>
+                            <td>[]</td>
+                            <td>3</td>
+                            <td>(3, 7, 5)</td>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">55365</th>
+                            <td>platform 9 / through the glass roof the shapes / of swooping gulls</td>
+                            <td>[glass]</td>
+                            <td>3</td>
+                            <td>(3, 7, 4)</td>
+                            <td>14</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">55366</th>
+                            <td>sneaking out / thru' the bathroom window / steam meets fog</td>
+                            <td>[]</td>
+                            <td>3</td>
+                            <td>(3, 6, 3)</td>
+                            <td>12</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </figure>
+            <p>As above, we also produce a data frame containing the corpus color counts and HTML color codes.</p>
+            <pre class="language-python pl-3"><code>pos_tagging_color_counts = haikulib.eda.colors.get_colors()
 
 total_color_count = pos_tagging_color_counts["count"].sum()
 used_color_count = pos_tagging_color_counts["count"].astype(bool).sum(axis=0)
@@ -404,179 +490,198 @@ print(f"There are {total_color_count} occurences of color in the corpus")
 print(f"There are {used_color_count} unique colors")
 
 pos_tagging_color_counts[["color", "count", "hex"]].head(10)</code></pre>
-        <figure class="figure d-block w-75 mx-auto">
-            <table class="table table-sm table-striped table-hover w-100">
-                <caption>(POS-tagging) There are 19747 uses of color, and 472 unique colors in the haiku corpus</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">color<br></th>
-                        <th scope="col">count<br></th>
-                        <th scope="col">hex</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">0</th>
-                        <td>cloudy blue</td>
-                        <td>0</td>
-                        <td><code>#acc2d9</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>dark pastel green</td>
-                        <td>0</td>
-                        <td><code>#03c03c</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>dust</td>
-                        <td>207</td>
-                        <td><code>#b2996e</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>electric lime</td>
-                        <td>0</td>
-                        <td><code>#ccff00</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>fresh green</td>
-                        <td>0</td>
-                        <td><code>#69d84f</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">5</th>
-                        <td>light eggplant</td>
-                        <td>0</td>
-                        <td><code>#894585</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">6</th>
-                        <td>nasty green</td>
-                        <td>0</td>
-                        <td><code>#70b23f</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">7</th>
-                        <td>really light blue</td>
-                        <td>0</td>
-                        <td><code>#d4ffff</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">8</th>
-                        <td>tea</td>
-                        <td>246</td>
-                        <td><code>#65ab7c</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">9</th>
-                        <td>warm purple</td>
-                        <td>0</td>
-                        <td><code>#952e8f</code></td>
-                    </tr>
-                </tbody>
-            </table>
-        </figure>
-        <p>Compare the POS-tagging results with those from the naive approach, summarized again below. Notice that we pruned over twenty color names from the corpus, and pruned over <em>three thousand</em> occurrences of colors.</p>
-        <pre class="language-python pl-3"><code>total_color_count = naive_color_counts["count"].sum()
+            <figure class="figure d-block w-75 mx-auto">
+                <table class="table table-sm table-striped table-hover w-100">
+                    <caption>
+                        (POS-tagging) There are 19747 uses of color, and 472 unique colors in the haiku corpus
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">color<br /></th>
+                            <th scope="col">count<br /></th>
+                            <th scope="col">hex</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">0</th>
+                            <td>cloudy blue</td>
+                            <td>0</td>
+                            <td><code>#acc2d9</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>dark pastel green</td>
+                            <td>0</td>
+                            <td><code>#03c03c</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>dust</td>
+                            <td>207</td>
+                            <td><code>#b2996e</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>electric lime</td>
+                            <td>0</td>
+                            <td><code>#ccff00</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>fresh green</td>
+                            <td>0</td>
+                            <td><code>#69d84f</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>light eggplant</td>
+                            <td>0</td>
+                            <td><code>#894585</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6</th>
+                            <td>nasty green</td>
+                            <td>0</td>
+                            <td><code>#70b23f</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">7</th>
+                            <td>really light blue</td>
+                            <td>0</td>
+                            <td><code>#d4ffff</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8</th>
+                            <td>tea</td>
+                            <td>246</td>
+                            <td><code>#65ab7c</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9</th>
+                            <td>warm purple</td>
+                            <td>0</td>
+                            <td><code>#952e8f</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </figure>
+            <p>
+                Compare the POS-tagging results with those from the naive approach, summarized again below. Notice that
+                we pruned over twenty color names from the corpus, and pruned over <em>three thousand</em> occurrences
+                of colors.
+            </p>
+            <pre class="language-python pl-3"><code>total_color_count = naive_color_counts["count"].sum()
 
 print(f"There are {total_color_count} occurences of color in the corpus")
 print(f"There are {len(naive_color_counts)} unique colors")
 
 naive_color_counts.head(10)</code></pre>
-        <figure class="figure d-block w-75 mx-auto">
-            <table class="table table-sm table-striped table-hover w-100">
-                <caption>(Naive) There are 22709 uses of color, and 498 unique colors in the haiku corpus</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">color</th>
-                        <th scope="col">count</th>
-                        <th scope="col">hex</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">0</th>
-                        <td>green</td>
-                        <td>415</td>
-                        <td><code>#3aa655</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>snow</td>
-                        <td>1981</td>
-                        <td><code>#fffafa</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>dusk</td>
-                        <td>482</td>
-                        <td><code>#4e5481</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>sea</td>
-                        <td>679</td>
-                        <td><code>#3c9992</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>watermelon</td>
-                        <td>27</td>
-                        <td><code>#fd4659</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">5</th>
-                        <td>sky</td>
-                        <td>1232</td>
-                        <td><code>#82cafc</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">6</th>
-                        <td>stone</td>
-                        <td>275</td>
-                        <td><code>#ada587</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">7</th>
-                        <td>jasmine</td>
-                        <td>66</td>
-                        <td><code>#f8de7e</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">8</th>
-                        <td>sand</td>
-                        <td>300</td>
-                        <td><code>#c2b280</code></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">9</th>
-                        <td>rust</td>
-                        <td>27</td>
-                        <td><code>#b7410e</code></td>
-                    </tr>
-                </tbody>
-            </table>
-        </figure>
-        <h2>Color Palette Visualization</h2>
-        <p>Now that we've extracted the uses of color from the corpus, there are a number of techniques we can use to visualize that data. We will use the following methods:</p>
-        <ul>
-            <li>Word cloud</li>
-            <li>Histogram</li>
-            <li>Pie Chart</li>
-            <li>Spectrum</li>
-        </ul>
-        <h3>Word Cloud</h3>
-        <p>See <a href="/research/haiku/analysis/word-clouds">Word Clouds</a> for a discussion of how to <em>generate</em> the word clouds for the haiku vocabulary in the general case, as well as restricted to flora, fauna, and colors. The color word cloud is reproduced below.</p>
-        <figure class="figure d-block w-100, mx-auto">
-            <img class="figure-img img-fluid w-100 rounded" src="https://static.agill.xyz/images/word-clouds/colors.png" alt="color word cloud">
-        </figure>
-        <h3>Histogram</h3>
-        <p>The color histogram, sorted by frequency, is show below.</p>
-        <pre class="language-python pl-3"><code>colors = haikulib.eda.colors.get_colors()
+            <figure class="figure d-block w-75 mx-auto">
+                <table class="table table-sm table-striped table-hover w-100">
+                    <caption>
+                        (Naive) There are 22709 uses of color, and 498 unique colors in the haiku corpus
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">color</th>
+                            <th scope="col">count</th>
+                            <th scope="col">hex</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">0</th>
+                            <td>green</td>
+                            <td>415</td>
+                            <td><code>#3aa655</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>snow</td>
+                            <td>1981</td>
+                            <td><code>#fffafa</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>dusk</td>
+                            <td>482</td>
+                            <td><code>#4e5481</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>sea</td>
+                            <td>679</td>
+                            <td><code>#3c9992</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>watermelon</td>
+                            <td>27</td>
+                            <td><code>#fd4659</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>sky</td>
+                            <td>1232</td>
+                            <td><code>#82cafc</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6</th>
+                            <td>stone</td>
+                            <td>275</td>
+                            <td><code>#ada587</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">7</th>
+                            <td>jasmine</td>
+                            <td>66</td>
+                            <td><code>#f8de7e</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8</th>
+                            <td>sand</td>
+                            <td>300</td>
+                            <td><code>#c2b280</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9</th>
+                            <td>rust</td>
+                            <td>27</td>
+                            <td><code>#b7410e</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </figure>
+            <h2>Color Palette Visualization</h2>
+            <p>
+                Now that we've extracted the uses of color from the corpus, there are a number of techniques we can use
+                to visualize that data. We will use the following methods:
+            </p>
+            <ul>
+                <li>Word cloud</li>
+                <li>Histogram</li>
+                <li>Pie Chart</li>
+                <li>Spectrum</li>
+            </ul>
+            <h3>Word Cloud</h3>
+            <p>
+                See <a href="/research/haiku/analysis/word-clouds">Word Clouds</a> for a discussion of how to
+                <em>generate</em> the word clouds for the haiku vocabulary in the general case, as well as restricted to
+                flora, fauna, and colors. The color word cloud is reproduced below.
+            </p>
+            <figure class="figure d-block w-100, mx-auto">
+                <img
+                    class="figure-img img-fluid w-100 rounded"
+                    src="https://static.agill.xyz/images/word-clouds/colors.png"
+                    alt="color word cloud"
+                />
+            </figure>
+            <h3>Histogram</h3>
+            <p>The color histogram, sorted by frequency, is show below.</p>
+            <pre class="language-python pl-3"><code>colors = haikulib.eda.colors.get_colors()
 colors.sort_values(by=["hsv", "count"], ascending=False, inplace=True)
 used_colors = colors.loc[colors["count"] != 0].copy()
 used_colors.sort_values(by="count", ascending=False, inplace=True)
@@ -590,11 +695,15 @@ _ = plt.bar(
     log=True,
 )
 plt.show()</code></pre>
-        <figure class="figure d-block w-100, mx-auto">
-            <img class="figure-img img-fluid w-100 rounded" src="https://static.agill.xyz/images/colors/histogram.svg" alt="color histogram">
-        </figure>
-        <p>However, there are other ways we might display the same information.</p>
-        <pre class="language-python pl-3"><code>used_colors.sort_values(by="hsv", ascending=False, inplace=True)
+            <figure class="figure d-block w-100, mx-auto">
+                <img
+                    class="figure-img img-fluid w-100 rounded"
+                    src="https://static.agill.xyz/images/colors/histogram.svg"
+                    alt="color histogram"
+                />
+            </figure>
+            <p>However, there are other ways we might display the same information.</p>
+            <pre class="language-python pl-3"><code>used_colors.sort_values(by="hsv", ascending=False, inplace=True)
 _ = plt.bar(
     range(len(used_colors)),
     used_colors["count"],
@@ -604,10 +713,14 @@ _ = plt.bar(
     log=True,
 )
 plt.show()</code></pre>
-        <figure class="figure d-block w-100, mx-auto">
-            <img class="figure-img img-fluid w-100 rounded" src="https://static.agill.xyz/images/colors/histogram-spectrum.svg" alt="color histogram">
-        </figure>
-        <pre class="language-python pl-3"><code>background = plt.bar(
+            <figure class="figure d-block w-100, mx-auto">
+                <img
+                    class="figure-img img-fluid w-100 rounded"
+                    src="https://static.agill.xyz/images/colors/histogram-spectrum.svg"
+                    alt="color histogram"
+                />
+            </figure>
+            <pre class="language-python pl-3"><code>background = plt.bar(
     range(len(colors)),
     height=12 ** 3,
     width=1,
@@ -625,17 +738,21 @@ foreground = plt.bar(
     log=True,
 )
 plt.show()</code></pre>
-        <figure class="figure d-block w-100, mx-auto">
-            <img class="figure-img img-fluid w-100 rounded" src="https://static.agill.xyz/images/colors/histogram-spectrum-background.svg" alt="color histogram">
-        </figure>
-        <p>We have several options for using a polar histogram:</p>
-        <ul>
-            <li>Sort the colors radially, by their hue or their frequency</li>
-            <li>Use fixed or proportional radii</li>
-            <li>Use fixed or proportional wedge widths</li>
-            <li>Use a fixed or proportional division of [0, 2pi] for the wedges angular locations</li>
-        </ul>
-        <pre class="language-python pl-3"><code>def pairwise_difference(seq):
+            <figure class="figure d-block w-100, mx-auto">
+                <img
+                    class="figure-img img-fluid w-100 rounded"
+                    src="https://static.agill.xyz/images/colors/histogram-spectrum-background.svg"
+                    alt="color histogram"
+                />
+            </figure>
+            <p>We have several options for using a polar histogram:</p>
+            <ul>
+                <li>Sort the colors radially, by their hue or their frequency</li>
+                <li>Use fixed or proportional radii</li>
+                <li>Use fixed or proportional wedge widths</li>
+                <li>Use a fixed or proportional division of [0, 2pi] for the wedges angular locations</li>
+            </ul>
+            <pre class="language-python pl-3"><code>def pairwise_difference(seq):
     for l, r in utils.pairwise(seq):
         yield r - l
     # Loop back around to the front.
@@ -647,8 +764,8 @@ def accumulate(seq):
     for s in seq:
         yield _sum
         _sum += s</code></pre>
-        <p>First, we'll sort the colors by their frequency and display them radially.</p>
-        <pre class="language-python pl-3"><code>used_colors.sort_values(by="count", ascending=False, inplace=True)
+            <p>First, we'll sort the colors by their frequency and display them radially.</p>
+            <pre class="language-python pl-3"><code>used_colors.sort_values(by="count", ascending=False, inplace=True)
 
 ax = plt.subplot(111, projection="polar")
 
@@ -666,10 +783,14 @@ _ = ax.bar(
     align="edge",
 )
 plt.show()</code></pre>
-        <figure class="figure d-block w-100, mx-auto">
-            <img class="figure-img img-fluid w-100 rounded" src="https://static.agill.xyz/images/colors/count-proportional-theta-radii-width.svg" alt="color histogram">
-        </figure>
-        <pre class="language-python pl-3"><code>ax = plt.subplot(111, projection="polar")
+            <figure class="figure d-block w-100, mx-auto">
+                <img
+                    class="figure-img img-fluid w-100 rounded"
+                    src="https://static.agill.xyz/images/colors/count-proportional-theta-radii-width.svg"
+                    alt="color histogram"
+                />
+            </figure>
+            <pre class="language-python pl-3"><code>ax = plt.subplot(111, projection="polar")
 
 _ = ax.bar(
     x=thetas,
@@ -681,11 +802,20 @@ _ = ax.bar(
     align="edge",
 )
 plt.show()</code></pre>
-        <figure class="figure d-block w-100, mx-auto">
-            <img class="figure-img img-fluid w-100 rounded" src="https://static.agill.xyz/images/colors/count-proportional-theta-width-fixed-height.svg" alt="color histogram">
-        </figure>
-        <p>I wanted to get a sense of the color palette in general, so let's try to sort the colors by hue. Unfortunately, this is a hard problem in general, because colors are three-dimensional, and we are attempting to sort them in a single dimension! There are techniques that utilize Hilbert curves to sort colors in two dimensions, but for now sorting by hue is sufficient.</p>
-        <pre class="language-python pl-3"><code>ax = plt.subplot(111, projection="polar")
+            <figure class="figure d-block w-100, mx-auto">
+                <img
+                    class="figure-img img-fluid w-100 rounded"
+                    src="https://static.agill.xyz/images/colors/count-proportional-theta-width-fixed-height.svg"
+                    alt="color histogram"
+                />
+            </figure>
+            <p>
+                I wanted to get a sense of the color palette in general, so let's try to sort the colors by hue.
+                Unfortunately, this is a hard problem in general, because colors are three-dimensional, and we are
+                attempting to sort them in a single dimension! There are techniques that utilize Hilbert curves to sort
+                colors in two dimensions, but for now sorting by hue is sufficient.
+            </p>
+            <pre class="language-python pl-3"><code>ax = plt.subplot(111, projection="polar")
 
 thetas = np.linspace(0, 2 * np.pi, len(used_colors), endpoint=False)
 widths = 4 * np.pi / len(used_colors)
@@ -700,10 +830,14 @@ _ = ax.bar(
     align="edge",
 )
 plt.show()</code></pre>
-        <figure class="figure d-block w-100, mx-auto">
-            <img class="figure-img img-fluid w-100 rounded" src="https://static.agill.xyz/images/colors/hue-proportional-radii-fixed-theta-width.svg" alt="color histogram">
-        </figure>
-        <pre class="language-python pl-3"><code>ax = plt.subplot(111, projection="polar")
+            <figure class="figure d-block w-100, mx-auto">
+                <img
+                    class="figure-img img-fluid w-100 rounded"
+                    src="https://static.agill.xyz/images/colors/hue-proportional-radii-fixed-theta-width.svg"
+                    alt="color histogram"
+                />
+            </figure>
+            <pre class="language-python pl-3"><code>ax = plt.subplot(111, projection="polar")
 
 thetas = 2 * np.pi * used_colors["count"] / used_colors["count"].sum()
 thetas = np.array(list(accumulate(thetas)))
@@ -719,10 +853,14 @@ _ = ax.bar(
     align="edge",
 )
 plt.show()</code></pre>
-        <figure class="figure d-block w-100, mx-auto">
-            <img class="figure-img img-fluid w-100 rounded" src="https://static.agill.xyz/images/colors/hue-proportional-theta-width-fixed-radii.svg" alt="color histogram">
-        </figure>
-        <pre class="language-python pl-3"><code>ax = plt.subplot(111, projection="polar")
+            <figure class="figure d-block w-100, mx-auto">
+                <img
+                    class="figure-img img-fluid w-100 rounded"
+                    src="https://static.agill.xyz/images/colors/hue-proportional-theta-width-fixed-radii.svg"
+                    alt="color histogram"
+                />
+            </figure>
+            <pre class="language-python pl-3"><code>ax = plt.subplot(111, projection="polar")
 
 _ = ax.bar(
     x=thetas,
@@ -733,13 +871,19 @@ _ = ax.bar(
     align="edge",
 )
 plt.show()</code></pre>
-        <figure class="figure d-block w-100, mx-auto">
-            <img class="figure-img img-fluid w-100 rounded" src="https://static.agill.xyz/images/colors/hue-proportional-theta-radii-width.svg" alt="color histogram">
-        </figure>
-        <p>I have no real conclusion, other than people who know how to do real color visualization are a lot smarter than I am. I thought this was cool, but ultimately I wasn't able to make any conclusions.</p>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for <em>this</em> version. -->
-<link rel=" stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
-
+            <figure class="figure d-block w-100, mx-auto">
+                <img
+                    class="figure-img img-fluid w-100 rounded"
+                    src="https://static.agill.xyz/images/colors/hue-proportional-theta-radii-width.svg"
+                    alt="color histogram"
+                />
+            </figure>
+            <p>
+                I have no real conclusion, other than people who know how to do real color visualization are a lot
+                smarter than I am. I thought this was cool, but ultimately I wasn't able to make any conclusions.
+            </p>
+        </div>
+    </body>
+    <!-- TODO: Find the integrity hash for <em>this</em> version. -->
+    <link rel=" stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

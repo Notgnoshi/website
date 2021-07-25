@@ -1,92 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta
+            name="description"
+            content="The verification of a complex polynomial inequality as stated in my Complex Analysis textbook"
+        />
+        <title>Complex Polynomial Inequality Verification</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+            integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+            crossorigin="anonymous"
+        />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+            integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+            crossorigin="anonymous"
+        ></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <script
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"
+            integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+            integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+            crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"
+        ></script>
+        <!-- <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script> -->
+        <!-- <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css"> -->
+    </head>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="The verification of a complex polynomial inequality as stated in my Complex Analysis textbook">
-    <title>Complex Polynomial Inequality Verification</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mathtex-script-type.min.js" integrity="sha384-LJ2FmexL77rmGm6SIpxq7y+XA6bkLzGZEgCywzKOZG/ws4va9fUVu2neMjvc3zdv" crossorigin="anonymous"></script> -->
-    <link href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js" integrity="sha384-XhWAe6BtVcvEdS3FFKT7Mcft4HJjPqMQvi5V4YhzH9Qxw497jC13TupOEvjoIPy7" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    <!-- <script defer src="https://static.agill.xyz/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script> -->
-    <!-- <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css"> -->
-</head>
-
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">
+                            Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>Complex Polynomial Inequality Verification</h1>
+            <div class="card m-3">
+                <div class="card-header">Definition</div>
+                <div class="card-body">
+                    <p>For \(z, a_i \in \mathbb C\) and \(n \in \mathbb R^+\)</p>
+                    <p class="text-center">\[P(z) = a_0 + a_1 z + a_2 z^2 + \dots + a_n z_n\]</p>
+                    <p class="mb-0">
+                        with \(a_n \neq 0\) (i.e. has a \(n\)th term) is called a *polynomial* of degree \(n\).
+                    </p>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <h1>Complex Polynomial Inequality Verification</h1>
-        <div class="card m-3">
-            <div class="card-header">Definition</div>
-            <div class="card-body">
-                <p>For \(z, a_i \in \mathbb C\) and \(n \in \mathbb R^+\)</p>
-                <p class="text-center">\[P(z) = a_0 + a_1 z + a_2 z^2 + \dots + a_n z_n\]</p>
-                <p class="mb-0">with \(a_n \neq 0\) (i.e. has a \(n\)th term) is called a *polynomial* of degree \(n\).</p>
+            <p>The inequality we wish to verify is</p>
+            <div class="card m-3">
+                <div class="card-header">Theorem</div>
+                <div class="card-body">
+                    <p class="text-center">\[\left\vert\frac{1}{P(z)}\right\vert \lt \frac{2}{\vert a_n\vert R^n}\]</p>
+                    <p class="mb-0">
+                        whenever \(\vert z\vert > R\) for some \(R \in \mathbb R^+\). In other words,
+                        \(\left\vert\frac{1}{P(z)}\right\vert\) is bounded above by \(\frac{2}{\vert a_n \vert R^n}\)
+                        when \(z\) is sufficiently large.
+                    </p>
+                </div>
+            </div>
+            <p>We proceed by abuse of algebra.</p>
+            <div class="card m-3">
+                <div class="card-header">Proof</div>
+                <div class="card-body">
+                    <p>
+                        Let \(\displaystyle{w = \frac{a_0}{z^n} + \frac{a_1}{z^{n-1}} + \frac{a_2}{z^{n-2}} + \dots +
+                        \frac{a_{n-1}}{z}}\), then \(P(z) = (a_n+ w)z^n\). Also note that \(\vert P(z)\vert = \vert a_n
+                        + w \vert \cdot \vert z^n \vert\). Since \(\vert z^n \vert = \vert z \vert ^n\), we can write
+                        \(\vert P(z)\vert = \vert a_n + w \vert \cdot \vert z \vert ^n\).
+                    </p>
+                    <p>We see that</p>
+                    <p class="text-center">\[wz^n = a_0 + a_1 z + a_2 z^2 + \dots + a_{n-1}z^{n-1}\]</p>
+                    <p>So by the general triangle inequality</p>
+                    <p class="text-center">
+                        \[\vert w \vert \vert z \vert ^n \leq \vert a_0 \vert + \vert a_1 \vert \vert z \vert + \vert
+                        a_2 \vert \vert z \vert ^2 + \dots + \vert a_{n-1} \vert \vert z \vert ^{n-1}\]
+                    </p>
+                    <p>or,</p>
+                    <p class="text-center">
+                        \[\vert w \vert \leq \frac{\vert a_0 \vert}{\vert z \vert ^ {n}} + \frac{\vert a_1 \vert}{\vert
+                        z \vert ^ {n - 1}} + \frac{\vert a_2 \vert}{\vert z \vert ^ {n - 2}} + \dots + \frac{\vert a_{n
+                        - 1}\vert}{\vert z \vert}\]
+                    </p>
+                    <p>Certainly, if we pick a large enough \(z\), the following is true:</p>
+                    <p class="text-center">\[\vert w \vert \lt \vert a_n \vert\]</p>
+                    <p>
+                        For some reason, the above will not be nearly as useful to us as the following, so that will be
+                        what we will work with.
+                    </p>
+                    <p class="text-center">\[\vert w \vert \lt \frac{\vert a_n \vert}{2}\]</p>
+                    <p>
+                        That is, the \(a_n z^n\) term asymptotically dominates the rest - for a large enough \(z\). So
+                        by the triangle inequality,
+                    </p>
+                    <p class="text-center">
+                        \[\vert a_n + w \vert \geq {\Large\vert} \vert a_n \vert - \vert w \vert {\Large\vert}\]
+                    </p>
+                    <p>
+                        Since \(\vert w \vert \lt \frac{\vert a_n \vert}{2}\), then \({\Large\vert} \vert a_n \vert -
+                        \vert w \vert {\Large\vert}> \frac{\vert a_n \vert}{2}\) &mdash; that is, taking away less than
+                        half of \(\vert a_n \vert\) leaves more than half of \(\vert a_n \vert\). So we then have
+                    </p>
+                    <p class="text-center">
+                        \[\vert a_n + w \vert \geq {\Large\vert} \vert a_n \vert - \vert w \vert {\Large\vert} >
+                        \frac{\vert a_n \vert}{2}\]
+                    </p>
+                    <p>
+                        All provided that \(z\) is of sufficient size. Since \(\vert a_n + w \vert \cdot \vert z \vert^n
+                        > \frac{\vert a_n \vert}{2} \cdot \vert z \vert ^n\), we have
+                    </p>
+                    <p class="text-center">
+                        \[\vert P(z) \vert = \vert a_n + w \vert \cdot \vert z \vert^n > \frac{\vert a_n \vert}{2} \cdot
+                        \vert z \vert^n\]
+                    </p>
+                    <p>Then, if \(\vert z \vert > R\), we have</p>
+                    <p class="text-center">
+                        \[\vert P(z) \vert > \frac{\vert a_n \vert}{2} \cdot \vert z \vert ^n > \frac{\vert a_n
+                        \vert}{2} \cdot R^n\]
+                    </p>
+                    <p>or,</p>
+                    <p class="text-center">
+                        \[\left\vert \frac{1}{P(z)}\right\vert \lt \frac{2}{\vert a_n \vert R^n}\]
+                    </p>
+                    <p class="mb-0">And thus the inequality is verified.</p>
+                </div>
             </div>
         </div>
-        <p>The inequality we wish to verify is</p>
-        <div class="card m-3">
-            <div class="card-header">Theorem</div>
-            <div class="card-body">
-                <p class="text-center">\[\left\vert\frac{1}{P(z)}\right\vert \lt \frac{2}{\vert a_n\vert R^n}\]</p>
-                <p class="mb-0">whenever \(\vert z\vert > R\) for some \(R \in \mathbb R^+\). In other words, \(\left\vert\frac{1}{P(z)}\right\vert\) is bounded above by \(\frac{2}{\vert a_n \vert R^n}\) when \(z\) is sufficiently large.</p>
-            </div>
-        </div>
-        <p>We proceed by abuse of algebra.</p>
-        <div class="card m-3">
-            <div class="card-header">Proof</div>
-            <div class="card-body">
-                <p>Let \(\displaystyle{w = \frac{a_0}{z^n} + \frac{a_1}{z^{n-1}} + \frac{a_2}{z^{n-2}} + \dots + \frac{a_{n-1}}{z}}\), then \(P(z) = (a_n+ w)z^n\). Also note that \(\vert P(z)\vert = \vert a_n + w \vert \cdot \vert z^n \vert\). Since \(\vert z^n \vert = \vert z \vert ^n\), we can write \(\vert P(z)\vert = \vert a_n + w \vert \cdot \vert z \vert ^n\).</p>
-                <p>We see that</p>
-                <p class="text-center">\[wz^n = a_0 + a_1 z + a_2 z^2 + \dots + a_{n-1}z^{n-1}\]</p>
-                <p>So by the general triangle inequality</p>
-                <p class="text-center">\[\vert w \vert \vert z \vert ^n \leq \vert a_0 \vert + \vert a_1 \vert \vert z \vert + \vert a_2 \vert \vert z \vert ^2 + \dots + \vert a_{n-1} \vert \vert z \vert ^{n-1}\]</p>
-                <p>or,</p>
-                <p class="text-center">\[\vert w \vert \leq \frac{\vert a_0 \vert}{\vert z \vert ^ {n}} + \frac{\vert a_1 \vert}{\vert z \vert ^ {n - 1}} + \frac{\vert a_2 \vert}{\vert z \vert ^ {n - 2}} + \dots + \frac{\vert a_{n - 1}\vert}{\vert z \vert}\]</p>
-                <p>Certainly, if we pick a large enough \(z\), the following is true:</p>
-                <p class="text-center">\[\vert w \vert \lt \vert a_n \vert\]</p>
-                <p>For some reason, the above will not be nearly as useful to us as the following, so that will be what we will work with.</p>
-                <p class="text-center">\[\vert w \vert \lt \frac{\vert a_n \vert}{2}\]</p>
-                <p>That is, the \(a_n z^n\) term asymptotically dominates the rest - for a large enough \(z\). So by the triangle inequality,</p>
-                <p class="text-center">\[\vert a_n + w \vert \geq {\Large\vert} \vert a_n \vert - \vert w \vert {\Large\vert}\]</p>
-                <p>Since \(\vert w \vert \lt \frac{\vert a_n \vert}{2}\), then \({\Large\vert} \vert a_n \vert - \vert w \vert {\Large\vert}> \frac{\vert a_n \vert}{2}\) &mdash; that is, taking away less than half of \(\vert a_n \vert\) leaves more than half of \(\vert a_n \vert\). So we then have</p>
-                <p class="text-center">\[\vert a_n + w \vert \geq {\Large\vert} \vert a_n \vert - \vert w \vert {\Large\vert} > \frac{\vert a_n \vert}{2}\]</p>
-                <p>All provided that \(z\) is of sufficient size. Since \(\vert a_n + w \vert \cdot \vert z \vert^n > \frac{\vert a_n \vert}{2} \cdot \vert z \vert ^n\), we have</p>
-                <p class="text-center">\[\vert P(z) \vert = \vert a_n + w \vert \cdot \vert z \vert^n > \frac{\vert a_n \vert}{2} \cdot \vert z \vert^n\]</p>
-                <p>Then, if \(\vert z \vert > R\), we have</p>
-                <p class="text-center">\[\vert P(z) \vert > \frac{\vert a_n \vert}{2} \cdot \vert z \vert ^n > \frac{\vert a_n \vert}{2} \cdot R^n\]</p>
-                <p>or,</p>
-                <p class="text-center">\[\left\vert \frac{1}{P(z)}\right\vert \lt \frac{2}{\vert a_n \vert R^n}\]</p>
-                <p class="mb-0">And thus the inequality is verified.</p>
-            </div>
-        </div>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for *this* version. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
-
+    </body>
+    <!-- TODO: Find the integrity hash for *this* version. -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>

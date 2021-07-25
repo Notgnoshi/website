@@ -1,281 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="My personal website. Full of math, programming, and poorly thought out opinions.">
-    <title>agill.xyz</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://static.agill.xyz/css/common.css">
-    <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png">
-</head>
-
-<body class="d-flex flex-column">
-    <header class="bg-dark sticky-top mb-3">
-        <nav class="container navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/">agill.xyz</a>
-            <div class="toggleable-content text-right">
-                <a href="#" class="menu-icon text-muted">
-                    <span class="navbar-toggler-icon"></span>
-                </a>
-                <div class="trigger navbar-nav ">
-                    <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="/research">Research</a>
-                    <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
-                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi"><i class="fab fa-twitter"></i></a>
-                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta
+            name="description"
+            content="My personal website. Full of math, programming, and poorly thought out opinions."
+        />
+        <title>agill.xyz</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted">
+                        <span class="navbar-toggler-icon"></span>
+                    </a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link active" href="/">
+                            Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container flex-grow-1">
-        <p>I had someone tell me once that in order to think you had to write. The process of writing requires
-            distilling your thoughts down into discrete logical units. It’s a hard skill, and one worth learning.
-            Further, I believe it's of the utmost importance for technical problem solvers to discuss and explain both
-            the problems, and their solutions. Writing about a problem improves one's own understanding of it.</p>
-        <blockquote class="blockquote border-left border-2 pl-2">
-            <p class="mb-0">I blog like UDP packets, so these entries are not guaranteed to arrive in order or at all.
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <p>
+                I had someone tell me once that in order to think you had to write. The process of writing requires
+                distilling your thoughts down into discrete logical units. It’s a hard skill, and one worth learning.
+                Further, I believe it's of the utmost importance for technical problem solvers to discuss and explain
+                both the problems, and their solutions. Writing about a problem improves one's own understanding of it.
             </p>
-            <footer class="blockquote-footer"><cite title="Pete Elmore"><a
-                        href="http://debu.gs/entries/inferno-part-2-let-s-make-a-cluster">Pete Elmore</a></cite>
-            </footer>
-        </blockquote>
-        <ul class="d-flex flex-column-reverse list-unstyled container">
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">May 22, 2015</span>
-                    <div class="col-sm-10"><a href="/completing-the-square">Completing the Square</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">June 11, 2016</span>
-                    <div class="col-sm-10"><a href="/error-in-numerical-computation">Error in Numerical
-                            Computation<small class="text-muted"> &mdash; A.K.A "Fun with Taylor series"</small></a>
+            <blockquote class="blockquote border-left border-2 pl-2">
+                <p class="mb-0">
+                    I blog like UDP packets, so these entries are not guaranteed to arrive in order or at all.
+                </p>
+                <footer class="blockquote-footer">
+                    <cite title="Pete Elmore">
+                        <a href="http://debu.gs/entries/inferno-part-2-let-s-make-a-cluster">Pete Elmore</a>
+                    </cite>
+                </footer>
+            </blockquote>
+            <ul class="d-flex flex-column-reverse list-unstyled container">
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">May 22, 2015</span>
+                        <div class="col-sm-10">
+                            <a href="/completing-the-square">Completing the Square</a>
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">July 18, 2016</span>
-                    <div class="col-sm-10"><a href="/producing-svg-images-with-tikz">Producing SVG Images with
-                            TikZ</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">July 31, 2016</span>
-                    <div class="col-sm-10"><a href="/drawing-logic-gates-with-tikz">Drawing Logic Gates with
-                            TikZ</a>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">June 11, 2016</span>
+                        <div class="col-sm-10">
+                            <a href="/error-in-numerical-computation">
+                                Error in Numerical Computation
+                                <small class="text-muted">&mdash; A.K.A "Fun with Taylor series"</small>
+                            </a>
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">August 27, 2016</span>
-                    <div class="col-sm-10"><a href="/change-of-basis">Change of Basis</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">September 5, 2016</span>
-                    <div class="col-sm-10"><a href="/levenshtein-distance">Levenshtein Distance</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">September 22, 2016</span>
-                    <div class="col-sm-10"><a href="/rtfm">RTFM<small class="text-muted"> &mdash; A
-                                critique</small></a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">November 11, 2016</span>
-                    <div class="col-sm-10"><a href="/why-i-dislike-windows">Why I Dislike Windows</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">November 25, 2016</span>
-                    <div class="col-sm-10"><a href="/impartial-classic-combinatorial-games">Impartial Classic
-                            Combinatorial Games</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">November 26, 2016</span>
-                    <div class="col-sm-10"><a
-                            href="/downloading-your-iphone-sms-messages-as-a-sqlite-database">Downloading your
-                            iPhone SMS Messages as a SQlite Database</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">January 19, 2017</span>
-                    <div class="col-sm-10"><a href="/proof-of-the-complex-binomial-formula"> Proof of the Complex
-                            Binomial Formula<small class="text-muted"> &mdash; an inductive proof</small></a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">January 27, 2017</span>
-                    <div class="col-sm-10"><a href="/complex-polynomial-inequality-verification"> Complex
-                            Polynomial Inequality Verification</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">January 29, 2017</span>
-                    <div class="col-sm-10"><a href="/regions-in-the-complex-plane">Regions in the Complex Plane</a>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">July 18, 2016</span>
+                        <div class="col-sm-10">
+                            <a href="/producing-svg-images-with-tikz">Producing SVG Images with TikZ</a>
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">February 21, 2017</span>
-                    <div class="col-sm-10"><a href="/complex-functions">Complex Functions</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">June 04, 2017</span>
-                    <div class="col-sm-10"><a href="/karmarkars-algorithm"> Karmarkar's Algorithm<small
-                                class="text-muted"> &mdash; A geometric understanding of linear programming</small></a>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">July 31, 2016</span>
+                        <div class="col-sm-10">
+                            <a href="/drawing-logic-gates-with-tikz">Drawing Logic Gates with TikZ</a>
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">July 04, 2017</span>
-                    <div class="col-sm-10"><a href="/python-delegates"> Delegates in Python</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">October 23, 2017</span>
-                    <div class="col-sm-10"><a href="/i-want-my-2-by-2-workspaces-back"> I want my 2x2 workspaces
-                            back! <small class="text-muted"> &mdash; My constant opposition to change</small></a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">January 15, 2018</span>
-                    <div class="col-sm-10"><a href="/an-infinity-norm-proof"> An Infinity Norm Proof</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">February 08, 2018</span>
-                    <div class="col-sm-10"><a href="/learning-boolean-functions-with-neural-networks"> Learning
-                            Boolean Functions with Neural Networks</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">February 22, 2018</span>
-                    <div class="col-sm-10"><a href="/exploring-linear-transformations-with-python"> Exploring
-                            Linear Transformations with Python</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">December 27, 2018</span>
-                    <div class="col-sm-10"><a href="/product-spaces"> Product Spaces</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">January 05, 2019</span>
-                    <div class="col-sm-10"><a href="/ubuntu-configuration">Ubuntu Configuration <small
-                                class="text-muted"> &mdash; My scripted process to configuring a fresh Ubuntu
-                                install</small></a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">October, 2019</span>
-                    <div class="col-sm-10"><a href="/research/haiku/introduction/neural-networks">A brief introduction to neural networks</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">November, 2019</span>
-                    <div class="col-sm-10"><a href="/research/haiku/introduction/natural-language/language-model">Causal language models</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">December, 2019</span>
-                    <div class="col-sm-10"><a href="/research/haiku/introduction/natural-language/markov">Markov language models</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">December, 2019</span>
-                    <div class="col-sm-10"><a href="/research/haiku/introduction/natural-language/ffnn">Feed-forward neural network language models</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">January, 2020</span>
-                    <div class="col-sm-10"><a href="/research/haiku/introduction/natural-language/rnn">Recurrent neural network language models</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">January, 2020</span>
-                    <div class="col-sm-10"><a href="/research/haiku/introduction/natural-language/lstm">LSTM language models</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">May, 2020</span>
-                    <div class="col-sm-10"><a href="/research/haiku/analysis/syllables">How many haiku are actually 5-7-5?</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">May, 2020</span>
-                    <div class="col-sm-10"><a href="/research/haiku/analysis/word-clouds">Word frequency in haiku</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">May, 2020</span>
-                    <div class="col-sm-10"><a href="/research/haiku/analysis/colors">The use of color in haiku</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">Oct, 2020</span>
-                    <div class="col-sm-10"><a href="/recipes">Recipes</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">Dec, 2020</span>
-                    <div class="col-sm-10"><a href="/comic-sans">Programming in Comic Sans</a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">Dec, 2020</span>
-                    <div class="col-sm-10"><a href="/poorly-drawn-lines"><em>Poorly Drawn Lines</em> <small class="text-muted"> &mdash; a webcomic by Reza Farazmand</small></a></div>
-                </div>
-            </li>
-            <li>
-                <div class="row">
-                    <span class="text-muted col-sm-2">Dec, 2020</span>
-                    <div class="col-sm-10"><a href="/graphviz">Graphviz</a></div>
-                </div>
-            </li>
-        </ul>
-    </div>
-</body>
-<!-- TODO: Find the integrity hash for *this* version. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous">
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">August 27, 2016</span>
+                        <div class="col-sm-10"><a href="/change-of-basis">Change of Basis</a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">September 5, 2016</span>
+                        <div class="col-sm-10">
+                            <a href="/levenshtein-distance">Levenshtein Distance</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">September 22, 2016</span>
+                        <div class="col-sm-10">
+                            <a href="/rtfm">
+                                RTFM
+                                <small class="text-muted">&mdash; A critique</small>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">November 11, 2016</span>
+                        <div class="col-sm-10">
+                            <a href="/why-i-dislike-windows">Why I Dislike Windows</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">November 25, 2016</span>
+                        <div class="col-sm-10">
+                            <a href="/impartial-classic-combinatorial-games">Impartial Classic Combinatorial Games</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">November 26, 2016</span>
+                        <div class="col-sm-10">
+                            <a href="/downloading-your-iphone-sms-messages-as-a-sqlite-database">
+                                Downloading your iPhone SMS Messages as a SQlite Database
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">January 19, 2017</span>
+                        <div class="col-sm-10">
+                            <a href="/proof-of-the-complex-binomial-formula">
+                                Proof of the Complex Binomial Formula
+                                <small class="text-muted">&mdash; an inductive proof</small>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">January 27, 2017</span>
+                        <div class="col-sm-10">
+                            <a href="/complex-polynomial-inequality-verification">
+                                Complex Polynomial Inequality Verification
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">January 29, 2017</span>
+                        <div class="col-sm-10">
+                            <a href="/regions-in-the-complex-plane">Regions in the Complex Plane</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">February 21, 2017</span>
+                        <div class="col-sm-10">
+                            <a href="/complex-functions">Complex Functions</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">June 04, 2017</span>
+                        <div class="col-sm-10">
+                            <a href="/karmarkars-algorithm">
+                                Karmarkar's Algorithm
+                                <small class="text-muted">
+                                    &mdash; A geometric understanding of linear programming
+                                </small>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">July 04, 2017</span>
+                        <div class="col-sm-10">
+                            <a href="/python-delegates">Delegates in Python</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">October 23, 2017</span>
+                        <div class="col-sm-10">
+                            <a href="/i-want-my-2-by-2-workspaces-back">
+                                I want my 2x2 workspaces back!
+                                <small class="text-muted">&mdash; My constant opposition to change</small>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">January 15, 2018</span>
+                        <div class="col-sm-10">
+                            <a href="/an-infinity-norm-proof">An Infinity Norm Proof</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">February 08, 2018</span>
+                        <div class="col-sm-10">
+                            <a href="/learning-boolean-functions-with-neural-networks">
+                                Learning Boolean Functions with Neural Networks
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">February 22, 2018</span>
+                        <div class="col-sm-10">
+                            <a href="/exploring-linear-transformations-with-python">
+                                Exploring Linear Transformations with Python
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">December 27, 2018</span>
+                        <div class="col-sm-10"><a href="/product-spaces">Product Spaces</a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">January 05, 2019</span>
+                        <div class="col-sm-10">
+                            <a href="/ubuntu-configuration">
+                                Ubuntu Configuration
+                                <small class="text-muted">
+                                    &mdash; My scripted process to configuring a fresh Ubuntu install
+                                </small>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">October, 2019</span>
+                        <div class="col-sm-10">
+                            <a href="/research/haiku/introduction/neural-networks">
+                                A brief introduction to neural networks
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">November, 2019</span>
+                        <div class="col-sm-10">
+                            <a href="/research/haiku/introduction/natural-language/language-model">
+                                Causal language models
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">December, 2019</span>
+                        <div class="col-sm-10">
+                            <a href="/research/haiku/introduction/natural-language/markov">Markov language models</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">December, 2019</span>
+                        <div class="col-sm-10">
+                            <a href="/research/haiku/introduction/natural-language/ffnn">
+                                Feed-forward neural network language models
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">January, 2020</span>
+                        <div class="col-sm-10">
+                            <a href="/research/haiku/introduction/natural-language/rnn">
+                                Recurrent neural network language models
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">January, 2020</span>
+                        <div class="col-sm-10">
+                            <a href="/research/haiku/introduction/natural-language/lstm">LSTM language models</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">May, 2020</span>
+                        <div class="col-sm-10">
+                            <a href="/research/haiku/analysis/syllables">How many haiku are actually 5-7-5?</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">May, 2020</span>
+                        <div class="col-sm-10">
+                            <a href="/research/haiku/analysis/word-clouds">Word frequency in haiku</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">May, 2020</span>
+                        <div class="col-sm-10">
+                            <a href="/research/haiku/analysis/colors">The use of color in haiku</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">Oct, 2020</span>
+                        <div class="col-sm-10"><a href="/recipes">Recipes</a></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">Dec, 2020</span>
+                        <div class="col-sm-10">
+                            <a href="/comic-sans">Programming in Comic Sans</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">Dec, 2020</span>
+                        <div class="col-sm-10">
+                            <a href="/poorly-drawn-lines">
+                                <em>Poorly Drawn Lines</em>
+                                <small class="text-muted">&mdash; a webcomic by Reza Farazmand</small>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <span class="text-muted col-sm-2">Dec, 2020</span>
+                        <div class="col-sm-10"><a href="/graphviz">Graphviz</a></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </body>
+    <!-- TODO: Find the integrity hash for *this* version. -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
 </html>
