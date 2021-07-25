@@ -46,20 +46,139 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Home</a></li>
                     <li class="breadcrumb-item"><a href="/vim">Vim</a></li>
-                    <li class="breadcrumb-item active" area-current="page"><a href="/vim/git">Git operations</a></li>
+                    <li class="breadcrumb-item active" area-current="page"><a href="/vim/git">Git integration</a></li>
                 </ol>
             </nav>
             <h1>Vim: Git integration</h1>
-            <ul>
-                <li>Navigating hunks</li>
-                <li>Diffing, staging, undoing hunks</li>
-                <li>Blame</li>
-                <li>Commit browser</li>
-                <li>Commit messages</li>
-                <li>Shell commands vs. Fugitive wrappers</li>
-                <li>A better add --patch?</li>
-                <li>Resolving conflicts</li>
-            </ul>
+            <p>
+                With <a href="https://github.com/tpope/vim-fugitive" target="_blank">vim-fugitive</a> you can perform
+                almost any Git command from within Vim with <code>:Git</code>. (realizing full-well that you can shell
+                out to Git with <code>:!git</code> and <code>:read !git</code>) The Fugitive is nicer, and turns commits
+                into hyperlinks (it's more intuitive to browse interactively).
+            </p>
+            <h2>Staging and committing</h2>
+            <h3>Navigating hunks</h3>
+            <p>
+                <a href="https://github.com/airblade/vim-gitgutter" target="_blank">GitGutter</a> is a Vim plugin that
+                provides markers in the sign column that marks modified lines. It also provides hunk
+                <a href="/vim/text-objects">text objects</a> <code>ic</code> and <code>ac</code> for operating on hunks.
+            </p>
+            <p>
+                Use <code>]c</code> and <code>[c</code> for jumping between hunks, or use
+                <code>:GitGutterQuickFix</code> for loading all hunks into the quickfix list. Hunks can be previewed,
+                staged, or undone with <code>&lt;leader&gt;hp</code>, <code>&lt;leader&gt;hs</code>, or
+                <code>&lt;leader&gt;hu</code> respectively.
+            </p>
+            <p>
+                You can also use <code>:Git add --patch</code> from Fugitive to stage hunks interactively from within
+                Vim.
+            </p>
+            <h3>Committing</h3>
+            <p>
+                You can use <code>:Git commit</code> from within Vim, which will open a new window. I don't normally do
+                this, because I usually keep one or more terminal panes set aside for Git.
+            </p>
+            <p>
+                I think everyone should set the
+                <a href="https://git-scm.com/docs/git-commit#Documentation/git-commit.txt---verbose" target="_blank"
+                    ><code>commit.verbose</code></a
+                >
+                config option, which adds the staged diff to the commit editor. This can really slow down vim for large
+                commits (but you shouldn't have large commits in the first place!) If you <em>really</em> need to
+                disable showing this diff in the commit editor, you can commit with
+                <code>git -c commit.verbose=false commit</code>.
+            </p>
+            <div class="alert alert-info">
+                <p>
+                    I <em>highly</em> recommend making commits that touch submodules do nothing <em>but</em> touch the
+                    submodule. In the case of adding a new submodule, it should be
+                </p>
+                <pre class="language-bash pl-3"><code>git submodule add $REMOTE_URL
+git commit</code></pre>
+                <p>
+                    Updating a submodule to a new hash should also be done in its own commit. I do make the concession,
+                    however, that this is a questionable practice if you value independently buildable commits (as in,
+                    each commit builds and passes the pipeline). Use your best judgment, based on your team's Git values
+                    (hopefully they <em>do</em> have values).
+                </p>
+                <pre class="language-bash pl-3"><code># Update the submodule locally
+cd $SUBMODULE_PATH
+git switch $GIT_BRANCH
+git pull
+cd -
+# Commit the submodule update by itself
+git add $SUBMODULE_PATH
+git commit</code></pre>
+            </div>
+            <p>
+                When committing a submodule update like this (as opposed to rewording a commit that updates a submodule
+                as would be common in an interactive rebase) I believe you should always add the submodule changes to
+                the commit for traceability. This can be done from within Vim by
+            </p>
+            <pre class="language-vimscript pl-3"><code>:read !git diff --submodule --staged $SUBMODULE_PATH</code></pre>
+            <p>
+                Technically, you can leave off the <code>$SUBMODULE_PATH</code> if you followed my advice that changes
+                to submodule should be committed by themselves.
+            </p>
+            <div class="alert alert-warning">
+                <b>TODO:</b> I haven't figured out the right invocation to <code>:read !git</code> when squashing two
+                submodule update commits during an interactive rebase.
+            </div>
+            <div class="alert alert-info">
+                <p>
+                    You can use <code>gq</code> to reflow the text in a commit message. Use visual-line mode to select
+                    text to reflow or <code>gqp</code> to reflow the current paragraph.
+                </p>
+            </div>
+            <h2>Git archaeology</h2>
+            <h3>Git log</h3>
+            <p>
+                Fugitive provides <code>:Git log</code> (which can accept any of the usual commandline arguments).
+                Pressing <code>&lt;CR&gt;</code> on any of the commit hashes will open that commit in a new buffer (a
+                fancier <code>git-show</code>).
+            </p>
+            <p>
+                fzf.vim provides <code>:Commits</code> and <code>:BCommits</code> that opens an interactive commit
+                browser that you can search. Again, pressing <code>&lt;CR&gt;</code> on a selected commit (or multiple
+                commits, selected with <code>TAB</code> in their own buffers.
+            </p>
+            <div class="alert alert-warning">
+                <b>TODO:</b> I want to make this use the same smarts as
+                <a href="https://github.com/Notgnoshi/dotfiles/blob/master/bin/git-gl" target="_blank"
+                    ><code>git-gl</code></a
+                >
+                because then I can trigger special sauce on keybinds. See
+                <a href="https://github.com/Notgnoshi/dotfiles/issues/13"
+                    >https://github.com/Notgnoshi/dotfiles/issues/13</a
+                >.
+            </div>
+            <p>
+                <code>:BCommits</code> is similar to running <code>:Git log %</code>. Additionally, you can make a
+                visual selection. Then, running <code>:BCommits</code> shows commits that touched that range of lines.
+                This is an easier-to-browse <code>:Git blame</code>.
+            </p>
+            <h3>Git blame</h3>
+            <p>
+                Fugitive provides <code>:Git blame</code> which nicely wraps <code>git-blame</code> in a
+                scroll-synchronized window opened to the side of the current buffer. Pressing <code>&lt;CR&gt;</code> on
+                the selected commit will open that commit in a new buffer. Pressing <code>-</code> will reblame at the
+                selected commit.
+            </p>
+            <h3>Misc</h3>
+            <p>
+                Use <code>:Gedit master:%</code> to open the current file as of the <code>master</code> revision in a
+                new buffer. You can do the same with <code>:Git diff master:% %</code> to the current file against
+                <code>master</code>.
+            </p>
+            <h2>Merge conflict resolution</h2>
+            <div class="alert alert-warning">
+                <p>
+                    <b>TODO:</b> This is something I still have to learn. I typically do
+                    <code>git status</code> followed by <code>git diff $FILE_WITH_CONFLICTS</code> in one terminal pane,
+                    and resolve the conflicts manually with Vim in another pane. This isn't a terrible experience, but I
+                    bet it could be better.
+                </p>
+            </div>
         </div>
     </body>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
