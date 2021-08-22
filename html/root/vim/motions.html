@@ -50,7 +50,150 @@
                 </ol>
             </nav>
             <h1>Vim: Motions</h1>
-            <div class="alert alert-warning">TODO: Include the matchit plugin</div>
+            <div class="alert alert-info">
+                <p>
+                    See
+                    <a href="https://vimhelp.org/motion.txt.html" target="_blank"><code>:help motion.txt</code></a> for
+                    a complete listing of motions that Vim supports.
+                </p>
+            </div>
+            <h2>Operators</h2>
+            <p>
+                Motions can be used for navigating a codebase, but are most powerful when combined with operators that
+                act on motions. The syntax is <code>[count]&lt;operator&gt;[count]&lt;motion&gt;</code>. The canonical
+                example would be to use <code>d2w</code> to delete two words from the current cursor location. Common
+                operators are
+            </p>
+            <ul>
+                <li><code>c</code> - change</li>
+                <li><code>d</code> - delete</li>
+                <li><code>y</code> - yank</li>
+                <li><code>gu</code> - make lowercase</li>
+                <li><code>gU</code> - make uppercase</li>
+                <li><code>gq</code> - reflow/format text</li>
+                <li><code>&lt;</code>, <code>&gt;</code> - shift left, right</li>
+            </ul>
+            <p>
+                Operators can also be applied to <a href="/vim/text-objects">text-objects</a> like matching quotes,
+                parentheses, braces, words, sentences, etc. For example, <code>diw</code> deletes the word under the
+                cursor without having to move the cursor to the beginning of the word with <code>bde</code>.
+            </p>
+            <p>
+                <a href="/vim/text-objects">vim-surround</a> also works nicely with text objects and motions. For
+                example, <code>ys2w'</code> surrounds the next two words (from the current cursor) with single quotes.
+            </p>
+            <h2>Motions</h2>
+            <h3>Left-right motions</h3>
+            <p>The common motions I use to navigate the current line are</p>
+            <ul>
+                <li><code>h</code>, <code>l</code> - left/right by one character</li>
+                <li>
+                    <code>0</code>, <code>^</code>, <code>$</code> - go to the first, first non-blank, or last character
+                    of a line
+                </li>
+                <li><code>[count]|</code> - go to the <code>count</code>th column</li>
+                <li>
+                    <code>f{char}</code>, <code>t{char}</code> - go to the first occurrence of <code>{char}</code>.
+                    <code>f</code> lands <em>on</em> the character, while <code>t</code> puts the cursor right in front
+                </li>
+                <li>
+                    <code>F{char}</code>, <code>T{char}</code> - same as <code>f</code> and <code>t</code>, but forward
+                    through the line
+                </li>
+                <li>
+                    <code>[count];</code>, <code>[count],</code> repeat the last <code>f</code>, <code>t</code>,
+                    <code>F</code>, or <code>T</code> command <code>count</code> times
+                </li>
+            </ul>
+            <h3>Up-down motions</h3>
+            <ul>
+                <li><code>k</code>, <code>j</code> - move up/down</li>
+                <li><code>[count]-</code>, <code>[count]+</code> - (relative) move <code>count</code> lines up/down</li>
+                <li>
+                    <code>[count]G</code> - (absolute) move to the last character of line <code>count</code>. Defaults
+                    to last line
+                </li>
+                <li>
+                    <code>[count]gg</code> - (absolute) move to the first non-blank character of line
+                    <code>count</code>. Defaults to first line
+                </li>
+            </ul>
+            <h3>Word motions</h3>
+            <p>
+                For lowercase word motions, words are defined as a sequence of leters, digits, and underscores. For
+                uppercase WORD motions, words are separated by whitespace.
+            </p>
+            <ul>
+                <li><code>w</code> - move <code>count</code> words forward</li>
+                <li><code>e</code> - move forward to the end of word <code>count</code></li>
+                <li><code>b</code> - move backward to the beginning for word <code>count</code></li>
+            </ul>
+            <h3>Text object motions</h3>
+            <p>
+                See <a href="/vim/text-objects">text-objects</a> for details. Some text objects can provide motions
+                (paragraphs and sentences)
+            </p>
+            <ul>
+                <li><code>(</code>, <code>)</code> - move <code>count</code> sentences backwards/forwards</li>
+                <li><code>{</code>, <code>}</code> - move <code>count</code> paragraphs backwards/forwards</li>
+                <li>
+                    <code>]]</code> - move <code>count</code> sections forward, or to the next opening <code>{</code>
+                </li>
+                <li>
+                    <code>][</code> - move <code>count</code> sections forward, or to the next closing <code>}</code>
+                </li>
+                <li>
+                    <code>[[</code> - move <code>count</code> sections backward, or to the previous opening
+                    <code>{</code>
+                </li>
+                <li>
+                    <code>[]</code> - move <code>count</code> sections backward, or to the previous closing
+                    <code>}</code>
+                </li>
+            </ul>
+            <div class="alert alert-info">
+                <p>
+                    Some languages have ftplugins that define sections for its particular syntax, so the
+                    <code>]]</code>-style motions can work for non-C-style languages.
+                </p>
+            </div>
+            <p>
+                I haven't found the <code>]]</code> motions reliable, but that could be because I haven't used them
+                much.
+            </p>
+            <h3>Various motions</h3>
+            <ul>
+                <li>
+                    <code>%</code> - go to the matching item at or after the cursor. Becomes more powerful with the
+                    <a href="https://vimhelp.org/usr_05.txt.html#matchit-install" target="_blank">matchit</a> plugin
+                    loaded.
+                </li>
+                <li>
+                    <code>[(</code>, <code>[{</code> - go to the previous unmatched parenthesis or brace. Useful for
+                    jumping to the beginning of a C-style statement
+                </li>
+                <li>
+                    <code>])</code>, <code>]}</code> - go to the next unmatched parenthesis or brace. Useful for jumping
+                    to the end of a C-style statement
+                </li>
+                <li><code>]m</code>, <code>]M</code> - go to the next start/end of a C++-style method</li>
+                <li><code>[m</code>, <code>[M</code> - go to the previous start/end of a C++-style method</li>
+            </ul>
+            <div class="alert alert-info">
+                <p>
+                    Note that <code>%</code> is a bit funky in HTML. If your cursor is on top of a <code>&lt;</code> or
+                    <code>&gt;</code>, it will go to the matching bracket. If the cursor is <em>inside</em> the tag,
+                    <code>%</code> will go to the matching tag. For lists, <code>%</code> will cycle through the list
+                    items.
+                </p>
+            </div>
+            <div class="alert alert-warning">
+                <p>
+                    Also note that <code>matchit</code> doesn't support Python, because of the language syntax.
+                    <a href="https://www.vim.org/scripts/script.php?script_id=386" target="_blank">python_match</a>
+                    exists, but I haven't used it.
+                </p>
+            </div>
         </div>
     </body>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
