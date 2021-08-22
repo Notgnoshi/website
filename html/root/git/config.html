@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="My Git config" />
+        <title>Git: Config</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <script
+            defer
+            src="https://static.agill.xyz/js/highlight.min.js"
+            onload="hljs.initHighlightingOnLoad();"
+        ></script>
+        <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/git">Git</a></li>
+                    <li class="breadcrumb-item active" area-current="page"><a href="/git/config">Config</a></li>
+                </ol>
+            </nav>
+            <h1>Git: Config</h1>
+            <p>
+                Git is <em>very</em> configurable. If you're ever bored, you could spend some time reading
+                <a href="https://git-scm.com/docs/git-config" target="_blank">git-config(1)</a>. You never know what you
+                might find.
+            </p>
+            <p>
+                I'm an opinionated person. So I've tried to break the Git configuration I use into varying levels of
+                opinion.
+            </p>
+            <h2>Must-haves</h2>
+            <div class="alert alert-danger">
+                <b>&lt;rant&gt;</b>
+                <p>
+                    There's no excuse for not setting your <code>user.name</code> and <code>user.email</code>,
+                    especially in a professional environment. Git defaults to using your computer username, which
+                    probably isn't appropriate to use.
+                </p>
+                <ul>
+                    <li>Your computer username might not be your real name</li>
+                    <li>Your computer username might be your company ID number</li>
+                    <li>
+                        You might develop on multiple machines, some of which might be VMs with default-generated
+                        username and hostname
+                    </li>
+                </ul>
+                <p>
+                    I don't want to see 4-5 different spellings of your name, your username, and your email in the Git
+                    log. I don't want to see a random ID number in the Git log that I can't map to a person.
+                </p>
+                <b>&lt;/rant&gt;</b>
+            </div>
+            <pre class="language-ini pl-3"><code>[user]
+    name = First Last
+    email = email@example.com</code></pre>
+            <p>
+                My workplace prefers a linear history. That means we rebase and merge without a merge commit. This
+                results in a <em>much</em> cleaner commit history that's easier to interrogate. My personal opinion, is
+                that feature branches should be rebased, but then merged with an empty merge commit. They should
+                <em>not</em> be squashed, as that makes using <code>git-log</code> and <code>git-blame</code> to
+                interrogate the commit history impossible to glean useful information from.
+            </p>
+            <p>
+                In both cases, <code>pull.rebase=true</code> should be set. This means any local commits will be rebased
+                on top of the remote branch instead of creating a merge commit. This one change would eliminate much of
+                the frustration coworkers have experienced with "tricky" rebases.
+            </p>
+            <pre class="language-ini pl-3"><code>[pull]
+    rebase = true</code></pre>
+            <p>
+                In my preferred workflow, there's a branch per feature, and then those branches get deleted after
+                they're merged (so you don't end up with thousands of remote branches!) So you should set
+                <code>fetch.prune=true</code>
+            </p>
+            <pre class="language-ini pl-3"><code>[fetch]
+    prune = true</code></pre>
+            <div class="alert alert-warning">
+                <p>
+                    <b>TODO:</b> I have not learned a nice way to automatically delete local branches when the remote
+                    tracking branch has been deleted. From
+                    <a
+                        href="https://stackoverflow.com/questions/13064613/how-to-prune-local-tracking-branches-that-do-not-exist-on-remote-anymore"
+                        target="_blank"
+                        >https://stackoverflow.com/questions/13064613/how-to-prune-local-tracking-branches-that-do-not-exist-on-remote-anymore</a
+                    >
+                    it looks like
+                </p>
+                <pre class="language-bash pl-3"><code>git switch master
+git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -d</code></pre>
+                <p>
+                    Note you <em>must</em> checkout the master branch before running, or else use
+                    <code>git branch -D</code>.
+                </p>
+            </div>
+            <h2>Should-haves</h2>
+            <p>
+                I was <em>really</em> tempted to put this in the section above. Complaints about how much work it is to
+                write good commit messages that meet the stylistic concerns of the esteemed
+                <a href="https://chris.beams.io/posts/git-commit/" target="_blank">How to Write a Git Commit Message</a>
+                blog post by Chris Beams. Vim does syntax highlighting of the subject line, blank line, and can reflow
+                paragraphs to meet the 72 character line length limit.
+            </p>
+            <pre class="language-ini pl-3"><code>[core]
+    editor = vim</code></pre>
+            <p>
+                The importance of using Linux newlines depends on the team and technologies being developed. For what I
+                work on, CRLF has no place.
+            </p>
+            <pre class="language-ini pl-3"><code>[core]
+    eol = lf</code></pre>
+            <p>
+                Seeing the diff you're committing right in your commit editor (and syntax highlighted if you have a
+                sufficient <code>core.editor</code>) is invaluable for crafting informative commit messages, and
+                providing a guard against committing changes you never intended.
+            </p>
+            <pre class="language-ini pl-3"><code>[commit]
+    verbose = true</code></pre>
+            <p>It's also helpful to have a global <code>.gitignore</code> to avoid committing common temp files.</p>
+            <pre class="language-ini pl-3"><code>[core]
+    excludesFile = ~/.gitignore</code></pre>
+            <p>in which I have</p>
+            <pre class="language-bash pl-3"><code># Vim swap files
+*.sw?
+# GDB history logs
+.gdb_history</code></pre>
+            <h2>Nice-to-haves</h2>
+            <p>
+                I like using <a href="https://github.com/dandavison/delta" target="_blank">delta</a> as my Git pager. It
+                does better word-diffing and highlighting than the contrib
+                <a href="https://github.com/git/git/tree/master/contrib/diff-highlight" target="_blank"
+                    ><code>diff-highlight</code></a
+                >, and it additionally provides syntax highlighting and line numbers. The package in the Ubuntu
+                repository was a bit out of date, so I installed <code>delta</code> from the latest GitHub release with
+            </p>
+            <pre class="language-bash pl-3"><code>USERNAME="dandavison"
+REPO="delta"
+curl --silent "https://api.github.com/repos/$USERNAME/$REPO/releases/latest" | # Get latest release from GitHub api
+    grep --only-matching --perl-regexp '"tag_name": "\K(.*)(?=")' |            # Get the latest tag
+    xargs -I {} curl --location --output /tmp/delta.deb --remote-name "https://github.com/$USERNAME/$REPO/releases/download/{}/git-delta_{}_amd64.deb"
+sudo apt install /tmp/delta.deb
+</code></pre>
+            <p>Then add the following config</p>
+            <pre class="language-ini pl-3"><code>[core]
+    pager = delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    line-numbers = true
+    syntax-theme = base16
+    # side-by-side diffs are nice, but are too wide to be helpful in fzf --preview windows
+    # TODO: Perhaps git-gl should be rewritten to pass git -c delta.side-by-side=false for the preview
+    # but not to the pager view?
+    # TODO: There's also something weird about the terminal width when switching from the preview
+    # to the pager.
+    # side-by-side = true
+</code></pre>
+            <p>
+                I have a number of aliases that are so-ingrained in my muscle memory that I almost can't use Git on a
+                colleague's computer.
+            </p>
+            <pre class="language-ini pl-3"><code>[alias]
+    lg    = log --color --graph --pretty=format:'%C(auto)%h%d %s %C(black)%C(bold)%an, %ar' --abbrev-commit --decorate
+    ll    = log --pretty=format:'%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(bold blue) <%an>' --decorate --numstat --abbrev-commit
+    rf    = reflog --pretty=format:'%C(auto)%h %gd %gs%C(black)%C(bold), %cr'
+    co    = checkout
+    sw    = switch
+    amend = commit --amend --no-edit
+    st    = status
+    b     = branch -vv
+    rb    = rebase
+    chp   = cherry-pick
+</code></pre>
+            <p>
+                Lastly, I can't live without <a href="/git/git-gl"><code>git-gl</code></a
+                >, which is an interactive commit browser powered by FZF. Briefly, it's a pager for
+                <code>git-log</code> that supports searching commit messages, previewing the diffs, performing
+                interactive rebases, copying hashes to the system clipboard, and cherry-picking selected commits.
+            </p>
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+</html>
