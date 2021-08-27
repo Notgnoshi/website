@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Bash pattern matching with various forms of globs." />
+        <title>Bash: Pattern Matching</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://static.agill.xyz/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="https://static.agill.xyz/images/favicon.png" />
+        <script
+            defer
+            src="https://static.agill.xyz/js/highlight.min.js"
+            onload="hljs.initHighlightingOnLoad();"
+        ></script>
+        <link rel="stylesheet" href="https://static.agill.xyz/css/ascetic.min.css" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="https://mc.agill.xyz">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/bash">Bash</a></li>
+                    <li class="breadcrumb-item active" area-current="page">
+                        <a href="/bash/pattern-matching">Pattern Matching</a>
+                    </li>
+                </ol>
+            </nav>
+            <h1>Bash: Pattern Matching</h1>
+            <p>In their simplest form, globs are wildcards. That is, <code>*</code> matches zero or more characters.</p>
+            <pre class="language-bash pl-3"><code>$ touch {a,b,c}.txt {x,y,z}.md
+$ ls *.txt
+a.txt  b.txt  c.txt</code></pre>
+            <p>
+                If the <code>globstar</code> shell option is enabled, globs can recursively match the contents of
+                subdirectories in a filename expansion context.
+            </p>
+            <pre class="language-bash pl-3"><code>$ shopt -s globstar
+$ mkdir -p a/b/c/
+$ touch a/a.txt a/b/b.txt a/b/c/c.txt
+$ ls **/*.txt
+a/a.txt  a/b/b.txt  a/b/c/c.txt
+</code></pre>
+            <p>You may also use <code>?</code> to match single characters</p>
+            <pre class="language-bash pl-3"><code>$ touch a.txt .a.txt.swp .a.txt.swo the.swarm.mp4
+$ shopt -s dotglob
+$ ls *.sw*
+.a.txt.swo  .a.txt.swp  the.swarm.mp4
+$ ls *.sw?
+.a.txt.swo  .a.txt.swp</code></pre>
+            <p>Yes, it's a strained example.</p>
+            <p>
+                There are also character range expressions that look like <code>[a-z0-9]</code> or similar. Note that
+                they're highly locale dependent, so it may be a good idea to enable the
+                <code>globasciiranges</code> shell option to force the use of the C locale. Similar to regular
+                expressions, you can negate range expressions with a <code>!</code> or a <code>^</code> as the first
+                character inside the square brackets.
+            </p>
+            <pre class="language-bash pl-3"><code>$ touch {a,b,c,d,e,f,g,h,i}.txt
+$ ls [^a-f]*.txt
+g.txt  h.txt  i.txt
+$ ls [[:xdigit:]].txt
+a.txt  b.txt  c.txt  d.txt  e.txt  f.txt
+$ ls [:xdigit:].txt
+d.txt  g.txt  i.txt
+</code></pre>
+            <div class="alert alert-danger">
+                <p>Pay attention to the last example. The character classes must be inside double square brackets.</p>
+            </div>
+            <p>
+                You may set the <code>GLOBIGNORE</code> environment variable to a colon-separated list of glob patterns
+                to ignore.
+            </p>
+            <pre class="language-bash pl-3"><code>$ touch {a,b,c,d}.txt
+$ GLOBIGNORE="d.txt" ls *.txt
+a.txt  b.txt  c.txt  d.txt
+$ GLOBIGNORE="d.txt"
+$ ls *.txt
+a.txt  b.txt  c.txt
+$ unset GLOBIGNORE</code></pre>
+            <div class="alert alert-danger">
+                <p>
+                    It appears as though you <em>must</em> set the variable before invoking a command. I think this is
+                    because the glob is expanded first, and then <code>ls</code> is
+                    <a href="https://man7.org/linux/man-pages/man2/execve.2.html" target="_blank"
+                        ><code>execve(2)</code></a
+                    >'d with the expanded arguments, at which time the <code>GLOBIGNORE</code> variable is evaluated.
+                </p>
+                <p>
+                    You could also do <code>( GLOBIGNORE="d.txt"; ls *.txt )</code> so that you don't have to remember
+                    to <code>unset GLOBIGNORE</code> afterwards.
+                </p>
+            </div>
+            <p>
+                Because <code>GLOBIGNORE</code> must be set before the glob is evaluated, you may prefer to extended
+                pattern matching by enabling the <code>extglob</code> shell option.
+            </p>
+            <pre class="language-bash pl-3"><code>$ touch {a,b,c,d}.txt
+$ shopt -s extglob
+$ ls !(d).txt
+a.txt  b.txt  c.txt
+</code></pre>
+            <p>The <code>extglob</code> option enables the following extended pattern matching operators.</p>
+            <ul>
+                <li><code>!(pattern1|pattern2|...)</code> matches everything except the given patterns</li>
+                <li><code>@(pattern1|pattern2|...)</code> matches one of the given patternss</li>
+                <li><code>?(pattern1|pattern2|...)</code> matches zero or one of the given patternss</li>
+                <li><code>+(pattern1|pattern2|...)</code> matches one or more of the given patterns</li>
+                <li><code>*(pattern1|pattern2|...)</code> matches zero or more of the given patterns</li>
+            </ul>
+            <pre class="language-bash pl-3"><code>$ touch {a,b,c,d}.txt {aa,bb,cc,dd}.md
+$ ls *.!(md)
+a.txt  b.txt  c.txt  d.txt
+$ ls @(a|b).*
+a.txt  b.txt
+$ ls +(a|b).*
+aa.md  a.txt  bb.md  b.txt
+</code></pre>
+            <p>There are several other glob-related shell options:</p>
+            <ul>
+                <li><code>nocaseglob</code> - make filename matching case-insensitive</li>
+                <li>
+                    <code>nullglob</code> - allow patterns that match nothing to expand to a null string, rather than
+                    themselves
+                </li>
+                <li><code>failglob</code> - patterns that fail to match filenames result in an expansion error</li>
+            </ul>
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+</html>
