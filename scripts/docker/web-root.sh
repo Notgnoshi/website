@@ -21,9 +21,9 @@ docker run \
     --name "nginx-root" \
     --expose 80 \
     --expose 443 \
-    --mount "type=bind,source=${REPO_ROOT}/html/root,target=/usr/share/nginx/html,readonly" \
-    --mount "type=bind,source=${REPO_ROOT}/config/root.conf,target=/etc/nginx/conf.d/default.conf,readonly" \
-    --mount "type=bind,source=${REPO_ROOT}/config/nginx.conf,target=/etc/nginx/nginx.conf,readonly" \
+    --mount "type=bind,source=${REPO_ROOT}/root,target=/usr/share/nginx/html,readonly" \
+    --mount "type=bind,source=${REPO_ROOT}/nginx/root.conf,target=/etc/nginx/conf.d/default.conf,readonly" \
+    --mount "type=bind,source=${REPO_ROOT}/nginx/nginx.conf,target=/etc/nginx/nginx.conf,readonly" \
     --env "VIRTUAL_HOST=www.agill.xyz,agill.xyz,www.localhost,localhost" \
     --env "LETSENCRYPT_HOST=agill.xyz" \
     --env "LETSENCRYPT_EMAIL=notgnoshi@gmail.com" \

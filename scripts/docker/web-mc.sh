@@ -19,9 +19,8 @@ REPO_ROOT="$(readlink -f "${REPO_ROOT}")"
 docker run \
     --detach \
     --name "nginx-mc" \
-    --mount "type=bind,source=${REPO_ROOT}/html/mc,target=/usr/share/nginx/html,readonly" \
-    --mount "type=bind,source=${REPO_ROOT}/config/mc.conf,target=/etc/nginx/conf.d/default.conf,readonly" \
-    --mount "type=bind,source=${REPO_ROOT}/config/nginx.conf,target=/etc/nginx/nginx.conf,readonly" \
+    --mount "type=bind,source=${REPO_ROOT}/nginx/minecraft.conf,target=/etc/nginx/conf.d/default.conf,readonly" \
+    --mount "type=bind,source=${REPO_ROOT}/nginx/nginx.conf,target=/etc/nginx/nginx.conf,readonly" \
     --env "VIRTUAL_HOST=mc.agill.xyz,mc.localhost" \
     --env "LETSENCRYPT_HOST=mc.agill.xyz" \
     --env "LETSENCRYPT_EMAIL=notgnoshi@gmail.com" \

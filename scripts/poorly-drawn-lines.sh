@@ -19,7 +19,7 @@ while IFS=, read -r PAGE_URL IMAGE_URL; do
     SLUG=$(echo "$PAGE_URL" | sed -En 's|^.*comic/([[:alnum:]_-]+)/$|\1|p')
     IMAGE_URL=${IMAGE_URL//www./}
     # The URL the image will be hosted at
-    STATIC_URL="https://static.agill.xyz/images/poorly-drawn-lines/$SLUG.png"
+    STATIC_URL="/images/poorly-drawn-lines/$SLUG.png"
     # Download the image if it doesn't already exist.
     DOWNLOAD_URL="$REPO_ROOT/images/poorly-drawn-lines/$SLUG.png"
     if [[ ! -f "$DOWNLOAD_URL" ]]; then
