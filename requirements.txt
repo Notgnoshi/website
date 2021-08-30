@@ -1,5 +1,8 @@
 bibtexparser
 black
+cssselect
+feedgen
 Jinja2
+lxml
 pylint
 pydocstyle
