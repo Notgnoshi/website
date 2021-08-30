@@ -21,4 +21,4 @@ mkdir -p "${REPO_ROOT}/images/players/"
     --renders \
     --html |
     sed ':a;N;$!ba;s/\n/\\n/g' |
-    xargs -d'\n' -I '{}' sed -i '/<!-- Begin/,/<!-- End/c{}' "${REPO_ROOT}/html/mc/index.html"
+    xargs -d'\n' -I '{}' sed -i '/<!-- Begin/,/<!-- End/c{}' "${REPO_ROOT}/root/minecraft/index.html"
