@@ -22,7 +22,7 @@ docker run \
     --publish 80:80 \
     --publish 443:443 \
     --volume /etc/nginx/certs \
-    --volume "${REPO_ROOT}/config/vhost.d:/etc/nginx/vhost.d:rw" \
+    --volume "${REPO_ROOT}/nginx/vhost.d:/etc/nginx/vhost.d:rw" \
     --volume /usr/share/nginx/html \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
     --env DEFAULT_HOST=agill.xyz \
