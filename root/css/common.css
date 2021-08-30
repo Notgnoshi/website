@@ -1,8 +1,8 @@
 @font-face {
     font-family: "Pointfree";
-    src: local(Pointfree), url("https://static.agill.xyz/fonts/pointfree.woff2") format("woff2"),
-        url("https://static.agill.xyz/fonts/pointfree.woff") format("woff"),
-        url("https://static.agill.xyz/fonts/pointfree.ttf") format("truetype");
+    src: local(Pointfree), url("/fonts/pointfree.woff2") format("woff2"),
+        url("/fonts/pointfree.woff") format("woff"),
+        url("/fonts/pointfree.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
     font-display: swap;
@@ -10,9 +10,9 @@
 
 @font-face {
     font-family: "Comic Mono";
-    src: local("Comic Mono"), url("https://static.agill.xyz/fonts/comicmono.woff2") format("woff2"),
-        url("https://static.agill.xyz/fonts/comicmono.woff") format("woff"),
-        url("https://static.agill.xyz/fonts/comicmono.ttf") format("truetype");
+    src: local("Comic Mono"), url("/fonts/comicmono.woff2") format("woff2"),
+        url("/fonts/comicmono.woff") format("woff"),
+        url("/fonts/comicmono.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
     font-display: swap;
