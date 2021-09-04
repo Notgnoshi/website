@@ -14,17 +14,16 @@ done
 REPO_ROOT="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)/../../"
 REPO_ROOT="$(readlink -f "${REPO_ROOT}")"
 
-# Run the nginx reverse proxy container.
-# See: https://hub.docker.com/r/jwilder/nginx-proxy for documentation.
+# See: https://github.com/nginx-proxy/nginx-proxy
 docker run \
     --detach \
-    --name "nginx-proxy" \
+    --name nginx-proxy \
     --publish 80:80 \
     --publish 443:443 \
-    --volume /etc/nginx/certs \
+    --volume nginx_certs:/etc/nginx/certs \
+    --volume nginx_html:/usr/share/nginx/html \
     --volume "${REPO_ROOT}/nginx/vhost.d:/etc/nginx/vhost.d:rw" \
-    --volume /usr/share/nginx/html \
     --volume /var/run/docker.sock:/tmp/docker.sock:ro \
     --env DEFAULT_HOST=agill.xyz \
     --restart unless-stopped \
-    jwilder/nginx-proxy
+    nginxproxy/nginx-proxy
