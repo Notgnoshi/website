@@ -1,6 +1,10 @@
 #!/bin/bash
 
+docker stop nginx-proxy-acme || true
+docker rm nginx-proxy-acme || true
+
 # See: https://github.com/nginx-proxy/acme-companion
+# Uses a named volume (nginx_certs) from the nginx-proxy container to persist the certificates
 docker run \
     --detach \
     --name nginx-proxy-acme \
