@@ -14,6 +14,9 @@ done
 REPO_ROOT="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)/../../"
 REPO_ROOT="$(readlink -f "${REPO_ROOT}")"
 
+docker stop nginx-root || true
+docker rm nginx-root || true
+
 # Run the application container for a single subdomain.
 # See: https://hub.docker.com/_/nginx for documentation.
 docker run \

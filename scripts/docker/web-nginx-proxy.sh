@@ -14,6 +14,9 @@ done
 REPO_ROOT="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)/../../"
 REPO_ROOT="$(readlink -f "${REPO_ROOT}")"
 
+docker stop nginx-proxy || true
+docker rm nginx-proxy || true
+
 # See: https://github.com/nginx-proxy/nginx-proxy
 docker run \
     --detach \
