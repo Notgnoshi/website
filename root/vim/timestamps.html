@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Converting timestamp formats in Vim." />
+        <meta name="dcterms.available" content="2021-09-05" />
+        <title>Vim: Converting timestamp formats</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+        <script defer src="/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+        <link rel="stylesheet" href="/css/ascetic.min.css" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="/minecraft">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/vim">Vim</a></li>
+                    <li class="breadcrumb-item active" area-current="page">
+                        <a href="/vim/timestamps">Converting timestamp formats</a>
+                    </li>
+                </ol>
+            </nav>
+            <h1>Vim: Converting timestamp formats</h1>
+            <p>
+                Every now and then (with increasing frequency, it seems) I find myself needing to analyze millions of
+                lines of <a href="https://en.wikipedia.org/wiki/CAN_bus" target="_blank">CAN</a> logs that look like
+            </p>
+            <pre class="language-text pl-3"><code>(1630536594.856841) can1 15F8051C#002FE7B7490FF3FD
+(1630536594.857974) can1 15F8051C#01300049A616359F
+(1630536594.859108) can1 15F8051C#02100680E22138F9
+(1630536594.859666) can1 15F8051C#035194F22D88011A
+(1630536594.860264) can1 15F8051C#0400000000400013
+(1630536594.860834) can1 15F8051C#053C006E00B0F5FF
+(1630536594.861406) can1 15F8051C#06FF01E000C800FF
+(1630536594.876000) can1 09F80281#2CFC03010000FFFF
+(1630536594.906718) can1 09F8021C#E7FC14010000FFFF
+(1630536594.907256) can1 09F8031C#E70A000000000000
+(1630536594.907821) can1 09F8041C#E70AC41401000000
+(1630536594.915459) can1 09F80381#2CB2FEFFFF000000
+(1630536594.916033) can1 09F80481#2CB2C40201000000</code></pre>
+            <p>
+                For CAN logs, it makes sense to use Unix timestamps (fractional seconds since epoch) because you're
+                often only concerned with relative times between messages, not the absolute time a message occurred.
+                However, I often find myself needing to correlate these CAN logs with messages from other log files with
+                a different format, such as
+            </p>
+            <pre
+                class="language-text pl-3"
+            ><code>[2021-09-01 22:49:54.906718] [CATEGORY] [INFO]: Some log message.</code></pre>
+            <p>
+                My normal workflow for this, is to filter the CAN log to the messages I care about (because I was
+                serious about the logs containing millions of lines) to a new Vim buffer and then painstakingly
+                interleave messages from different sources. After (or during, if I don't have a clear idea of what
+                messages are important) I have the log message interleaved, I start annotating the messages. This is how
+                I troubleshoot (because no one looks at CAN logs for fun) the events portrayed in the logs. This works,
+                but it's time-consuming, and involves a lot of manual work.
+            </p>
+            <h2><code>date</code></h2>
+            <p>
+                Given a Unix timestamp like <code>1630536594.906718</code>, you can convert it to an ISO-8601 timestamp
+                with <code>date</code> like so:
+            </p>
+            <pre class="language-bash pl-3"><code>$ date --utc --iso=8601=ns -d @1630536594.906718
+2021-09-01T22:49:54,906718000+00:00</code></pre>
+            <p>
+                Due to the limitations of
+                <a href="https://man7.org/linux/man-pages/man3/strftime.3.html" target="_blank"
+                    ><code>strftime(3)</code></a
+                >, this is how I will convert between different timestamp formats.
+            </p>
+            <h2><code>sed</code></h2>
+            <p>
+                When <code>sed</code>'s your hammer, everything becomes a nail. I'm more comfortable in the shell than I
+                am in Vim, so <code>sed</code> was the first tool I reached for.
+            </p>
+            <pre class="language-bash pl-3"><code>$ head -n 1 candump.log |
+    sed 's/(\(.*\))\(.*\)/printf "("; date --utc --iso-8601=ns -d @\1 | tr -d "\n"; printf ")%s" "\2"/e'
+(2021-09-01T22:49:54,856841000+00:00) can1 15F8051C#002FE7B7490FF3FD</code></pre>
+            <p>This is overly verbose, and has several things I don't like:</p>
+            <ul>
+                <li>
+                    The use of <code>printf</code> to print the surrounding parentheses and the rest of the log message
+                </li>
+                <li>Using <code>| tr -d "\n"</code> to remove newlines from the <code>date</code> output.</li>
+            </ul>
+            <h2><code>awk</code></h2>
+            <p>
+                It feels like this is something <code>awk</code> could do better, but I don't really know
+                <code>awk</code>, so it's not a tool I reach for. I'll eventually rectify this.
+            </p>
+            <h2>Vim</h2>
+            <p>
+                I've identified three different Vim solutions, which meets my needs a little better, because these
+                transformed logs aren't really a standalone log file &ndash; they're in some <code>notes.txt</code> file
+                containing log snippets, timestamps of interest, hypotheses, shell snippets, CAN message definitions, etc., so the
+                more interactive this process is, the better.
+            </p>
+            <h3>vis</h3>
+            <p>You might think "oh, I'll just select the timestamp, and use</p>
+            <pre class="language-vim pl-3"><code>:'&lt;,'&gt; !xargs -I{} date --utc --iso-8601=ns -d @{}</code></pre>
+            <p>
+                !". That's nice, but remember that no matter what you do, selections in Ex mode are line-wise, so this
+                little snippet passes <em>the whole line</em> to <code>date -d</code>.
+            </p>
+            <p>
+                To resolve this, that is, allow passing <em>just</em> the selections to the shell, you can use the
+                <a href="https://github.com/vim-scripts/vis" target="_blank">vis</a> plugin with
+            </p>
+            <pre class="language-vim pl-3"><code>:'&lt;,'&gt;B !xargs -I{} date --utc --iso-8601=ns -d @{}</code></pre>
+            <p>
+                This is <em>almost</em> identical to the first attempt, except that we use
+                <code>:'&lt;,'&gt;B</code> instead of <code>:'&lt;,'&gt;</code>.
+            </p>
+            <p>This is nice, but</p>
+            <ul>
+                <li>
+                    It leaves a trailing space (probably the trailing newline from <code>date</code> converted to a
+                    space?) before the closing parenthesis
+                </li>
+                <li>
+                    It requires making a visual block selection, which for CAN logs is acceptable, because the
+                    timestamps are all exactly the same size.
+                </li>
+            </ul>
+            <h3><code>system()</code> in a <code>:substitut</code>ion</h3>
+            <p>
+                Using <code>\=</code> in a <code>:substitute</code> or <code>substitute()</code> turns the rest of the
+                substitution string into an expression. This, combined with <code>submatch()</code> to access a capture
+                group from within the expression. So we could do something like
+            </p>
+            <pre
+                class="language-vim pl-3"
+            ><code>:%s/(\(.*\))/\=system('date --utc --iso-8601=ns -d @' . submatch(1))/</code></pre>
+            <p>
+                but this has the same problem as the very first <code>sed</code> incantation &ndash; the line ending
+                from the <code>date</code> output is included in the replacement. This can be remedied with
+            </p>
+            <pre
+                class="language-vim pl-3"
+            ><code>:%s/(\(.*\))/\=system('date --utc --iso-8601=ns -d @' . submatch(1) . ' | tr -d "\n"')/</code></pre>
+            <p>
+                but it still leaves us with another problem &ndash; we lose the parentheses wrapping the timestamp.
+                Depending on the use case, this may or may not be important. I want to be able to use
+                <code>:sort</code> on the interleaved log messages from different sources, so the timestamp prefixes
+                must all be in the same format.
+            </p>
+            <p>
+                To accomplish this, we can wrap the <code>system()</code> call in a <code>substitute()</code> like so:
+            </p>
+            <pre
+                class="language-vim pl-3"
+            ><code>:%s/(\(.*\))/\=substitute(system('date --utc --iso-8601=ns -d @' . submatch(1)), '\(.*\)\n', '(\1)', '')/</code></pre>
+            <p>
+                Depending on the timestamp being reformatted, you <em>may</em> need to further wrap the
+                <code>submatch(1)</code> in a <code>shellescape()</code> to properly escape anything that needs it.
+                Regardless, this method is <em>far</em> too unwieldy to keep handy in my back pocket.
+            </p>
+            <h3>Macro</h3>
+            <p>
+                This is my favorite solution. It's nicely composable, and once you record it, you can play it back over
+                and over as needed. Further, with <code>.viminfo</code> files, the macro may be restored when closing
+                and reopening the file, as long as you don't overwrite the macro in an attempt to make it even better ;)
+            </p>
+            <pre class="language-vim pl-3"><code>qd
+0
+"tcib
+&lt;C-r&gt;=strftime("%FT%T %Z", @t)&lt;CR&gt;
+&lt;Esc&gt;
+q</code></pre>
+            <p>
+                That's nice and simple (broken onto multiple lines for clarity) but <code>strftime(3)</code> has a fatal
+                flaw that makes it unusable for CAN log analysis &ndash; it can only provide second-level precision (no
+                fractional seconds). So we should replace <code>strftime()</code> with a <code>system()</code> call to
+                <code>date</code>.
+            </p>
+            <p>
+                Additionally, using <code>strftime()</code> will convert timestamps to your current locale &ndash; which
+                may or may not be helpful depending on the other log messages you're trying to correlate with the CAN
+                logs. In my case, I want UTC timestamps for everything.
+            </p>
+            <pre class="language-vim pl-3"><code>qd
+0
+"tcib
+&lt;C-r&gt;=system('date --utc --iso-8601=ns -d @' . @t . ' | tr -d "\n"')&lt;CR&gt;
+&lt;Esc&gt;
+q</code></pre>
+            <p>
+                This macro can then be invoked ad hoc by <code>@d</code>, or over a range with
+                <code>:{range}norm @d</code>. This solution is most flexible and repeatable, and is best for my needs,
+                where I may be adding and removing log statements as I learn about whatever problem I'm troubleshooting.
+            </p>
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+</html>
