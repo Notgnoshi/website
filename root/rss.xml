@@ -1,0 +1,362 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>agill.xyz</title>
+    <link>https://agill.xyz</link>
+    <description>Another personal website</description>
+    <atom:link href="https://agill.xyz/rss.xml" rel="self"/>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <generator>python-feedgen</generator>
+    <lastBuildDate>Mon, 06 Sep 2021 15:32:44 +0000</lastBuildDate>
+    <item>
+      <title>Vim: Converting timestamp formats</title>
+      <link>https://agill.xyz/vim/timestamps/</link>
+      <description>Converting timestamp formats in Vim.</description>
+      <guid isPermaLink="false">https://agill.xyz/vim/timestamps/</guid>
+      <pubDate>Sun, 05 Sep 2021 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Bash: Pattern matching</title>
+      <link>https://agill.xyz/bash/pattern-matching/</link>
+      <description>Bash pattern matching with various forms of globs.</description>
+      <guid isPermaLink="false">https://agill.xyz/bash/pattern-matching/</guid>
+      <pubDate>Fri, 27 Aug 2021 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Vim: Motions</title>
+      <link>https://agill.xyz/vim/motions/</link>
+      <description>Vim motions</description>
+      <guid isPermaLink="false">https://agill.xyz/vim/motions/</guid>
+      <pubDate>Sun, 22 Aug 2021 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Git: Config</title>
+      <link>https://agill.xyz/git/config/</link>
+      <description>My Git config</description>
+      <guid isPermaLink="false">https://agill.xyz/git/config/</guid>
+      <pubDate>Sun, 22 Aug 2021 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Vim: Text objects</title>
+      <link>https://agill.xyz/vim/text-objects/</link>
+      <description>Using text objects in Vim</description>
+      <guid isPermaLink="false">https://agill.xyz/vim/text-objects/</guid>
+      <pubDate>Sun, 25 Jul 2021 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Vim: Git integration</title>
+      <link>https://agill.xyz/vim/git/</link>
+      <description>Effectively using Git from within Vim</description>
+      <guid isPermaLink="false">https://agill.xyz/vim/git/</guid>
+      <pubDate>Sun, 25 Jul 2021 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Bash: Getting the path of the current script</title>
+      <link>https://agill.xyz/bash/script-path/</link>
+      <description>Getting the path of the current script in Bash</description>
+      <guid isPermaLink="false">https://agill.xyz/bash/script-path/</guid>
+      <pubDate>Tue, 20 Jul 2021 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Bash: PS1</title>
+      <link>https://agill.xyz/bash/ps1/</link>
+      <description>How I set my Bash PS1</description>
+      <guid isPermaLink="false">https://agill.xyz/bash/ps1/</guid>
+      <pubDate>Sun, 18 Jul 2021 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Graphviz</title>
+      <link>https://agill.xyz/graphviz/</link>
+      <description>A brief Graphviz tutorial</description>
+      <guid isPermaLink="false">https://agill.xyz/graphviz/</guid>
+      <pubDate>Thu, 24 Dec 2020 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Poorly Drawn Lines</title>
+      <link>https://agill.xyz/poorly-drawn-lines/</link>
+      <description>The best of Poorly Drawn Lines, a webcomic by Reza Farazmand</description>
+      <guid isPermaLink="false">https://agill.xyz/poorly-drawn-lines/</guid>
+      <pubDate>Sun, 13 Dec 2020 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Programming in Comic Sans</title>
+      <link>https://agill.xyz/comic-sans/</link>
+      <description>Why, and how I use a monospace variant of universally hated font.</description>
+      <guid isPermaLink="false">https://agill.xyz/comic-sans/</guid>
+      <pubDate>Sat, 05 Dec 2020 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Recipes</title>
+      <link>https://agill.xyz/recipes/</link>
+      <description>Personal recipes that I like, or plan on trying soon.</description>
+      <guid isPermaLink="false">https://agill.xyz/recipes/</guid>
+      <pubDate>Thu, 01 Oct 2020 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>3.e. Zipf's Law</title>
+      <link>https://agill.xyz/research/haiku/analysis/zipfs-law/</link>
+      <description>An investigation on whether Zipf's law holds for haiku</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/analysis/zipfs-law/</guid>
+      <pubDate>Sat, 02 May 2020 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Haiku Generation</title>
+      <link>https://agill.xyz/research/haiku/</link>
+      <description>My graduate project to generate haiku with machine learning.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/</guid>
+      <pubDate>Fri, 01 May 2020 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>2. Methodology</title>
+      <link>https://agill.xyz/research/haiku/methodology/</link>
+      <description>Project setup and usage.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/methodology/</guid>
+      <pubDate>Fri, 01 May 2020 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>3.d. Word Clouds</title>
+      <link>https://agill.xyz/research/haiku/analysis/word-clouds/</link>
+      <description>Building word clouds for haiku</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/analysis/word-clouds/</guid>
+      <pubDate>Thu, 30 Apr 2020 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>3.c. Syllables</title>
+      <link>https://agill.xyz/research/haiku/analysis/syllables/</link>
+      <description>An investigation on how many haiku in my dataset actually follow the traditional syllabic structure</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/analysis/syllables/</guid>
+      <pubDate>Wed, 29 Apr 2020 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>3.b. Colors</title>
+      <link>https://agill.xyz/research/haiku/analysis/colors/</link>
+      <description>Exploratory data analysis on the color palette of haiku.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/analysis/colors/</guid>
+      <pubDate>Mon, 27 Apr 2020 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>3.a. Temperature Sampling Softmax Layers</title>
+      <link>https://agill.xyz/research/haiku/analysis/temperature-sampling-softmax-layers/</link>
+      <description>Examine the effect of temperature sampling on softmax layers.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/analysis/temperature-sampling-softmax-layers/</guid>
+      <pubDate>Mon, 27 Apr 2020 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>1.a. The Haiku Form</title>
+      <link>https://agill.xyz/research/haiku/introduction/the-haiku-form/</link>
+      <description>A brief discussion of the haiku form, and how it relates to my project.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/introduction/the-haiku-form/</guid>
+      <pubDate>Sat, 25 Apr 2020 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>1.d.ii. Markov Models</title>
+      <link>https://agill.xyz/research/haiku/introduction/natural-language/markov/</link>
+      <description>Application of the markov assumption to statistical language models.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/introduction/natural-language/markov/</guid>
+      <pubDate>Fri, 24 Jan 2020 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>1.d.v. LSTM Models</title>
+      <link>https://agill.xyz/research/haiku/introduction/natural-language/lstm/</link>
+      <description>The use of LSTM networks in language modeling.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/introduction/natural-language/lstm/</guid>
+      <pubDate>Fri, 24 Jan 2020 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>1.d.iv. Recurrent Neural Network Models</title>
+      <link>https://agill.xyz/research/haiku/introduction/natural-language/rnn/</link>
+      <description>The use of recurrent (which abandons the markov assumption) networks in language mdoeling.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/introduction/natural-language/rnn/</guid>
+      <pubDate>Fri, 24 Jan 2020 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>1.d.iii. Feed-Forward Neural Network Models</title>
+      <link>https://agill.xyz/research/haiku/introduction/natural-language/ffnn/</link>
+      <description>The use of regular vanilla neural networks in language modeling</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/introduction/natural-language/ffnn/</guid>
+      <pubDate>Fri, 24 Jan 2020 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>1.e. Text Generation</title>
+      <link>https://agill.xyz/research/haiku/introduction/text-generation/</link>
+      <description>The application of a language model to generate text.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/introduction/text-generation/</guid>
+      <pubDate>Fri, 24 Jan 2020 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>1.d.i. How do we model natural Language?</title>
+      <link>https://agill.xyz/research/haiku/introduction/natural-language/language-model/</link>
+      <description>How do we produce a statistical model of natural language?</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/introduction/natural-language/language-model/</guid>
+      <pubDate>Wed, 22 Jan 2020 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>1.c. Neural Networks</title>
+      <link>https://agill.xyz/research/haiku/introduction/neural-networks/</link>
+      <description>Background information on neural networks.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/introduction/neural-networks/</guid>
+      <pubDate>Wed, 22 Jan 2020 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Research</title>
+      <link>https://agill.xyz/research/</link>
+      <description>Research projects I've worked on in numerical linear algebra and machine learning.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/</guid>
+      <pubDate>Mon, 23 Dec 2019 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Ubuntu Configuration</title>
+      <link>https://agill.xyz/ubuntu-configuration/</link>
+      <description>Process for setting up a new Ubuntu installation</description>
+      <guid isPermaLink="false">https://agill.xyz/ubuntu-configuration/</guid>
+      <pubDate>Sat, 05 Jan 2019 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Product Spaces</title>
+      <link>https://agill.xyz/product-spaces/</link>
+      <description>The difference between the box and product topologies in terms of their bases.</description>
+      <guid isPermaLink="false">https://agill.xyz/product-spaces/</guid>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Exploring Linear Transformations with Python</title>
+      <link>https://agill.xyz/exploring-linear-transformations-with-python/</link>
+      <description>Animating linear transformations using matplotlib and numpy in a Jupyter Notebook.</description>
+      <guid isPermaLink="false">https://agill.xyz/exploring-linear-transformations-with-python/</guid>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Learning Boolean Functions with Neural Networks</title>
+      <link>https://agill.xyz/learning-boolean-functions-with-neural-networks/</link>
+      <description>Reproducing the AND, OR, XOR, etc. boolean functions using neural networks implemented in Keras</description>
+      <guid isPermaLink="false">https://agill.xyz/learning-boolean-functions-with-neural-networks/</guid>
+      <pubDate>Thu, 08 Feb 2018 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>An infinity norm proof</title>
+      <link>https://agill.xyz/an-infinity-norm-proof/</link>
+      <description>My Deep Learning professor thought it would be a great idea to jump his class with a limit proof of lim p -&gt; infty L_p = L_infty</description>
+      <guid isPermaLink="false">https://agill.xyz/an-infinity-norm-proof/</guid>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>I Want my 2x2 Workspaces Back</title>
+      <link>https://agill.xyz/i-want-my-2-by-2-workspaces-back/</link>
+      <description>A short explanation of my mental model of 2D workspaces.</description>
+      <guid isPermaLink="false">https://agill.xyz/i-want-my-2-by-2-workspaces-back/</guid>
+      <pubDate>Mon, 23 Oct 2017 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Delegates in Python</title>
+      <link>https://agill.xyz/python-delegates/</link>
+      <description>A Python implementation of delegates. A delegate is an object to which a task is delegated. The purpose of delegation is to decouple code and add flexibility.</description>
+      <guid isPermaLink="false">https://agill.xyz/python-delegates/</guid>
+      <pubDate>Tue, 04 Jul 2017 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Karmarkar's Algorithm</title>
+      <link>https://agill.xyz/karmarkars-algorithm/</link>
+      <description>A geometric explanation of linear programs, and Karmarkar's Algorithm implemented in Python.</description>
+      <guid isPermaLink="false">https://agill.xyz/karmarkars-algorithm/</guid>
+      <pubDate>Sun, 04 Jun 2017 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Complex Functions</title>
+      <link>https://agill.xyz/complex-functions/</link>
+      <description>Functions of complex variables, covering topics such as injective, surjective, domain, range, image, preimage, etc.</description>
+      <guid isPermaLink="false">https://agill.xyz/complex-functions/</guid>
+      <pubDate>Tue, 21 Feb 2017 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Regions in the Complex Plane</title>
+      <link>https://agill.xyz/regions-in-the-complex-plane/</link>
+      <description>The topological definitions that form the foundation for the development of limits and consideration of regions in the complex plane in complex analysis</description>
+      <guid isPermaLink="false">https://agill.xyz/regions-in-the-complex-plane/</guid>
+      <pubDate>Sun, 29 Jan 2017 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Complex Polynomial Inequality Verification</title>
+      <link>https://agill.xyz/complex-polynomial-inequality-verification/</link>
+      <description>The verification of a complex polynomial inequality as stated in my Complex Analysis textbook</description>
+      <guid isPermaLink="false">https://agill.xyz/complex-polynomial-inequality-verification/</guid>
+      <pubDate>Fri, 27 Jan 2017 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Proof of the Complex Binomial Formula</title>
+      <link>https://agill.xyz/proof-of-the-complex-binomial-formula/</link>
+      <description>A proof the the binomial formula for complex numbers as presented in my Complex Analysis class</description>
+      <guid isPermaLink="false">https://agill.xyz/proof-of-the-complex-binomial-formula/</guid>
+      <pubDate>Thu, 19 Jan 2017 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Downloading your iPhone SMS Messages as a Sqlite Database</title>
+      <link>https://agill.xyz/downloading-your-iphone-sms-messages-as-a-sqlite-database/</link>
+      <description>My thoughts on the RTFM phenomenon; I'm not a fan.</description>
+      <guid isPermaLink="false">https://agill.xyz/downloading-your-iphone-sms-messages-as-a-sqlite-database/</guid>
+      <pubDate>Sat, 26 Nov 2016 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Impartial Classic Combinatorial Games</title>
+      <link>https://agill.xyz/impartial-classic-combinatorial-games/</link>
+      <description>A review of impartial classic combinatorial games from a game theory perspective. Includes description of nimber (aka Sprague-Grundy) values and N and P states.</description>
+      <guid isPermaLink="false">https://agill.xyz/impartial-classic-combinatorial-games/</guid>
+      <pubDate>Fri, 25 Nov 2016 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Why I Dislike Windows</title>
+      <link>https://agill.xyz/why-i-dislike-windows/</link>
+      <description>Subjective personal opinions as to why Windows sucks</description>
+      <guid isPermaLink="false">https://agill.xyz/why-i-dislike-windows/</guid>
+      <pubDate>Wed, 16 Nov 2016 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>RTFM</title>
+      <link>https://agill.xyz/rtfm/</link>
+      <description>My thoughts on the RTFM phenomenon; I'm not a fan.</description>
+      <guid isPermaLink="false">https://agill.xyz/rtfm/</guid>
+      <pubDate>Thu, 22 Sep 2016 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Levenshtein Distance</title>
+      <link>https://agill.xyz/levenshtein-distance/</link>
+      <description>Describes string metrics, metric spaces, and in particular the definition and computation of the Levenshtein distance metric in Python.</description>
+      <guid isPermaLink="false">https://agill.xyz/levenshtein-distance/</guid>
+      <pubDate>Mon, 05 Sep 2016 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Change of Basis</title>
+      <link>https://agill.xyz/change-of-basis/</link>
+      <description>Describes what a basis is, and how to change from one vector space to another using a transition matrix. Pays special attention to rotation matrices.</description>
+      <guid isPermaLink="false">https://agill.xyz/change-of-basis/</guid>
+      <pubDate>Sat, 27 Aug 2016 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Drawing Logic Gates with TikZ</title>
+      <link>https://agill.xyz/drawing-logic-gates-with-tikz/</link>
+      <description>A basic tutorial on drawing digital circuit diagrams with TikZ</description>
+      <guid isPermaLink="false">https://agill.xyz/drawing-logic-gates-with-tikz/</guid>
+      <pubDate>Sun, 31 Jul 2016 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Producing SVG Images with TikZ</title>
+      <link>https://agill.xyz/producing-svg-images-with-tikz/</link>
+      <description>A tutorial on producing vector graphics from a TikZ LaTeX image.</description>
+      <guid isPermaLink="false">https://agill.xyz/producing-svg-images-with-tikz/</guid>
+      <pubDate>Mon, 18 Jul 2016 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Error in Numerical Computation</title>
+      <link>https://agill.xyz/error-in-numerical-computation/</link>
+      <description>A description of error using the Taylor Series in numerical computation</description>
+      <guid isPermaLink="false">https://agill.xyz/error-in-numerical-computation/</guid>
+      <pubDate>Sat, 11 Jun 2016 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Completing the square</title>
+      <link>https://agill.xyz/completing-the-square/</link>
+      <description>Describes a geometric interpretation of the algebraic method of completing the square</description>
+      <guid isPermaLink="false">https://agill.xyz/completing-the-square/</guid>
+      <pubDate>Fri, 22 May 2015 00:00:00 -0500</pubDate>
+    </item>
+  </channel>
+</rss>
