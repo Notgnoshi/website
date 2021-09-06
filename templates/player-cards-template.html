@@ -4,7 +4,7 @@
     <div class="card drop-shadow">
         <div class="card-header">{{ player.username }}</div>
         <div class="card-body">
-            <img class="card-img-top pl-5 pr-5" src="{{ static_url }}/images/players/{{ player.uuid }}.png" alt="Skin render"></img>
+            <img class="card-img-top pl-5 pr-5" src="{{ static_url }}/images/players/{{ player.uuid }}.png" alt="Skin render" />
             <span class="card-text small"><code>{{ player.uuid }}</code></span>
             <div class="d-flex flex-row">
                 {% for contact in player.contacts %}{% if contact.type == "email" %}<a class="pr-2 text-muted"
@@ -20,7 +20,7 @@
                 {% elif contact.type == "facebook" %}<a class="pr-2 text-muted"
                     href="https://facebook.com/{{ contact.value }}"><i class="fab fa-facebook"></i></a>
                 {% endif %}{% endfor %}</div>
-            <p class="card-text mb-0">{{ player.about | safe }}</p>
+            <div class="card-text mb-0">{{ player.about | safe }}</div>
         </div>
     </div>
     {% endfor %}
