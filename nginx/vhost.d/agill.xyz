@@ -12,12 +12,12 @@ location ^~ /.well-known/acme-challenge/ {
 
 location /generate {
     set $upstream api.localhost;
-    proxy_pass http://$upstream/generate;
+    proxy_pass http://$upstream;
 }
 
 location /docs {
     set $upstream api.localhost;
-    proxy_pass http://$upstream/docs;
+    proxy_pass http://$upstream;
 }
 
 location /openapi.json {
