@@ -12,7 +12,7 @@ and access the site at `http://localhost`.
 
 To debug Nginx redirection rules, you can modify/run
 ```bash
-$ docker restart nginx-root && sleep 0.5 && ./scripts/check-redirects.sh 
+$ docker restart nginx-root && sleep 0.5 && ./scripts/check-redirects.sh
 URL                                              Resolved URL                       HTTP Response
 http://localhost                                 http://localhost/                  200
 http://localhost/                                http://localhost/                  200
