@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Notes on Bash I/O plumbing" />
+        <meta name="dcterms.available" content="2021-11-21" />
+        <title>Bash: Plumbing</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+        <script defer src="/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+        <link rel="stylesheet" href="/css/ascetic.min.css" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="/minecraft">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                        <a class="text-muted p-2" href="/rss.xml"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/bash">Bash</a></li>
+                    <li class="breadcrumb-item active" area-current="page">
+                        <a href="/bash/plumbing">Plumbing</a>
+                    </li>
+                </ol>
+            </nav>
+            <h1>Bash: Plumbing</h1>
+            <p>
+                I have no problem remembering what redirection <em>is</em>, nor that it (typically) involves some
+                combination of the symbols <code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>, <code>1</code>, and
+                <code>2</code>. I can recognize it when I see it, know when I want to use it, but then always have to
+                look up what order the symbols go in.
+            </p>
+            <p>
+                Since writing things down is how I learn and remember them, I thought this was worth writing about
+                (which is my reason for nearly every post I write).
+            </p>
+            <h2>stdout, stderr, stdin</h2>
+            <p>
+                Each Linux process has three default file descriptors allocated by the kernel: stdin, stdout, and stderr
+                (<code>0</code>, <code>1</code>, and <code>2</code> respectively). In Bash (and POSIX sh) we can
+                redirect stdin and stdout from/to files with <code>&lt;</code> and <code>&gt;</code> respectively.
+            </p>
+            <pre class="language-bash pl-3"><code># Redirect command's output to output.txt
+command &gt;output.txt
+# Redirect input to command from input.txt
+command &lt;input.txt</code></pre>
+            <p>
+                When you use the <code>&gt;</code> output redirection, the output file is overwritten. If you want to
+                append to the output file, use <code>&gt;&gt;</code>.
+            </p>
+            <pre class="language-bash pl-3"><code># Append command's output to output.txt
+command &gt;&gt;output.txt</code></pre>
+            <p>You can redirect a command's stderr to a file with <code>2&gt;</code>.</p>
+            <pre class="language-bash pl-3"><code># Redirect command's stderr to errors.txt
+command 2&gt;errors.txt</code></pre>
+            <p>This is often used to silence error output by redirecting it to <code>/dev/null</code>.</p>
+            <h2>Here documents and here strings</h2>
+            <p>
+                Being able to redirect a command's stdin from a file is useful, but often, writing the input you want to
+                send to a command to a file before redirecting the file to a command is just too much overhead. Instead,
+                you can use a here document
+            </p>
+            <pre class="language-bash pl-3"><code>$ cat &lt;&lt;EOF
+&gt;     Line 1
+&gt;     Line 2
+&gt; EOF
+    Line 1
+    Line 2</code></pre>
+            <p>
+                Notice that the indentation of the heredoc was preserved in the output. Sometimes this is undesirable,
+                so you can use <code>command &lt;&lt;-EOF</code> to strip leading <b>tabs</b>. Note that they
+                <em>do</em> have to be hard tabs. If that doesn't suite you, you can use multi-line strings.
+            </p>
+            <p>
+                You can use here <em>strings</em> too. These are single string stdin redirections that are useful for
+                sending the value of a variable to a command. Note that a here string will have a single newline
+                appended.
+            </p>
+            <pre class="language-bash pl-3"><code>$ VAR=test
+$ cat &lt;&lt;&lt;"$VAR"
+test</code></pre>
+            <h2>Redirect stdout and stderr independently</h2>
+            <p>
+                So long as you're redirecting stdout and stderr to files (as opposed to other file descriptors)
+                redirecting them independently is easy.
+            </p>
+            <pre class="language-bash pl-3"><code>command &gt;stdout.txt 2&gt;stderr.txt</code></pre>
+            <h2>Redirect everything</h2>
+            <p>
+                You can redirect <em>all</em> output of a command to stdout with <code>&gt;&amp;</code> (in Bash) or
+                <code>2&gt;&amp;1</code> (in POSIX sh). While less sightly, I recommend using the later, as it's both
+                POSIX sh compliant and you can swap the <code>1</code> and <code>2</code> to redirect stdout to stderr.
+            </p>
+            <p>
+                You can use this to do logging in a script where the stdout output is intended to be machine-readable.
+            </p>
+            <pre class="language-bash pl-3"><code>function log() {
+    echo "[$(date --utc --iso-8601=seconds)] $*" &gt;&amp;2
+}</code></pre>
+            <p>
+                Although, if you're looking for real logging, you should probably use something off-the-shelf instead of
+                reinventing the wheel <em>again</em>.
+            </p>
+            <p>
+                You can use this to capture all output from a command and save it to a file (although maybe consider
+                capturing stdout and stderr separately), but there's a gotcha with redirection ordering. To redirect
+                stderr to stdout, and <em>then</em> redirect stdout to a file, you would do
+            </p>
+            <pre class="language-bash pl-3"><code>command &gt;output.txt 2&gt;&amp;1</code></pre>
+            <p>
+                Whereas, if you did <code>command 2&gt;&amp;1 &gt;output.txt</code> only <code>command</code>'s stdout
+                would be directed to <code>output.txt</code> because after making stderr a copy of stdout, you redirect
+                stdout!
+            </p>
+            <h2>Duplicating file descriptors</h2>
+            <p>
+                In general, the <code>n&gt;&amp;m</code> (or <code>n&lt;&amp;m</code> for input redirection) syntax for
+                file descriptors <code>n</code> and <code>m</code>, means "make the <code>n</code> file descriptor be a
+                copy of <code>m</code>". If <code>m</code> is <code>-</code>, then the <code>n</code> file descriptor is
+                closed. If <code>n</code> isn't given, it's assumed to be stdin for input redirection, or stdout for
+                output redirection.
+            </p>
+            <h2>Moving file descriptors</h2>
+            <p>
+                The syntax <code>n&gt;&amp;m-</code> <em>moves</em> (as opposed to <em>copies</em> as above with
+                <code>n&gt;&amp;m</code>) the <code>m</code> file descriptor to <code>n</code> before closing it.
+            </p>
+            <p>
+                I might not be creative enough, but I can't think of a reason you'd do this. According to
+                <a href="https://unix.stackexchange.com/a/65014" target="_blank">this</a> Unix Stack Exchange answer,
+                moving file descriptors is rare, non-standard, complicated, and hard to follow.
+            </p>
+            <h2>Other file descriptors</h2>
+            <p>
+                You can do <code>exec 6&lt;input.txt</code> to open <code>input.txt</code> for reading with file
+                descriptor <code>6</code>. You can then use all of the same redirection with the <code>6</code> file
+                descriptor.
+            </p>
+            <h2>Redirection and pipes</h2>
+            <p>
+                When you pipe two commands together with <code>command1 | command2</code>, you are, in a very real
+                sense, piping <code>command1</code>'s stdout into <code>command2</code>'s stdin. But what if you want to
+                pipe <em>both</em> <code>command1</code>'s stdout <em>and</em>stderr to <code>command2</code>?
+            </p>
+            <p>
+                You can do either <code>command1 2&gt;&amp;1 | command2</code> or, if using Bash,
+                <code>command1 |&amp; command2</code> (similarly to how you can do <code>&gt;&amp;</code>).
+            </p>
+            <p>
+                You can use the <code>plog</code> from Raimon Grau's
+                <a class="" href="https://raimonster.com/scripting-field-guide/#orgdf51477" target="_blank"
+                    >Shell Field Guide</a
+                >
+                to introspect stderr and stdout for pipelines
+            </p>
+            <pre class="language-bash pl-3"><code>function plog() {
+    local label="${1:-plog}"
+    tee &gt;(sed "s/^/[$label] /" 1&gt;&amp;2)
+}</code></pre>
+            <p>which you can use to inspect what a particular phase of a pipeline is doing. This can be invaluable!</p>
+            <pre class="language-bash pl-3"><code>$ seq 0 4 |
+    plog seq |
+    tr '0-9' 'a-z'
+a
+b
+c
+d
+e
+[seq] 0
+[seq] 1
+[seq] 2
+[seq] 3
+[seq] 4</code></pre>
+            <div class="alert alert-warning">
+                <p>
+                    <b>TODO:</b> I'd rather the <code>plog</code> output be interwoven with the <code>tr</code> output.
+                </p>
+            </div>
+            <h2>Redirect stderr to file, while printing both stderr and stdout</h2>
+            <p>
+                This requires
+                <a href="https://www.gnu.org/software/bash/manual/bash.html#Process-Substitution" target="_blank"
+                    >process substitution</a
+                >
+                but can be done with
+            </p>
+            <pre class="language-bash pl-3"><code>command 2&gt; &gt;(tee stderr.txt &gt;&amp;2)</code></pre>
+            <p>
+                This uses <code>2&gt;</code> to redirect stderr to a file, while the <code>&gt;()</code> process
+                substitution substitutes the <code>tee</code> stdin as a filename. Note that <code>tee</code> outputs to
+                stdout, so we redirect it's output with <code>&gt;&amp;2</code> so that <code>command</code>'s stderr
+                and stdout aren't merged.
+            </p>
+            <p>
+                This could be useful for saving compiler stderr output to a file for easy diagnostics while continuing
+                to output it (on stderr even, to minimize disruption to anything else the might consume its output) to
+                the console.
+            </p>
+            <pre
+                class="language-bash pl-3"
+            ><code>./build.sh 2&gt; &gt;(tee compiler-warnings.txt &gt;&amp;2)</code></pre>
+            <p>
+                If you want to use this technique in a pipeline, you need to pay special attention to the order of the
+                redirections. Compare the two following examples.
+            </p>
+            <!-- shell is the interactive session highlighting language -->
+            <pre class="language-shell pl-3"><code>$ cat test.sh
+#!/bin/bash
+
+echo "stderr" &gt;&amp;2
+echo "stdout"
+$ ./test.sh 2&gt; &gt;(tee stderr.txt &gt;&amp;2) 2&gt;&amp;1 | cat
+stderr
+stdout
+$ cat stderr.txt
+$ wc -l stderr.txt
+0
+$ # This is the one you probably want.
+$ ./test.sh 2&gt;&amp;1 2&gt; &gt;(tee stderr.txt &gt;&amp;2) | cat
+stderr
+stdout
+$ cat stderr.txt
+stderr
+$ wc -l stderr.txt
+1</code></pre>
+            <h2>Named pipes</h2>
+            <p>
+                You can create a named pipe (a name on the filesystem!) with <code>mkfifo pipename</code>. You may then
+                read from, or write to the <code>pipename</code> pipe. Since it's a special file on the filesystem, all
+                the regular file permissions apply.
+            </p>
+            <pre class="language-bash pl-3"><code>$ mkfifo /tmp/example-pipe
+$ ls -l /tmp/example-pipe
+prw-rw-r-- 1 nots nots 0 Nov 21 14:23 /tmp/example-pipe
+$ echo "test" &gt;/tmp/example-pipe</code></pre>
+            <p>
+                Notice that this <code>echo</code> command blocks! This is because the output hasn't been read. So we
+                can either run <code>echo "test" &amp;</code> in the background, or read from the
+                <code>/tmp/example-pipe</code> from another terminal with
+            </p>
+            <pre class="language-bash pl-3"><code>$ cat /tmp/example-pipe
+test</code></pre>
+            <h2>Redirected loops</h2>
+            <pre class="language-bash pl-3"><code>while read line; do
+    echo "$line"
+done &lt;input.txt</code></pre>
+            <p>or</p>
+            <pre class="language-bash pl-3"><code>cat input.txt | while read line; do
+    echo "$line"
+done</code></pre>
+            <h2>Special files</h2>
+            <ul>
+                <li>
+                    <code>/dev/kmsg</code> - write to the kernel log. Useful for troubleshooting long boot times caused
+                    by init scripts.
+                </li>
+                <li><code>/dev/fd/$fd</code> - a Bashism to read/write to/from file descriptor <code>$fd</code></li>
+                <li><code>/dev/{stdin,stdout,stderr}</code> - a synonym for <code>/dev/fd/{0,1,2}</code></li>
+                <li>
+                    <code>/dev/tcp/$host/$port</code> - Bash attempts to open the corresponding
+                    <code>$host:$port</code> socket
+                </li>
+                <li><code>/dev/udp/$host/$port</code> - Same as <code>/dev/tcp/</code>, but with UDP.</li>
+            </ul>
+            <p>In terminal #1,</p>
+            <pre class="language-bash pl-3"><code>nc -l localhost 1234</code></pre>
+            <p>Then in another terminal, do</p>
+            <pre class="language-bash pl-3"><code>echo "test" &gt;/dev/tcp/localhost/1234</code></pre>
+            <p>
+                this is similar to <code>echo "test" | nc localhost 1234</code> except it closes the connection. It's
+                equivalent to <code>echo "test" | nc -N localhost 1234</code>.
+            </p>
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+</html>
