@@ -125,7 +125,7 @@ git commit</code></pre>
             <div class="alert alert-info">
                 <p>
                     You can use <code>gq</code> to reflow the text in a commit message. Use visual-line mode to select
-                    text to reflow or <code>gqp</code> to reflow the current paragraph.
+                    text to reflow or <code>gqip</code> to reflow the current paragraph.
                 </p>
             </div>
             <h2>Git archaeology</h2>
@@ -162,6 +162,18 @@ git commit</code></pre>
                 the selected commit will open that commit in a new buffer. Pressing <code>-</code> will reblame at the
                 selected commit.
             </p>
+            <div class="alert alert-info">
+                <p>When you open a commit with <code>:Git blame</code> or similar, you'll see something like</p>
+                <pre class="language-text pl-3"><code>tree d80fb1c28a89bcdf6798dd26f986e1745e207525
+parent 4e4ea6709c08807b1d769e89a582720d4e11ebfb
+author Austin Gill &lt;Notgnoshi@gmail.com&gt; Sun Jul 25 13:46:12 2021 -0500
+committer Austin Gill &lt;Notgnoshi@gmail.com&gt; Mon Aug 30 14:50:15 2021 -0500</code></pre>
+                <p>
+                    which, notably, doesn't include the <em>hash</em> of the displayed commit. To get the hash, do
+                    <code>y&lt;C-G&gt;</code> to yank the hash. Or, possibly more helpful, as long as you have
+                    <a href="/vim/clipboard">system clipboard</a> support, you can do <code>"+y&lt;C-G&gt;</code>.
+                </p>
+            </div>
             <h3>Misc</h3>
             <p>
                 Use <code>:Gedit master:%</code> to open the current file as of the <code>master</code> revision in a
