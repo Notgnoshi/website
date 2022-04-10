@@ -4,8 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="Effective use of GNU Readline" />
-        <meta name="dcterms.available" content="DRAFT" />
-        <title>Bash: Readline</title>
+        <meta name="dcterms.available" content="2022-04-10" />
+        <title>GNU Readline</title>
         <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -44,10 +44,133 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Home</a></li>
                     <li class="breadcrumb-item"><a href="/bash">Bash</a></li>
-                    <li class="breadcrumb-item active" area-current="page"><a href="/bash/readline">Readline</a></li>
+                    <li class="breadcrumb-item active" area-current="page">
+                        <a href="/bash/readline">GNU Readline</a>
+                    </li>
                 </ol>
             </nav>
-            <h1>Bash: Readline</h1>
+            <h1>GNU Readline</h1>
+            <p>
+                GNU Readline is a library commonly used to provide interactive prompts in commandline applications. The
+                two prompts that use Readline that I used the most are Bash and the Python interpreter.
+            </p>
+            <p>
+                Readline may be customized by adding configuration to <code>~/.inputrc</code>. This page describes both
+                customized and default behavior that I have found helpful.
+            </p>
+            <h2>Completion</h2>
+            <p>Press <kbd>tab</kbd> repeatedly to cycle through completions</p>
+            <pre class="language-bash pl-3"><code>TAB:menu-complete</code></pre>
+            <p>
+                If there are multiple completions with a common prefix, pressing <kbd>tab</kbd> the first time will
+                tab-complete the common prefix, and any subsequent <kbd>tab</kbd>s will cycle through the completion. If
+                you also <code>set colored-completion-prefix on</code>, then the completions displayed will have the
+                common prefix highlighted in another color.
+            </p>
+            <pre class="language-bash pl-3"><code>set menu-complete-display-prefix on</code></pre>
+            <p>If completion is ambiguous, show available completions on first TAB press</p>
+            <pre class="language-bash pl-3"><code>set show-all-if-ambiguous on</code></pre>
+            <p>If a completion is a directory or a symlink to a directory, append a trailing slash</p>
+            <pre class="language-bash pl-3"><code>set mark-directories on
+set mark-symlinked-directories on</code></pre>
+            <p>
+                Display completions in different colors to indicate their file type. Color definitions are taken from
+                the <code>LS_COLORS</code> environment variable. You can also <code>set visible-stats on</code> to have
+                a similar effect by appending a symbol to the filename.
+            </p>
+            <pre class="language-bash pl-3"><code>set colored-stats on</code></pre>
+            <p>
+                By default, you can also use <kbd><kbd>alt</kbd> + <kbd>*</kbd></kbd> to insert all matching
+                completions.
+            </p>
+            <h2>Cursor movement</h2>
+            <p>The following are default keybinds</p>
+            <ul>
+                <li>
+                    <kbd><kbd>ctrl</kbd> + <kbd>l</kbd></kbd> - clears the screen. This one's so ingrained in my muscle
+                    memory that I can't use this shortcut in any other application.
+                </li>
+                <li>
+                    <kbd><kbd>ctrl</kbd> + <kbd>a</kbd></kbd> - move the cursor to the start of the line
+                </li>
+                <li>
+                    <kbd><kbd>ctrl</kbd> + <kbd>e</kbd></kbd> - move the cursor to the end of the line
+                </li>
+            </ul>
+            The default Readline behavior is for <kbd><kbd>ctrl</kbd> + <kbd>f</kbd></kbd> to jump forwards a
+            <em>single</em> character (and backwards with <kbd><kbd>ctrl</kbd> + <kbd>b</kbd></kbd
+            >), and for <kbd><kbd>alt</kbd> + <kbd>f</kbd></kbd> and <kbd><kbd>alt</kbd> + <kbd>b</kbd></kbd> to jump
+            forward and backward over words. But I find <kbd>alt</kbd> awkward to reach for, so I re-bind
+            <kbd><kbd>ctrl</kbd> + <kbd>f</kbd></kbd> and <kbd><kbd>ctrl</kbd> + <kbd>b</kbd></kbd> to jump over words:
+            <pre class="language-bash pl-3"><code>"\C-f":forward-word
+"\C-b":backward-word</code></pre>
+            <h2>Line editing</h2>
+            <p>
+                When closing a paired parenthesis, curly brace, or square bracket, flash the matching opening delimiter
+                by briefly moving the cursor to the matching character. This only has the
+                <em>appearance</em> of moving the cursor; it's completely safe to continue typing as soon as you enter
+                the closing delimiter.
+            </p>
+            <pre class="language-bash pl-3"><code>set blink-matching-paren on</code></pre>
+            <p>The following are default keybinds</p>
+            <ul>
+                <li>
+                    <kbd><kbd>ctrl</kbd> + <kbd>x</kbd> + <kbd>e</kbd></kbd> - open the current line in your
+                    <code>EDITOR</code>
+                </li>
+                <li>
+                    <kbd><kbd>ctrl</kbd> + <kbd>k</kbd></kbd> - kill from the cursor to the end of the line
+                </li>
+                <li>
+                    <kbd><kbd>ctrl</kbd> + <kbd>u</kbd></kbd> - kill from the cursor to the start of the line. Useful in
+                    hidden password prompts when you mistype your passwords.
+                </li>
+                <li>
+                    <kbd><kbd>ctrl</kbd> + <kbd>w</kbd></kbd> - kill previous word (this is actually
+                    <code>unix-word-rubout</code>, but I'm unsure how that's different from
+                    <code>backward-kill-word</code>)
+                </li>
+            </ul>
+            <p>
+                There's also <kbd><kbd>alt</kbd> + <kbd>d</kbd></kbd> to kill the next word, but since I find
+                <kbd>alt</kbd> awkward to reach for, I don't use this. Instead, with
+                <kbd><kbd>ctrl</kbd> + <kbd>f</kbd></kbd> bound to <code>forward-word</code>, I find it easier to use
+                <kbd><kbd>ctrl</kbd> + <kbd>f</kbd> + <kbd>w</kbd></kbd
+                >.
+            </p>
+            <p>
+                You can also use <kbd><kbd>alt</kbd> + <kbd>#</kbd></kbd> to comment the current line and start a new
+                one. This is especially useful for Bash one-liners where you realize you need to do something else
+                first, but don't want to throw away the current line. But I find it an especially awkward keypress, so I
+                normally just use <kbd><kbd>ctrl</kbd> + <kbd>a</kbd></kbd> to move the cursor to the front and enter a
+                <code>#</code> myself.
+            </p>
+            <h2>History</h2>
+            <p>
+                For reverse history search in Bash, I use
+                <a href="https://github.com/junegunn/fzf" target="_blank">FZF</a>, which is <em>almost</em> equivalent
+                to Readline's <code>reverse-search-history</code> (bound to <kbd><kbd>ctrl</kbd> + <kbd>r</kbd></kbd> by
+                default). I find it to be more polished, faster (to use, not necessarily more responsive), but the
+                Readline shortcuts described above don't work in its prompt. While this is acceptable to me, it was an
+                immediate impediment to a colleague.
+            </p>
+            <p>Otherwise, Readline provides some useful variables to access previous lines from its history.</p>
+            <ul>
+                <li><code>!$</code> - The last argument of the previous command</li>
+                <li><code>!^</code> - The first argument of the previous command</li>
+                <li>
+                    <code>!!</code> - The previous command. Useful if you forgot to add <code>sudo</code> (e.g.,
+                    <code>sudo !!</code>)
+                </li>
+                <li>
+                    <code>!n</code> - The <code>n</code>th command in the history (counted from the start of the
+                    history)
+                </li>
+                <li>
+                    <code>!cmd</code> - The previous command that began with <code>cmd</code>. Appending
+                    <code>:p</code>will print the command instead of executing it.
+                </li>
+            </ul>
         </div>
     </body>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
