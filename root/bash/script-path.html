@@ -93,6 +93,11 @@ SCRIPT_DIRECTORY="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
 # Resolve $RELATIVE_ASSET to an absolute path. May or may not be necessary.
 ABSOLUTE_ASSET="$(readlink --canonicalize --no-newline "$RELATIVE_ASSET")"
 </code></pre>
+            <p>
+                If your script is in a Git repository (and you expect it to be executed from a Git repository), you can
+                also use
+            </p>
+            <pre class="language-bash pl-3"><code>REPO_DIRECTORY=$(git rev-parse --show-toplevel)</code></pre>
         </div>
     </body>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
