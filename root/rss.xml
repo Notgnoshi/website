@@ -7,7 +7,14 @@
     <atom:link href="https://agill.xyz/rss.xml" rel="self"/>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
-    <lastBuildDate>Sun, 28 Nov 2021 21:35:43 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 10 Apr 2022 19:41:36 +0000</lastBuildDate>
+    <item>
+      <title>GNU Readline</title>
+      <link>https://agill.xyz/bash/readline/</link>
+      <description>Effective use of GNU Readline</description>
+      <guid isPermaLink="false">https://agill.xyz/bash/readline/</guid>
+      <pubDate>Sun, 10 Apr 2022 00:00:00 -0500</pubDate>
+    </item>
     <item>
       <title>Bash: Plumbing</title>
       <link>https://agill.xyz/bash/plumbing/</link>
