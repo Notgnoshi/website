@@ -4,6 +4,8 @@ import argparse
 import logging
 import sys
 
+import frontmatter
+import jinja2
 import mistune
 
 LOG_LEVELS = {
@@ -93,11 +95,14 @@ def parse_args():
 def main(args):
     renderer = BootstrappedHtmlRenderer()
     parser = mistune.create_markdown(renderer=renderer)
-    markdown = args.input.read()
+    metadata = frontmatter.load(args.input)
+    html = parser(metadata.content)
+    metadata["content"] = html
 
-    # TODO: Support markdown with frontmatter: https://github.com/lepture/mistune/issues/211
-    html = parser(markdown)
-    # TODO: Support writing the HTML to the {% content %} section of a Jinja2 template
+    if args.page_template:
+        template = jinja2.Template(args.page_template.read())
+        html = template.render(metadata)
+
     args.output.write(html)
 
 
