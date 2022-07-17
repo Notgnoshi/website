@@ -2,8 +2,9 @@ bibtexparser
 black
 cssselect
 feedgen
-Jinja2
+jinja2
 lxml
 mistune
-pylint
 pydocstyle
+pylint
+python-frontmatter
