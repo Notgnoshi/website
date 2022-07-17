@@ -4,5 +4,6 @@ cssselect
 feedgen
 Jinja2
 lxml
+mistune
 pylint
 pydocstyle
