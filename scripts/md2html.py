@@ -16,6 +16,41 @@ LOG_LEVELS = {
 DEFAULT_LEVEL = "INFO"
 
 
+class BootstrappedHtmlRenderer(mistune.HTMLRenderer):
+    """A customized HTMLRenderer that adds Bootstrap classes and other customizations."""
+
+    def __init__(self, escape=True, allow_harmful_protocols=None):
+        super().__init__(escape, allow_harmful_protocols)
+
+    def image(self, src, alt="", title=""):
+        src = self._safe_url(src)
+        alt = mistune.util.escape_html(alt)
+        inline_title = f' title="{title}"' if title else ""
+        inline_caption = (
+            f'<figcaption class="figure-caption text-right">{title}</figcaption>' if title else ""
+        )
+        # TODO: This wraps the figure in <p></p> tags. Is that okay?
+        return f'<figure class="figure d-block mx-auto w-100"><img class="figure-img img-fluid rounded w-100" src="{src}" alt="{alt}" {inline_title}/>{inline_caption}</figure>'
+
+    def block_code(self, code, info=None):
+        if info is not None:
+            info = info.strip()
+        lang = None
+        if info:
+            lang = info.split(None, 1)[0]
+            lang = mistune.util.escape_html(lang)
+        inline_lang = f"language-{lang} " if lang else ""
+        code = mistune.util.escape(code)
+        return f'<pre><code class="{inline_lang}pl-3">{code}</code></pre>\n'
+
+    def block_quote(self, text):
+        return f'<blockquote class="blockquote border-left border-2 pl-2">\n{text}</blockquote>\n'
+
+    # TODO: Tables: https://mistune.readthedocs.io/en/latest/plugins.html#table
+    # TODO: Admonitions: https://mistune.readthedocs.io/en/latest/directives.html#admonitions
+    # TODO: LaTeX with KaTeX
+
+
 def parse_args():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -56,7 +91,8 @@ def parse_args():
 
 
 def main(args):
-    parser = mistune.create_markdown()
+    renderer = BootstrappedHtmlRenderer()
+    parser = mistune.create_markdown(renderer=renderer)
     markdown = args.input.read()
 
     # TODO: Support markdown with frontmatter: https://github.com/lepture/mistune/issues/211
