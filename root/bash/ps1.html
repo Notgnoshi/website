@@ -109,6 +109,20 @@ xterm* | rxvt*)
 esac
 </code></pre>
             <p>
+                The first thing I do is determine if my shell has been "polluted" with a
+                <a href="https://docs.yoctoproject.org/sdk-manual/" target="_blank">Yocto eSDK</a>. This is important at
+                work, as I frequently switch between host and target compilation contexts, and nothing is worse than
+                when you mix them up and can't figure out what the <em>hell</em> is happening.
+            </p>
+            <pre class="language-bash pl-3"><code>function __yocto_sysroot_ps1() {
+    OLD_EXIT_STATUS=$?
+    if [ -n "$OECORE_TARGET_SYSROOT" ]; then
+        echo -n "[$(basename "$OECORE_TARGET_SYSROOT")] "
+    fi
+    return $OLD_EXIT_STATUS
+}
+PS1="\[${YELLOW}\]\$(__yocto_sysroot_ps1)\[${RESET}\]${PS1}"</code></pre>
+            <p>
                 Then I determine if the current session is an active SSH session and prepend the string
                 <code>(ssh)</code> to the <code>PS1</code>.
             </p>
