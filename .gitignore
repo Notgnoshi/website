@@ -1,3 +1,6 @@
+# Generated HTML, not the source of truth
+root/drafts/*
+
 .vscode/
 # Download the player skin renders, don't track.
 static/images/players/
