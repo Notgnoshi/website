@@ -9,7 +9,7 @@ docker run \
     --detach \
     --restart unless-stopped \
     --name research-api \
-    --mount "type=bind,source=/srv/research,target=/app" \
+    --mount "type=bind,source=/home/nots/services/research,target=/app" \
     --workdir=/app \
     --expose 80 \
     --env WEB_CONCURRENCY=1 \

@@ -1,0 +1,26 @@
+## Start of configuration add by letsencrypt container
+location ^~ /.well-known/acme-challenge/ {
+    auth_basic off;
+    auth_request off;
+    allow all;
+    root /usr/share/nginx/html;
+    try_files $uri =404;
+    break;
+}
+## End of configuration add by letsencrypt container
+# Proxy agill.xyz/generate through to api.localhost/generate
+
+location /generate {
+    set $upstream api.localhost;
+    proxy_pass http://$upstream;
+}
+
+location /docs {
+    set $upstream api.localhost;
+    proxy_pass http://$upstream;
+}
+
+location /openapi.json {
+    set $upstream api.localhost;
+    proxy_pass http://$upstream/openapi.json;
+}
