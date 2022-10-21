@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="What I've learned about my personal values" />
+        <meta name="dcterms.available" content="2022-10-21" />
+        <title>Personal values</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="/minecraft">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                        <a class="text-muted p-2" href="/rss.xml"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>Personal values</h1>
+            <p>
+                A few days ago, I was in some internal training where we went through an exercise to help us determine
+                our core values. While to some degree I already knew what my values were, I found the exercise helped me
+                put my core values into perspective against the backdrop of the rest of my values. This exercise also
+                helped explain some of what I've found most frustrating at work.
+            </p>
+            <p>
+                My core values are <strong>interrogation</strong>, <strong>trust</strong>, and
+                <strong>openness</strong>.
+            </p>
+            <h2>Interrogation</h2>
+            <p>
+                This is an odd one, that I doubt you'd see if you were to Google for a list of personal values. But I've
+                learned that it's <em>really</em> important to me to &quot;dig in&quot;, to ask (and answer!) questions
+                that are difficult to answer with my current level of understanding.
+            </p>
+            <p>
+                Continual growth is a common value (I hope, anyways), and it's somewhat related. You <em>have</em> to
+                grow, to learn, and to become more capable to interrogate systems you don't understand. While the
+                understanding is important (vital, in fact), that's not what's most important to me. What I find
+                important, is the ability to be confronted with a problem I don't understand, and to pull on whatever
+                threads I find until I construct an understanding that's useful enough to take action on. It's about
+                saying &quot;Huh. This doesn't match my expectation. Why?&quot;
+            </p>
+            <p>
+                It's also related to &quot;drive&quot;. It takes strategic planning, patience, dedication, and the
+                ability to be frustrated without getting discouraged to start pulling on threads. Most importantly
+                though, it also requires you to recognize tunnel vision so that you can pull back and ask &quot;What am
+                I <em>actually</em> trying to do here?&quot;.
+            </p>
+            <p>
+                I tend to do depth-first searches rather than breadth-first. The unfortunate thing about software, is
+                that there's a <em>huge</em> amount of depth -- eventually, you get to the fundamental laws of
+                mathematics, and let me tell you what, my manager <em>loves</em> being told a bug fix is mathematically
+                impossible. So it's important to know when to start popping sub-problems off the stack so you can focus
+                on things to move you closer to your goals.
+            </p>
+            <h3>Example</h3>
+            <p>
+                At work, we recently updated a project to use Rust 1.62.1 instead of 1.60.0 (the feature we wanted was
+                stabilized in 1.61.0, but 1.62.1 was the latest stable release at the time), and doing so broke a
+                doctest somewhat unexpectedly -- all of a sudden, that particular test could no longer find a shared
+                library!
+            </p>
+            <p>
+                Eventually, I found the issue by running <code>rustdoc</code> from 1.60.0 and 1.62.1 with
+                <code>strace</code>, and then diffing a few million lines of output, which was a messy diff, because the
+                strace logs contained version numbers, timestamps, and hashes, which were uninteresting diffs.
+            </p>
+            <p>
+                After getting my difftool to ignore these uninteresting differences, I was able to determine the cause
+                to be <a href="https://github.com/rust-lang/rust/pull/95604">rust#95604</a>, which was exacerbated by
+                <a href="https://github.com/rust-lang/cargo/issues/8531">cargo#8531</a> but only after significant. (but
+                super interesting) effort.
+            </p>
+            <p>
+                The result? We disabled that test, which was the original recommendation of the team, but I wasn't
+                comfortable <em>disabling</em> a <em>test</em> without first knowing <em>why</em> it was failing.
+            </p>
+            <h3>Example</h3>
+            <p>
+                A colleague volunteered to work on a bug ticket in a system I'm very familiar with (I wrote the bug 🙁).
+                I gave them some advice, and told them I had a suspicion of which subsystem the bug was in, but that the
+                application log files would tell them for sure, as long as they changed the log level to DEBUG.
+            </p>
+            <p>
+                So I recommended turning up the default log level to DEBUG before attempting to reproduce. I made this
+                recommendation over several standups, and to my dismay, this colleague had <em>no</em> interest in
+                looking at the logs.
+            </p>
+            <p>
+                After we finally reproduced the issue together in an unrelated meeting several weeks later, and wouldn't
+                you know it, looking at the logs pointed out the root cause in a single digit number of minutes.
+            </p>
+            <p>
+                Of course I <em>knew</em> what to look for, and I <em>knew</em> that the information was there. But my
+                colleague wasn't willing to &quot;dig in&quot; to the logs (they're somewhat verbose, but if you turn
+                only the subsystem you're interested in to DEBUG level, they have a pretty high signal-to-noise ratio).
+            </p>
+            <p>
+                I've found this to be true over the last few years -- that I tend to immediately jump to looking at the
+                log files (or core dumps and screenshots; things that are tangible and can't be argued with), even going
+                as far as regularly comparing the log files of one system to an adjacent, related system. It's a skill
+                that I've built up over time; being able to debug a system by reconstructing the events from logs files.
+                And I've put significant effort in making the software I work on understandable by paying close
+                attention to what we log, and when we log it. But what I've found when suggesting to coworkers that they
+                look at the logs, is that they don't want to &quot;dig in&quot;, to start looking at what
+                <em>actually</em> happened, and why that might not match their expectation of what
+                <em>should</em> happen.
+            </p>
+            <p>
+                This is frustrating, when &quot;digging in&quot; is something I <em>highly</em> value -- especially when
+                I <em>know</em> the information we need is there (because I <em>put</em> it there!) -- and it's not
+                valued by my peers.
+            </p>
+            <h2>Trust results in freedom</h2>
+            <p>
+                I've also learned that I value freedom. I don't respond well when I'm told how to do something,
+                <em>especially</em> if it's something I'm a subject matter expert in (or even just barely competent,
+                like washing the dishes, but that's a story I do <em>not</em> want to expound on).
+            </p>
+            <p>
+                For example, this has come up at work in how we approve and merge pull requests. Someone was upset with
+                a recent change, and changed the project settings so that only a few people could approve and merge pull
+                requests. This person was <em>not</em> a project owner, and made this change without expressing their
+                concern, or talking to the rest of the team.
+            </p>
+            <p>
+                So now, I can review someone else's code, but my approval is no longer good enough?! And when it
+                <em>is</em> approved, even by one of the select few, I can't even <em>merge</em> it?!?! As a senior
+                engineer, and an owner of the project?!
+            </p>
+            <p>
+                Now don't get me wrong, it's not the freedom to write and merge whatever I damn well please that I'm
+                after. I understand the value of code review, and believe that <em>every</em> submission should be
+                reviewed.
+            </p>
+            <p>
+                But what happened, was that someone was disappointed, decided they didn't trust the team, and instead of
+                building up that trust, instead of addressing the issue, they built up nonsensical controls that
+                <em>perpetuated</em> the lack of trust.
+            </p>
+            <p>
+                It's easy to focus on freedom, as it's easier to measure. But it wasn't the change in freedom that bent
+                me out of shape. I think it's perfectly acceptable to have a list of who can and can't approve pull
+                requests. What I learned about myself, is that I value <em>trust</em>, and that I don't function well in
+                a team that doesn't trust each other.
+            </p>
+            <p>
+                When you <em>are</em> in such a team (I am now, and I love it), this trust results in quite a few
+                positive outcomes
+            </p>
+            <ul>
+                <li>Code reviews become more respectful, and productive</li>
+                <li>We become more open about failure, and consequently growth</li>
+                <li>
+                    We become more open about receiving feedback (or even becoming <em>willing</em> to receive feedback)
+                </li>
+                <li>
+                    I come to work every day <em>excited</em> to work on both the project, <em>and</em> with the team
+                    I'm on. This is <em>incredible</em>.
+                </li>
+                <li>
+                    We have the <em>freedom</em> to adapt our processes, our software, and our workflow to our needs
+                </li>
+            </ul>
+            <p>
+                This has come up when discussing certain design patterns in projects owned by other teams. There's a
+                certain family of projects at work, where the owner doesn't trust the technical excellence of their
+                team, which caused them to reach for some quite complex design patterns to make things &quot;just
+                magically work&quot; without trusting the team to understand what the needs of each project are, and to
+                configure them appropriately. This colleague's goals is no No-Code their way to victory. That would be a
+                quite cool technical achievement, but my perspective is that it's born from a lack of trust (which isn't
+                completely baseless, there's opportunities for excellence anywhere and everywhere).
+            </p>
+            <p>
+                Instead of responding to a lack of trust by throwing up more and more controls, I value responding by
+                building up the trust level -- doing more training, having conversations on what I want to see in a high
+                quality piece of software.
+            </p>
+            <p>A culture of trust and respect results in freedom.</p>
+            <h2>Openness enables opinionation</h2>
+            <blockquote class="blockquote border-left border-2 pl-2">
+                <p>Strong opinions loosely held.</p>
+            </blockquote>
+            <p>
+                I'm an opinionated person, and the ability to express my opinions is important to me. I do not hesitate
+                to say &quot;I disagree, here's what I think, and why&quot;, and it's important to me that I work in an
+                environment where this is possible. But I work on a team <em>full</em> of opinionated engineers who
+                don't hesitate to voice their own opinions. And our opinions are all <em>different</em>.
+            </p>
+            <p>
+                Your first reaction might be &quot;That sounds <em>hellish</em>, how do you get anything
+                <em>done</em>?&quot; but I really quite the dynamic. I think it's only successful because of the culture
+                of trust and mutual respect that the team has built over the past few months.
+            </p>
+            <p>
+                One of the ways I think we've built this culture, is through being open to changing our opinion, and
+                through being open to trying something that doesn't quite sit comfortably. It's sometimes pretty hard --
+                a lot of our opinions are on things that we've personally experience pain with, and we don't want to
+                experience that pain again! This can result in very <em>strongly held</em> opinions.
+            </p>
+            <p>
+                There's a few ways that we've still been able to be productive without requesting transfers to another
+                team. To a person, we're all open to changing our opinions when presented a (compelling) reason.
+                Sometimes though, we have to say &quot;Okay, I don't quite agree, but I'm willing to help you try it
+                out&quot;. This has been important, because each team member has different strengths, and is a subject
+                matter expert in <em>some</em> part of the system. So we frequently say &quot;Seeing
+                <em>this</em> surprised me, I initially though <em>that</em> might be better&quot;. Sometimes, the
+                resolution is &quot;Oh, yeah, that's pretty sweet&quot;. Sometimes though, the resolution is &quot;I
+                tried that, but here's why it didn't work&quot;.
+            </p>
+            <p>
+                Sometimes, I've even found us having heated disagreements over how much we agree. Communication is the
+                single hardest thing about my job, and I'm not sure that will ever stop being true. We often have the
+                same values, and come to different conclusions. We also commonly use different words to say the same
+                thing, but we don't quite understand what the other person is saying, so we immediately jump to
+                disagreeing with them (because we <em>know</em> that we're right). The helpful thing to do in these
+                kinds of conversations, is to try to identify <em>why</em> we're disagreeing, and even
+                <em>what</em> we're disagreeing about.
+            </p>
+            <p>
+                I value being opinionated, but this <em>must</em> be tempered with being open to changing my opinion. I
+                still struggle with this, and have to be intentional when I approach conversations. I've found that even
+                identifying disagreement can help its resolution. We often argue without even knowing what we're arguing
+                about. It's pretty helpful to try to restate what someone else's opinions are, without making any kind
+                of judgement on them -- &quot;Can I try to restate your opinion to make sure I understand? You think ...
+                because ...?&quot;
+            </p>
+            <p>Being opinionated only works in an environment of trust and a willingness to change your opinion.</p>
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+</html>
