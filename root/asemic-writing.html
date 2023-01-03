@@ -109,13 +109,19 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/alg-01-point-cloud.svg"
-                        alt="Random point cloud with 12 points"
-                        title="a random point cloud"
-                    />
-                    <figcaption class="figure-caption text-right">a random point cloud</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img"
+                                    src="/images/asemic-writing/alg-01-point-cloud.svg"
+                                    alt="Random point cloud with 12 points"
+                                    title="a random point cloud"
+                                />
+                                <figcaption class="figure-caption text-right">a random point cloud</figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <h3>02 - Calculate the points' relative neighborhood</h3>
@@ -132,13 +138,21 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/alg-02-delaunay.svg"
-                        alt="Delaunay triangulation"
-                        title="Delaunay triangulation of the point cloud"
-                    />
-                    <figcaption class="figure-caption text-right">Delaunay triangulation of the point cloud</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img img-fluid rounded w-100"
+                                    src="/images/asemic-writing/alg-02-delaunay.svg"
+                                    alt="Delaunay triangulation"
+                                    title="Delaunay triangulation of the point cloud"
+                                />
+                                <figcaption class="figure-caption text-right">
+                                    Delaunay triangulation of the point cloud
+                                </figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <p>And then remove the longest edge from each triangle</p>
@@ -148,13 +162,19 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/alg-02-urquhart.svg"
-                        alt="Urquhart graph"
-                        title="Urquhart graph of the points"
-                    />
-                    <figcaption class="figure-caption text-right">Urquhart graph of the points</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img img-fluid rounded w-100"
+                                    src="/images/asemic-writing/alg-02-urquhart.svg"
+                                    alt="Urquhart graph"
+                                    title="Urquhart graph of the points"
+                                />
+                                <figcaption class="figure-caption text-right">Urquhart graph of the points</figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <h3>03 - Randomly traverse the graph to create strokes</h3>
@@ -166,13 +186,19 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/alg-03-strokes.svg"
-                        alt="Random strokes"
-                        title="Random strokes"
-                    />
-                    <figcaption class="figure-caption text-right">Random strokes</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img img-fluid rounded w-100"
+                                    src="/images/asemic-writing/alg-03-strokes.svg"
+                                    alt="Random strokes"
+                                    title="Random strokes"
+                                />
+                                <figcaption class="figure-caption text-right">Random strokes</figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <p>Spoiler: you can immediately tell that this will generate quite a bit of nonsense.</p>
@@ -192,13 +218,19 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/alg-04-smooth.svg"
-                        alt="smoothed strokes"
-                        title="Smoothed strokes"
-                    />
-                    <figcaption class="figure-caption text-right">Smoothed strokes</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img img-fluid rounded w-100"
+                                    src="/images/asemic-writing/alg-04-smooth.svg"
+                                    alt="smoothed strokes"
+                                    title="Smoothed strokes"
+                                />
+                                <figcaption class="figure-caption text-right">Smoothed strokes</figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <p>And then repeat a few thousand times and cherry-pick the good results.</p>
@@ -206,57 +238,41 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
             <p>I was disappointed in the quality of the results.</p>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/random-0.svg"
-                        alt=""
-                        title="random-00"
-                    />
-                    <figcaption class="figure-caption text-right">random-00</figcaption>
-                </figure>
-            </p>
-            <p>
-                <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/random-1.svg"
-                        alt=""
-                        title="random-01"
-                    />
-                    <figcaption class="figure-caption text-right">random-01</figcaption>
-                </figure>
-            </p>
-            <p>
-                <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/random-2.svg"
-                        alt=""
-                        title="random-02"
-                    />
-                    <figcaption class="figure-caption text-right">random-02</figcaption>
-                </figure>
-            </p>
-            <p>
-                <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/random-3.svg"
-                        alt=""
-                        title="random-03"
-                    />
-                    <figcaption class="figure-caption text-right">random-03</figcaption>
-                </figure>
-            </p>
-            <p>
-                <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/random-4.svg"
-                        alt=""
-                        title="random-04"
-                    />
-                    <figcaption class="figure-caption text-right">random-04</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <img
+                                class="figure-img img-fluid rounded col-sm"
+                                src="/images/asemic-writing/random-0.svg"
+                                alt=""
+                                title="random-00"
+                            />
+                            <img
+                                class="figure-img img-fluid rounded col-sm"
+                                src="/images/asemic-writing/random-1.svg"
+                                alt=""
+                                title="random-01"
+                            />
+                            <img
+                                class="figure-img img-fluid rounded col-sm"
+                                src="/images/asemic-writing/random-2.svg"
+                                alt=""
+                                title="random-02"
+                            />
+                            <img
+                                class="figure-img img-fluid rounded col-sm"
+                                src="/images/asemic-writing/random-3.svg"
+                                alt=""
+                                title="random-03"
+                            />
+                            <img
+                                class="figure-img img-fluid rounded col-sm"
+                                src="/images/asemic-writing/random-4.svg"
+                                alt=""
+                                title="random-04"
+                            />
+                        </div>
+                    </div>
+                    <figcaption class="figure-caption text-right">A couple random glyphs</figcaption>
                 </figure>
             </p>
             <h2>Some better results</h2>
@@ -271,13 +287,21 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/refined-01-delaunay.svg"
-                        alt="Using the Delaunay triangulation"
-                        title="Using the Delaunay triangulation"
-                    />
-                    <figcaption class="figure-caption text-right">Using the Delaunay triangulation</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img img-fluid rounded w-100"
+                                    src="/images/asemic-writing/refined-01-delaunay.svg"
+                                    alt="Using the Delaunay triangulation"
+                                    title="Using the Delaunay triangulation"
+                                />
+                                <figcaption class="figure-caption text-right">
+                                    Using the Delaunay triangulation
+                                </figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <p>That could be promising.</p>
@@ -291,13 +315,21 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/refined-02-size.svg"
-                        alt="Increasing the point cloud size"
-                        title="Increasing the point cloud size"
-                    />
-                    <figcaption class="figure-caption text-right">Increasing the point cloud size</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img img-fluid rounded w-100"
+                                    src="/images/asemic-writing/refined-02-size.svg"
+                                    alt="Increasing the point cloud size"
+                                    title="Increasing the point cloud size"
+                                />
+                                <figcaption class="figure-caption text-right">
+                                    Increasing the point cloud size
+                                </figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <p>
@@ -312,13 +344,19 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/refined-03-urquhart.svg"
-                        alt="Increasing the point cloud size"
-                        title="Big point cloud with Urquhart"
-                    />
-                    <figcaption class="figure-caption text-right">Big point cloud with Urquhart</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img img-fluid rounded w-100"
+                                    src="/images/asemic-writing/refined-03-urquhart.svg"
+                                    alt="Increasing the point cloud size"
+                                    title="Big point cloud with Urquhart"
+                                />
+                                <figcaption class="figure-caption text-right">Big point cloud with Urquhart</figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <p>
@@ -339,13 +377,19 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/refined-04-grid.svg"
-                        alt="Using a regular grid"
-                        title="Using a regular grid"
-                    />
-                    <figcaption class="figure-caption text-right">Using a regular grid</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img img-fluid rounded w-100"
+                                    src="/images/asemic-writing/refined-04-grid.svg"
+                                    alt="Using a regular grid"
+                                    title="Using a regular grid"
+                                />
+                                <figcaption class="figure-caption text-right">Using a regular grid</figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <p>
@@ -365,13 +409,19 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/refined-05-45deg.svg"
-                        alt="Less smoothing"
-                        title="Less smoothing"
-                    />
-                    <figcaption class="figure-caption text-right">Less smoothing</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img img-fluid rounded w-100"
+                                    src="/images/asemic-writing/refined-05-45deg.svg"
+                                    alt="Less smoothing"
+                                    title="Less smoothing"
+                                />
+                                <figcaption class="figure-caption text-right">Less smoothing</figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <p><em>That's cool.</em></p>
@@ -386,13 +436,19 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/refined-06-triangulate.svg"
-                        alt="Triangulated grid"
-                        title="Using a triangulated grid"
-                    />
-                    <figcaption class="figure-caption text-right">Using a triangulated grid</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img img-fluid rounded w-100"
+                                    src="/images/asemic-writing/refined-06-triangulate.svg"
+                                    alt="Triangulated grid"
+                                    title="Using a triangulated grid"
+                                />
+                                <figcaption class="figure-caption text-right">Using a triangulated grid</figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <p>That could probably be compelling. Let's try a few more variations.</p>
@@ -405,13 +461,19 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/refined-07-low-smooth.svg"
-                        alt="Less smoothing"
-                        title="Less smoothing"
-                    />
-                    <figcaption class="figure-caption text-right">Less smoothing</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img img-fluid rounded w-100"
+                                    src="/images/asemic-writing/refined-07-low-smooth.svg"
+                                    alt="Less smoothing"
+                                    title="Less smoothing"
+                                />
+                                <figcaption class="figure-caption text-right">Less smoothing</figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <pre><code class="language-sh pl-3">grid --output-format points 3 4 |
@@ -422,13 +484,19 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
 </code></pre>
             <p>
                 <figure class="figure d-block mx-auto w-100">
-                    <img
-                        class="figure-img img-fluid rounded w-100"
-                        src="/images/asemic-writing/refined-08-no-smooth.svg"
-                        alt="No smoothing"
-                        title="No smoothing"
-                    />
-                    <figcaption class="figure-caption text-right">No smoothing</figcaption>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img
+                                    class="figure-img img-fluid rounded w-100"
+                                    src="/images/asemic-writing/refined-08-no-smooth.svg"
+                                    alt="No smoothing"
+                                    title="No smoothing"
+                                />
+                                <figcaption class="figure-caption text-right">No smoothing</figcaption>
+                            </div>
+                        </div>
+                    </div>
                 </figure>
             </p>
             <p>
