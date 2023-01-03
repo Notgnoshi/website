@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Generative script creation" />
+        <meta name="dcterms.available" content="2023-01-02" />
+        <title>Asemic Writing</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+
+        <script defer src="/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+        <link rel="stylesheet" href="/css/ascetic.min.css" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="/minecraft">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                        <a class="text-muted p-2" href="/rss.xml"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>Asemic Writing</h1>
+            <p>
+                I've found Anders Hoff's work on <a href="https://log.inconvergent.net/list/">Inconvergent</a> hugely
+                inspiring. In particular his works that are 2D planar geometries (and graphs). This is in part (the
+                second reason why is because of what I do for work) why
+                <a href="https://github.com/Notgnoshi/generative">https://github.com/Notgnoshi/generative</a>
+                exclusively uses the <a href="https://www.ogc.org/standards/sfa">Simple Feature Access</a> geometries as
+                geometric primitives.
+            </p>
+            <p>
+                Two of his posts that have really captured my imagination have been on
+                <a href="https://en.wikipedia.org/wiki/Asemic_writing">Asemic Writing</a> (generative handwriting having
+                no semantic content).
+            </p>
+            <p>
+                <a href="https://inconvergent.net/2017/spline-script/">Spline Script</a> gives an algorithm that uses
+                spline fits inside rotated ellipses to generate cursive handwriting. The use of splines is problematic,
+                because all of the tooling that I've built for myself over the last few years has exclusively used
+                <a href="https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry">WKT</a> as a
+                serialization format for geometries, and while extending WKT to support splines is
+                <a href="https://docs.rs/beziercurve-wkt/latest/beziercurve_wkt/">possible</a>, I haven't found the time
+                nor motivation to build support for handling both splines and discrete geometries in my tooling (I'd
+                want each tool to handle both equally well, which is daunting).
+            </p>
+            <p>
+                However <a href="https://inconvergent.net/2020/asemic-writing/">More Asemic Writing</a> gives an
+                algorithm for generating glyphs more like <a href="https://en.wikipedia.org/wiki/Hangul">Hangul</a> and
+                <a href="https://en.wikipedia.org/wiki/Katakana">Katakana</a>, which again uses splines, but less
+                &quot;loopy&quot; ones! So instead of taking on the work of providing true spline support, I instead
+                operate on discrete geometries, and then smooth them afterward ;)
+            </p>
+            <p>This has a few downsides, but the upside is that it's <em>easy</em>.</p>
+            <h2>Setup</h2>
+            <p>
+                For the rest of the page, I'll be referring to code from
+                <a href="https://github.com/Notgnoshi/generative">https://github.com/Notgnoshi/generative</a>. It's a
+                mix of Python, C++, and Rust.
+            </p>
+            <pre><code class="language-sh pl-3"># Install the Python dependencies
+python3 -m venv --prompt generative .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements.txt
+# Build the Rust and C++ parts
+git submodule update --init --recursive
+cargo build --release
+# Invoking &quot;cargo run --bin ... -- ...&quot; gets old
+export PATH=&quot;$PWD/target/release/:$PATH&quot;
+</code></pre>
+            <p>
+                Each tool that utilizes random number generation can optionally be seeded, and logs the seed used at
+                INFO level to <code>stderr</code> so that the results can be reproduced, even when a seed wasn't given.
+                For brevity though, I'll leave off the seeds in the shell snippets on this page.
+            </p>
+            <h2>The algorithm</h2>
+            <h3>01 - Generate random points</h3>
+            <p>First, generate a uniform random point cloud in a square domain.</p>
+            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 4 --scale 100
+INFO - Generating 4 points with seed 6547691638051612608
+POINT (48.0592033866307 60.000131021120076)
+POINT (42.74869165920112 57.607049587621795)
+POINT (44.23321026420486 2.7466311018484735)
+POINT (60.15061084098781 60.0434120953931)
+
+$ point-cloud --domain unit-square --points 12 --scale 300 |
+    wkt2svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/alg-01-point-cloud.svg"
+                        alt="Random point cloud with 12 points"
+                        title="a random point cloud"
+                    />
+                    <figcaption class="figure-caption text-right">a random point cloud</figcaption>
+                </figure>
+            </p>
+            <h3>02 - Calculate the points' relative neighborhood</h3>
+            <p>
+                Second, generate the point cloud's
+                <a href="https://en.wikipedia.org/wiki/Relative_neighborhood_graph">relative neighborhood</a> graph.
+                While not quite equivalent, you can approximate the relative neighborhood by computing the
+                <a href="https://en.wikipedia.org/wiki/Urquhart_graph">Urquhart graph</a>.
+            </p>
+            <p>To do this, compute the Delaunay triangulation of the point cloud</p>
+            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 12 --scale 300 |
+    triangulate |
+    wkt2svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/alg-02-delaunay.svg"
+                        alt="Delaunay triangulation"
+                        title="Delaunay triangulation of the point cloud"
+                    />
+                    <figcaption class="figure-caption text-right">Delaunay triangulation of the point cloud</figcaption>
+                </figure>
+            </p>
+            <p>And then remove the longest edge from each triangle</p>
+            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 12 --scale 300 |
+    urquhart |
+    wkt2svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/alg-02-urquhart.svg"
+                        alt="Urquhart graph"
+                        title="Urquhart graph of the points"
+                    />
+                    <figcaption class="figure-caption text-right">Urquhart graph of the points</figcaption>
+                </figure>
+            </p>
+            <h3>03 - Randomly traverse the graph to create strokes</h3>
+            <p>Third, generate a stroke by randomly traversing the graph. Repeat for some number of times.</p>
+            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 12 --scale 300 |
+    urquhart --output-format tgf |
+    traverse --traversals 3 --length 3 --untraversed |
+    wkt2svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/alg-03-strokes.svg"
+                        alt="Random strokes"
+                        title="Random strokes"
+                    />
+                    <figcaption class="figure-caption text-right">Random strokes</figcaption>
+                </figure>
+            </p>
+            <p>Spoiler: you can immediately tell that this will generate quite a bit of nonsense.</p>
+            <h3>04 - Fit splines through the strokes</h3>
+            <p>
+                Finally, fit splines through some (or all) of the strokes. Here's where I cheat by using
+                <a href="http://www.idav.ucdavis.edu/education/CAGDNotes/Chaikins-Algorithm/Chaikins-Algorithm.html"
+                    >Chaikin's smoothing algorithm</a
+                >
+                instead of using splines.
+            </p>
+            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 12 --scale 300 |
+    urquhart --output-format tgf |
+    traverse --traversals 3 --length 3 --untraversed --remove-after-traverse |
+    smooth --iterations 5 |
+    wkt2svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/alg-04-smooth.svg"
+                        alt="smoothed strokes"
+                        title="Smoothed strokes"
+                    />
+                    <figcaption class="figure-caption text-right">Smoothed strokes</figcaption>
+                </figure>
+            </p>
+            <p>And then repeat a few thousand times and cherry-pick the good results.</p>
+            <h2>Some results</h2>
+            <p>I was disappointed in the quality of the results.</p>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/random-0.svg"
+                        alt=""
+                        title="random-00"
+                    />
+                    <figcaption class="figure-caption text-right">random-00</figcaption>
+                </figure>
+            </p>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/random-1.svg"
+                        alt=""
+                        title="random-01"
+                    />
+                    <figcaption class="figure-caption text-right">random-01</figcaption>
+                </figure>
+            </p>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/random-2.svg"
+                        alt=""
+                        title="random-02"
+                    />
+                    <figcaption class="figure-caption text-right">random-02</figcaption>
+                </figure>
+            </p>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/random-3.svg"
+                        alt=""
+                        title="random-03"
+                    />
+                    <figcaption class="figure-caption text-right">random-03</figcaption>
+                </figure>
+            </p>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/random-4.svg"
+                        alt=""
+                        title="random-04"
+                    />
+                    <figcaption class="figure-caption text-right">random-04</figcaption>
+                </figure>
+            </p>
+            <h2>Some better results</h2>
+            <p>So what can we do to make the results better?</p>
+            <h3>Delaunay instead of Urquhart</h3>
+            <p>We could try using the Delaunay triangulation directly instead of the Urquhart graph.</p>
+            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 5 --scale 300 |
+    triangulate --output-format tgf |
+    traverse --traversals 4 --length 4 --remove-after-traverse --seed 0 |
+    smooth --iterations 5 |
+    wkt2svg --padding --output refined-01-delaunay.svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/refined-01-delaunay.svg"
+                        alt="Using the Delaunay triangulation"
+                        title="Using the Delaunay triangulation"
+                    />
+                    <figcaption class="figure-caption text-right">Using the Delaunay triangulation</figcaption>
+                </figure>
+            </p>
+            <p>That could be promising.</p>
+            <h3>Moar data</h3>
+            <p>We could increase the side of the point cloud and the length of the strokes.</p>
+            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 30 --scale 300 |
+    triangulate --output-format tgf |
+    traverse --traversals 3 --length 10 --random-length --remove-after-traverse |
+    smooth --iterations 5 |
+    wkt2svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/refined-02-size.svg"
+                        alt="Increasing the point cloud size"
+                        title="Increasing the point cloud size"
+                    />
+                    <figcaption class="figure-caption text-right">Increasing the point cloud size</figcaption>
+                </figure>
+            </p>
+            <p>
+                This could also be promising! It also used Delaunay triangulation directly. What is it like with the
+                relative neighborhood?
+            </p>
+            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 30 --scale 300 |
+    urquhart --output-format tgf |
+    traverse --traversals 3 --length 10 --random-length --remove-after-traverse |
+    smooth --iterations 5 |
+    wkt2svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/refined-03-urquhart.svg"
+                        alt="Increasing the point cloud size"
+                        title="Big point cloud with Urquhart"
+                    />
+                    <figcaption class="figure-caption text-right">Big point cloud with Urquhart</figcaption>
+                </figure>
+            </p>
+            <p>
+                It seems as though using the relative neighborhood is more likely to generate strokes that don't
+                intersect, which I don't like.
+            </p>
+            <h3>Regular grid</h3>
+            <p>
+                It seems as though what these glyphs are missing is self-symmetry, or rather, maybe just some kind of
+                &quot;relationship&quot; that the human eye can see. They're <em>too</em> random as-is, so what if we
+                use a regular grid of points instead?
+            </p>
+            <pre><code class="language-sh pl-3">$ grid --output-format graph 3 4 |
+    traverse --traversals 4 --length 5 --remove-after-traverse |
+    transform --scale 300 300 |
+    smooth --iterations 5 |
+    wkt2svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/refined-04-grid.svg"
+                        alt="Using a regular grid"
+                        title="Using a regular grid"
+                    />
+                    <figcaption class="figure-caption text-right">Using a regular grid</figcaption>
+                </figure>
+            </p>
+            <p>
+                Hmm, now <em>this</em> is something where the human eye sees <em>order</em>; I expect that if I were to
+                generate hundreds of these, and lay them next to each other, it'd look coherent.
+            </p>
+            <h3>Less smoothing</h3>
+            <p>
+                Something else that we could do is perform fewer iterations of the smoothing algorithm (specifically,
+                only <em>one</em> iteration to add a bevel to each corner).
+            </p>
+            <pre><code class="language-sh pl-3">$ grid --output-format graph 3 4 |
+    traverse --traversals 4 --length 5 --remove-after-traverse |
+    transform --scale 300 300 |
+    smooth --iterations 1 |
+    wkt2svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/refined-05-45deg.svg"
+                        alt="Less smoothing"
+                        title="Less smoothing"
+                    />
+                    <figcaption class="figure-caption text-right">Less smoothing</figcaption>
+                </figure>
+            </p>
+            <p><em>That's cool.</em></p>
+            <h3>Triangulate the grid</h3>
+            <p>Using a grid added much-needed order, but what if we used triangles instead?</p>
+            <pre><code class="language-sh pl-3">grid --output-format points 3 4 |
+    triangulate --output-format tgf |
+    traverse --traversals 4 --length 5 --remove-after-traverse |
+    transform --scale 100 100 |
+    smooth --iterations 5 |
+    wkt2svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/refined-06-triangulate.svg"
+                        alt="Triangulated grid"
+                        title="Using a triangulated grid"
+                    />
+                    <figcaption class="figure-caption text-right">Using a triangulated grid</figcaption>
+                </figure>
+            </p>
+            <p>That could probably be compelling. Let's try a few more variations.</p>
+            <pre><code class="language-sh pl-3">grid --output-format points 3 4 |
+    triangulate --output-format tgf |
+    traverse --traversals 4 --length 5 --remove-after-traverse |
+    transform --scale 100 100 |
+    smooth --iterations 1 |
+    wkt2svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/refined-07-low-smooth.svg"
+                        alt="Less smoothing"
+                        title="Less smoothing"
+                    />
+                    <figcaption class="figure-caption text-right">Less smoothing</figcaption>
+                </figure>
+            </p>
+            <pre><code class="language-sh pl-3">grid --output-format points 3 4 |
+    triangulate --output-format tgf |
+    traverse --traversals 4 --length 5 --remove-after-traverse |
+    transform --scale 100 100 |
+    wkt2svg
+</code></pre>
+            <p>
+                <figure class="figure d-block mx-auto w-100">
+                    <img
+                        class="figure-img img-fluid rounded w-100"
+                        src="/images/asemic-writing/refined-08-no-smooth.svg"
+                        alt="No smoothing"
+                        title="No smoothing"
+                    />
+                    <figcaption class="figure-caption text-right">No smoothing</figcaption>
+                </figure>
+            </p>
+            <p>
+                I personally find the square grid to be the most compelling variant so far, both with lots of smoothing,
+                and with 45 degree beveled corners.
+            </p>
+            <h2>Next steps</h2>
+            <p>
+                As is the case with all generative art, there's a million different variations. And as we've seen, small
+                changes in the rules can generate significantly different results. Here's a bunch of things that could
+                be explored next.
+            </p>
+            <ul>
+                <li>Try biasing the random graph traversal by always starting from an extreme vertex</li>
+                <li>Build tooling to sift through the random results and cherry pick the good ones</li>
+                <li>Build tooling to tile glyphs (regular grid, ragged left-to-right, top-to-bottom, etc)</li>
+                <li>Add diacritical marks</li>
+                <li>Use a different tiling (hexagons?)</li>
+                <li>Perturb, scale, stretch, skew the grid (The <code>transform</code> tool can do some of this)</li>
+                <li>
+                    Snap random points to a grid (the grid would probably have to be coarse for the results to be
+                    noticeable).
+                </li>
+                <li>Use real splines (NURBS, Hobby splines, etc)</li>
+                <li>
+                    Use the algorithm from
+                    <a href="https://inconvergent.net/2017/spline-script/"
+                        >https://inconvergent.net/2017/spline-script/</a
+                    >
+                </li>
+                <li>Add variable stroke widths to look more like calligraphy</li>
+                <li>Join multiple glyphs together (cursive)</li>
+            </ul>
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+</html>
