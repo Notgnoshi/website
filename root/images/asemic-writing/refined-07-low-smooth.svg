@@ -1,0 +1,10 @@
+<svg viewBox="-3 -3 206 306" xmlns="http://www.w3.org/2000/svg">
+<style>
+svg { stroke:black; stroke-width:2px; fill:none;}
+</style>
+<polyline points="100 200 75 225 25 275 0 275 0 225 25 175 75 125 100 100"/>
+<polyline points="200 0 175 25 125 75 125 100 175 100 175 125 125 175 100 200"/>
+<polyline points="100 0 100 25 100 75 75 100 25 100 0 125 0 175 0 200"/>
+<polyline points="200 100 200 75 200 25 200 0"/>
+<polyline points="200 100 200 125 200 175 200 225 200 275 200 300"/>
+</svg>
