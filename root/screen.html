@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Notes on using screen for serial connections." />
+        <meta name="dcterms.available" content="2023-01-18" />
+        <title>Using screen for serial connections</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+
+        <script defer src="/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+        <link rel="stylesheet" href="/css/ascetic.min.css" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="/minecraft">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                        <a class="text-muted p-2" href="/rss.xml"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>Using screen for serial connections</h1>
+            <p>Add your user to the <code>dialout</code> group so you don't have to do <code>sudo screen</code>:</p>
+            <pre><code class="language-sh pl-3">$ sudo adduser $USER dialout
+</code></pre>
+            <p>Then either reboot, or start a new shell with the new group applied</p>
+            <pre><code class="language-sh pl-3">$ newgrp
+</code></pre>
+            <p>Then connect to the TTY with</p>
+            <pre><code class="language-sh pl-3">$ screen /dev/ttyUSB0 115200
+</code></pre>
+            <p>
+                Note that the 115200 baud rate is a good default, but is device configuration dependent, so you may need
+                to provide a different value.
+            </p>
+            <p>There's a few helpful keybinds</p>
+            <ul>
+                <li>
+                    <p><code>&lt;ctrl-a-d&gt;</code> - detach from the current session.</p>
+                </li>
+                <li>
+                    <p>
+                        <code>&lt;ctrl-a&gt;</code>, <code>&lt;k&gt;</code> (release <code>&lt;ctrl-a&gt;</code> before
+                        pressing <code>&lt;k&gt;</code>) - kill the current session (kills any subprocesses)
+                    </p>
+                </li>
+                <li>
+                    <p><code>&lt;ctrl-a-ESC&gt;</code> - enter copy / scrollback mode.</p>
+                    <p>Press <code>&lt;ESC&gt;</code> again to return.</p>
+                </li>
+            </ul>
+            <p>
+                You can set the size of the scrollback buffer with <code>screen -h &lt;lines&gt;</code>. The default is
+                100 lines, but Ubuntu ups that to 1024 lines in <code>/etc/screenrc</code>.
+            </p>
+            <p>
+                You can set a custom session name with <code>screen -S &lt;session&gt;</code>. But if you're only a
+                passing <code>screen</code> user like me, and only ever have one screen session open at a time, you can
+                use <code>screen -r</code> to resume a detached session. Otherwise, you can use
+                <code>screen -list</code> to list sessions, and <code>screen -r &lt;session&gt;</code> to resume a
+                specific session.
+            </p>
+            <pre><code class="language-sh pl-3">$ screen -list
+There is a screen on:
+    16366.pts-1.bedlam    (01/17/2023 05:21:36 PM)    (Detached)
+1 Socket in /run/screen/S-nots.
+$ screen -r 16366.pts-1.bedlam
+</code></pre>
+            <p>
+                <code>screen</code> is pretty customizable; there's guaranteed to be more powerful workflows that you
+                can use, but this is all I needed to be productive at a serial console.
+            </p>
+            <h2>An aside on PuTTY</h2>
+            <p>
+                I can't remember the details, but at one point I came to the conclusion that I should use PuTTY for
+                serial connections because it &quot;Just Worked&quot;. But when I tried it today, it'd crash because it
+                couldn't load a font
+            </p>
+            <pre><code class="language-sh pl-3">$ putty
+(putty:10718): Gtk-CRITICAL **: 16:01:12.674: gtk_box_gadget_distribute: assertion 'size &gt;= 0' failed in GtkScrollbar
+(putty:10718): Gtk-CRITICAL **: 16:01:12.675: gtk_box_gadget_distribute: assertion 'size &gt;= 0' failed in GtkScrollbar
+(putty:10718): Gtk-CRITICAL **: 16:01:12.676: gtk_box_gadget_distribute: assertion 'size &gt;= 0' failed in GtkScrollbar
+PuTTY: unable to load font &quot;server:fixed&quot;
+$ echo $?
+1
+</code></pre>
+            <p>
+                If I set the font to something I have installed locally, it works. This seemed suboptimal, so I'm back
+                to <code>screen</code> now that I know how to use the scrollback mode.
+            </p>
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+</html>
