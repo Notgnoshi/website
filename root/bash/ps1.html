@@ -145,8 +145,29 @@ fi
 </code></pre>
             <p>
                 Note that this function, unlike several of the following, is evaluated only once &mdash; when the
-                <code>~/.bashrc</code> is sourced.
+                <code>~/.bashrc</code> is sourced. I also do the same for serial consoles.
             </p>
+            <pre class="language-bash pl-3"><code>function __is_serial() {
+    case "$(tty)" in
+    /dev/tty[0-9])
+        # local console
+        return 1
+        ;;
+    /dev/tty[a-zA-Z]*[0-9])
+        # serial console
+        return 0
+        ;;
+    *)
+        # Likely a /dev/pty/ pseudo terminal
+        return 1
+        ;;
+    esac
+}
+# If connected over serial console, prepend a red (serial) to the $PS1
+if __is_serial; then
+    PS1="\[${BOLD}${RED}\](\[${RESET}${RED}\]serial\[${BOLD}\]) \[${RESET}\]${PS1}"
+fi
+</code></pre>
             <p>
                 Then I use the
                 <a href="https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh" target="_blank"
@@ -276,6 +297,27 @@ function __is_ssh() {
 # If connected over SSH, prepend a red (ssh) to the $PS1
 if __is_ssh; then
     PS1="\[${BOLD}${RED}\](\[${RESET}${RED}\]ssh\[${BOLD}\]) \[${RESET}\]${PS1}"
+fi
+
+function __is_serial() {
+    case "$(tty)" in
+    /dev/tty[0-9])
+        # local console
+        return 1
+        ;;
+    /dev/tty[a-zA-Z]*[0-9])
+        # serial console
+        return 0
+        ;;
+    *)
+        # Likely a /dev/pty/ pseudo terminal
+        return 1
+        ;;
+    esac
+}
+# If connected over serial console, prepend a red (serial) to the $PS1
+if __is_serial; then
+    PS1="\[${BOLD}${RED}\](\[${RESET}${RED}\]serial\[${BOLD}\]) \[${RESET}\]${PS1}"
 fi
 
 # Test whether the given function exists.
