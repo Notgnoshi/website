@@ -93,7 +93,7 @@ def parse_args():
 
 
 def main(args):
-    renderer = BootstrappedHtmlRenderer()
+    renderer = BootstrappedHtmlRenderer(escape=False)
     parser = mistune.create_markdown(renderer=renderer)
     metadata = frontmatter.load(args.input)
     html = parser(metadata.content)
