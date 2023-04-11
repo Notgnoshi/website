@@ -260,6 +260,24 @@ PS1="${PS1} \[\$(__decorate_exit_status)\]\$\[${RESET}\] "
 
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}__delta_side_by_side_width"
             </code></pre>
+            <p>It's also nice to have an indication of my work VPN connection status when I'm on the
+            VPN</p>
+            <pre class="language-bash pl-3"><code>VPN_DOMAIN=...
+VPN_GATEWAY=...
+__work_vpn_ps1() {
+    OLD_EXIT=$?
+    if sed 's/\x0/ /g' /proc/$(pgrep openconnect)/cmdline | grep "$VPN_DOMAIN" >/dev/null; then
+        if ip route get "$VPN_GATEWAY" | grep tun >/dev/null; then
+            echo -en "${BOLD}${GREEN}(${RESET}${GREEN}VPN${BOLD})${RESET} ${BLACK}:: "
+        else
+            echo -en "${BOLD}${RED}(${RESET}${RED}VPN${BOLD})${RESET} ${BLACK}:: "
+        fi
+    fi
+    exit $OLD_EXIT
+}
+# If connected to VPN, prepend a colored (VPN) to the $PS1
+PS1="\$(__work_vpn_ps1)\[${RESET}\]${PS1}"
+            </code></pre>
             <div class="alert alert-info">
                 <p>Here's everything all together in a copy-pastable form</p>
                 <details>
@@ -343,6 +361,24 @@ function __list_background_jobs() {
 
 # Display how many background jobs there are, when there are background jobs
 PS1="${PS1}\$(__list_background_jobs)"
+
+VPN_DOMAIN=...
+VPN_GATEWAY=...
+
+__work_vpn_ps1() {
+    OLD_EXIT=$?
+    if sed 's/\x0/ /g' /proc/$(pgrep openconnect)/cmdline | grep "$VPN_DOMAIN" >/dev/null; then
+        if ip route get "$VPN_GATEWAY" | grep tun >/dev/null; then
+            echo -en "${BOLD}${GREEN}(${RESET}${GREEN}VPN${BOLD})${RESET} ${BLACK}:: "
+        else
+            echo -en "${BOLD}${RED}(${RESET}${RED}VPN${BOLD})${RESET} ${BLACK}:: "
+        fi
+    fi
+    exit $OLD_EXIT
+}
+
+# If connected to VPN, prepend a colored (VPN) to the $PS1
+PS1="\$(__work_vpn_ps1)\[${RESET}\]${PS1}"
 
 # Prints different escape codes to stdout indicating the exit code of the previous command
 function __decorate_exit_status() {
