@@ -74,7 +74,7 @@
                 />
                 <figcaption class="figure-caption text-right">An example of my PS1</figcaption>
             </figure>
-            <p>I start by exporting some common ANSI color escape sequences.</p>
+            <p>Here's my full PS1</p>
             <pre class="language-python pl-3"><code>export UNDERLINE=$(tput sgr 0 1)
 export BOLD=$(tput bold)
 export BLACK=$(tput setaf 0)
@@ -86,212 +86,19 @@ export PURPLE=$(tput setaf 5)
 export CYAN=$(tput setaf 6)
 export WHITE=$(tput setaf 7)
 export RESET=$(tput sgr0)
-        </code></pre>
-            <p>First comes the base <code>PS1</code> with the username, hostname, and current working directory.</p>
-            <pre class="language-bash pl-3"><code>PS1="\u@\h \[${GREEN}\]\w"</code></pre>
-            <p>
-                Then I prepend the stuff that sets the Xterm window title. I didn't come up with this myself &mdash;
-                it's shamelessly stolen from the default Ubuntu <code>~/.bashrc</code>.
-            </p>
-            <pre
-                class="language-bash pl-3"
-            ><code># set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm* | rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*) ;;
-esac
-</code></pre>
-            <p>
-                The first thing I do is determine if my shell has been "polluted" with a
-                <a href="https://docs.yoctoproject.org/sdk-manual/" target="_blank">Yocto eSDK</a>. This is important at
-                work, as I frequently switch between host and target compilation contexts, and nothing is worse than
-                when you mix them up and can't figure out what the <em>hell</em> is happening.
-            </p>
-            <pre class="language-bash pl-3"><code>function __yocto_sysroot_ps1() {
-    OLD_EXIT_STATUS=$?
-    if [ -n "$OECORE_TARGET_SYSROOT" ]; then
-        echo -n "[$(basename "$OECORE_TARGET_SYSROOT")] "
-    fi
-    return $OLD_EXIT_STATUS
-}
-PS1="\[${YELLOW}\]\$(__yocto_sysroot_ps1)\[${RESET}\]${PS1}"</code></pre>
-            <p>
-                Then I determine if the current session is an active SSH session and prepend the string
-                <code>(ssh)</code> to the <code>PS1</code>.
-            </p>
-            <pre class="language-bash pl-3"><code># Determine if connected over ssh.
-function __is_ssh() {
-    if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-        return 0
-    else
-        case $(ps -o comm= -p $PPID) in
-        sshd | */sshd) return 0 ;;
-        esac
-    fi
-    return 1
-}
-
-# If connected over SSH, prepend a red (ssh) to the $PS1
-if __is_ssh; then
-    PS1="\[${BOLD}${RED}\](\[${RESET}${RED}\]ssh\[${BOLD}\]) \[${RESET}\]${PS1}"
-fi
-</code></pre>
-            <p>
-                Note that this function, unlike several of the following, is evaluated only once &mdash; when the
-                <code>~/.bashrc</code> is sourced. I also do the same for serial consoles.
-            </p>
-            <pre class="language-bash pl-3"><code>function __is_serial() {
-    case "$(tty)" in
-    /dev/tty[0-9])
-        # local console
-        return 1
-        ;;
-    /dev/tty[a-zA-Z]*[0-9])
-        # serial console
-        return 0
-        ;;
-    *)
-        # Likely a /dev/pty/ pseudo terminal
-        return 1
-        ;;
-    esac
-}
-# If connected over serial console, prepend a red (serial) to the $PS1
-if __is_serial; then
-    PS1="\[${BOLD}${RED}\](\[${RESET}${RED}\]serial\[${BOLD}\]) \[${RESET}\]${PS1}"
-fi
-</code></pre>
-            <p>
-                Then I use the
-                <a href="https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh" target="_blank"
-                    ><code>__git_ps1</code></a
-                >
-                installed along with Git Bash completions to display the current Git branch, along with quite a few
-                other goodies.
-            </p>
-            <pre class="language-bash pl-3"><code># Test whether the given function exists.
-function function_exists() {
-    declare -f -F "$1" >/dev/null
-    return $?
-}
-
-# Decorate PS1 with git branch, rebase, cherry-pick state.
-if function_exists __git_ps1; then
-    PS1="${PS1}\[${BLUE}\]\$(__git_ps1)\[${RESET}\]"
-fi
-</code></pre>
-            <p>
-                The <code>__git_ps1</code> function is customizable by the following environment variables. See
-                <a href="https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh" target="_blank"
-                    ><code>__git_ps1</code></a
-                >
-                for more details.
-            </p>
-            <pre class="language-bash pl-3"><code>
-export GIT_PS1_SHOWDIRTYSTATE=1         # Adds '*' and '+' for unstaged and staged changes
-export GIT_PS1_DESCRIBE_STYLE='branch'  # When in a detached head state, attempt to find the branch HEAD is on.
-export GIT_PS1_SHOWCOLORHINTS=1         # Use colored output to indicate the current status ('git status -sb'). Only works if __git_ps1 is used from PROMPT_COMMAND, not PS1.
-export GIT_PS1_SHOWSTASHSTATE=1         # Show a '$' next to the branch name if something is stashed.
-export GIT_PS1_SHOWUNTRACKEDFILES=1     # Show a '%' next to the branch name if there are untracked files.
-export GIT_PS1_SHOWUPSTREAM='auto'      # '=' means up to date with upstream, '<' means you're behind, and '>' means you're ahead. '<>' means you've diverged.
-</code></pre>
-            <p>
-                It's sometimes useful to know when you have background processes (because I'll otherwise forget about
-                them!), so define a function to be evaluated whenever the <code>PS1</code>is displayed.
-            </p>
-            <pre class="language-bash pl-3"><code>function __list_background_jobs() {
-    # Don't mask the exit status with the subshell and echo
-    OLD_EXIT_STATUS=$?
-    NUM_BACKGROUND_JOBS=$(jobs | wc -l)
-    if [ "$NUM_BACKGROUND_JOBS" -gt 0 ]; then
-        echo -n " [$NUM_BACKGROUND_JOBS]"
-    fi
-    return $OLD_EXIT_STATUS
-}
-
-# Display how many background jobs there are, when there are background jobs
-PS1="${PS1}\$(__list_background_jobs)"
-</code></pre>
-            <p>
-                Finally we embed a function call in the <code>PS1</code> string that, when evaluated, checks the exit
-                status (<code>$?</code>) of the last executed command. Based on the exit status, the function writes
-                appropriate ANSI escape sequences to style the trailing <code>$</code>. This function is evaluated every
-                time the <code>PS1</code> is displayed.
-            </p>
-            <pre
-                class="language-bash pl-3"
-            ><code># Prints different escape codes to stdout indicating the exit code of the previous command
-function __decorate_exit_status() {
-    if [ $? -eq 0 ]; then
-        echo -en "${WHITE}"
-    else
-        echo -en "${BOLD}${RED}"
-    fi
-}
-
-# Append a colored $ to the end of the $PS1 indicating the exit code
-PS1="${PS1} \[\$(__decorate_exit_status)\]\$\[${RESET}\] "
-</code></pre>
-            <p>
-                It's technically not in the <code>PS1</code>, but I use my <code>PROMPT_COMMAND</code> to calculate
-                whether my terminal is wide enough to display side-by-side diffs with
-                <a href="https://github.com/dandavison/delta" target="_blank"><code>delta</code></a
-                >. Now, this <em>overrides</em> any features set in <code>~/.gitconfig</code>, but that's sufficient for
-                my purposes. In a recent
-                <a href="https://github.com/dandavison/delta/releases/tag/0.11.3" target="_blank">release</a> you can
-                now do <code>DELTA_FEATURES="+side-by-side"</code>to <em>not</em> override any global features.
-            </p>
-            <pre class="language-bash pl-3"><code>function __delta_side_by_side_width() {
-    local columns=$(tput cols)
-    # Enough room for two side-by-side 80-char diffs with some room for line numbers to spare
-    if [ $columns -ge 170 ]; then
-        export DELTA_FEATURES="side-by-side"
-    else
-        export DELTA_FEATURES=""
-    fi
-}
-
-PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}__delta_side_by_side_width"
-            </code></pre>
-            <p>It's also nice to have an indication of my work VPN connection status when I'm on the
-            VPN</p>
-            <pre class="language-bash pl-3"><code>VPN_DOMAIN=...
-VPN_GATEWAY=...
-__work_vpn_ps1() {
-    OLD_EXIT=$?
-    if sed 's/\x0/ /g' /proc/$(pgrep openconnect)/cmdline | grep "$VPN_DOMAIN" >/dev/null; then
-        if ip route get "$VPN_GATEWAY" | grep tun >/dev/null; then
-            echo -en "${BOLD}${GREEN}(${RESET}${GREEN}VPN${BOLD})${RESET} ${BLACK}:: "
-        else
-            echo -en "${BOLD}${RED}(${RESET}${RED}VPN${BOLD})${RESET} ${BLACK}:: "
-        fi
-    fi
-    exit $OLD_EXIT
-}
-# If connected to VPN, prepend a colored (VPN) to the $PS1
-PS1="\$(__work_vpn_ps1)\[${RESET}\]${PS1}"
-            </code></pre>
-            <div class="alert alert-info">
-                <p>Here's everything all together in a copy-pastable form</p>
-                <details>
-                    <summary><code>ps1.sh</code></summary>
-                    <pre class="language-bash pl-3"><code>#!/bin/bash
-# Set the base $PS1
+##################################################################################################
+# Set the base $PS1 to include username, hostname, and full working directory
+##################################################################################################
 PS1="\u@\h \[${GREEN}\]\w"
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+##################################################################################################
+# If this is an xterm set the title to user@host:dir
+##################################################################################################
+if [[ -z "${debian_chroot:-}" && -r /etc/debian_chroot ]]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm* | rxvt*)
     # Prepends title thingy to $PS1
@@ -300,9 +107,55 @@ xterm* | rxvt*)
 *) ;;
 esac
 
-# Determine if connected over ssh.
-function __is_ssh() {
-    if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+##################################################################################################
+# Add a colored (VPN) to the beginning if VPN is running and connected
+#
+# VPN_GATEWAY should be set in a non-vcs tracked ./bashrc.d/ file to determine if the VPN is
+# connected.
+##################################################################################################
+__vpn_connection_status() {
+    OLD_EXIT_STATUS=$?
+
+    if [[ -z "$VPN_GATEWAY" ]]; then
+        return $OLD_EXIT_STATUS
+    fi
+
+    # Check if there's a route to the gateway that goes through a 'tun' device
+    if ip route get "$VPN_GATEWAY" | grep tun >/dev/null; then
+        echo -en "${GREEN}"
+    else
+        echo -en "${RED}"
+    fi
+    return $OLD_EXIT_STATUS
+}
+
+__vpn_running() {
+    OLD_EXIT_STATUS=$?
+    if pgrep openconnect >/dev/null; then
+        echo -n "(VPN) "
+    fi
+
+    return $OLD_EXIT_STATUS
+}
+PS1="\[\$(__vpn_connection_status)\]\$(__vpn_running)\[${RESET}\]${PS1}"
+
+##################################################################################################
+# Indicate that your shell is polluted by a Yocto SDK toolchain environment
+##################################################################################################
+__yocto_sysroot_ps1() {
+    OLD_EXIT_STATUS=$?
+    if [[ -n "$OECORE_TARGET_SYSROOT" ]]; then
+        echo -n "[$(basename "$OECORE_TARGET_SYSROOT")] "
+    fi
+    return $OLD_EXIT_STATUS
+}
+PS1="\[${YELLOW}\]\$(__yocto_sysroot_ps1)\[${RESET}\]${PS1}"
+
+##################################################################################################
+# If connected over SSH, prepend a red (ssh)
+##################################################################################################
+__is_ssh() {
+    if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
         return 0
     else
         case $(ps -o comm= -p $PPID) in
@@ -311,13 +164,14 @@ function __is_ssh() {
     fi
     return 1
 }
-
-# If connected over SSH, prepend a red (ssh) to the $PS1
 if __is_ssh; then
     PS1="\[${BOLD}${RED}\](\[${RESET}${RED}\]ssh\[${BOLD}\]) \[${RESET}\]${PS1}"
 fi
 
-function __is_serial() {
+##################################################################################################
+# If connected over a serial port, prepend a red (serial)
+##################################################################################################
+__is_serial() {
     case "$(tty)" in
     /dev/tty[0-9])
         # local console
@@ -333,81 +187,76 @@ function __is_serial() {
         ;;
     esac
 }
-# If connected over serial console, prepend a red (serial) to the $PS1
 if __is_serial; then
     PS1="\[${BOLD}${RED}\](\[${RESET}${RED}\]serial\[${BOLD}\]) \[${RESET}\]${PS1}"
 fi
 
-# Test whether the given function exists.
-function function_exists() {
+##################################################################################################
+# Add the __git_ps1 from /usr/share/git-core/contrib/completion/git-prompt.sh
+##################################################################################################
+function_exists() {
     declare -f -F "$1" >/dev/null
     return $?
 }
 
-# Decorate PS1 with git branch, rebase, cherry-pick state.
-# Further customized by $DOTFILES_DIR/lib/06-environment.sh
+# See https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh for more details.
+export GIT_PS1_SHOWDIRTYSTATE=1        # Adds '*' and '+' for unstaged and staged changes
+export GIT_PS1_DESCRIBE_STYLE='branch' # When in a detached head state, attempt to find the branch HEAD is on.
+export GIT_PS1_SHOWCOLORHINTS=1        # Use colored output to indicate the current status ('git status -sb'). Only works if __git_ps1 is used from PROMPT_COMMAND, not PS1.
+export GIT_PS1_SHOWSTASHSTATE=1        # Show a '$' next to the branch name if something is stashed.
+export GIT_PS1_SHOWUNTRACKEDFILES=1    # Show a '%' next to the branch name if there are untracked files.
+export GIT_PS1_SHOWUPSTREAM='auto'     # '=' means up to date with upstream, '<' means you're behind, and '>' means you're ahead. '<>' means you've diverged.
+
 if function_exists __git_ps1; then
     PS1="${PS1}\[${BLUE}\]\$(__git_ps1)\[${RESET}\]"
 fi
 
-function __list_background_jobs() {
+##################################################################################################
+# List the number of background jobs
+##################################################################################################
+__list_background_jobs() {
     OLD_EXIT_STATUS=$?
     NUM_BACKGROUND_JOBS=$(jobs | wc -l)
-    if [ "$NUM_BACKGROUND_JOBS" -gt 0 ]; then
+    if [[ "$NUM_BACKGROUND_JOBS" -gt 0 ]]; then
         echo -n " [$NUM_BACKGROUND_JOBS]"
     fi
     return $OLD_EXIT_STATUS
 }
-
-# Display how many background jobs there are, when there are background jobs
 PS1="${PS1}\$(__list_background_jobs)"
 
-VPN_DOMAIN=...
-VPN_GATEWAY=...
-
-__work_vpn_ps1() {
-    OLD_EXIT=$?
-    if sed 's/\x0/ /g' /proc/$(pgrep openconnect)/cmdline | grep "$VPN_DOMAIN" >/dev/null; then
-        if ip route get "$VPN_GATEWAY" | grep tun >/dev/null; then
-            echo -en "${BOLD}${GREEN}(${RESET}${GREEN}VPN${BOLD})${RESET} ${BLACK}:: "
-        else
-            echo -en "${BOLD}${RED}(${RESET}${RED}VPN${BOLD})${RESET} ${BLACK}:: "
-        fi
-    fi
-    exit $OLD_EXIT
-}
-
-# If connected to VPN, prepend a colored (VPN) to the $PS1
-PS1="\$(__work_vpn_ps1)\[${RESET}\]${PS1}"
-
-# Prints different escape codes to stdout indicating the exit code of the previous command
-function __decorate_exit_status() {
-    if [ $? -eq 0 ]; then
+##################################################################################################
+# Color the $ sign based on the exit status of the last command
+#
+# Requires each of the \$(foo) functions that the PS1 invokes do not clobber the exit status:
+#
+#   OLD_EXIT_STATUS=$?
+#   ...
+#   return $OLD_EXIT_STATUS
+##################################################################################################
+__decorate_exit_status() {
+    if [[ $? -eq 0 ]]; then
         echo -en "${WHITE}"
     else
         echo -en "${BOLD}${RED}"
     fi
 }
-
-# Append a colored $ to the end of the $PS1 indicating the exit code
 PS1="${PS1} \[\$(__decorate_exit_status)\]\$\[${RESET}\] "
-export PS1
 
-function __delta_side_by_side_width() {
-    local columns=$(tput cols)
+##################################################################################################
+# Add the +side-by-side feature to delta when the terminal is wide enough
+##################################################################################################
+__delta_side_by_side_width() {
+    local columns
+    columns=$(tput cols)
     # Enough room for two side-by-side 80-char diffs with some room for line numbers to spare
-    if [ $columns -ge 170 ]; then
-        export DELTA_FEATURES="side-by-side"
+    if [[ "$columns" -ge 170 ]]; then
+        export DELTA_FEATURES="+side-by-side"
     else
         export DELTA_FEATURES=""
     fi
 }
-
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}__delta_side_by_side_width"
-export PROMPT_COMMAND
-                    </code></pre>
-                </details>
-            </div>
+        </code></pre>
         </div>
     </body>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
