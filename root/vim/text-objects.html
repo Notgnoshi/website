@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="Using text objects in Vim" />
         <meta name="dcterms.available" content="2021-07-25" />
+        <meta name="dcterms.updated" content="2023-06-11" />
         <title>Vim: Text objects</title>
         <link
             rel="stylesheet"
@@ -14,6 +15,7 @@
         />
         <link rel="stylesheet" href="/css/common.css" />
         <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+
         <script defer src="/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
         <link rel="stylesheet" href="/css/ascetic.min.css" />
     </head>
@@ -34,7 +36,7 @@
                         <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
                             ><i class="fas fa-envelope"></i
                         ></a>
-                        <a class="text-muted p-2" href="/rss.xml" target="_blank"><i class="fas fa-rss"></i></a>
+                        <a class="text-muted p-2" href="/rss.xml"><i class="fas fa-rss"></i></a>
                     </div>
                 </div>
             </nav>
@@ -49,101 +51,117 @@
                     </li>
                 </ol>
             </nav>
+
             <h1>Vim: Text objects</h1>
-            <h2>Surround</h2>
+            <h2>What's a text object?</h2>
             <p>
-                Technically
-                <a href="https://github.com/tpope/vim-surround" target="_blank"><code>vim-surround</code></a> does much
-                more than provide text objects for text surrounded by quotes, HTML tags, braces, and more.
+                Text objects are a remarkably useful feature of Vim. They allow you to perform a
+                <strong>command</strong> <strong>inside</strong> or <strong>around</strong> the specified
+                <strong>object</strong>, where an object is a piece of text with some kind of semantic structure, like a
+                word, paragraph, quoted string, HTML tag, etc.
             </p>
-            <p>vim-surround defines the following <code>:help surround-targets</code></p>
+            <h2>Examples</h2>
+            <ol>
+                <li>
+                    <code>gqip</code> to reflow text (<code>gq</code>) <strong>i</strong>nside the current
+                    <strong>p</strong>aragraph (<code>ip</code>)
+                </li>
+                <li>
+                    <code>gUiw</code> to convert <strong>i</strong>nside the current <strong>w</strong>ord
+                    (<code>iw</code>) to uppercase (<code>gU</code>)
+                </li>
+                <li><code>ci&quot;</code> to change inside the current matching pair of double quotes</li>
+                <li><code>da{</code> to delete inside and around the current matching pair of curly braces</li>
+            </ol>
+            <h2>Default text objects</h2>
+            <p>
+                See
+                <a href="https://vimdoc.sourceforge.net/htmldoc/motion.html#text-objects"
+                    ><code>:help text-objects</code></a
+                >
+                for Vim's excellent built-in documentation on text objects.
+            </p>
             <ul>
                 <li>
-                    <code>(</code>, <code>)</code>, <code>[</code>, <code>]</code>, <code>{</code>, <code>}</code>,
-                    <code>&lt;</code>, and <code>&gt;</code>
+                    <code>(</code> or <code>)</code>, <code>[</code> or <code>]</code>, <code>{</code> or
+                    <code>}</code>, and <code>&lt;</code> or <code>&gt;</code> for matching pairs of braces
+                    <ul>
+                        <li>
+                            parentheses and curly braces have <code>b</code> and <code>B</code> aliases respectively
+                        </li>
+                    </ul>
                 </li>
+                <li><code>&quot;</code>, <code>'</code>, and <code>`</code> for matching pairs of quotes</li>
+                <li><code>t</code> for a matching pair of HTML or XML tags</li>
                 <li>
-                    <code>b</code>, <code>B</code>, <code>r</code>, and <code>a</code> are aliases for <code>)</code>,
-                    <code>}</code>, <code>]</code>, and <code>&gt;</code> respectively
+                    <code>w</code> for a word (letters, digits, and underscores, separated by whitespace or a non-word
+                    character)
                 </li>
-                <li><code>"</code>, <code>'</code>, and <code>`</code> represent themselves</li>
-                <li><code>t</code> is a pair of HTML or XML tags</li>
-                <li>
-                    <code>w</code>, <code>W</code>, <code>s</code>, and <code>p</code> stand for words, WORDS,
-                    sentences, and paragraphs respectively
-                </li>
+                <li><code>W</code> for a WORD (any characters, separated by whitespace)</li>
+                <li><code>s</code> and <code>p</code> for sentences and paragraphs respectively</li>
             </ul>
-            <h3>Deleting surroundings</h3>
-            <p>Delete a surrounding by using <code>ds&lt;target&gt;</code></p>
+            <h2>Plugins</h2>
             <p>
-                For example, to delete HTML tags surrounding the cursor, use <code>dst</code>. If the surroundings are
-                nested, you can delete the <code>n</code>th outer surrounding by <code>ds&lt;n&gt;t</code>. That is,
-                given the following example, with the cursor in the innermost set of tags (inside the link), perform
-                <code>ds3t</code> to delete the outermost set of HTML tags.
+                There are various Vim plugins that define new kinds of text objects, or otherwise super-power text
+                objects.
             </p>
-            <pre class="language-html pl-3"><code>&lt;div&gt;
-    &lt;p&gt;Here's an example &lt;a href="#"&gt;link&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;</code></pre>
-            <h3>Changing surroundings</h3>
+            <h3>vim-indent-object</h3>
             <p>
-                Change surrounding targets from <code>target1</code> to <code>target2</code> with
-                <code>cs&lt;target1&gt;&lt;target2&gt;</code>.
-            </p>
-            <p>
-                That is, to change <code>print('hello world')</code> to <code>print("hello world")</code> you would do
-                <code>cs'"</code> (or run <code>black</code>).
-            </p>
-            <h3>Wrapping surroundings</h3>
-            <p>
-                Use <code>ys&lt;text object&gt;&lt;target&gt;</code> to surround the specified text object or motion
-                with the given target. For example, to surround the string <code>"hello world"</code> with a call to the
-                <code>print()</code> function do <code>ysa"fprint</code>.
+                <a href="https://github.com/michaeljsmith/vim-indent-object">vim-indent-object</a> provides text objects
+                for indented text.
             </p>
             <ul>
-                <li><code>ys</code> - mnemonic for "you surround"</li>
-                <li><code>a"</code> - a text object for a quoted string (including the quotes)</li>
-                <li>
-                    <code>fprint</code> - surround the text object in a function (<code>f</code>) call to
-                    <code>print</code>
-                </li>
+                <li><code>ai</code> for the current indentation level, and the line above (useful for Python)</li>
+                <li><code>ii</code> inner indentation level, no surrounding lines</li>
+                <li><code>aI</code> current indentation level, and the surrounding upper/lower lines</li>
             </ul>
+            <h3>vim-textobj-comment</h3>
             <p>
-                Familiarity with Vim <a href="/vim/motions">motions</a> (and particularly the
-                <code>matchit</code> plugin) are going to be very beneficial.
+                <a href="https://github.com/glts/vim-textobj-comment">vim-textobj-comment</a> provides text objects for
+                comments, defined by the <code>comments</code> and <code>commentstring</code> settings for the given
+                filetype. It works for <code>/* paired */</code> and <code>// simple</code> comment delimiters.
             </p>
-            <p>
-                As another example, do <code>ysiw&lt;a href="/vim/motions"&gt;</code> to surround the current word in an
-                HTML link to <code>/vim/motions</code>.
-            </p>
-            <h3>Visual mode</h3>
-            <p>
-                In visual mode, perform a selection the usual way. Then do <code>S&lt;target&gt;</code> to surround the
-                given selection with the specified target. However, this is probably just working around not being super
-                comfortable with <a href="/vim/motions">motions</a>.
-            </p>
-            <h2>Text objects</h2>
-            <p>Each text object has an inner (exclusive) (<code>i</code>) and inclusive (<code>a</code>) variant.</p>
             <ul>
-                <li><code>w</code> - a word (letters, digits, underscores)</li>
-                <li><code>W</code> - a WORD (separated by whitespace)</li>
-                <li><code>s</code> - a sentence</li>
-                <li><code>p</code> - a paragraph</li>
-                <li><code>[</code>, <code>]</code> - a bracket block</li>
-                <li><code>(</code>, <code>)</code>, <code>b</code> - a parenthesis block</li>
-                <li><code>&lt;</code>, <code>&gt;</code> - an angle bracket block. Distinct from a tag block</li>
-                <li><code>t</code> - a block of matching HTML or XML tags</li>
-                <li><code>{</code>, <code>}</code>, <code>B</code> - a braces block</li>
+                <li><code>ic</code> for the comment text</li>
+                <li><code>ac</code> for the comment text and the comment delimiters</li>
+            </ul>
+            <h3>vim-surround</h3>
+            <p>
+                <a href="https://github.com/tpope/vim-surround">vim-surround</a> doesn't provide text objects, but it
+                does provide powerful utilities for surrounding text objects.
+            </p>
+            <ul>
                 <li>
-                    <code>"</code>, <code>'</code>, <code>`</code> - a quoted string. See also
-                    <code>:help quoteescape</code>
+                    <code>ds</code> - delete surrounding (and only the surrounding, the surrounded text is left alone)
+                    <ul>
+                        <li><code>ds&lt;count&gt;</code> - delete the <code>n</code>th surrounding</li>
+                        <li>
+                            Example: Given
+                            <code>&lt;div&gt;&lt;p&gt;&lt;em&gt;cursor here&lt;/em&gt;&lt;/p&gt;&lt;/div&gt;</code> with
+                            the cursor inside the <code>&lt;em&gt;</code> tags, <code>ds3t</code> will delete the
+                            surrounding <code>&lt;div&gt;</code> tags
+                        </li>
+                    </ul>
                 </li>
-                <li><code>c</code> - a GitGutter hunk</li>
                 <li>
-                    <code>i</code> - an indentation level (from
-                    <a href="https://github.com/michaeljsmith/vim-indent-object" target="_blank">vim-indent-object</a>).
-                    Use <code>ai</code> to include the line above the indented text (useful for Python) or
-                    <code>ii</code> to include only the indented text. <code>aI</code> will include the indented text
-                    <em>and</em> both the line above and below (useful for C-style languages).
+                    <code>cs</code> - change surrounding
+                    <ul>
+                        <li>Example: <code>cs'&quot;</code> change surrounding single quotes to double quotes</li>
+                    </ul>
+                </li>
+                <li>
+                    <code>ys</code> - add surrounding (mnemonic: <strong>y</strong>ou <strong>s</strong>urround)
+                    <ul>
+                        <li>Example: <code>ysiw*</code> will surround the current word in <code>*</code>'s</li>
+                        <li>
+                            Example: <code>ysa&quot;fprint</code> will surround a quoted string in a
+                            <strong>f</strong>unction call to <code>print()</code>
+                        </li>
+                        <li>
+                            Example: <code>ysiw&lt;a href=&quot;foo&quot;&gt;</code> will surround the current word in
+                            an HTML link to <code>foo</code>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
