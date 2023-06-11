@@ -24,9 +24,9 @@ class BootstrappedHtmlRenderer(mistune.HTMLRenderer):
     def __init__(self, escape=True, allow_harmful_protocols=None):
         super().__init__(escape, allow_harmful_protocols)
 
-    def image(self, src, alt="", title=""):
-        src = self._safe_url(src)
-        alt = mistune.util.escape_html(alt)
+    def image(self, alt, url, title=""):
+        src = mistune.escape_url(url)
+        alt = mistune.escape(alt)
         inline_title = f' title="{title}"' if title else ""
         inline_caption = (
             f'<figcaption class="figure-caption text-right">{title}</figcaption>' if title else ""
@@ -40,7 +40,7 @@ class BootstrappedHtmlRenderer(mistune.HTMLRenderer):
         lang = None
         if info:
             lang = info.split(None, 1)[0]
-            lang = mistune.util.escape_html(lang)
+            lang = mistune.escape(lang)
         inline_lang = f"language-{lang} " if lang else ""
         code = mistune.util.escape(code)
         return f'<pre><code class="{inline_lang}pl-3">{code}</code></pre>\n'
