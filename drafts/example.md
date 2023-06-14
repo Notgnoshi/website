@@ -2,6 +2,7 @@
 title: Example draft
 date: DRAFT
 description: This is an example draft page.
+mermaid: true
 
 ---
 
@@ -35,3 +36,11 @@ Inline ![alt](https://raw.githubusercontent.com/Notgnoshi/includegraph/main/exam
 > ```python
 > from __future__ import braces
 > ```
+
+## Mermaid.js
+
+```mermaid
+graph LR
+    A --> B
+    B --> A
+```
