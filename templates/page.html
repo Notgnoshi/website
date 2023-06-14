@@ -52,4 +52,8 @@
     <div class="container flex-grow-1">{{ content }}</div>
 </body>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+{% if mermaid %}<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+</script>{% endif %}
 </html>
