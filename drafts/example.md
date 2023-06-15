@@ -23,6 +23,10 @@ mermaid: true
       and a code block
       ```
 
+```{info}
+This is a info admonition.
+```
+
 ## Image
 
 In its own paragraph

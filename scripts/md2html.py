@@ -7,7 +7,8 @@ import sys
 import frontmatter
 import jinja2
 import mistune
-from mistune.directives import FencedDirective, TableOfContents
+from mistune.directives import Admonition, FencedDirective, TableOfContents
+from mistune.directives.admonition import render_admonition_content
 
 LOG_LEVELS = {
     "CRITICAL": logging.CRITICAL,
@@ -17,6 +18,45 @@ LOG_LEVELS = {
     "DEBUG": logging.DEBUG,
 }
 DEFAULT_LEVEL = "INFO"
+
+
+def render_admonition(_self, text, name, **attrs):
+    html = '<div class="alert alert-' + name
+    _cls = attrs.get("class")
+    if _cls:
+        html += " " + _cls
+    return html + '">\n' + text + "</div>\n"
+
+
+def render_admonition_title(_self, text):
+    # I don't want a title (for now)
+    return ""
+
+
+class BootstrappedAdmonition(Admonition):
+    """A customized Admonition that generates Bootstrap Alerts instead of Admonitions."""
+
+    # These are the Bootstrap 4.0 Alert names
+    SUPPORTED_NAMES = {
+        "primary",
+        "secondary",
+        "success",
+        "danger",
+        "warning",
+        "info",
+        "light",
+        "dark",
+    }
+
+    # Override the render hooks so that I can render the HTML myself.
+    def __call__(self, directive, md):
+        for name in self.SUPPORTED_NAMES:
+            directive.register(name, self.parse)
+
+        if md.renderer.NAME == "html":
+            md.renderer.register("admonition", render_admonition)
+            md.renderer.register("admonition_title", render_admonition_title)
+            md.renderer.register("admonition_content", render_admonition_content)
 
 
 class BootstrappedHtmlRenderer(mistune.HTMLRenderer):
@@ -52,7 +92,6 @@ class BootstrappedHtmlRenderer(mistune.HTMLRenderer):
         return f'<blockquote class="blockquote border-left border-2 pl-2">\n{text}</blockquote>\n'
 
     # TODO: Tables: https://mistune.readthedocs.io/en/latest/plugins.html#table
-    # TODO: Admonitions: https://mistune.readthedocs.io/en/latest/directives.html#admonitions
     # TODO: LaTeX with KaTeX
 
 
@@ -100,7 +139,7 @@ def main(args):
     parser = mistune.create_markdown(
         renderer=renderer,
         plugins=[
-            FencedDirective([TableOfContents()]),
+            FencedDirective([BootstrappedAdmonition(), TableOfContents()]),
         ],
     )
     metadata = frontmatter.load(args.input)
