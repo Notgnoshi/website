@@ -7,6 +7,7 @@ import sys
 import frontmatter
 import jinja2
 import mistune
+from mistune.directives import FencedDirective, TableOfContents
 
 LOG_LEVELS = {
     "CRITICAL": logging.CRITICAL,
@@ -96,7 +97,12 @@ def parse_args():
 
 def main(args):
     renderer = BootstrappedHtmlRenderer()
-    parser = mistune.create_markdown(renderer=renderer)
+    parser = mistune.create_markdown(
+        renderer=renderer,
+        plugins=[
+            FencedDirective([TableOfContents()]),
+        ],
+    )
     metadata = frontmatter.load(args.input)
     html = parser(metadata.content)
     metadata["content"] = html

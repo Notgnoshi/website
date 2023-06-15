@@ -8,6 +8,9 @@ mermaid: true
 
 # Example draft - h1
 
+```{toc}
+```
+
 ## Intro - h2
 
 * bulleted
