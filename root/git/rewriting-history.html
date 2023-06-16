@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Techniques for rewriting Git history" />
+        <meta name="dcterms.available" content="2023-06-16" />
+        <title>Git: Techniques for rewriting history</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+        <script defer src="/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+        <link rel="stylesheet" href="/css/ascetic.min.css" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="/minecraft">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                        <a class="text-muted p-2" href="/rss.xml"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1 id="toc_1">Git: Techniques for rewriting history</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/git">Git</a></li>
+                    <li class="breadcrumb-item active" area-current="page">
+                        <a href="/git/rewriting-history">Techniques for rewriting history</a>
+                    </li>
+                </ol>
+            </nav>
+            <p>
+                There are many ways to use Git. While I have opinions on the &quot;right&quot; way to use Git, I wanted
+                to discuss the <strong>how</strong> and the <strong>why</strong> separately, because the why can quickly
+                turn into a heated debate.
+            </p>
+            <p>
+                Ultimately, those opinions result in the need to frequently rewrite history to get from a messy state,
+                to one that will provide future code archaeologists enough information to understand what the $%^@ I was
+                thinking when I introduced what's so clearly a bug that's discovered 6 years later.
+            </p>
+            <details class="toc" open>
+                <summary>Table of Contents</summary>
+                <ul>
+                    <li>
+                        <a href="#toc_1">Git: Techniques for rewriting history</a>
+                        <ul>
+                            <li><a href="#toc_2">Environment</a></li>
+                            <li>
+                                <a href="#toc_3">Common Scenarios</a>
+                                <ul>
+                                    <li>
+                                        <a href="#toc_4"
+                                            >Scenario 1 - Whoops! I made a spelling mistake in a commit message</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a href="#toc_8">Scenario 2 - Whoops! I made a mistake in my source code</a>
+                                    </li>
+                                    <li>
+                                        <a href="#toc_12"
+                                            >Scenario 3 - These two commits make the most sense in a different order</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a href="#toc_13">Scenario 4 - I made a mistake. Throw away that commit!</a>
+                                    </li>
+                                    <li><a href="#toc_14">Scenario 5 - Combine two commits</a></li>
+                                    <li><a href="#toc_15">Scenario 6 - Split one commit into two</a></li>
+                                    <li><a href="#toc_19">Scenario 7 - Insert a new commit</a></li>
+                                    <li>
+                                        <a href="#toc_20"
+                                            >Scenario 8 - Well dang, I need to run my code formatter on every commit
+                                            ...</a
+                                        >
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="#toc_21">Tips</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </details>
+            <h2 id="toc_2">Environment</h2>
+            <p>
+                I use the following
+                <a href="https://git-scm.com/docs/git-config#Documentation/git-config">git-config(1)</a> settings
+            </p>
+            <pre><code class="language-sh pl-3">git config --global core.editor vim
+git config --global pull.rebase true
+git config --global diff.submodule log
+git config --global fetch.prune true
+git config --global rerere.enabled true
+git config --global commit.verbose true
+</code></pre>
+            <p>
+                there's more
+                <a href="https://github.com/Notgnoshi/dotfiles/blob/master/dotfiles/.gitconfig">here</a> but these are
+                the important ones.
+            </p>
+            <p>This <code>git lg</code> alias</p>
+            <pre><code class="language-sh pl-3">git config --global alias.lg &quot;log --color --graph --pretty=format:'%C(auto)%h%d %s, %C(black)%C(bold)%an, %ar' --abbrev-commit --decorate&quot;
+</code></pre>
+            <p>will generate log output like</p>
+            <pre><code class="language-sh pl-3">$ git lg
+* 5a88c57 (HEAD -&gt; main, origin/main) Test updating version file with new dockerified implementation, Notgnoshi, 3 months ago
+* 414e796 Link back to release-tools, Notgnoshi, 3 months ago
+* 91e33fe (tag: v0.3.1) Release 0.3.1, Notgnoshi, 3 months ago
+* eb758b1 Use main reference for release-tools, Notgnoshi, 3 months ago
+*   b4d6d41 (tag: v0.3.0) Merge branch 'ag/test-versioning' into 'main', Notgnoshi, 3 months ago
+|\
+| * 787e9d1 Release 0.3.0, Notgnoshi, 3 months ago
+| * a54a868 Only make releases on merges to main or release branches, Notgnoshi, 3 months ago
+| * 14be495 Add pipeline to create tags, Notgnoshi, 3 months ago
+|/
+* 30ad916 (tag: v0.3.0-rc2) Release 0.3.0-rc2, Notgnoshi, 3 months ago
+* 54723c2 (tag: v0.3.0-rc1) Release 0.3.0-rc1, Notgnoshi, 3 months ago
+* 2f3f46c (tag: v0.2.0) Release 0.2.0, Notgnoshi, 3 months ago
+* 494173c (tag: v0.1.0) Release 0.1.0, Notgnoshi, 3 months ago
+* 5e5e727 Initial commit, Notgnoshi, 3 months ago
+</code></pre>
+            <p>which is a remarkably helpful view of the Git history.</p>
+            <p>
+                This <code>git rb</code> alias is helpful, because <code>rebase</code> is waaaaay too much to type (for
+                the lazy)
+            </p>
+            <pre><code class="language-sh pl-3">git config --global alias.rb rebase
+</code></pre>
+            <p>
+                And then it's <em>super</em> helpful to have continual status feedback after performing every single
+                operation.
+            </p>
+            <pre><code class="language-bash pl-3">function_exists() {
+    declare -f -F &quot;$1&quot; &gt;/dev/null
+    return $?
+}
+
+# See https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh for more details.
+export GIT_PS1_SHOWDIRTYSTATE=1        # Adds '*' and '+' for unstaged and staged changes
+export GIT_PS1_DESCRIBE_STYLE='branch' # When in a detached head state, attempt to find the branch HEAD is on.
+export GIT_PS1_SHOWCOLORHINTS=1        # Use colored output to indicate the current status ('git status -sb'). Only works if __git_ps1 is used from PROMPT_COMMAND, not PS1.
+export GIT_PS1_SHOWSTASHSTATE=1        # Show a '$' next to the branch name if something is stashed.
+export GIT_PS1_SHOWUNTRACKEDFILES=1    # Show a '%' next to the branch name if there are untracked files.
+export GIT_PS1_SHOWUPSTREAM='auto'     # '=' means up to date with upstream, '&lt;' means you're behind, and '&gt;' means you're ahead. '&lt;&gt;' means you've diverged.
+
+export BLUE=$(tput setaf 4)
+export RESET=$(tput sgr0)
+
+if function_exists __git_ps1; then
+    export PS1=&quot;${PS1}\[${BLUE}\]\$(__git_ps1)\[${RESET}\]&quot;
+fi
+</code></pre>
+            <p>
+                This adds a helpful Git indicator to your
+                <a href="https://www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html">Bash PS1</a>
+                that's more powerful than other hand-built ones that I've seen.
+            </p>
+            <pre><code class="language-bash pl-3">nots@bedlam ~/src/example (main|REBASE 1/7) $
+</code></pre>
+            <p><a href="/bash/ps1">Bash: PS1 customization</a> has the rest of my PS1 configuration.</p>
+            <h2 id="toc_3">Common Scenarios</h2>
+            <h3 id="toc_4">Scenario 1 - Whoops! I made a spelling mistake in a commit message</h3>
+            <h4 id="toc_5">Scenario 1.a</h4>
+            <p>The commit with the spelling mistake is the <code>HEAD</code> of the current branch.</p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    commit
+    branch feature
+    commit
+    commit type: REVERSE
+</pre
+            >
+            <p>Re-word the current commit with</p>
+            <pre><code class="language-sh pl-3">git commit --amend
+</code></pre>
+            <h4 id="toc_6">Scenario 1.b</h4>
+            <p>The commit with the spelling mistake is an interior commit of the current branch.</p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    commit
+    branch feature
+    commit id: &quot;960bb58 alpha&quot;
+    commit id: &quot;e7454c7 spelling misteak&quot; type: REVERSE
+    commit id: &quot;7adaf48 gamma&quot;
+</pre
+            >
+            <p>Then perform an interactive rebase onto the base branch</p>
+            <pre><code class="language-sh pl-3">git rebase --interactive main
+</code></pre>
+            <p>This will open up the following in your default editor.</p>
+            <div class="alert alert-info">
+                <p>I prefer Vim for this, but VS Code also has excellent support as a Git editor as well.</p>
+            </div>
+            <pre><code class="language-text pl-3">pick 960bb58 alpha
+pick e7454c7 spelling misteak
+pick 7adaf48 gamma
+</code></pre>
+            <p>Change this to</p>
+            <pre><code class="language-text pl-3">pick 960bb58 alpha
+reword e7454c7 spelling misteak
+pick 7adaf48 gamma
+</code></pre>
+            <div class="alert alert-warning">
+                <p>
+                    <strong>Important</strong>! You cannot edit the commit message from this
+                    <code>rebase-todo</code> file. You must change <code>pick</code> to <code>reword</code>, and edit
+                    the commit message in the editor that opens.
+                </p>
+            </div>
+            <p>
+                and save and exit the open editor. This will immediately open up your default editor to reword the
+                misspelled commit message.
+            </p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    commit
+    branch feature
+    commit id: &quot;960bb58 alpha&quot;
+    commit id: &quot;a54a868 no spelling mistake&quot;
+    commit id: &quot;494173c gamma&quot;
+</pre
+            >
+            <h4 id="toc_7">Now what?</h4>
+            <p>
+                Notice that the commit hash for both <code>no spelling mistake</code> and <code>gamma</code> changed
+                from their original hashes! This means if you try to run <code>git push</code>, you'll get a nasty error
+                message
+            </p>
+            <pre><code class="language-sh pl-3">(ag/example&lt;&gt;) $ git push
+To github.com:Notgnoshi/example.git
+ ! [rejected]        ag/example -&gt; ag/example (non-fast-forward)
+error: failed to push some refs to 'github.com:Notgnoshi/example.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+</code></pre>
+            <p>To resolve this, use <code>git push --force-with-lease</code>.</p>
+            <pre><code class="language-sh pl-3">(ag/example&lt;&gt;) $ git push --force-with-lease
+...
+To github.com:Notgnoshi/example.git
+ + 0cf84f3...f224166 ag/example -&gt; ag/example (forced update)
+(ag/example=) $
+</code></pre>
+            <h3 id="toc_8">Scenario 2 - Whoops! I made a mistake in my source code</h3>
+            <p>Similar to Scenario 1, this has the same two sub-scenarios.</p>
+            <h4 id="toc_9">Scenario 2.a</h4>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    commit
+    branch feature
+    commit
+    commit type: REVERSE
+</pre
+            >
+            <p>In this case, fix the mistake, and amend the current commit</p>
+            <pre><code class="language-sh pl-3">git add --patch  # --patch is a superpower
+git commit --amend --no-edit
+</code></pre>
+            <h4 id="toc_10">Scenario 2.b.i</h4>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    commit
+    branch feature
+    commit id: &quot;a54a868 foo&quot;
+    commit id: &quot;5e5e727 needs edit&quot; type: REVERSE
+    commit id: &quot;30ad916 bar&quot;
+</pre
+            >
+            <p>
+                In this case, interactively rebase <code>feature</code> onto <code>main</code>, and edit the necessary
+                commit
+            </p>
+            <pre><code class="language-sh pl-3">git rebase --interactive main
+</code></pre>
+            <p>change</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+pick 5e5e727 needs edit
+pick 30ad916 bar
+</code></pre>
+            <p>to</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+edit 5e5e727 needs edit
+pick 30ad916 bar
+</code></pre>
+            <p>
+                then save and close the file. This will drop you back to your terminal, with the selected commit checked
+                out.
+            </p>
+            <pre><code class="language-sh pl-3">(ag/example|REBASE 2/3) $
+</code></pre>
+            <p>Make your fixes, then stage and continue the rebase</p>
+            <pre><code class="language-sh pl-3">(ag/example|REBASE 2/3) $  # make the fixes ...
+(ag/example|REBASE 2/3) $ git add -A
+(ag/example|REBASE 2/3) $ git rebase --continue
+(ag/example&lt;&gt;) $
+</code></pre>
+            <div class="alert alert-warning">
+                <p>
+                    Depending on the complexity of the fixup you just made, and the complexity of the future commits
+                    later on in the branch, this might introduce merge conflicts for you to resolve.
+                </p>
+                <p>
+                    Git rebases are stateful, in that you start a rebase with
+                    <code>git rebase &lt;target branch&gt;</code>, but then later you may need to take some kind of
+                    action before you proceed.
+                </p>
+                <p>
+                    <strong>In this case, the <code>git status</code> command is your friend.</strong> It will tell you
+                    if there are merge conflicts to resolve, in what file they are contained in, and even what commands
+                    you can run to proceed.
+                </p>
+                <p>When confronted with merge conflicts, you have two choices:</p>
+                <ol>
+                    <li>
+                        <p>Give up: <code>git rebase --abort</code>.</p>
+                        <p>
+                            Sometimes this is appropriate! Maybe you attempted to comb out too large of a tangle at once
+                            (using long hair as an metaphor), and you should try again with a smaller objective.
+                            <strong
+                                >The secret to success in rewriting history is to decompose your end goal into a series
+                                of much smaller transformations</strong
+                            >.
+                        </p>
+                    </li>
+                    <li>
+                        <p>Fix the conflict and continue:</p>
+                        <ol>
+                            <li>Gain insight: <code>git status</code></li>
+                            <li>Groan</li>
+                            <li>
+                                Resolve conflict(s) in the indicated files. VS Code is awesome for this (I'm also sure
+                                there are other good tools, but VS Code is the best one I'm aware of).
+                            </li>
+                            <li>
+                                Stage the conflict resolutions: <code>git add --patch</code> or <code>git add -A</code>
+                            </li>
+                            <li>Continue the rebase: <code>git rebase --continue</code></li>
+                        </ol>
+                    </li>
+                </ol>
+            </div>
+            <h4 id="toc_11">Scenario 2.b.ii</h4>
+            <p>This is the same Git branch as above, but we're going to solve the problem differently.</p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    commit
+    branch feature
+    commit id: &quot;a54a868 foo&quot;
+    commit id: &quot;5e5e727 needs edit&quot; type: REVERSE
+    commit id: &quot;30ad916 bar&quot;
+</pre
+            >
+            <p>Here, we're going to make our fixes <em>before doing the rebase</em>.</p>
+            <pre><code class="language-sh pl-3">(ag/example=) $ # make the fixes ...
+(ag/example*=) $ git add --patch
+(ag/example+=) $ git commit --fixup=5e5e727
+</code></pre>
+            <p>This will generate a <em>new</em> commit on the tip of your branch.</p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    commit
+    branch feature
+    commit id: &quot;a54a868 foo&quot;
+    commit id: &quot;5e5e727 needs edit&quot; type: REVERSE
+    commit id: &quot;30ad916 bar&quot;
+    commit id: &quot;787e9d1 fixup! needs edit&quot; type: HIGHLIGHT
+</pre
+            >
+            <p>
+                Now, we perform an interactive rebase onto <code>main</code>, this time passing
+                <code>--autosquash</code>
+            </p>
+            <pre><code class="language-sh pl-3">git rebase --interactive --autosquash main
+</code></pre>
+            <p>This will generate the following rebase file.</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+pick 5e5e727 needs edit
+fixup 787e9d1 fixup! needs edit
+pick 30ad916 bar
+</code></pre>
+            <p>
+                <em
+                    >Notice how Git automagically re-ordered the commits, and changed <code>pick</code> to
+                    <code>fixup</code>!!</em
+                >
+                This is the easiest way to make fixups, and is the most common method I use. However, it's prone to
+                merge conflicts because you make your changes on top of possibly an entire series of related changes.
+            </p>
+            <p>
+                If the fix you need to make is in an active area of code in the feature branch, then I'd recommend the
+                <code>edit 5e5e727 needs edit</code> approach, as it minimizes the amounts of conflicts to resolve.
+            </p>
+            <h3 id="toc_12">Scenario 3 - These two commits make the most sense in a different order</h3>
+            <p>
+                Sometimes in a feature branch, you may do development in one order, but believe that the Git history
+                would benefit from having related commits grouped together, or foundational changes made first.
+            </p>
+            <p>Given a branch like</p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    branch feature
+    commit id: &quot;a54a868 foo&quot;
+    commit id: &quot;5e5e727 qux&quot; type: REVERSE
+    commit id: &quot;30ad916 bar&quot;
+    commit id: &quot;787e9d1 baz&quot;
+</pre
+            >
+            <p>where <code>5e5e727 qux</code> should be moved to the tip</p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    branch feature
+    commit id: &quot;a54a868 foo&quot;
+    commit id: &quot;91e33fe bar&quot;
+    commit id: &quot;5359d8c baz&quot;
+    commit id: &quot;2aea963 qux&quot; type: HIGHLIGHT
+</pre
+            >
+            <p>You can do this with another interactive rebase onto the target branch</p>
+            <pre><code class="language-sh pl-3">git rebase --interactive main
+</code></pre>
+            <p>and reorder the commits in the rebase editor</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+pick 5e5e727 qux
+pick 30ad916 bar
+pick 787e9d1 baz
+</code></pre>
+            <p>to have the desired order</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+pick 30ad916 bar
+pick 787e9d1 baz
+pick 5e5e727 qux
+</code></pre>
+            <p>and then save and close the file.</p>
+            <div class="alert alert-info">
+                <p>
+                    In vim, you can use <code>dd</code> to delete the current line and <code>p</code> to paste it on the
+                    line below the current line.
+                </p>
+            </div>
+            <h3 id="toc_13">Scenario 4 - I made a mistake. Throw away that commit!</h3>
+            <p>
+                I often put experimental changes in their own commits for precisely this purpose. Maybe I'll want to
+                delete it later, or maybe it will need to be isolated and completely changed. In either case, it's
+                useful to isolate the experimental changes in their own commit.
+            </p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    branch feature
+    commit id: &quot;a54a868 foo&quot;
+    commit id: &quot;5e5e727 experimental&quot; type: REVERSE
+    commit id: &quot;30ad916 bar&quot;
+    commit id: &quot;787e9d1 baz&quot;
+</pre
+            >
+            <p>In this case, you guessed it, the solution is to perform an interactive rebase.</p>
+            <pre><code class="language-sh pl-3">git rebase --interactive main
+</code></pre>
+            <p>and either change</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+pick 5e5e727 experimental
+pick 30ad916 bar
+pick 787e9d1 baz
+</code></pre>
+            <p>to</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+drop 5e5e727 experimental
+pick 30ad916 bar
+pick 787e9d1 baz
+</code></pre>
+            <p>or delete the <code>experimental</code> commit entry all together</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+pick 30ad916 bar
+pick 787e9d1 baz
+</code></pre>
+            <p>before saving and closing the file.</p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    branch feature
+    commit id: &quot;a54a868 foo&quot;
+    commit id: &quot;b1b8444 bar&quot;
+    commit id: &quot;2915254 baz&quot;
+</pre
+            >
+            <h3 id="toc_14">Scenario 5 - Combine two commits</h3>
+            <p>
+                Let's say you want to combine the <code>qux</code> and <code>bar</code> commits in the following graph
+            </p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    branch feature
+    commit id: &quot;a54a868 foo&quot;
+    commit id: &quot;91e33fe bar&quot; type: HIGHLIGHT
+    commit id: &quot;5359d8c baz&quot;
+    commit id: &quot;2aea963 qux&quot; type: HIGHLIGHT
+</pre
+            >
+            <p>Then again, perform an interactive rebase onto the target branch (are you sensing a pattern yet?)</p>
+            <pre><code class="language-sh pl-3">git rebase --interactive main
+</code></pre>
+            <p>and reorder the commits</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+pick 91e33fe bar
+pick 5359d8c baz
+pick 2aea963 qux
+</code></pre>
+            <p>into the desired order</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+pick 91e33fe bar
+pick 2aea963 qux
+pick 5359d8c baz
+</code></pre>
+            <p>and then mark the <code>qux</code> commit to squash into the <code>bar</code> commit</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+pick 91e33fe bar
+squash 2aea963 qux
+pick 5359d8c baz
+</code></pre>
+            <div class="alert alert-warning">
+                <p>
+                    The list of commits in the <code>rebase-todo</code> file is in chronological order from oldest to
+                    newest. When you <code>squash</code> or <code>fixup</code> a commit, you always apply the change
+                    onto the older commit.
+                </p>
+                <p>That is, you always squash <em>upwards</em> into the commit above.</p>
+            </div>
+            <p>
+                When you save and exit, your editor will open the commit message editor for you to edit the desired
+                commit message for your new combined commit. By default (because we used <code>squash</code> instead of
+                <code>fixup</code>) the commit message will be the original two messages concatenated.
+            </p>
+            <p>If you wanted to throw away the <code>qux</code> commit message, we could have used</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+pick 91e33fe bar
+fixup 2aea963 qux
+pick 5359d8c baz
+</code></pre>
+            <p>instead.</p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    branch feature
+    commit id: &quot;a54a868 foo&quot;
+    commit id: &quot;06a8d4d bar&quot; type: HIGHLIGHT
+    commit id: &quot;00aaa50 baz&quot;
+</pre
+            >
+            <h3 id="toc_15">Scenario 6 - Split one commit into two</h3>
+            <p>Given a feature branch like</p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    branch feature
+    commit id: &quot;a54a868 foo&quot;
+    commit id: &quot;91e33fe qux&quot; type: REVERSE
+    commit id: &quot;5359d8c baz&quot;
+</pre
+            >
+            <p>we want to split the <code>qux</code> commit in two</p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    branch feature
+    commit id: &quot;a54a868 foo&quot;
+    commit id: &quot;91e33fe bar 1&quot; type: HIGHLIGHT
+    commit id: &quot;50c4fff bar 2&quot; type: HIGHLIGHT
+    commit id: &quot;5359d8c baz&quot;
+</pre
+            >
+            <h4 id="toc_16">Trick - Partial stages, reverts, and resets</h4>
+            <p>
+                <code>git add</code>, <code>git revert</code>, and <code>git restore</code> all support the
+                <code>--patch</code> flag, which is <em>awesome</em>. (Admittedly GUI tools have a better process for
+                this)
+            </p>
+            <p>
+                It allows you to selectively choose <em>what</em> you want to stage or revert. We'll use this trick when
+                splitting a commit in two.
+            </p>
+            <h4 id="toc_17">Scenario 6.a - Splitting HEAD</h4>
+            <p>First, let's solve a simpler problem. Let's split the HEAD <code>qux</code> commit on this branch</p>
+            <pre class="mermaid">
+%%{init: {'theme': 'neutral', 'themeVariables': { 'commitLabelFontSize': '11pt' } } }%%
+gitGraph
+    commit
+    branch feature
+    commit id: &quot;a54a868 foo&quot;
+    commit id: &quot;91e33fe qux&quot; type: REVERSE
+</pre
+            >
+            <p>
+                To do this, we'll do one of the following, depending on the complexity of the change we're splitting out
+                of the <code>qux</code> commit
+            </p>
+            <ol>
+                <li>
+                    Undo the <em>entire</em> commit, then selectively stage and commit. You will lose the original
+                    commit message, which is sometimes undesirable.
+                    <ol>
+                        <li><code>git reset HEAD~</code></li>
+                        <li><code>git add --patch</code></li>
+                        <li><code>git commit</code></li>
+                        <li><code>git add --patch</code></li>
+                        <li><code>git commit</code></li>
+                    </ol>
+                </li>
+                <li>
+                    Undo <em>just</em> the hunks you intend to split off
+                    <ol>
+                        <li><code>git reset HEAD~ --patch</code></li>
+                        <li>
+                            <code>git commit --amend --no-edit</code> -- <code>git-reset</code> doesn't modify the
+                            commit being undone. It just <em>stages</em> the changes, which can be difficult to
+                            understand from <code>git status</code>'s output.
+                        </li>
+                        <li><code>git add -A</code></li>
+                        <li><code>git commit</code></li>
+                    </ol>
+                </li>
+                <li>
+                    Undo just the <em>files</em> containing changes you intend to split off
+                    <ol>
+                        <li><code>git reset HEAD~ ./path/to/file</code></li>
+                        <li><code>git commit --amend --no-edit</code></li>
+                        <li><code>git add -A</code></li>
+                        <li><code>git commit</code></li>
+                    </ol>
+                </li>
+            </ol>
+            <p>
+                And of course, you can combine these methods to split one commit into more than two. You can also use
+                this method to <em>discard</em> a <em>portion</em> of a commit, which is also pretty useful.
+            </p>
+            <h4 id="toc_18">Scenario 6.b - Splitting non-HEAD</h4>
+            <p>
+                True to form, we use an interactive rebase. We mark the desired commit as <code>edit</code> in the
+                rebase editor, and then use one of the above methods to modify that commit. Then once we do so perfectly
+                the first time, we finish the rebase with <code>git rebase --continue</code>.
+            </p>
+            <p>
+                If you get into a messy situation, you can completely abort a rebase with
+                <code>git rebase --abort</code>
+            </p>
+            <h3 id="toc_19">Scenario 7 - Insert a new commit</h3>
+            <p>You have two options:</p>
+            <ol>
+                <li>Make the new commit on the tip of the branch and then re-order it to be where you want</li>
+                <li>
+                    Use an interactive rebase to
+                    <ol>
+                        <li>
+                            &quot;<code>edit</code>&quot; the commit right before where you want to insert the new one
+                        </li>
+                        <li>
+                            But instead of modifying the existing commit, make your changes, commit them, and continue
+                            the rebase
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+            <h3 id="toc_20">Scenario 8 - Well dang, I need to run my code formatter on every commit ...</h3>
+            <p>Save the following to <code>git-foreach-rebase</code> somewhere in your <code>$PATH</code></p>
+            <pre><code class="language-bash pl-3">#!/bin/bash
+set -o errexit
+set -o pipefail
+set -o nounset
+set -o noclobber
+
+echo &quot;&quot;
+while [ $? -eq 0 ]; do
+    bash -c &quot;$* &amp;&amp; git rebase --continue&quot;
+done
+</code></pre>
+            <p>
+                This script will allow you to perform an action on every <code>edit</code>ed commit in an interactive
+                rebase.
+            </p>
+            <p>Then, you can perform an interactive rebase onto your target branch</p>
+            <pre><code class="language-text pl-3">pick a54a868 foo
+pick 91e33fe bar
+pick 5359d8c baz
+pick 2aea963 qux
+</code></pre>
+            <p>mark each of the commits as <code>edit</code></p>
+            <pre><code class="language-text pl-3">edit a54a868 foo
+edit 91e33fe bar
+edit 5359d8c baz
+edit 2aea963 qux
+</code></pre>
+            <p>and then save and close the rebase editor. When it drops you to a shell, run</p>
+            <pre><code class="language-sh pl-3">git foreach-rebase &quot;cargo fmt&quot;
+</code></pre>
+            <p>or whatever your code formatting invocation is.</p>
+            <div class="alert alert-primary">
+                <p><strong>You can also use this to run your tests on each commit in your branch!</strong></p>
+            </div>
+            <h2 id="toc_21">Tips</h2>
+            <ul>
+                <li>
+                    <p>
+                        Commit early, commit often. It's way easier to combine two commits than it is to split one into
+                        two
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        Learn the basic operations you can do with <code>git rebase --interactive</code>, and then learn
+                        how you can compose them with <code>git add</code>, <code>git reset</code>, etc.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        Rewriting history is like combing long, tangled hair.
+                        <strong>Never comb from the root to the tip in one fell swoop</strong>. Pain and suffering (and
+                        probably hate, fear, and anger too?) will result.
+                    </p>
+                    <p>
+                        You <em>always</em> start at the tip, comb out a few tangles, and then work your way to the
+                        root, one tangle at a time.
+                    </p>
+                    <p>
+                        Git is similar, except, depending on the circumstances, it may be easiest to start at the root
+                        and work your way to the tip. Define a goal, and then break it down into a series of actions,
+                        each of should be performed separately.
+                    </p>
+                    <p>
+                        This is advantageous, because if you make a mistake (that would never happen, but for argument's
+                        sake...) you can easily abort that one mistake with <code>git rebase --abort</code>. It's also
+                        sometimes useful to create a copy of your feature branch before a particularly risky rebase, but
+                        that's not necessary, as you'll be able to restore after <em>any</em> mistake using
+                        <code>git reflog</code>.
+                    </p>
+                    <p>
+                        <strong>Small operations, one at a time, is the path to success.</strong> Take risks, make
+                        mistakes! (Almost) no matter what, you'll be able to recover from any mistake using
+                        <code>git reflog</code> or by restoring from a branch copy.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+    <script type="module">
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</html>
