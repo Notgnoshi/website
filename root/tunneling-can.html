@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta
+            name="description"
+            content="A tutorial on how to tunnel CAN over IP so that the same CAN bus can be shared between Docker containers"
+        />
+        <meta name="dcterms.available" content="2023-06-20" />
+        <title>Tunneling CAN over IP</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+        <script defer src="/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+        <link rel="stylesheet" href="/css/ascetic.min.css" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="nav-item nav-link" href="/minecraft">Minecraft</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com"
+                            ><i class="fas fa-envelope"></i
+                        ></a>
+                        <a class="text-muted p-2" href="/rss.xml"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1 id="toc_1">Tunneling CAN over IP</h1>
+            <details class="toc" open>
+                <summary>Table of Contents</summary>
+                <ul>
+                    <li><a href="#toc_1">Tunneling CAN over IP</a></li>
+                    <li>
+                        <a href="#toc_2">Sharing the same CAN bus between two Docker containers</a>
+                        <ul>
+                            <li>
+                                <a href="#toc_3">socketcand</a>
+                                <ul>
+                                    <li><a href="#toc_4">Docker image</a></li>
+                                    <li><a href="#toc_5">Server</a></li>
+                                    <li><a href="#toc_6">Client</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#toc_7">cannelloni</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#toc_8">Sharing a CAN bus between a Docker container and your host</a>
+                        <ul>
+                            <li><a href="#toc_9">socketcand</a></li>
+                            <li>
+                                <a href="#toc_10">cannelloni</a>
+                                <ul>
+                                    <li><a href="#toc_11">Option 1 - UDP</a></li>
+                                    <li><a href="#toc_12">Option 2 - SCTP</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#toc_13">Bonus - using Docker compose</a></li>
+                </ul>
+            </details>
+            <p>
+                This post will focus on sharing a CAN network between Docker containers. I'm sure there are other
+                use-cases for tunneling CAN over IP, but this is the one that I've run into.
+            </p>
+            <ul>
+                <li>
+                    Use <code>--network host</code> to use the host's <code>vcan</code> network(s)
+                    <ul>
+                        <li>Not a tunnel</li>
+                        <li>Depending on requirements, it may not be acceptable to use the host network</li>
+                    </ul>
+                </li>
+                <li>
+                    Use <a href="https://gitlab.com/chgans/can4docker">https://gitlab.com/chgans/can4docker</a> to
+                    provide CAN support for Docker
+                    <ul>
+                        <li>
+                            Flaky, only kind of works, undocumented, unsupported, abandoned, and does weird things on
+                            the boot cycle after using it
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Use <a href="https://github.com/mguentner/cannelloni">https://github.com/mguentner/cannelloni</a> to
+                    tunnel CAN over UDP or SCTP
+                    <ul>
+                        <li>May not be acceptable to use a possibly lossy protocol like UDP</li>
+                        <li>
+                            The hardware device you may be working with might have a kernel that doesn't support SCTP
+                        </li>
+                        <li>It appears support was added for TCP since the last time I looked at it</li>
+                    </ul>
+                </li>
+                <li>
+                    Use
+                    <a href="https://github.com/GBert/railroad/tree/master/can2udp"
+                        >https://github.com/GBert/railroad/tree/master/can2udp</a
+                    >
+                    to tunnel CAN over UDP
+                    <ul>
+                        <li>UDP might not be acceptable as describe above</li>
+                    </ul>
+                </li>
+                <li>
+                    There <em>might</em> be a way to use <a href="https://repo.or.cz/socat.git">socat</a> that I haven't
+                    figured out
+                </li>
+                <li>
+                    Pipe <code>candump | nc</code> on one side and <code>nc | cansend</code> on the other side
+                    <ul>
+                        <li>That wasn't a serious suggestion. Just trying to make sure you're awake.</li>
+                    </ul>
+                </li>
+                <li>
+                    Use <code>cangw</code> as described by
+                    <a href="https://www.systec-electronic.com/en/demo/blog/article/news-socketcan-docker-the-solution"
+                        >https://www.systec-electronic.com/en/demo/blog/article/news-socketcan-docker-the-solution</a
+                    >
+                    to setup pairs of unidirectional IP tunnels
+                    <ul>
+                        <li>
+                            Complex to setup, possibly requires a third Docker container to act as the gateway between
+                            the two you want to tunnel together?
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Use <a href="https://github.com/linux-can/socketcand">https://github.com/linux-can/socketcand</a> to
+                    create a TCP client/server CAN tunnel
+                    <ul>
+                        <li>Easiest option to use. Unware of any tradeoffs as of yet</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>
+                I have experience using <code>cannelloni</code> and <code>socketcand</code>. I recommend using
+                <code>socketcand</code> for ease-of-use.
+            </p>
+            <h1 id="toc_2">Sharing the same CAN bus between two Docker containers</h1>
+            <h2 id="toc_3">socketcand</h2>
+            <h3 id="toc_4">Docker image</h3>
+            <p>Take the following Docker image</p>
+            <pre><code class="language-dockerfile pl-3">FROM ubuntu:22.04
+
+RUN apt update \
+    &amp;&amp; DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
+        build-essential \
+        ca-certificates \
+        can-utils \
+        dh-autoreconf \
+        git \
+        iproute2 \
+        kmod \
+    &amp;&amp; apt clean \
+    &amp;&amp; rm -rf /var/lib/apt/lists/* \
+    ;
+
+SHELL [&quot;/bin/bash&quot;, &quot;-c&quot;]
+RUN git clone https://github.com/linux-can/socketcand.git /tmp/socketcand/ \
+    &amp;&amp; pushd /tmp/socketcand/ \
+    &amp;&amp; ./autogen.sh \
+    &amp;&amp; ./configure --prefix /usr/local/ \
+    &amp;&amp; make \
+    &amp;&amp; make install \
+    &amp;&amp; popd \
+    &amp;&amp; rm -rf /tmp/socketcand/ \
+    ;
+</code></pre>
+            <div class="alert alert-dark">
+                <p>
+                    If you <em>really</em> care about container size, you could use a multi-stage build to cut out the
+                    build dependencies from the resulting <code>socketcand</code> and <code>kmod</code> binaries.
+                </p>
+            </div>
+            <p>Build with</p>
+            <pre><code class="language-sh pl-3">docker build -t socketcand .
+</code></pre>
+            <h3 id="toc_5">Server</h3>
+            <p>On the host, run</p>
+            <pre><code class="language-sh pl-3">docker network create socketcand-shared
+docker run -it --rm --network socketcand-shared --name socketcand-server --cap-add NET_ADMIN socketcand
+</code></pre>
+            <p>In the container, run</p>
+            <pre><code class="language-sh pl-3">ip link add dev can1 type vcan
+ip link set up can1
+socketcand --verbose --interface can1 &amp;
+candump -L can1
+</code></pre>
+            <p>Then again on the host, run</p>
+            <pre><code class="language-sh pl-3">$ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' socketcand-server
+172.19.0.2
+</code></pre>
+            <p>This is how we'll tell what IP address to connect the <code>socketcandcl</code> client to.</p>
+            <h3 id="toc_6">Client</h3>
+            <div class="alert alert-dark">
+                <p>
+                    The <code>socketcand</code>
+                    <a href="https://github.com/linux-can/socketcand/blob/master/doc/protocol.md">protocol</a> defines a
+                    UDP service discovery mechanism for clients to discover the <code>socketcand</code> server.
+                </p>
+                <p>
+                    However, the <code>socketcandcl</code> client does not use this discovery mechanism, so you need to
+                    connect it to the <code>socketcand</code> server by IP address directly.
+                </p>
+            </div>
+            <p>On the host, run</p>
+            <pre><code class="language-sh pl-3">export SOCKETCAND_SERVER=&quot;$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' socketcand-server)&quot;
+docker run -it --rm --network socketcand-shared --name socketcand-client --cap-add NET_ADMIN --env SOCKETCAND_SERVER socketcand
+</code></pre>
+            <p>In the container, run</p>
+            <pre><code class="language-sh pl-3">ip link add dev can1 type vcan
+ip link set up can1
+socketcandcl --verbose --server $SOCKETCAND_SERVER --interfaces can1,can1 &amp;
+candump -L can1 &amp;
+cansend can1 123#4455
+</code></pre>
+            <p>You should see</p>
+            <pre><code class="pl-3">(1687220675.698707) can1 123#4455
+</code></pre>
+            <p>in both the server and the client's console output.</p>
+            <h2 id="toc_7">cannelloni</h2>
+            <p>
+                I'm sure you could use <code>cannelloni</code> for this, but I think <code>socketcand</code> was easier,
+                so I never tried.
+            </p>
+            <h1 id="toc_8">Sharing a CAN bus between a Docker container and your host</h1>
+            <h2 id="toc_9">socketcand</h2>
+            <p>
+                You can run either the server or the client in a container. I'll provide instructions for running the
+                server on the host.
+            </p>
+            <p>On the host, create a <code>can1</code> virtual CAN network to share with the container.</p>
+            <pre><code class="language-sh pl-3">sudo modprobe vcan
+sudo ip link add dev can1 type vcan
+sudo ip link set up can1
+</code></pre>
+            <p>
+                This doesn't have to be a <code>vcan</code> network, but I don't currently have access to a physical CAN
+                network for demonstration.
+            </p>
+            <p>On the host, run</p>
+            <pre><code class="language-sh pl-3">socketcand --verbose --interface can1 &amp;
+candump -L can1 &amp;
+</code></pre>
+            <p>
+                This will bind to your default interface's public IP, which we'll need to use to connect the client to
+                the server.
+            </p>
+            <pre><code class="language-sh pl-3"># There's probably a better way
+export SOCKETCAND_SERVER=$(ip -4 -br address show eth0 | tr -s ' ' | cut -d ' ' -f 3 | sed 's|\(.*\)/.*|\1|')
+</code></pre>
+            <p>In a separate terminal session, start a container with</p>
+            <pre><code class="language-sh pl-3">docker run -it --rm --name socketcand-client --cap-add NET_ADMIN --env SOCKETCAND_SERVER socketcand
+</code></pre>
+            <p>and in the resulting shell, run</p>
+            <pre><code class="language-sh pl-3">ip link add dev can1 type vcan
+ip link set up can1
+socketcandcl --verbose --server $SOCKETCAND_SERVER --interfaces can1,can1 &amp;
+candump -L can1 &amp;
+cansend can1 123#4455
+</code></pre>
+            <h2 id="toc_10">cannelloni</h2>
+            <p>
+                It's been several years since I've last used cannelloni, and the thing that made it less desirable was
+                that it used SCTP rather than TCP. But SCTP wasn't supported by the Linux kernel for the hardware device
+                I was interacting with.
+            </p>
+            <p>But nowadays it appears it supports TCP just fine.</p>
+            <p>Build and install cannelloni on the host</p>
+            <pre><code class="language-sh pl-3">sudo apt install libsctp-dev
+git clone https://github.com/mguentner/cannelloni.git
+cd cannelloni/
+cmake -B ./build/ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$HOME/.local/ .
+cmake --build ./build/ --parallel --target install
+</code></pre>
+            <p>Then do the same inside a Docker image with the following Dockerfile:</p>
+            <pre><code class="language-dockerfile pl-3">FROM ubuntu:22.04
+
+RUN apt update \
+    &amp;&amp; DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
+        build-essential \
+        ca-certificates \
+        can-utils \
+        cmake \
+        git \
+        iproute2 \
+        libsctp-dev \
+    &amp;&amp; apt clean \
+    &amp;&amp; rm -rf /var/lib/apt/lists/* \
+    ;
+
+SHELL [&quot;/bin/bash&quot;, &quot;-c&quot;]
+RUN git clone https://github.com/mguentner/cannelloni.git /tmp/cannelloni/ \
+    &amp;&amp; pushd /tmp/cannelloni/ \
+    &amp;&amp; cmake -B ./build/ -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/ . \
+    &amp;&amp; cmake --build ./build/ --parallel --target install \
+    &amp;&amp; popd \
+    &amp;&amp; rm -rf /tmp/cannelloni/ \
+    ;
+</code></pre>
+            <p>built with</p>
+            <pre><code class="language-sh pl-3">docker build -t cannelloni .
+</code></pre>
+            <p>
+                Then, on the host, create a <code>can1</code> network to share between the host and a Docker container
+            </p>
+            <pre><code class="language-sh pl-3">sudo modprobe vcan
+sudo ip link add dev can1 type vcan
+sudo ip link set up can1
+</code></pre>
+            <h3 id="toc_11">Option 1 - UDP</h3>
+            <p>Run the Docker container</p>
+            <pre><code class="language-sh pl-3">docker run  --interactive --name cannelloni-udp --tty --rm --publish 2000:2000/udp --cap-add=NET_ADMIN cannelloni:latest
+ip link add dev can1 type vcan
+ip link set up can1
+cannelloni -I can1 -R 127.0.0.1 -p -l 2000 -r 3000 &amp;
+candump -L can1 &amp;
+</code></pre>
+            <p>Then run <code>cannelloni</code> on the host</p>
+            <pre><code class="language-sh pl-3">export CANNELLONI_IP=&quot;$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' cannelloni-udp)&quot;
+cannelloni -I can1 -R $CANNELLONI_IP -r 2000 -l 3000 &amp;
+candump -L can1 &amp;
+</code></pre>
+            <div class="alert alert-dark">
+                <p>Notice that the <code>-l</code> and <code>-r</code> arguments flipped!</p>
+            </div>
+            <p>Now send a CAN message in the Docker container!</p>
+            <pre><code class="language-sh pl-3">docker exec -it cannelloni-udp cansend can1 123#001122
+</code></pre>
+            <p>
+                You should see it in the host's <code>candump -L can1</code> output. Likewise, you should be able to
+                send a CAN message from the host to the container.
+            </p>
+            <h3 id="toc_12">Option 2 - SCTP</h3>
+            <p>Run <code>cannelloni</code> in the container</p>
+            <pre><code class="language-sh pl-3">docker run  --interactive --tty --rm --publish 2000:2000/sctp --cap-add=NET_ADMIN --name cannelloni-sctp cannelloni:latest
+ip link add dev can1 type vcan
+ip link set can1 up
+cannelloni -I can1 -S s &amp;
+candump -L can1 &amp;
+</code></pre>
+            <p>and on the host, run</p>
+            <pre><code class="language-sh pl-3">export CANNELLONI_IP=&quot;$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' cannelloni-sctp)&quot;
+cannelloni -I can1 -R $CANNELLONI_IP -S c &amp;
+candump -L can1 &amp;
+docker exec -it cannelloni-sctp cansend can1 123#334455
+cansend can1 456#7788
+</code></pre>
+            <div class="alert alert-dark">
+                <p>
+                    The docs suggest that just switching <code>-S s</code>/<code>-S c</code> to <code>-C s</code>/<code
+                        >-C c</code
+                    >
+                    is all that's necessary to use TCP rather than SCTP.
+                </p>
+            </div>
+            <h1 id="toc_13">Bonus - using Docker compose</h1>
+            <p>Take the following <code>docker-compose.yml</code> file.</p>
+            <pre><code class="language-yaml pl-3">version: &quot;3.9&quot;
+services:
+    socketcand-server:
+        image: socketcand
+        networks:
+            - socketcand-shared
+        cap_add:
+            - NET_ADMIN
+        entrypoint:
+            - bash
+            - -c
+            - &quot;ip link add dev can1 type vcan &amp;&amp; ip link set up can1 &amp;&amp; socketcand --verbose --interfaces can1&quot;
+
+    socketcand-client:
+        image: socketcand
+        networks:
+            - socketcand-shared
+        cap_add:
+            - NET_ADMIN
+        entrypoint:
+            - bash
+            - -c
+            - &quot;ip link add dev can1 type vcan &amp;&amp; ip link set up can1 &amp;&amp; socketcandcl --verbose --server socketcand-server --interfaces can1,can1&quot;
+
+networks:
+    socketcand-shared:
+</code></pre>
+            <div class="alert alert-dark">
+                <p>
+                    Notice that we did not have to specify any IP addresses, instead using <code>--server</code> to pass
+                    the hostname of the <code>socketcand-server</code> container to <code>socketcandcl</code>.
+                </p>
+            </div>
+            <p>
+                After running <code>docker compose up</code>, we can start a shell in the running containers to run
+                <code>candump</code> and <code>cansend</code> to prove to ourselves that the two services are sharing a
+                CAN network.
+            </p>
+            <pre><code class="language-sh pl-3">docker exec -it can-tunneling-socketcand-client-1 candump -L can1
+docker exec -it can-tunneling-socketcand-server-1 cansend can1 123#4455
+</code></pre>
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+</html>
