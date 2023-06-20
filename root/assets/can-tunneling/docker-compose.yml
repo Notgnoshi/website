@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+    socketcand-server:
+        image: socketcand
+        networks:
+            - socketcand-shared
+        cap_add:
+            - NET_ADMIN
+        entrypoint:
+            - bash
+            - -c
+            - "ip link add dev can1 type vcan && ip link set up can1 && socketcand --verbose --interfaces can1"
+
+    socketcand-client:
+        image: socketcand
+        networks:
+            - socketcand-shared
+        cap_add:
+            - NET_ADMIN
+        entrypoint:
+            - bash
+            - -c
+            - "ip link add dev can1 type vcan && ip link set up can1 && socketcandcl --verbose --server socketcand-server --interfaces can1,can1"
+
+networks:
+    socketcand-shared:
