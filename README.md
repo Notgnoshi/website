@@ -2,15 +2,50 @@
 
 Repository for [agill.xyz](https://agill.xyz) and its Nginx configuration.
 
+## Local development
+
 To develop locally, do
 
 ```bash
 ./scripts/docker/web-nginx-proxy.sh
 ./scripts/docker/web-root.sh
 ```
-and access the site at `http://localhost`.
+
+and access the site at <http://localhost>.
+
+> [!WARNING]
+>
+> You may also need to delete some of the auto-generated letsencrypt Nginx configuration before the
+> `nginx-proxy` container will correctly proxy on `localhost`.
+
+Alternatively, you can run _just_ `web-root.sh` and use
+
+```bash
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx-root
+```
+
+to find the IP address of the `nginx-root` container
+
+### Rendering drafts
+
+Run the script
+
+```bash
+# You probably want to do this in a venv
+pip install -r requirements.txt
+./scripts/drafts.sh
+```
+
+this will render each draft in `drafts/*.md` to HTML pages in `root/drafts/*.html` accessible at
+<http://localhost/drafts>. When it comes time to publish a draft,
+
+1. Move the generated HTML from `root/drafts/` to `root/`
+2. Edit the `root/index.html` with a link and appropriate date/description
+
+### Debugging URL rewrites
 
 To debug Nginx redirection rules, you can modify/run
+
 ```bash
 $ docker restart nginx-root && sleep 0.5 && ./scripts/check-redirects.sh
 URL                                              Resolved URL                       HTTP Response
@@ -41,26 +76,39 @@ http://localhost/blog/product-spaces.html        http://localhost/product-spaces
 http://localhost/blog/product-spaces/index.html  http://localhost/product-spaces    200
 ```
 
-To deploy to production, clone the repository to a suitable host (one that `agill.xyz` resolves to), and run
+### RSS Feed
+
+To update the `https://agill.xyz/rss.xml` RSS feed, run
+
+```bash
+./scripts/rss.sh
+```
+
+## Production
+
+To deploy to production, clone the repository to a suitable host (one that `agill.xyz` resolves to),
+and run
 
 ```bash
 ./scripts/docker/web-nginx-proxy.sh
 ./scripts/docker/web-nginx-https.sh
 ./scripts/docker/web-root.sh
 ```
+
 and access the site at `https://agill.xyz`
 
-To reload Nginx configuration, you may simply restart the `nginx-root` container started by `web-root.sh`.
-The proxy and acme containers use shared Docker volumes to persist the SSL certificates.
+To reload Nginx configuration, you may simply restart the `nginx-root` container started by
+`web-root.sh`. The proxy and acme containers use shared Docker volumes to persist the SSL
+certificates.
 
-If you want to deploy the haiku generation API container, you must first build the `notgnoshi/api` container from https://github.com/Notgnoshi/research
-Then you can run
+## Haiku generation API
+
+If you want to deploy the haiku generation API container, you must first build the `notgnoshi/api`
+container from https://github.com/Notgnoshi/research Then you can run
+
 ```bash
 ./scripts/docker/research.sh
 ```
-to start the container. This requires https://github.com/Notgnoshi/research to be cloned to `/srv/research`, and the repository data to be initialized.
 
-To update `https://agill.xyz/rss.xml`, run
-```bash
-./scripts/rss.sh
-```
+to start the container. This requires https://github.com/Notgnoshi/research to be cloned to
+`/srv/research`, and the repository data to be initialized.
