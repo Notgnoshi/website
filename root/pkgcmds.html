@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="A cheat sheet for different rpm/deb package management commands" />
+    <meta name="dcterms.available" content="2025-07-14" />
+    <title>Package management command cheat sheet</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+    <script defer src="/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+    <link rel="stylesheet" href="/css/ascetic.min.css" />
+</head>
+<body class="d-flex flex-column">
+    <header class="bg-dark sticky-top mb-3">
+        <nav class="container navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">agill.xyz</a>
+            <div class="toggleable-content text-right">
+                <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                <div class="trigger navbar-nav">
+                    <a class="nav-item nav-link" href="/">Home</a>
+                    <a class="nav-item nav-link" href="/research">Research</a>
+                    <a class="nav-item nav-link" href="/minecraft">Minecraft</a>
+                    <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                    <a class="text-muted p-2" href="https://twitter.com/notgnoshi" ><i class="fab fa-twitter"></i></a>
+                    <a class="text-muted p-2" href="mailto://Notgnoshi@gmail.com" ><i class="fas fa-envelope"></i></a>
+                    <a class="text-muted p-2" href="/rss.xml"><i class="fas fa-rss"></i></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container flex-grow-1"><h1>Package management command cheat sheet</h1>
+<details class="toc" open>
+<summary>Table of Contents</summary>
+<li><a href="#toc_2">What does a package depend on?</a></li>
+<li><a href="#toc_3">What packages depend on the given package?</a></li>
+<li><a href="#toc_4">Which package provides a given file?</a></li>
+<li><a href="#toc_5">List pre|postinst scriptlets in a package</a></li>
+<li><a href="#toc_6">List contents of a package</a></li>
+<li><a href="#toc_7">Extract contents of a package</a></li>
+<li><a href="#toc_8">List installed packages</a></li>
+<li><a href="#toc_9">Remove a package and anything that depends on it</a></li>
+<li><a href="#toc_10">Remove a package, but not things that depend on it</a></li>
+<li><a href="#toc_11">Install a package from file</a></li>
+<li><a href="#toc_12">TODO</a></li>
+</ul>
+</li>
+</ul>
+</details>
+<p>Many of the following <code>rpm</code> commands use <code>rpm -q &lt;package&gt;</code> to query against an installed package by
+name. You can also query a possibly-uninstalled <code>.rpm</code> file with <code>rpm -qp path/to/package.rpm</code>.</p>
+<h2 id="toc_2">What does a package depend on?</h2>
+<pre><code class="language-sh pl-3"># dnf/rpm
+dnf repoquery --installed --requires &lt;package&gt;
+rpm --requires -q &lt;package&gt;
+</code></pre>
+<p>You can replace <code>--requires</code> with <code>--provides</code> and <code>--conflicts</code> for more information.</p>
+<pre><code class="language-sh pl-3"># apt/deb
+apt-cache depends &lt;package&gt;
+</code></pre>
+<h2 id="toc_3">What packages depend on the given package?</h2>
+<pre><code class="language-sh pl-3"># dnf/rpm
+dnf repoquery --installed --whatrequires &lt;package&gt;
+rpm --whatrequires -q &lt;package&gt;
+
+# apt/deb
+apt-cache rdepends --installed &lt;package&gt;
+</code></pre>
+<h2 id="toc_4">Which package provides a given file?</h2>
+<pre><code class="language-sh pl-3"># dnf/rpm
+rpm -qf &lt;path/to/file&gt;
+
+# apt/deb
+dpkg -S &lt;path/to/file&gt;
+</code></pre>
+<h2 id="toc_5">List pre|postinst scriptlets in a package</h2>
+<pre><code class="language-sh pl-3">rpm -q &lt;package&gt; --scripts
+
+# From a given .deb package
+dpkg --dry-run -i &lt;package.deb&gt;
+# From an installed .deb package
+ls /var/lib/dpkg/info/&lt;package&gt;*
+</code></pre>
+<h2 id="toc_6">List contents of a package</h2>
+<pre><code class="language-sh pl-3">rpm -ql &lt;package&gt;
+rpm -qpl &lt;package.rpm&gt;
+dpkg -L &lt;package&gt;
+dpkg --contents &lt;package.deb&gt;
+cat /var/lib/dpkg/info/&lt;package&gt;.list
+</code></pre>
+<h2 id="toc_7">Extract contents of a package</h2>
+<p>It's often super useful to extract the contents of a package to a temporary prefix without
+installing the package.</p>
+<pre><code class="language-sh pl-3"># For an .rpm
+sudo apt install rpm2cpio
+mkdir prefix/
+cd prefix/
+rpm2cpio &lt;package.rpm&gt; | cpio -idmv
+cd ../
+tree prefix/
+</code></pre>
+<pre><code class="language-sh pl-3"># For a .deb
+dpkg --contents &lt;package.deb&gt;
+dpkg-deb -x &lt;package.deb&gt; prefix/
+</code></pre>
+<h2 id="toc_8">List installed packages</h2>
+<pre><code class="language-sh pl-3">rpm -qa
+dnf list --installed
+apt list --installed
+</code></pre>
+<h2 id="toc_9">Remove a package and anything that depends on it</h2>
+<pre><code class="language-sh pl-3">dnf remove &lt;package&gt;
+apt remove &lt;package&gt;
+</code></pre>
+<h2 id="toc_10">Remove a package, but not things that depend on it</h2>
+<pre><code class="language-sh pl-3">rpm --nodeps -e &lt;package&gt;
+</code></pre>
+<h2 id="toc_11">Install a package from file</h2>
+<pre><code class="language-sh pl-3">rpm -i &lt;package.rpm&gt;
+rpm --force -i &lt;package.rpm&gt;
+
+# Needs ./ prefix to look for the given package file, instead of treating as a package name
+dnf install --nogpgcheck ./package.rpm
+apt install ./package.deb
+</code></pre>
+<h2 id="toc_12">TODO</h2>
+<ul>
+<li>How to audit recent transactions?<ul>
+<li>Failed scriptlets</li>
+<li>Conflicts</li>
+<li>What caused a change</li>
+</ul>
+</li>
+<li>Where are rpms downloaded to?</li>
+<li>How to download an rpm from a package feed without installing it</li>
+<li>How does the rpm database work?</li>
+<li>Repos? Channels?</li>
+<li>Package name vs package provides vs package filename (I've seen all three be different!)</li>
+<li>How are dnf, yum, smart, and rpm all related?</li>
+</ul>
+</div>
+</body>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+
+</html>
