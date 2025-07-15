@@ -7,7 +7,49 @@
     <atom:link href="https://agill.xyz/rss.xml" rel="self"/>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
-    <lastBuildDate>Sun, 10 Apr 2022 19:41:36 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 15 Jul 2025 13:44:39 +0000</lastBuildDate>
+    <item>
+      <title>Package management command cheat sheet</title>
+      <link>https://agill.xyz/pkgcmds/</link>
+      <description>A cheat sheet for different rpm/deb package management commands</description>
+      <guid isPermaLink="false">https://agill.xyz/pkgcmds/</guid>
+      <pubDate>Mon, 14 Jul 2025 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Tunneling CAN over IP</title>
+      <link>https://agill.xyz/tunneling-can/</link>
+      <description>A tutorial on how to tunnel CAN over IP so that the same CAN bus can be shared between Docker containers</description>
+      <guid isPermaLink="false">https://agill.xyz/tunneling-can/</guid>
+      <pubDate>Tue, 20 Jun 2023 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Git: Techniques for rewriting history</title>
+      <link>https://agill.xyz/git/rewriting-history/</link>
+      <description>Techniques for rewriting Git history</description>
+      <guid isPermaLink="false">https://agill.xyz/git/rewriting-history/</guid>
+      <pubDate>Fri, 16 Jun 2023 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Using screen for serial connections</title>
+      <link>https://agill.xyz/screen/</link>
+      <description>Notes on using screen for serial connections.</description>
+      <guid isPermaLink="false">https://agill.xyz/screen/</guid>
+      <pubDate>Wed, 18 Jan 2023 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Asemic Writing</title>
+      <link>https://agill.xyz/asemic-writing/</link>
+      <description>Generative script creation</description>
+      <guid isPermaLink="false">https://agill.xyz/asemic-writing/</guid>
+      <pubDate>Mon, 02 Jan 2023 00:00:00 -0600</pubDate>
+    </item>
+    <item>
+      <title>Personal values</title>
+      <link>https://agill.xyz/values/</link>
+      <description>What I've learned about my personal values</description>
+      <guid isPermaLink="false">https://agill.xyz/values/</guid>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 -0500</pubDate>
+    </item>
     <item>
       <title>GNU Readline</title>
       <link>https://agill.xyz/bash/readline/</link>
