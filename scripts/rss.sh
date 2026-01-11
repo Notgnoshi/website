@@ -27,5 +27,5 @@ else
 fi
 
 echo "Regenerating RSS feed..."
-"$REPO_ROOT/scripts/generate-rss-feed.py" --log-level INFO --output "$REPO_ROOT/root/rss.xml"
+"$REPO_ROOT/scripts/generate-rss-feed.py" --log-level INFO --output "$REPO_ROOT/site/rss.xml"
 echo "Finished generating RSS feed."

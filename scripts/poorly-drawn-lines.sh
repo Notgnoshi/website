@@ -36,4 +36,4 @@ while IFS=, read -r PAGE_URL IMAGE_URL; do
 done < "$REPO_ROOT/scripts/poorly-drawn-lines.csv"
 
 # Replace the figures between the #start and #end tags
-sed -i "/<!-- #start -->/,/<!-- #end -->/c\    <!-- #start -->\n$FIGURES    <!-- #end -->" "$REPO_ROOT/html/root/poorly-drawn-lines.html"
+sed -i "/<!-- #start -->/,/<!-- #end -->/c\    <!-- #start -->\n$FIGURES    <!-- #end -->" "$REPO_ROOT/html/site/poorly-drawn-lines.html"

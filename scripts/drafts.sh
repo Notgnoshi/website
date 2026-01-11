@@ -14,7 +14,7 @@ for draft in "$REPO_DIR/drafts/"*.md; do
     slug="${slug%.md}"
     slug="${slug// /-}"
 
-    output="$REPO_DIR/root/drafts/$slug.html"
+    output="$REPO_DIR/site/drafts/$slug.html"
 
     $MD2HTML --input "$draft" --output "$output" --page-template "$TEMPLATE"
     echo " done"
