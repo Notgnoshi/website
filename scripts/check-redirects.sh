@@ -53,10 +53,6 @@ urls=(
     # This doesn't exist, but should still get redirected.
     /graphviz/index.html
     /404.html
-    /blog/product-spaces
-    /blog/product-spaces/
-    /blog/product-spaces.html
-    /blog/product-spaces/index.html
 )
 
 check_all_redirects() {

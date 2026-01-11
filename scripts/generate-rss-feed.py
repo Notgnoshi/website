@@ -14,7 +14,7 @@ from feedgen.feed import FeedGenerator
 logger = logging.getLogger("generate-rss-feed.py")
 
 REPO_ROOT = pathlib.Path(__file__).parent.parent
-SITE_ROOT = REPO_ROOT / "root"
+SITE_ROOT = REPO_ROOT / "site"
 SITE_TITLE = "agill.xyz"
 SITE_DOMAIN = "https://agill.xyz"
 SITE_DESCRIPTION = "Another personal website"

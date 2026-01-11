@@ -1,5 +1,5 @@
 # Generated HTML, not the source of truth
-root/drafts/*
+site/drafts/*
 
 .vscode/
 # Download the player skin renders, don't track.
@@ -123,9 +123,6 @@ venv.bak/
 
 # Rope project settings
 .ropeproject
-
-# mkdocs documentation
-/site
 
 # mypy
 .mypy_cache/
