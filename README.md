@@ -12,6 +12,15 @@ docker compose rm -f && docker compose up
 
 and access the site at <http://localhost>.
 
+## Production
+
+The only difference between dev and prod is the ACME SSL certificate management.
+
+```bash
+docker compose --profile prod up -d
+docker compose --profile prod logs -f
+```
+
 ### Rendering drafts
 
 Run the script
@@ -65,20 +74,3 @@ To update the `https://agill.xyz/rss.xml` RSS feed, run
 ```bash
 ./scripts/rss.sh
 ```
-
-## Production
-
-To deploy to production, clone the repository to a suitable host (one that `agill.xyz` resolves to),
-and run
-
-```bash
-./scripts/docker/web-nginx-proxy.sh
-./scripts/docker/web-nginx-https.sh
-./scripts/docker/web-root.sh
-```
-
-and access the site at `https://agill.xyz`
-
-To reload Nginx configuration, you may simply restart the `nginx-root` container started by
-`web-root.sh`. The proxy and acme containers use shared Docker volumes to persist the SSL
-certificates.

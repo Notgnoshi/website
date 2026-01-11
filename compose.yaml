@@ -1,4 +1,25 @@
+volumes:
+    nginx_acme:
+    nginx_certs:
+    nginx_html:
+    nginx_vhost:
+
 services:
+    # https://github.com/nginx-proxy/acme-companion
+    acme:
+        image: nginxproxy/acme-companion:latest
+        restart: unless-stopped
+        profiles: [prod]
+        environment:
+            - DEFAULT_EMAIL=notgnoshi@gmail.com
+        volumes_from:
+            - proxy
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - nginx_certs:/etc/nginx/certs:rw
+            - nginx_acme:/etc/acme.sh
+
+    # https://github.com/nginx-proxy/nginx-proxy
     proxy:
         image: nginxproxy/nginx-proxy:latest
         restart: unless-stopped
@@ -9,7 +30,11 @@ services:
             - DEFAULT_HOST=agill.xyz
         volumes:
             - /var/run/docker.sock:/tmp/docker.sock:ro
+            - nginx_certs:/etc/nginx/certs:ro
+            - nginx_html:/usr/share/nginx/html
+            - nginx_vhost:/etc/nginx/vhost.d
 
+    # https://github.com/nginx/docker-nginx
     static-site:
         image: nginx:latest
         restart: unless-stopped
@@ -18,6 +43,7 @@ services:
             - 443
         environment:
             - VIRTUAL_HOST=agill.xyz,agill.net,localhost
+            - LETSENCRYPT_HOST=agill.net,agill.xyz
         volumes:
             - ./site:/usr/share/nginx/html:ro
             - ./nginx/site.conf:/etc/nginx/conf.d/default.conf:ro
