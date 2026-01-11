@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Convert markdown to HTML."""
+
 import argparse
 import logging
 import sys
@@ -62,7 +63,7 @@ class BootstrappedAdmonition(Admonition):
 class BootstrappedHtmlRenderer(mistune.HTMLRenderer):
     """A customized HTMLRenderer that adds Bootstrap classes and other customizations."""
 
-    def __init__(self, escape=True, allow_harmful_protocols=None):
+    def __init__(self, escape=False, allow_harmful_protocols=None):
         super().__init__(escape, allow_harmful_protocols)
 
     def image(self, alt, url, title=""):
@@ -137,6 +138,7 @@ def parse_args():
 def main(args):
     renderer = BootstrappedHtmlRenderer()
     parser = mistune.create_markdown(
+        escape=False,
         renderer=renderer,
         plugins=[
             FencedDirective([BootstrappedAdmonition(), TableOfContents()]),
@@ -147,7 +149,7 @@ def main(args):
     metadata["content"] = html
 
     if args.page_template:
-        template = jinja2.Template(args.page_template.read())
+        template = jinja2.Template(args.page_template.read(), autoescape=False)
         html = template.render(metadata)
 
     args.output.write(html)
