@@ -21,22 +21,6 @@ docker compose --profile prod up -d
 docker compose --profile prod logs -f
 ```
 
-### Rendering drafts
-
-Run the script
-
-```bash
-# You probably want to do this in a venv
-pip install -r requirements.txt
-./scripts/drafts.sh
-```
-
-this will render each draft in `drafts/*.md` to HTML pages in `root/drafts/*.html` accessible at
-<http://localhost/drafts>. When it comes time to publish a draft,
-
-1. Move the generated HTML from `root/drafts/` to `root/`
-2. Edit the `root/index.html` with a link and appropriate date/description
-
 ### Debugging URL rewrites
 
 To debug Nginx redirection rules, you can modify/run
@@ -67,6 +51,16 @@ http://localhost/graphviz/index.html             http://localhost/graphviz      
 http://localhost/404.html                        http://localhost/404               404
 ```
 
+### Virtual environment
+
+Both the RSS feed generation and draft rendering scripts require Python dependencies.
+
+```bash
+python -m venv --prompt website .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
 ### RSS Feed
 
 To update the `https://agill.xyz/rss.xml` RSS feed, run
@@ -74,3 +68,20 @@ To update the `https://agill.xyz/rss.xml` RSS feed, run
 ```bash
 ./scripts/rss.sh
 ```
+
+### Rendering drafts
+
+Run the script
+
+```bash
+# You probably want to do this in a venv
+pip install -r requirements.txt
+./scripts/drafts.sh
+```
+
+this will render each draft in `drafts/*.md` to HTML pages in `root/drafts/*.html` accessible at
+<http://localhost/drafts>. When it comes time to publish a draft,
+
+1. Move the generated HTML from `root/drafts/` to `root/`
+2. Edit the `root/index.html` with a link and appropriate date/description
+
