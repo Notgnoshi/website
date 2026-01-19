@@ -58,6 +58,14 @@ p {
     width: 70%;
 }
 
+/* Match the paragraph width with alerts */
+.alert p {
+    width: 100%;
+}
+.alert {
+    width: 70%;
+}
+
 .sidenote,
 .marginnote {
     float: right;
