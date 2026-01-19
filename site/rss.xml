@@ -296,13 +296,6 @@
       <pubDate>Mon, 15 Jan 2018 00:00:00 -0600</pubDate>
     </item>
     <item>
-      <title>I Want my 2x2 Workspaces Back</title>
-      <link>https://agill.xyz/i-want-my-2-by-2-workspaces-back/</link>
-      <description>A short explanation of my mental model of 2D workspaces.</description>
-      <guid isPermaLink="false">https://agill.xyz/i-want-my-2-by-2-workspaces-back/</guid>
-      <pubDate>Mon, 23 Oct 2017 00:00:00 -0500</pubDate>
-    </item>
-    <item>
       <title>Delegates in Python</title>
       <link>https://agill.xyz/python-delegates/</link>
       <description>A Python implementation of delegates. A delegate is an object to which a task is delegated. The purpose of delegation is to decouple code and add flexibility.</description>
