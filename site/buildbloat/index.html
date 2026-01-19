@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta
+            name="description"
+            content="How to profile a C++ CMake build with buildbloat to generate a treemap of compile times"
+        />
+        <meta name="dcterms.available" content="2026-01-19" />
+        <title>Profiling a C++ CMake build with buildbloat</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+
+        <script defer src="/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+        <link rel="stylesheet" href="/css/ascetic.min.css" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto:Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+                        <a class="text-muted p-2" href="/rss.xml"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>Profiling a C++ CMake build with buildbloat</h1>
+            <p>
+                This page describes how to use <a href="https://github.com/Notgnoshi/buildbloat">buildbloat</a> to
+                profile a C++ CMake build and generate a treemap visualization of compile times with
+                <a href="https://github.com/Notgnoshi/webtreemap">webtreemap</a> using
+                <a href="https://github.com/libgeos/geos">geos</a> as a nontrivial C++ example project.
+            </p>
+            <p>
+                This can be useful to understand what parts of your build take the most time at a larger granularity
+                than you get with tools like
+                <a href="https://github.com/royjacobson/externis">https://github.com/royjacobson/externis</a> or
+                <a href="https://github.com/jrmadsen/compile-time-perf">https://github.com/jrmadsen/compile-time-perf</a
+                >. This also doesn't tell you <em>what about</em> your build is slow; is it because your Translation
+                Units are massive? Or is it template instantiation? or is it a CMake
+                <a href="https://cmake.org/cmake/help/latest/command/add_custom_command.html"
+                    ><code>add_custom_command</code></a
+                >
+                that runs every time you build?
+            </p>
+            <h2>Prerequisites</h2>
+            <ul>
+                <li>A C++ toolchain</li>
+                <li>Ninja (buildbloat processes Ninja build logs)</li>
+                <li>Node.js and NPM (for webtreemap)</li>
+            </ul>
+            <h2>Run your CMake build with Ninja</h2>
+            <p>
+                If you're using <code>ccache</code>, you probably want to disable it for the sake of accurate profiling.
+            </p>
+            <pre><code class="language-sh pl-3">rm -rf ./build/
+export CCACHE_DISABLE=1
+cmake -B ./build/ -G Ninja
+cmake --build ./build/ --parallel
+</code></pre>
+            <div class="alert alert-warning">
+                <p>
+                    Depending on your project size and build system capabilities, you may want to limit the number of
+                    jobs more than just &quot;use all the cores&quot;. You can do this with
+                    <code>--parallel $(($(nproc) - 4))</code> or similar.
+                </p>
+            </div>
+            <p>
+                Ninja generates <code>build/.ninja_log</code> which we will use for generating the treemap. But first,
+                we need to convert it to a format that <code>webtreemap</code> understands.
+            </p>
+            <div class="alert alert-warning">
+                <p>
+                    I can't find &quot;official&quot; documentation for this file format, but I did find
+                    <a href="https://pkg.go.dev/go.fuchsia.dev/fuchsia/tools/build/ninjago/ninjalog"
+                        >https://pkg.go.dev/go.fuchsia.dev/fuchsia/tools/build/ninjago/ninjalog</a
+                    >
+                    which documents it as
+                </p>
+                <pre><code class="pl-3"># ninja log v5
+&lt;start&gt;\t&lt;end&gt;\t&lt;restat&gt;\t&lt;target&gt;\t&lt;hash&gt;
+</code></pre>
+                <p>
+                    but it appears the format version was bumped to v6 with Ninja 1.12, and to v7 with Ninja 1.13. From
+                    looking at
+                    <a href="https://github.com/ninja-build/ninja/commits/master/src/build_log.cc"
+                        >https://github.com/ninja-build/ninja/commits/master/src/build_log.cc</a
+                    >
+                    it appears the only differences between v5, v6, and v7 are the implementation details of how the
+                    <code>&lt;hash&gt;</code> field is calculated and formatted, which we don't care about for our
+                    purposes.
+                </p>
+            </div>
+            <h2>Convert the Ninja build log to du format</h2>
+            <p><code>webtreemap</code> wants its input in the format</p>
+            <pre><code class="pl-3">&lt;size&gt;\t&lt;path&gt;
+</code></pre>
+            <p>but the Ninja build log is</p>
+            <pre><code class="pl-3">&lt;start&gt;\t&lt;end&gt;\t&lt;restat&gt;\t&lt;target&gt;\t&lt;hash&gt;
+</code></pre>
+            <p>
+                so we use <a href="https://github.com/Notgnoshi/buildbloat">buildbloat</a> to convert between the two
+                format.
+            </p>
+            <pre><code class="language-sh pl-3">git clone https://github.com/Notgnoshi/buildbloat.git
+cd geos
+../buildbloat/buildbloat.py --build-dir ./build &gt;./build/bloat.log
+</code></pre>
+            <div class="alert alert-info">
+                <p>
+                    I found that the build for the project I was working on mixed relative and absolute paths in the
+                    <code>.ninja_log</code> file, hence the addition of the <code>--build-dir ./build</code> argument,
+                    which causes <code>buildbloat.py</code> to convert each path to be relative to the given build
+                    directory.
+                </p>
+            </div>
+            <h2>Generate the treemap</h2>
+            <p>First we have to install <code>webtreemap</code></p>
+            <pre><code class="language-sh pl-3">git clone git@github.com:Notgnoshi/webtreemap.git
+cd webtreemap
+# Install dependencies in a local env
+npm install
+# Build webtreemap
+npm run build
+# Make webtreemap script globally available
+npm link
+</code></pre>
+            <div class="alert alert-warning">
+                <p>Preface: I'm not a web developer.</p>
+                <p>
+                    I wanted easier installation instructions than this, but I struggled to make it work any other way.
+                </p>
+                <p>
+                    If you run <code>npm install webtreemap</code>, that installs a prebuilt version from
+                    &lt;npmjs.com&gt;. But if you run <code>npm install evmar/webtreemap</code>, that installs from
+                    GitHub (not &lt;npmjs.com&gt;) and does not install the CLI tool (because it hasn't been built).
+                </p>
+                <p>Searching around lead me to believe that adding</p>
+                <pre><code class="language-json pl-3">&quot;scripts&quot;: {
+    &quot;prepare&quot;: &quot;npm install &amp;&amp; npm run build&quot;
+}
+</code></pre>
+                <p>
+                    to the <code>package.json</code> would run the build during
+                    <code>npm install Notgnoshi/webtreemap</code> but that did not work, seemingly because the
+                    <code>npm install</code> was screwing with my global <code>node_modules</code> installation.
+                </p>
+                <p>If you know how to make this work, please let me know!</p>
+            </div>
+            <p>Now we can generate the treemap HTML file:</p>
+            <pre><code class="language-sh pl-3">webtreemap --title GEOS -i ./build/bloat.log -o ./build/bloat.html
+xdg-open ./build/bloat.html
+</code></pre>
+            <h2>All together</h2>
+            <p>
+                It's a bit easier to run all in one line than to stash the intermediate log file as this lets you run
+                and re-run it over and over while you're iterating:
+            </p>
+            <pre><code class="language-sh pl-3">~/src/buildbloat/buildbloat.py --build-dir ./build/ ./build/.ninja_log | webtreemap --title GEOS -o ./build/bloat.html
+</code></pre>
+            <h2>Improvements</h2>
+            <p>
+                If you're trying to tell a story with the results, you likely want to colorize some of your treemap.
+                It'd be cool if <code>webtreemap</code> could do this automatically using heuristics (i.e., high
+                saturation for large sizes, decreasing as you get smaller; children sharing the same hue as their
+                parent, except if a sibling is large enough proportional to another child, it should get its own hue?),
+                but for now you can do it manually by defining your own substrings with
+                <code>-c &lt;substring&gt;</code>:
+            </p>
+            <pre><code class="language-sh pl-3">~/src/buildbloat/buildbloat.py --build-dir ./build/ ./build/.ninja_log |
+    webtreemap --title GEOS -o ./build/bloat.html -c operation -c geom -c algorithm -c noding -c test
+</code></pre>
+            <p>
+                I hacked that capability into my fork of <code>webtreemap</code>, so the poor quality substring matching
+                is all my fault, not the original author's.
+            </p>
+            <h2>Results</h2>
+            <p>
+                We can see that the majority of build time is spent building GEOS's tests. After that, it's the
+                <code>operation</code> module.
+            </p>
+            <iframe src="buildbloat/geos-bloat" style="border: none" width="1610px" height="1210px"></iframe>
+
+            <h2>Bonus: SLOC treemap</h2>
+            <pre><code class="language-sh pl-3">shopt -s globstar
+wc -l --total=never ./**/*.{cpp,h,in,hpp,c} |
+    awk '{$1=$1;print}' |
+    webtreemap --title &quot;GEOS SLOC&quot; -o ./build/sloc.html -c geom -c operation -c algorithm -c deps -c vend -c tests
+</code></pre>
+            <iframe src="buildbloat/geos-sloc" style="border: none" width="1610px" height="1210px"></iframe>
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+</html>
