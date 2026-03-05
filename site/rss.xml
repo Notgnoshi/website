@@ -7,7 +7,14 @@
     <atom:link href="https://agill.xyz/rss.xml" rel="self"/>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
-    <lastBuildDate>Mon, 19 Jan 2026 18:46:15 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Mar 2026 02:21:54 +0000</lastBuildDate>
+    <item>
+      <title>Troubleshooting CMake find_package()</title>
+      <link>https://agill.xyz/cmake-find-package/</link>
+      <description>Flowcharts and troubleshooting tips for CMake's find_package() command</description>
+      <guid isPermaLink="false">https://agill.xyz/cmake-find-package/</guid>
+      <pubDate>Wed, 04 Mar 2026 00:00:00 -0600</pubDate>
+    </item>
     <item>
       <title>Profiling a C++ CMake build with buildbloat</title>
       <link>https://agill.xyz/buildbloat/</link>
@@ -170,17 +177,17 @@
       <pubDate>Sat, 02 May 2020 00:00:00 -0500</pubDate>
     </item>
     <item>
-      <title>Haiku Generation</title>
-      <link>https://agill.xyz/research/haiku/</link>
-      <description>My graduate project to generate haiku with machine learning.</description>
-      <guid isPermaLink="false">https://agill.xyz/research/haiku/</guid>
-      <pubDate>Fri, 01 May 2020 00:00:00 -0500</pubDate>
-    </item>
-    <item>
       <title>2. Methodology</title>
       <link>https://agill.xyz/research/haiku/methodology/</link>
       <description>Project setup and usage.</description>
       <guid isPermaLink="false">https://agill.xyz/research/haiku/methodology/</guid>
+      <pubDate>Fri, 01 May 2020 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>Haiku Generation</title>
+      <link>https://agill.xyz/research/haiku/</link>
+      <description>My graduate project to generate haiku with machine learning.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/</guid>
       <pubDate>Fri, 01 May 2020 00:00:00 -0500</pubDate>
     </item>
     <item>
@@ -198,17 +205,17 @@
       <pubDate>Wed, 29 Apr 2020 00:00:00 -0500</pubDate>
     </item>
     <item>
-      <title>3.b. Colors</title>
-      <link>https://agill.xyz/research/haiku/analysis/colors/</link>
-      <description>Exploratory data analysis on the color palette of haiku.</description>
-      <guid isPermaLink="false">https://agill.xyz/research/haiku/analysis/colors/</guid>
-      <pubDate>Mon, 27 Apr 2020 00:00:00 -0500</pubDate>
-    </item>
-    <item>
       <title>3.a. Temperature Sampling Softmax Layers</title>
       <link>https://agill.xyz/research/haiku/analysis/temperature-sampling-softmax-layers/</link>
       <description>Examine the effect of temperature sampling on softmax layers.</description>
       <guid isPermaLink="false">https://agill.xyz/research/haiku/analysis/temperature-sampling-softmax-layers/</guid>
+      <pubDate>Mon, 27 Apr 2020 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>3.b. Colors</title>
+      <link>https://agill.xyz/research/haiku/analysis/colors/</link>
+      <description>Exploratory data analysis on the color palette of haiku.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/analysis/colors/</guid>
       <pubDate>Mon, 27 Apr 2020 00:00:00 -0500</pubDate>
     </item>
     <item>
@@ -217,6 +224,13 @@
       <description>A brief discussion of the haiku form, and how it relates to my project.</description>
       <guid isPermaLink="false">https://agill.xyz/research/haiku/introduction/the-haiku-form/</guid>
       <pubDate>Sat, 25 Apr 2020 00:00:00 -0500</pubDate>
+    </item>
+    <item>
+      <title>1.d.iv. Recurrent Neural Network Models</title>
+      <link>https://agill.xyz/research/haiku/introduction/natural-language/rnn/</link>
+      <description>The use of recurrent (which abandons the markov assumption) networks in language mdoeling.</description>
+      <guid isPermaLink="false">https://agill.xyz/research/haiku/introduction/natural-language/rnn/</guid>
+      <pubDate>Fri, 24 Jan 2020 00:00:00 -0600</pubDate>
     </item>
     <item>
       <title>1.d.ii. Markov Models</title>
@@ -230,13 +244,6 @@
       <link>https://agill.xyz/research/haiku/introduction/natural-language/lstm/</link>
       <description>The use of LSTM networks in language modeling.</description>
       <guid isPermaLink="false">https://agill.xyz/research/haiku/introduction/natural-language/lstm/</guid>
-      <pubDate>Fri, 24 Jan 2020 00:00:00 -0600</pubDate>
-    </item>
-    <item>
-      <title>1.d.iv. Recurrent Neural Network Models</title>
-      <link>https://agill.xyz/research/haiku/introduction/natural-language/rnn/</link>
-      <description>The use of recurrent (which abandons the markov assumption) networks in language mdoeling.</description>
-      <guid isPermaLink="false">https://agill.xyz/research/haiku/introduction/natural-language/rnn/</guid>
       <pubDate>Fri, 24 Jan 2020 00:00:00 -0600</pubDate>
     </item>
     <item>

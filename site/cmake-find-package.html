@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Flowcharts and troubleshooting tips for CMake's find_package() command" />
+        <meta name="dcterms.available" content="2026-03-04" />
+        <title>Troubleshooting CMake find_package()</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+
+        <script defer src="/js/highlight.min.js" onload="hljs.initHighlightingOnLoad();"></script>
+        <link rel="stylesheet" href="/css/ascetic.min.css" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="https://twitter.com/notgnoshi"
+                            ><i class="fab fa-twitter"></i
+                        ></a>
+                        <a class="text-muted p-2" href="mailto:Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+                        <a class="text-muted p-2" href="/rss.xml"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1>Troubleshooting CMake find_package()</h1>
+            <p>
+                This page provides flowcharts for each stage of <code>find_package()</code>, followed by troubleshooting
+                tips. This page does not attempt to document <code>find_package()</code>, for that, see the official
+                documentation and guides:
+            </p>
+            <ul>
+                <li>
+                    <a href="https://cmake.org/cmake/help/latest/command/find_package.html"
+                        >https://cmake.org/cmake/help/latest/command/find_package.html</a
+                    >
+                </li>
+                <li>
+                    <a href="https://cmake.org/cmake/help/book/mastering-cmake/chapter/Finding%20Packages.html"
+                        >https://cmake.org/cmake/help/book/mastering-cmake/chapter/Finding%20Packages.html</a
+                    >
+                </li>
+                <li>
+                    <a href="https://cmake.org/cmake/help/latest/guide/using-dependencies/index.html"
+                        >https://cmake.org/cmake/help/latest/guide/using-dependencies/index.html</a
+                    >
+                </li>
+            </ul>
+            <h2>Modes?</h2>
+            <p>
+                <strong>Module mode</strong> searches for a <code>FindFoo.cmake</code> file (a &quot;find module&quot;)
+                that contains the logic to locate a package. Find modules are either provided by CMake itself (e.g.
+                <code>FindOpenSSL.cmake</code>) or by your project via <code>CMAKE_MODULE_PATH</code>. Module mode is
+                only available with the basic signature.
+            </p>
+            <p>
+                <strong>Config mode</strong> searches for a <code>FooConfig.cmake</code> or
+                <code>foo-config.cmake</code> file (a &quot;config file&quot;) that the package itself installs. Config
+                mode supports the full range of <code>find_package()</code> arguments and is the preferred mechanism for
+                modern CMake packages.
+            </p>
+            <p>
+                When you call <code>find_package(Foo)</code> with the basic signature (no <code>CONFIG</code>,
+                <code>MODULE</code>, or full-signature arguments), CMake tries Module mode first and falls back to
+                Config mode. This default can be reversed with <code>CMAKE_FIND_PACKAGE_PREFER_CONFIG</code>.
+            </p>
+            <h2>Mode selection and dispatch</h2>
+            <p>This flowchart shows how <code>find_package()</code> decides which mode(s) to try.</p>
+            <pre class="mermaid">
+flowchart TD
+    classDef entrypoint fill:#1a1a2e,color:#e0e0ff,stroke:#7b68ee,stroke-width:3px,font-weight:bold
+    classDef decision fill:#16213e,color:#e0e0ff,stroke:#4fc3f7,stroke-width:2px
+    classDef configmode fill:#0d3b66,color:#e0fff0,stroke:#00c853,stroke-width:2px
+    classDef modulemode fill:#3b1f2b,color:#ffe0f0,stroke:#f06292,stroke-width:2px
+    classDef result fill:#1a3c1a,color:#c8e6c9,stroke:#66bb6a,stroke-width:2px
+    classDef failure fill:#4a1a1a,color:#ffcdd2,stroke:#ef5350,stroke-width:2px
+
+    START[&quot;find_package(Foo ...)&quot;]:::entrypoint
+
+    START --&gt; DISABLED
+
+    DISABLED{&quot;CMAKE_DISABLE_FIND_PACKAGE_Foo&lt;br&gt;= TRUE?&quot;}:::decision
+    DISABLED --&gt;|Yes| SKIP[&quot;find_package skipped&lt;br&gt;(silently does nothing)&quot;]:::failure
+    DISABLED --&gt;|No| EXPLICIT
+
+    EXPLICIT{&quot;Explicit MODE&lt;br&gt;in the call?&quot;}:::decision
+    EXPLICIT --&gt;|&quot;MODULE keyword&quot;| FORCE_MOD[&quot;Module Mode only&lt;br&gt;(no fallback)&quot;]:::modulemode
+    EXPLICIT --&gt;|&quot;CONFIG or NO_MODULE&lt;br&gt;keyword&quot;| FORCE_CFG[&quot;Config Mode only&lt;br&gt;(no fallback)&quot;]:::configmode
+    EXPLICIT --&gt;|&quot;No mode keyword&quot;| SIGNATURE
+
+    SIGNATURE{&quot;Any full-signature args used?&quot;}:::decision
+    SIGNATURE --&gt;|&quot;Yes - implies Config Mode&lt;br&gt;(full signature = CONFIG)&quot;| FORCE_CFG
+    SIGNATURE --&gt;|&quot;No - basic signature&quot;| PREFER
+
+    classDef note fill:#1a1a2e,color:#b0b0d0,stroke:#555,stroke-width:1px,font-size:11px
+
+    FULL_SIG_NOTE[&quot;Full-signature args:&lt;br&gt;NAMES, CONFIGS, HINTS, PATHS, PATH_SUFFIXES,&lt;br&gt;NO_DEFAULT_PATH, NO_PACKAGE_ROOT_PATH,&lt;br&gt;NO_CMAKE_PATH, NO_CMAKE_ENVIRONMENT_PATH,&lt;br&gt;NO_SYSTEM_ENVIRONMENT_PATH,&lt;br&gt;NO_CMAKE_PACKAGE_REGISTRY,&lt;br&gt;NO_CMAKE_SYSTEM_PATH,&lt;br&gt;NO_CMAKE_SYSTEM_PACKAGE_REGISTRY,&lt;br&gt;CMAKE_FIND_ROOT_PATH_BOTH,&lt;br&gt;ONLY_CMAKE_FIND_ROOT_PATH,&lt;br&gt;NO_CMAKE_FIND_ROOT_PATH&quot;]:::note
+    EXPLICIT ~~~ FULL_SIG_NOTE
+
+    PREFER{&quot;CMAKE_FIND_PACKAGE_PREFER_CONFIG&lt;br&gt;= TRUE?&quot;}:::decision
+    PREFER --&gt;|&quot;No (default)&quot;| MOD_FIRST
+
+    subgraph DEFAULT_ORDER [&quot;Default: Module first, Config fallback&quot;]
+        direction LR
+        MOD_FIRST[&quot;Try Module Mode&quot;]:::modulemode
+        MOD_FIRST --&gt;|&quot;Not found&quot;| FALL_CFG[&quot;Fall back to&lt;br&gt;Config Mode&quot;]:::configmode
+        MOD_FIRST --&gt;|&quot;Found&quot;| DONE1[&quot;Done&quot;]:::result
+        FALL_CFG --&gt;|&quot;Found&quot;| DONE2[&quot;Done&quot;]:::result
+        FALL_CFG --&gt;|&quot;Not found&quot;| FAIL1[&quot;FAIL&quot;]:::failure
+    end
+
+    PREFER --&gt;|&quot;Yes&quot;| CFG_FIRST
+
+    subgraph PREFER_ORDER [&quot;Prefer Config: Config first, Module fallback&quot;]
+        direction LR
+        CFG_FIRST[&quot;Try Config Mode&quot;]:::configmode
+        CFG_FIRST --&gt;|&quot;Not found&quot;| FALL_MOD[&quot;Fall back to&lt;br&gt;Module Mode&quot;]:::modulemode
+        CFG_FIRST --&gt;|&quot;Found&quot;| DONE3[&quot;Done&quot;]:::result
+        FALL_MOD --&gt;|&quot;Found&quot;| DONE4[&quot;Done&quot;]:::result
+        FALL_MOD --&gt;|&quot;Not found&quot;| FAIL2[&quot;FAIL&quot;]:::failure
+    end
+
+    FORCE_MOD --&gt;|&quot;Found&quot;| DONE5[&quot;Done&quot;]:::result
+    FORCE_MOD --&gt;|&quot;Not found&quot;| FAIL3[&quot;FAIL&lt;br&gt;(no fallback)&quot;]:::failure
+    FORCE_CFG --&gt;|&quot;Found&quot;| DONE6[&quot;Done&quot;]:::result
+    FORCE_CFG --&gt;|&quot;Not found&quot;| FAIL4[&quot;FAIL&lt;br&gt;(no fallback)&quot;]:::failure
+</pre
+            >
+            <div class="alert alert-info">
+                <p>
+                    If <code>REQUIRED</code> was specified, FAIL is a fatal error. Otherwise <code>Foo_FOUND</code> is
+                    set to FALSE and configuration continues.
+                </p>
+            </div>
+            <h2>Module mode</h2>
+            <p>
+                Module mode searches for a <code>FindFoo.cmake</code> file and executes it. The find module is
+                responsible for locating the package's headers, libraries, etc. and setting <code>Foo_FOUND</code>.
+            </p>
+            <pre class="mermaid">
+flowchart TD
+    classDef entrypoint fill:#3b1f2b,color:#ffe0f0,stroke:#f06292,stroke-width:3px,font-weight:bold
+    classDef decision fill:#16213e,color:#e0e0ff,stroke:#4fc3f7,stroke-width:2px
+    classDef pathnode fill:#1b2631,color:#ffeedd,stroke:#ffb74d,stroke-width:1px
+    classDef action fill:#3b1f2b,color:#ffe0f0,stroke:#f06292,stroke-width:2px
+    classDef result fill:#1a3c1a,color:#c8e6c9,stroke:#66bb6a,stroke-width:2px
+    classDef failure fill:#4a1a1a,color:#ffcdd2,stroke:#ef5350,stroke-width:2px
+    classDef warning fill:#4a3a1a,color:#fff3cd,stroke:#ffc107,stroke-width:2px
+
+    ENTRY[&quot;Module Mode&lt;br&gt;Searching for FindFoo.cmake&quot;]:::entrypoint
+
+    ENTRY --&gt; NESTED{&quot;Is this find_package call&lt;br&gt;inside a CMake built-in module?&lt;br&gt;(e.g. FindOpenSSL calls&lt;br&gt;find_package internally)&quot;}:::decision
+
+    NESTED --&gt;|&quot;No - normal call&lt;br&gt;from project code&quot;| NORMAL_ORDER
+    NESTED --&gt;|&quot;Yes - nested call&lt;br&gt;from built-in module&quot;| CMP0017
+
+    subgraph CMP0017_BOX [&quot;CMP0017 - Priority Inversion for Nested Calls&quot;]
+        direction TB
+        CMP0017[&quot;Policy CMP0017 (NEW, mandatory since CMake 4.0):&lt;br&gt;Built-in modules calling include() or find_package()&lt;br&gt;search the CMake module directory FIRST,&lt;br&gt;before CMAKE_MODULE_PATH&quot;]:::warning
+
+        CMP0017 --&gt; BUILTIN_FIRST[&quot;1. CMake built-in module dir&lt;br&gt;(Kitware-maintained)&quot;]:::pathnode
+        BUILTIN_FIRST --&gt; BF_Q{&quot;FindFoo.cmake&lt;br&gt;found here?&quot;}:::decision
+        BF_Q --&gt;|Yes| EXEC_BUILTIN_N[&quot;Execute CMake's built-in&lt;br&gt;FindFoo.cmake&quot;]:::action
+        BF_Q --&gt;|No| USER_SECOND[&quot;2. CMAKE_MODULE_PATH&lt;br&gt;(user/project dirs)&quot;]:::pathnode
+        USER_SECOND --&gt; US_Q{&quot;FindFoo.cmake&lt;br&gt;found here?&quot;}:::decision
+        US_Q --&gt;|Yes| EXEC_USER_N[&quot;Execute project-provided&lt;br&gt;FindFoo.cmake&quot;]:::action
+        US_Q --&gt;|No| NONE_N[&quot;No Find module exists&quot;]:::failure
+    end
+
+    subgraph NORMAL_BOX [&quot;Normal Priority Order&quot;]
+        direction TB
+        NORMAL_ORDER[&quot;Standard search order&lt;br&gt;(called from project code)&quot;]:::action
+
+        NORMAL_ORDER --&gt; USER_FIRST[&quot;1. CMAKE_MODULE_PATH&lt;br&gt;(user/project dirs - checked FIRST)&quot;]:::pathnode
+        USER_FIRST --&gt; UF_Q{&quot;FindFoo.cmake&lt;br&gt;found here?&quot;}:::decision
+        UF_Q --&gt;|Yes| EXEC_USER[&quot;Execute project-provided&lt;br&gt;FindFoo.cmake&quot;]:::action
+        UF_Q --&gt;|No| BUILTIN_SECOND[&quot;2. CMake built-in module dir&lt;br&gt;(Kitware-maintained)&quot;]:::pathnode
+        BUILTIN_SECOND --&gt; BS_Q{&quot;FindFoo.cmake&lt;br&gt;found here?&quot;}:::decision
+        BS_Q --&gt;|Yes| EXEC_BUILTIN[&quot;Execute CMake's built-in&lt;br&gt;FindFoo.cmake&quot;]:::action
+        BS_Q --&gt;|No| NONE[&quot;No Find module exists&quot;]:::failure
+    end
+
+    EXEC_USER --&gt; RESULT
+    EXEC_BUILTIN --&gt; RESULT
+    EXEC_USER_N --&gt; RESULT
+    EXEC_BUILTIN_N --&gt; RESULT
+
+    RESULT{&quot;Foo_FOUND = FALSE?&quot;}:::decision
+    RESULT --&gt;|Yes| FAIL[&quot;Module Mode failed&quot;]:::failure
+    RESULT --&gt;|&quot;No (TRUE or unset)&quot;| DONE[&quot;Module Mode succeeded&quot;]:::result
+    NONE --&gt; FAIL
+    NONE_N --&gt; FAIL
+</pre
+            >
+            <div class="alert alert-warning">
+                <p>
+                    Find modules communicate success or failure by setting <code>Foo_FOUND</code>. Most use
+                    <a href="https://cmake.org/cmake/help/latest/module/FindPackageHandleStandardArgs.html"
+                        ><code>find_package_handle_standard_args()</code></a
+                    >
+                    to do this, which checks that required variables like <code>Foo_INCLUDE_DIR</code> and
+                    <code>Foo_LIBRARY</code> were populated, and handles <code>REQUIRED</code> and <code>QUIET</code>.
+                    Find modules don't <em>need</em> to handle <code>REQUIRED</code> themselves -
+                    <code>find_package()</code> reads <code>Foo_FOUND</code> after the module returns and emits the
+                    fatal error itself if the package wasn't found and <code>REQUIRED</code> was specified.
+                </p>
+                <p>
+                    If a find module does not set <code>Foo_FOUND</code> at all, <code>find_package()</code> assumes the
+                    package was found. It only treats the package as <em>not</em> found if <code>Foo_FOUND</code> was
+                    explicitly set to <code>FALSE</code>. <strong>This is surprising behavior</strong>, so I recommend
+                    setting <code>Foo_FOUND</code> explicitly in your find modules rather than implicitly assuming
+                    success.
+                </p>
+                <p>
+                    See:
+                    <a
+                        href="https://gitlab.kitware.com/cmake/cmake/-/blob/367abd8da0304532d888bd86f5cba0721cfce68d/Source/cmFindPackageCommand.cxx#L1590"
+                        >https://gitlab.kitware.com/cmake/cmake/-/blob/367abd8da0304532d888bd86f5cba0721cfce68d/Source/cmFindPackageCommand.cxx#L1590</a
+                    >
+                </p>
+            </div>
+            <h2>Config mode</h2>
+            <p>
+                Config mode searches for a <code>FooConfig.cmake</code> or <code>foo-config.cmake</code> file that the
+                package itself installed. It searches a well-defined sequence of prefixes, trying a set of subdirectory
+                patterns under each one.
+            </p>
+            <pre class="mermaid">
+flowchart TD
+    classDef entrypoint fill:#0d3b66,color:#e0fff0,stroke:#00c853,stroke-width:3px,font-weight:bold
+    classDef decision fill:#16213e,color:#e0e0ff,stroke:#4fc3f7,stroke-width:2px
+    classDef pathnode fill:#1b2631,color:#ffeedd,stroke:#ffb74d,stroke-width:1px
+    classDef action fill:#0d3b66,color:#e0fff0,stroke:#00c853,stroke-width:2px
+    classDef result fill:#1a3c1a,color:#c8e6c9,stroke:#66bb6a,stroke-width:2px
+    classDef failure fill:#4a1a1a,color:#ffcdd2,stroke:#ef5350,stroke-width:2px
+    ENTRY[&quot;Config Mode&lt;br&gt;Searching for FooConfig.cmake&lt;br&gt;or foo-config.cmake&quot;]:::entrypoint
+
+    ENTRY --&gt; CACHE
+
+    CACHE{&quot;Foo_DIR already in cache&lt;br&gt;from a previous run?&quot;}:::decision
+    CACHE --&gt;|Yes| CACHE_HIT[&quot;Use cached Foo_DIR&lt;br&gt;(skip search, re-load config)&quot;]:::result
+    CACHE --&gt;|No| SEARCH_ORDER
+
+    subgraph SEARCH_ORDER [&quot;Search prefixes in order&quot;]
+        direction TB
+        PR[&quot;0. CMAKE_FIND_PACKAGE_REDIRECTS_DIR&lt;br&gt;(FetchContent redirect configs)&quot;]:::pathnode
+        PR --&gt; P0
+        P0[&quot;1. Foo_ROOT variable and env var&lt;br&gt;(CMake 3.12+, also FOO_ROOT via CMP0144)&lt;br&gt;Skipped by: NO_PACKAGE_ROOT_PATH&quot;]:::pathnode
+        P0 --&gt; P1[&quot;2. CMAKE_PREFIX_PATH (variable)&lt;br&gt;CMAKE_FRAMEWORK_PATH, CMAKE_APPBUNDLE_PATH&lt;br&gt;Skipped by: NO_CMAKE_PATH&quot;]:::pathnode
+        P1 --&gt; P2[&quot;3. Foo_DIR, CMAKE_PREFIX_PATH (env vars)&lt;br&gt;CMAKE_FRAMEWORK_PATH, CMAKE_APPBUNDLE_PATH (env)&lt;br&gt;Skipped by: NO_CMAKE_ENVIRONMENT_PATH&quot;]:::pathnode
+        P2 --&gt; P2H[&quot;4. HINTS (from the find_package call)&quot;]:::pathnode
+        P2H --&gt; P3[&quot;5. PATH env variable&lt;br&gt;(parent dirs of /bin and /sbin entries)&lt;br&gt;Skipped by: NO_SYSTEM_ENVIRONMENT_PATH&quot;]:::pathnode
+        P3 --&gt; P3R[&quot;6. User Package Registry&lt;br&gt;(~/.cmake/packages/ on Linux)&lt;br&gt;Skipped by: NO_CMAKE_PACKAGE_REGISTRY&quot;]:::pathnode
+        P3R --&gt; P4[&quot;7. CMAKE_SYSTEM_PREFIX_PATH&lt;br&gt;CMAKE_SYSTEM_FRAMEWORK_PATH&lt;br&gt;CMAKE_SYSTEM_APPBUNDLE_PATH&lt;br&gt;(includes CMAKE_INSTALL_PREFIX, platform defaults)&lt;br&gt;Skipped by: NO_CMAKE_SYSTEM_PATH&quot;]:::pathnode
+        P4 --&gt; P4R[&quot;8. System Package Registry&lt;br&gt;Skipped by: NO_CMAKE_SYSTEM_PACKAGE_REGISTRY&quot;]:::pathnode
+        P4R --&gt; P5[&quot;9. PATHS (from the find_package call)&lt;br&gt;(hard-coded guesses)&quot;]:::pathnode
+    end
+
+    P5 --&gt; SUFFIX_SEARCH
+
+    subgraph SUFFIX_SEARCH [&quot;At each prefix, try these subdirectory patterns&quot;]
+        direction TB
+        SUFFIXES[&quot;For each prefix, search subdirs:&lt;br&gt;&lt;br&gt;Windows-only (W):&lt;br&gt;- prefix/&lt;br&gt;- prefix/(cmake|CMake)/&lt;br&gt;- prefix/Foo*/&lt;br&gt;- prefix/Foo*/(cmake|CMake)/&lt;br&gt;&lt;br&gt;Unix-only (U):&lt;br&gt;- prefix/(lib/&amp;lt;arch&amp;gt;|lib*|share)/cmake/Foo*/&lt;br&gt;- prefix/(lib/&amp;lt;arch&amp;gt;|lib*|share)/Foo*/&lt;br&gt;- prefix/(lib/&amp;lt;arch&amp;gt;|lib*|share)/Foo*/(cmake|CMake)/&lt;br&gt;&lt;br&gt;Both (W/U):&lt;br&gt;- prefix/Foo*/(lib/&amp;lt;arch&amp;gt;|lib*|share)/cmake/Foo*/&lt;br&gt;- prefix/Foo*/(lib/&amp;lt;arch&amp;gt;|lib*|share)/Foo*/&lt;br&gt;- prefix/Foo*/(lib/&amp;lt;arch&amp;gt;|lib*|share)/Foo*/(cmake|CMake)/&quot;]:::action
+        SUFFIXES --&gt; FILENAMES[&quot;In each subdir, look for:&lt;br&gt;- FooConfig.cmake (case-preserved)&lt;br&gt;- foo-config.cmake (lowercase)&quot;]:::action
+    end
+
+    FILENAMES --&gt; FOUND{&quot;Config file found?&quot;}:::decision
+    FOUND --&gt;|No| NOTFOUND[&quot;Config Mode failed&quot;]:::failure
+    FOUND --&gt;|Yes| VERSION_CHECK
+
+    VERSION_CHECK{&quot;Version file exists?&lt;br&gt;(FooConfigVersion.cmake or&lt;br&gt;Foo-config-version.cmake)&quot;}:::decision
+    VERSION_CHECK --&gt;|&quot;No version file&quot;| ASSUME_OK[&quot;Assumed compatible&lt;br&gt;(no version check possible)&quot;]:::action
+    VERSION_CHECK --&gt;|&quot;Version file found&quot;| VER_MATCH{&quot;Requested version&lt;br&gt;compatible?&quot;}:::decision
+
+    VER_MATCH --&gt;|Yes| LOAD_CONFIG
+    VER_MATCH --&gt;|&quot;No - mismatch&quot;| CONTINUE[&quot;Skip this candidate,&lt;br&gt;continue searching&lt;br&gt;remaining paths&quot;]:::action
+    CONTINUE --&gt; FOUND
+
+    ASSUME_OK --&gt; LOAD_CONFIG
+    LOAD_CONFIG[&quot;Load FooConfig.cmake&lt;br&gt;Sets targets, variables, etc.&quot;]:::action
+    LOAD_CONFIG --&gt; COMPONENTS
+
+    COMPONENTS{&quot;COMPONENTS requested&lt;br&gt;and config checks them?&quot;}:::decision
+    COMPONENTS --&gt;|&quot;All satisfied&lt;br&gt;(or none requested)&quot;| DONE[&quot;Config Mode succeeded&lt;br&gt;Foo_DIR cached for future runs&quot;]:::result
+    COMPONENTS --&gt;|&quot;Component missing&lt;br&gt;(config sets Foo_FOUND=FALSE)&quot;| COMP_FAIL[&quot;Config Mode failed&lt;br&gt;(component not found)&quot;]:::failure
+</pre
+            >
+            <div class="alert alert-info">
+                <p>
+                    <strong>Config file naming:</strong> CMake searches for two naming conventions:
+                    <code>FooConfig.cmake</code> (the original CamelCase convention) and
+                    <code>foo-config.cmake</code> (added in CMake 2.6 to mirror the Unix
+                    <code>pkg-config</code>/autotools naming style). Packages ship one or the other; CMake searches for
+                    both. Packages normally pick one that matches their conventions.
+                </p>
+            </div>
+            <div class="alert alert-info">
+                <p>
+                    <strong>FetchContent redirects:</strong> <code>FetchContent_MakeAvailable()</code> generates config
+                    files in <code>CMAKE_FIND_PACKAGE_REDIRECTS_DIR</code> (step 0 above) and sets
+                    <code>CMAKE_FIND_PACKAGE_PREFER_CONFIG</code> to <code>TRUE</code> so that Config mode runs before
+                    Module mode. This ensures <code>find_package()</code> picks up the FetchContent-provided package.
+                </p>
+            </div>
+            <div class="alert alert-info">
+                <p>
+                    <strong>Root variable stacking:</strong> If this Config mode search happens inside a find module
+                    (nested call), the parent package's <code>_ROOT</code> paths are also searched, after the current
+                    package's <code>_ROOT</code> paths.
+                </p>
+            </div>
+            <div class="alert alert-info">
+                <p>
+                    <strong>Global suppression variables</strong> (CMake 3.16+) can disable individual search steps:
+                    <code>CMAKE_FIND_USE_PACKAGE_ROOT_PATH</code>, <code>CMAKE_FIND_USE_CMAKE_PATH</code>,
+                    <code>CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH</code>,
+                    <code>CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH</code>, <code>CMAKE_FIND_USE_CMAKE_SYSTEM_PATH</code>.
+                    <code>NO_DEFAULT_PATH</code> enables all <code>NO_*</code> flags at once.
+                </p>
+            </div>
+            <h2>Troubleshooting</h2>
+            <h3>Use --debug-find first</h3>
+            <p>
+                Before anything else, re-run your CMake configure with <code>--debug-find-pkg=Foo</code> (or
+                <code>--debug-find</code> for all packages):
+            </p>
+            <pre><code class="language-sh pl-3">cmake -S . -B build --debug-find-pkg=Foo
+</code></pre>
+            <p>
+                This prints the complete search log: which mode was selected, every directory searched, and why each
+                candidate was accepted or rejected.
+                <strong>It's the single most useful tool for diagnosing <code>find_package()</code> failures.</strong>
+            </p>
+            <h3>Which mode is being used?</h3>
+            <p>If you're not sure which mode CMake is using:</p>
+            <ul>
+                <li>
+                    <strong>No mode keyword and no full-signature args</strong> - Module mode first, Config mode
+                    fallback (the default).
+                </li>
+                <li>
+                    <strong><code>CONFIG</code>, <code>NO_MODULE</code>, or full-signature args</strong> (e.g.
+                    <code>PATHS</code>, <code>NAMES</code>, <code>CONFIGS</code>, <code>HINTS</code>,
+                    <code>PATH_SUFFIXES</code>, <code>NO_*</code> flags) - Config mode only.
+                </li>
+                <li>
+                    <strong><code>MODULE</code></strong> - Module mode only.
+                </li>
+                <li>
+                    <strong><code>CMAKE_FIND_PACKAGE_PREFER_CONFIG=TRUE</code></strong> - Config mode first, Module mode
+                    fallback.
+                </li>
+            </ul>
+            <p>
+                A common surprise: using <em>any</em> full-signature argument silently forces Config mode with no Module
+                fallback.
+            </p>
+            <h3>Package installed to a non-standard prefix</h3>
+            <p>
+                If the package is installed to e.g. <code>/opt/foo</code>, tell CMake where to look. The best options,
+                in order of preference:
+            </p>
+            <ol>
+                <li>
+                    <p>
+                        <strong><code>CMAKE_PREFIX_PATH</code></strong> - the most common and general-purpose approach:
+                    </p>
+                    <pre><code class="language-sh pl-3">cmake -S . -B build -DCMAKE_PREFIX_PATH=/opt/foo
+</code></pre>
+                    <p>
+                        This works for both Config mode and the <code>find_library</code>/<code>find_path</code> calls
+                        inside Module mode.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <strong><code>Foo_ROOT</code></strong> (CMake 3.12+) - package-specific, searched first:
+                    </p>
+                    <pre><code class="language-sh pl-3">cmake -S . -B build -DFoo_ROOT=/opt/foo
+</code></pre>
+                </li>
+                <li>
+                    <p>
+                        <strong><code>Foo_DIR</code></strong> - points directly to the directory containing
+                        <code>FooConfig.cmake</code>, not the install prefix:
+                    </p>
+                    <pre><code class="language-sh pl-3">cmake -S . -B build -DFoo_DIR=/opt/foo/lib/cmake/Foo
+</code></pre>
+                </li>
+            </ol>
+            <p>
+                <code>CMAKE_PREFIX_PATH</code> and <code>Foo_ROOT</code> point to the <em>install prefix</em> (e.g.
+                <code>/opt/foo</code>). <code>Foo_DIR</code> points to the <em>cmake config directory</em> (e.g.
+                <code>/opt/foo/lib/cmake/Foo</code>). Confusing these is a common <code>find_package()</code> mistake.
+            </p>
+            <h3>Stale cache</h3>
+            <p>
+                If <code>find_package()</code> previously found a package at a location that no longer exists (or found
+                the wrong version), CMake may keep using the stale cached <code>Foo_DIR</code>. The
+                <code>--debug-find</code> output will show it using the cached path without searching. The fix is to
+                reconfigure.
+            </p>
+            <h3>Config file exists but isn't found</h3>
+            <p>If you know a <code>FooConfig.cmake</code> exists but CMake can't find it, check:</p>
+            <ol>
+                <li>
+                    <p>
+                        <strong>Is the config file in a searched subdirectory pattern?</strong> Config mode looks for
+                        the file under specific subdirectories of each prefix (e.g. <code>lib/cmake/Foo/</code>,
+                        <code>share/Foo/</code>, <code>lib/Foo*/</code>). If the file is at
+                        <code>prefix/some/unusual/path/FooConfig.cmake</code>, CMake won't find it.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <strong>Is the prefix in the search path?</strong> The config file's install prefix must be
+                        reachable through one of the nine search steps in the Config mode flowchart.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <strong>Check the filename.</strong> CMake looks for <code>FooConfig.cmake</code> and
+                        <code>foo-config.cmake</code> Note that <code>FooConfig.cmake</code> uses the caller's
+                        capitalization from <code>find_package(Foo)</code>, so on case-sensitive filesystems,
+                        <code>find_package(foo)</code> searches for <code>fooConfig.cmake</code>, which won't match
+                        <code>FooConfig.cmake</code>. The lowercase-hyphen variant doesn't have this problem.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <strong>Version mismatch.</strong> If a version was requested but the
+                        <code>FooConfigVersion.cmake</code> file reports an incompatible version, that candidate is
+                        silently skipped. Use <code>--debug-find</code> to see version check results.
+                    </p>
+                </li>
+            </ol>
+            <h3>Module mode: find module exists but fails</h3>
+            <p>
+                If a <code>FindFoo.cmake</code> exists but doesn't find the package, the problem is usually inside the
+                find module. Most find modules use <code>find_library()</code>, <code>find_path()</code>, and
+                <code>find_program()</code>, which have their own search paths.
+            </p>
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+    <script type="module">
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</html>
