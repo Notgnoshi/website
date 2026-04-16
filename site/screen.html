@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="Notes on using screen for serial connections." />
         <meta name="dcterms.available" content="2023-01-18" />
+        <meta name="dcterms.updated" content="2026-04-16" />
         <title>Using screen for serial connections</title>
         <link
             rel="stylesheet"
@@ -104,6 +105,31 @@ $ echo $?
                 If I set the font to something I have installed locally, it works. This seemed suboptimal, so I'm back
                 to <code>screen</code> now that I know how to use the scrollback mode.
             </p>
+
+            <h2>Transmitting a file over serial</h2>
+            <p>
+                Sometimes I've wanted to transmit a file to a remote device over serial (usually because its network is
+                broken).
+            </p>
+            <p>
+                On the receiving end, and use <code>base64 -d -</code> to decode base64 data from stdin until EOF, and
+                write it to <code>/tmp/file.bin</code>
+            </p>
+            <pre class="pl-3"><code class="language-sh">$ screen /dev/ttyUSB0 115200
+$ base64 -d - >/tmp/file.bin
+</code></pre>
+            <p>
+                Then exit the screen session with <code>&lt;ctrl-a k&gt;</code>. If your <code>tmux</code> prefix is
+                configed as <code>&lt;ctrl-a&gt;</code>, you'll need to press it twice to pass the second one through to
+                <code>screen</code>.
+            </p>
+            <p>On the transmitting side, run</p>
+            <pre class="pl-3"><code>$ base64 file.bin >/dev/ttyUSB0</code></pre>
+            <p>
+                Finally, open a new screen session and press <code>&lt;ctrl-d&gt;</code> to send EOF to the
+                <code>base64 -d -</code> running on the receiver. Verifying the file MD5 hash is likely a good idea
+            </p>
+            <pre class="pl-3"><code class="language-sh">$ md5sum file.bin</code></pre>
         </div>
     </body>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
