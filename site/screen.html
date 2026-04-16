@@ -130,6 +130,15 @@ $ base64 -d - >/tmp/file.bin
                 <code>base64 -d -</code> running on the receiver. Verifying the file MD5 hash is likely a good idea
             </p>
             <pre class="pl-3"><code class="language-sh">$ md5sum file.bin</code></pre>
+            <h2>Saving screen scrollback history to a file</h2>
+            <p>
+                Sometimes, usually when investigating something broken, I want to save all of my serial console output
+                to a file, normally so I can paste it into a bug ticket. You can do this by
+            </p>
+            <pre class="pl-3"><code class="language-sh">&lt;ctrl-a :&gt;  # enters command mode
+hardcopy -h output.txt
+</code></pre>
+            <p>If you leave off the <code>-h</code> it will copy only the current screen's contents.</p>
         </div>
     </body>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
