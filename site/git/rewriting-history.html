@@ -101,7 +101,7 @@
                 I use the following
                 <a href="https://git-scm.com/docs/git-config#Documentation/git-config">git-config(1)</a> settings
             </p>
-            <pre><code class="language-sh pl-3">git config --global core.editor vim
+            <pre class="pl-3"><code class="language-sh">git config --global core.editor vim
 git config --global pull.rebase true
 git config --global diff.submodule log
 git config --global fetch.prune true
@@ -114,10 +114,12 @@ git config --global commit.verbose true
                 the important ones.
             </p>
             <p>This <code>git lg</code> alias</p>
-            <pre><code class="language-sh pl-3">git config --global alias.lg &quot;log --color --graph --pretty=format:'%C(auto)%h%d %s, %C(black)%C(bold)%an, %ar' --abbrev-commit --decorate&quot;
+            <pre
+                class="pl-3"
+            ><code class="language-sh">git config --global alias.lg &quot;log --color --graph --pretty=format:'%C(auto)%h%d %s, %C(black)%C(bold)%an, %ar' --abbrev-commit --decorate&quot;
 </code></pre>
             <p>will generate log output like</p>
-            <pre><code class="language-sh pl-3">$ git lg
+            <pre class="pl-3"><code class="language-sh">$ git lg
 * 5a88c57 (HEAD -&gt; main, origin/main) Test updating version file with new dockerified implementation, Notgnoshi, 3 months ago
 * 414e796 Link back to release-tools, Notgnoshi, 3 months ago
 * 91e33fe (tag: v0.3.1) Release 0.3.1, Notgnoshi, 3 months ago
@@ -139,13 +141,13 @@ git config --global commit.verbose true
                 This <code>git rb</code> alias is helpful, because <code>rebase</code> is waaaaay too much to type (for
                 the lazy)
             </p>
-            <pre><code class="language-sh pl-3">git config --global alias.rb rebase
+            <pre class="pl-3"><code class="language-sh">git config --global alias.rb rebase
 </code></pre>
             <p>
                 And then it's <em>super</em> helpful to have continual status feedback after performing every single
                 operation.
             </p>
-            <pre><code class="language-bash pl-3">function_exists() {
+            <pre class="pl-3"><code class="language-bash">function_exists() {
     declare -f -F &quot;$1&quot; &gt;/dev/null
     return $?
 }
@@ -170,7 +172,7 @@ fi
                 <a href="https://www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html">Bash PS1</a>
                 that's more powerful than other hand-built ones that I've seen.
             </p>
-            <pre><code class="language-bash pl-3">nots@bedlam ~/src/example (main|REBASE 1/7) $
+            <pre class="pl-3"><code class="language-bash">nots@bedlam ~/src/example (main|REBASE 1/7) $
 </code></pre>
             <p><a href="/bash/ps1">Bash: PS1 customization</a> has the rest of my PS1 configuration.</p>
             <h2 id="toc_3">Common Scenarios</h2>
@@ -188,7 +190,7 @@ gitGraph
 </pre
             >
             <p>Re-word the current commit with</p>
-            <pre><code class="language-sh pl-3">git commit --amend
+            <pre class="pl-3"><code class="language-sh">git commit --amend
 </code></pre>
             <h4 id="toc_6">Scenario 1.b</h4>
             <p>The commit with the spelling mistake is an interior commit of the current branch.</p>
@@ -204,18 +206,18 @@ gitGraph
 </pre
             >
             <p>Then perform an interactive rebase onto the base branch</p>
-            <pre><code class="language-sh pl-3">git rebase --interactive main
+            <pre class="pl-3"><code class="language-sh">git rebase --interactive main
 </code></pre>
             <p>This will open up the following in your default editor.</p>
             <div class="alert alert-info">
                 <p>I prefer Vim for this, but VS Code also has excellent support as a Git editor as well.</p>
             </div>
-            <pre><code class="language-text pl-3">pick 960bb58 alpha
+            <pre class="pl-3"><code class="language-text">pick 960bb58 alpha
 pick e7454c7 spelling misteak
 pick 7adaf48 gamma
 </code></pre>
             <p>Change this to</p>
-            <pre><code class="language-text pl-3">pick 960bb58 alpha
+            <pre class="pl-3"><code class="language-text">pick 960bb58 alpha
 reword e7454c7 spelling misteak
 pick 7adaf48 gamma
 </code></pre>
@@ -247,7 +249,7 @@ gitGraph
                 from their original hashes! This means if you try to run <code>git push</code>, you'll get a nasty error
                 message
             </p>
-            <pre><code class="language-sh pl-3">(ag/example&lt;&gt;) $ git push
+            <pre class="pl-3"><code class="language-sh">(ag/example&lt;&gt;) $ git push
 To github.com:Notgnoshi/example.git
  ! [rejected]        ag/example -&gt; ag/example (non-fast-forward)
 error: failed to push some refs to 'github.com:Notgnoshi/example.git'
@@ -257,7 +259,7 @@ hint: 'git pull ...') before pushing again.
 hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 </code></pre>
             <p>To resolve this, use <code>git push --force-with-lease</code>.</p>
-            <pre><code class="language-sh pl-3">(ag/example&lt;&gt;) $ git push --force-with-lease
+            <pre class="pl-3"><code class="language-sh">(ag/example&lt;&gt;) $ git push --force-with-lease
 ...
 To github.com:Notgnoshi/example.git
  + 0cf84f3...f224166 ag/example -&gt; ag/example (forced update)
@@ -277,7 +279,7 @@ gitGraph
 </pre
             >
             <p>In this case, fix the mistake, and amend the current commit</p>
-            <pre><code class="language-sh pl-3">git add --patch  # --patch is a superpower
+            <pre class="pl-3"><code class="language-sh">git add --patch  # --patch is a superpower
 git commit --amend --no-edit
 </code></pre>
             <h4 id="toc_10">Scenario 2.b.i</h4>
@@ -296,15 +298,15 @@ gitGraph
                 In this case, interactively rebase <code>feature</code> onto <code>main</code>, and edit the necessary
                 commit
             </p>
-            <pre><code class="language-sh pl-3">git rebase --interactive main
+            <pre class="pl-3"><code class="language-sh">git rebase --interactive main
 </code></pre>
             <p>change</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 pick 5e5e727 needs edit
 pick 30ad916 bar
 </code></pre>
             <p>to</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 edit 5e5e727 needs edit
 pick 30ad916 bar
 </code></pre>
@@ -312,10 +314,10 @@ pick 30ad916 bar
                 then save and close the file. This will drop you back to your terminal, with the selected commit checked
                 out.
             </p>
-            <pre><code class="language-sh pl-3">(ag/example|REBASE 2/3) $
+            <pre class="pl-3"><code class="language-sh">(ag/example|REBASE 2/3) $
 </code></pre>
             <p>Make your fixes, then stage and continue the rebase</p>
-            <pre><code class="language-sh pl-3">(ag/example|REBASE 2/3) $  # make the fixes ...
+            <pre class="pl-3"><code class="language-sh">(ag/example|REBASE 2/3) $  # make the fixes ...
 (ag/example|REBASE 2/3) $ git add -A
 (ag/example|REBASE 2/3) $ git rebase --continue
 (ag/example&lt;&gt;) $
@@ -379,7 +381,7 @@ gitGraph
 </pre
             >
             <p>Here, we're going to make our fixes <em>before doing the rebase</em>.</p>
-            <pre><code class="language-sh pl-3">(ag/example=) $ # make the fixes ...
+            <pre class="pl-3"><code class="language-sh">(ag/example=) $ # make the fixes ...
 (ag/example*=) $ git add --patch
 (ag/example+=) $ git commit --fixup=5e5e727
 </code></pre>
@@ -400,10 +402,10 @@ gitGraph
                 Now, we perform an interactive rebase onto <code>main</code>, this time passing
                 <code>--autosquash</code>
             </p>
-            <pre><code class="language-sh pl-3">git rebase --interactive --autosquash main
+            <pre class="pl-3"><code class="language-sh">git rebase --interactive --autosquash main
 </code></pre>
             <p>This will generate the following rebase file.</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 pick 5e5e727 needs edit
 fixup 787e9d1 fixup! needs edit
 pick 30ad916 bar
@@ -450,16 +452,16 @@ gitGraph
 </pre
             >
             <p>You can do this with another interactive rebase onto the target branch</p>
-            <pre><code class="language-sh pl-3">git rebase --interactive main
+            <pre class="pl-3"><code class="language-sh">git rebase --interactive main
 </code></pre>
             <p>and reorder the commits in the rebase editor</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 pick 5e5e727 qux
 pick 30ad916 bar
 pick 787e9d1 baz
 </code></pre>
             <p>to have the desired order</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 pick 30ad916 bar
 pick 787e9d1 baz
 pick 5e5e727 qux
@@ -489,22 +491,22 @@ gitGraph
 </pre
             >
             <p>In this case, you guessed it, the solution is to perform an interactive rebase.</p>
-            <pre><code class="language-sh pl-3">git rebase --interactive main
+            <pre class="pl-3"><code class="language-sh">git rebase --interactive main
 </code></pre>
             <p>and either change</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 pick 5e5e727 experimental
 pick 30ad916 bar
 pick 787e9d1 baz
 </code></pre>
             <p>to</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 drop 5e5e727 experimental
 pick 30ad916 bar
 pick 787e9d1 baz
 </code></pre>
             <p>or delete the <code>experimental</code> commit entry all together</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 pick 30ad916 bar
 pick 787e9d1 baz
 </code></pre>
@@ -535,22 +537,22 @@ gitGraph
 </pre
             >
             <p>Then again, perform an interactive rebase onto the target branch (are you sensing a pattern yet?)</p>
-            <pre><code class="language-sh pl-3">git rebase --interactive main
+            <pre class="pl-3"><code class="language-sh">git rebase --interactive main
 </code></pre>
             <p>and reorder the commits</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 pick 91e33fe bar
 pick 5359d8c baz
 pick 2aea963 qux
 </code></pre>
             <p>into the desired order</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 pick 91e33fe bar
 pick 2aea963 qux
 pick 5359d8c baz
 </code></pre>
             <p>and then mark the <code>qux</code> commit to squash into the <code>bar</code> commit</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 pick 91e33fe bar
 squash 2aea963 qux
 pick 5359d8c baz
@@ -569,7 +571,7 @@ pick 5359d8c baz
                 <code>fixup</code>) the commit message will be the original two messages concatenated.
             </p>
             <p>If you wanted to throw away the <code>qux</code> commit message, we could have used</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 pick 91e33fe bar
 fixup 2aea963 qux
 pick 5359d8c baz
@@ -702,7 +704,7 @@ gitGraph
             </ol>
             <h3 id="toc_20">Scenario 8 - Well dang, I need to run my code formatter on every commit ...</h3>
             <p>Save the following to <code>git-foreach-rebase</code> somewhere in your <code>$PATH</code></p>
-            <pre><code class="language-bash pl-3">#!/bin/bash
+            <pre class="pl-3"><code class="language-bash">#!/bin/bash
 set -o errexit
 set -o pipefail
 set -o nounset
@@ -718,19 +720,19 @@ done
                 rebase.
             </p>
             <p>Then, you can perform an interactive rebase onto your target branch</p>
-            <pre><code class="language-text pl-3">pick a54a868 foo
+            <pre class="pl-3"><code class="language-text">pick a54a868 foo
 pick 91e33fe bar
 pick 5359d8c baz
 pick 2aea963 qux
 </code></pre>
             <p>mark each of the commits as <code>edit</code></p>
-            <pre><code class="language-text pl-3">edit a54a868 foo
+            <pre class="pl-3"><code class="language-text">edit a54a868 foo
 edit 91e33fe bar
 edit 5359d8c baz
 edit 2aea963 qux
 </code></pre>
             <p>and then save and close the rebase editor. When it drops you to a shell, run</p>
-            <pre><code class="language-sh pl-3">git foreach-rebase &quot;cargo fmt&quot;
+            <pre class="pl-3"><code class="language-sh">git foreach-rebase &quot;cargo fmt&quot;
 </code></pre>
             <p>or whatever your code formatting invocation is.</p>
             <div class="alert alert-primary">

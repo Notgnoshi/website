@@ -49,16 +49,16 @@
 <p>Many of the following <code>rpm</code> commands use <code>rpm -q &lt;package&gt;</code> to query against an installed package by
 name. You can also query a possibly-uninstalled <code>.rpm</code> file with <code>rpm -qp path/to/package.rpm</code>.</p>
 <h2 id="toc_2">What does a package depend on?</h2>
-<pre><code class="language-sh pl-3"># dnf/rpm
+<pre class="pl-3"><code class="language-sh"># dnf/rpm
 dnf repoquery --installed --requires &lt;package&gt;
 rpm --requires -q &lt;package&gt;
 </code></pre>
 <p>You can replace <code>--requires</code> with <code>--provides</code> and <code>--conflicts</code> for more information.</p>
-<pre><code class="language-sh pl-3"># apt/deb
+<pre class="pl-3"><code class="language-sh"># apt/deb
 apt-cache depends &lt;package&gt;
 </code></pre>
 <h2 id="toc_3">What packages depend on the given package?</h2>
-<pre><code class="language-sh pl-3"># dnf/rpm
+<pre class="pl-3"><code class="language-sh"># dnf/rpm
 dnf repoquery --installed --whatrequires &lt;package&gt;
 rpm --whatrequires -q &lt;package&gt;
 
@@ -66,14 +66,14 @@ rpm --whatrequires -q &lt;package&gt;
 apt-cache rdepends --installed &lt;package&gt;
 </code></pre>
 <h2 id="toc_4">Which package provides a given file?</h2>
-<pre><code class="language-sh pl-3"># dnf/rpm
+<pre class="pl-3"><code class="language-sh"># dnf/rpm
 rpm -qf &lt;path/to/file&gt;
 
 # apt/deb
 dpkg -S &lt;path/to/file&gt;
 </code></pre>
 <h2 id="toc_5">List pre|postinst scriptlets in a package</h2>
-<pre><code class="language-sh pl-3">rpm -q &lt;package&gt; --scripts
+<pre class="pl-3"><code class="language-sh">rpm -q &lt;package&gt; --scripts
 
 # From a given .deb package
 dpkg --dry-run -i &lt;package.deb&gt;
@@ -81,7 +81,7 @@ dpkg --dry-run -i &lt;package.deb&gt;
 ls /var/lib/dpkg/info/&lt;package&gt;*
 </code></pre>
 <h2 id="toc_6">List contents of a package</h2>
-<pre><code class="language-sh pl-3">rpm -ql &lt;package&gt;
+<pre class="pl-3"><code class="language-sh">rpm -ql &lt;package&gt;
 rpm -qpl &lt;package.rpm&gt;
 dpkg -L &lt;package&gt;
 dpkg --contents &lt;package.deb&gt;
@@ -90,7 +90,7 @@ cat /var/lib/dpkg/info/&lt;package&gt;.list
 <h2 id="toc_7">Extract contents of a package</h2>
 <p>It's often super useful to extract the contents of a package to a temporary prefix without
 installing the package.</p>
-<pre><code class="language-sh pl-3"># For an .rpm
+<pre class="pl-3"><code class="language-sh"># For an .rpm
 sudo apt install rpm2cpio
 mkdir prefix/
 cd prefix/
@@ -98,24 +98,24 @@ rpm2cpio &lt;package.rpm&gt; | cpio -idmv
 cd ../
 tree prefix/
 </code></pre>
-<pre><code class="language-sh pl-3"># For a .deb
+<pre class="pl-3"><code class="language-sh"># For a .deb
 dpkg --contents &lt;package.deb&gt;
 dpkg-deb -x &lt;package.deb&gt; prefix/
 </code></pre>
 <h2 id="toc_8">List installed packages</h2>
-<pre><code class="language-sh pl-3">rpm -qa
+<pre class="pl-3"><code class="language-sh">rpm -qa
 dnf list --installed
 apt list --installed
 </code></pre>
 <h2 id="toc_9">Remove a package and anything that depends on it</h2>
-<pre><code class="language-sh pl-3">dnf remove &lt;package&gt;
+<pre class="pl-3"><code class="language-sh">dnf remove &lt;package&gt;
 apt remove &lt;package&gt;
 </code></pre>
 <h2 id="toc_10">Remove a package, but not things that depend on it</h2>
-<pre><code class="language-sh pl-3">rpm --nodeps -e &lt;package&gt;
+<pre class="pl-3"><code class="language-sh">rpm --nodeps -e &lt;package&gt;
 </code></pre>
 <h2 id="toc_11">Install a package from file</h2>
-<pre><code class="language-sh pl-3">rpm -i &lt;package.rpm&gt;
+<pre class="pl-3"><code class="language-sh">rpm -i &lt;package.rpm&gt;
 rpm --force -i &lt;package.rpm&gt;
 
 # Needs ./ prefix to look for the given package file, instead of treating as a package name

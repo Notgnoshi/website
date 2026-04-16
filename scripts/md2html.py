@@ -86,8 +86,9 @@ class BootstrappedHtmlRenderer(mistune.HTMLRenderer):
         code = mistune.util.escape(code)
         if lang == "mermaid":
             return f'<pre class="mermaid">{code}</pre>\n'
-        inline_lang = f"language-{lang} " if lang else ""
-        return f'<pre><code class="{inline_lang}pl-3">{code}</code></pre>\n'
+        if lang:
+            return f'<pre class="pl-3"><code class="language-{lang}">{code}</code></pre>\n'
+        return f'<pre class="pl-3"><code>{code}</code></pre>\n'
 
     def block_quote(self, text):
         return f'<blockquote class="blockquote border-left border-2 pl-2">\n{text}</blockquote>\n'

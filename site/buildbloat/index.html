@@ -67,7 +67,7 @@
             <p>
                 If you're using <code>ccache</code>, you probably want to disable it for the sake of accurate profiling.
             </p>
-            <pre><code class="language-sh pl-3">rm -rf ./build/
+            <pre class="pl-3"><code class="language-sh">rm -rf ./build/
 export CCACHE_DISABLE=1
 cmake -B ./build/ -G Ninja
 cmake --build ./build/ --parallel
@@ -91,7 +91,7 @@ cmake --build ./build/ --parallel
                     >
                     which documents it as
                 </p>
-                <pre><code class="pl-3"># ninja log v5
+                <pre class="pl-3"><code># ninja log v5
 &lt;start&gt;\t&lt;end&gt;\t&lt;restat&gt;\t&lt;target&gt;\t&lt;hash&gt;
 </code></pre>
                 <p>
@@ -107,16 +107,16 @@ cmake --build ./build/ --parallel
             </div>
             <h2>Convert the Ninja build log to du format</h2>
             <p><code>webtreemap</code> wants its input in the format</p>
-            <pre><code class="pl-3">&lt;size&gt;\t&lt;path&gt;
+            <pre class="pl-3"><code>&lt;size&gt;\t&lt;path&gt;
 </code></pre>
             <p>but the Ninja build log is</p>
-            <pre><code class="pl-3">&lt;start&gt;\t&lt;end&gt;\t&lt;restat&gt;\t&lt;target&gt;\t&lt;hash&gt;
+            <pre class="pl-3"><code>&lt;start&gt;\t&lt;end&gt;\t&lt;restat&gt;\t&lt;target&gt;\t&lt;hash&gt;
 </code></pre>
             <p>
                 so we use <a href="https://github.com/Notgnoshi/buildbloat">buildbloat</a> to convert between the two
                 format.
             </p>
-            <pre><code class="language-sh pl-3">git clone https://github.com/Notgnoshi/buildbloat.git
+            <pre class="pl-3"><code class="language-sh">git clone https://github.com/Notgnoshi/buildbloat.git
 cd geos
 ../buildbloat/buildbloat.py --build-dir ./build &gt;./build/bloat.log
 </code></pre>
@@ -130,7 +130,7 @@ cd geos
             </div>
             <h2>Generate the treemap</h2>
             <p>First we have to install <code>webtreemap</code></p>
-            <pre><code class="language-sh pl-3">git clone git@github.com:Notgnoshi/webtreemap.git
+            <pre class="pl-3"><code class="language-sh">git clone git@github.com:Notgnoshi/webtreemap.git
 cd webtreemap
 # Install dependencies in a local env
 npm install
@@ -150,7 +150,7 @@ npm link
                     GitHub (not &lt;npmjs.com&gt;) and does not install the CLI tool (because it hasn't been built).
                 </p>
                 <p>Searching around lead me to believe that adding</p>
-                <pre><code class="language-json pl-3">&quot;scripts&quot;: {
+                <pre class="pl-3"><code class="language-json">&quot;scripts&quot;: {
     &quot;prepare&quot;: &quot;npm install &amp;&amp; npm run build&quot;
 }
 </code></pre>
@@ -162,7 +162,9 @@ npm link
                 <p>If you know how to make this work, please let me know!</p>
             </div>
             <p>Now we can generate the treemap HTML file:</p>
-            <pre><code class="language-sh pl-3">webtreemap --title GEOS -i ./build/bloat.log -o ./build/bloat.html
+            <pre
+                class="pl-3"
+            ><code class="language-sh">webtreemap --title GEOS -i ./build/bloat.log -o ./build/bloat.html
 xdg-open ./build/bloat.html
 </code></pre>
             <h2>All together</h2>
@@ -170,7 +172,9 @@ xdg-open ./build/bloat.html
                 It's a bit easier to run all in one line than to stash the intermediate log file as this lets you run
                 and re-run it over and over while you're iterating:
             </p>
-            <pre><code class="language-sh pl-3">~/src/buildbloat/buildbloat.py --build-dir ./build/ ./build/.ninja_log | webtreemap --title GEOS -o ./build/bloat.html
+            <pre
+                class="pl-3"
+            ><code class="language-sh">~/src/buildbloat/buildbloat.py --build-dir ./build/ ./build/.ninja_log | webtreemap --title GEOS -o ./build/bloat.html
 </code></pre>
             <h2>Improvements</h2>
             <p>
@@ -181,7 +185,9 @@ xdg-open ./build/bloat.html
                 but for now you can do it manually by defining your own substrings with
                 <code>-c &lt;substring&gt;</code>:
             </p>
-            <pre><code class="language-sh pl-3">~/src/buildbloat/buildbloat.py --build-dir ./build/ ./build/.ninja_log |
+            <pre
+                class="pl-3"
+            ><code class="language-sh">~/src/buildbloat/buildbloat.py --build-dir ./build/ ./build/.ninja_log |
     webtreemap --title GEOS -o ./build/bloat.html -c operation -c geom -c algorithm -c noding -c test
 </code></pre>
             <p>
@@ -196,7 +202,7 @@ xdg-open ./build/bloat.html
             <iframe src="buildbloat/geos-bloat" style="border: none" width="1610px" height="1210px"></iframe>
 
             <h2>Bonus: SLOC treemap</h2>
-            <pre><code class="language-sh pl-3">shopt -s globstar
+            <pre class="pl-3"><code class="language-sh">shopt -s globstar
 wc -l --total=never ./**/*.{cpp,h,in,hpp,c} |
     awk '{$1=$1;print}' |
     webtreemap --title &quot;GEOS SLOC&quot; -o ./build/sloc.html -c geom -c operation -c algorithm -c deps -c vend -c tests

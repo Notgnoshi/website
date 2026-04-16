@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -28,9 +28,7 @@
                         <a class="nav-item nav-link" href="/">Home</a>
                         <a class="nav-item nav-link" href="/research">Research</a>
                         <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
-                        <a class="text-muted p-2" href="mailto:Notgnoshi@gmail.com"
-                            ><i class="fas fa-envelope"></i
-                        ></a>
+                        <a class="text-muted p-2" href="mailto:Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
                         <a class="text-muted p-2" href="/rss.xml"><i class="fas fa-rss"></i></a>
                     </div>
                 </div>
@@ -39,13 +37,13 @@
         <div class="container flex-grow-1">
             <h1>Using screen for serial connections</h1>
             <p>Add your user to the <code>dialout</code> group so you don't have to do <code>sudo screen</code>:</p>
-            <pre><code class="language-sh pl-3">$ sudo adduser $USER dialout
+            <pre class="pl-3"><code class="language-sh">$ sudo adduser $USER dialout
 </code></pre>
             <p>Then either reboot, or start a new shell with the new group applied</p>
-            <pre><code class="language-sh pl-3">$ newgrp
+            <pre class="pl-3"><code class="language-sh">$ newgrp
 </code></pre>
             <p>Then connect to the TTY with</p>
-            <pre><code class="language-sh pl-3">$ screen /dev/ttyUSB0 115200
+            <pre class="pl-3"><code class="language-sh">$ screen /dev/ttyUSB0 115200
 </code></pre>
             <p>
                 Note that the 115200 baud rate is a good default, but is device configuration dependent, so you may need
@@ -78,7 +76,7 @@
                 <code>screen -list</code> to list sessions, and <code>screen -r &lt;session&gt;</code> to resume a
                 specific session.
             </p>
-            <pre><code class="language-sh pl-3">$ screen -list
+            <pre class="pl-3"><code class="language-sh">$ screen -list
 There is a screen on:
     16366.pts-1.bedlam    (01/17/2023 05:21:36 PM)    (Detached)
 1 Socket in /run/screen/S-nots.
@@ -94,7 +92,7 @@ $ screen -r 16366.pts-1.bedlam
                 serial connections because it &quot;Just Worked&quot;. But when I tried it today, it'd crash because it
                 couldn't load a font
             </p>
-            <pre><code class="language-sh pl-3">$ putty
+            <pre class="pl-3"><code class="language-sh">$ putty
 (putty:10718): Gtk-CRITICAL **: 16:01:12.674: gtk_box_gadget_distribute: assertion 'size &gt;= 0' failed in GtkScrollbar
 (putty:10718): Gtk-CRITICAL **: 16:01:12.675: gtk_box_gadget_distribute: assertion 'size &gt;= 0' failed in GtkScrollbar
 (putty:10718): Gtk-CRITICAL **: 16:01:12.676: gtk_box_gadget_distribute: assertion 'size &gt;= 0' failed in GtkScrollbar

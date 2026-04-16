@@ -336,7 +336,7 @@ flowchart TD
                 Before anything else, re-run your CMake configure with <code>--debug-find-pkg=Foo</code> (or
                 <code>--debug-find</code> for all packages):
             </p>
-            <pre><code class="language-sh pl-3">cmake -S . -B build --debug-find-pkg=Foo
+            <pre class="pl-3"><code class="language-sh">cmake -S . -B build --debug-find-pkg=Foo
 </code></pre>
             <p>
                 This prints the complete search log: which mode was selected, every directory searched, and why each
@@ -377,7 +377,7 @@ flowchart TD
                     <p>
                         <strong><code>CMAKE_PREFIX_PATH</code></strong> - the most common and general-purpose approach:
                     </p>
-                    <pre><code class="language-sh pl-3">cmake -S . -B build -DCMAKE_PREFIX_PATH=/opt/foo
+                    <pre class="pl-3"><code class="language-sh">cmake -S . -B build -DCMAKE_PREFIX_PATH=/opt/foo
 </code></pre>
                     <p>
                         This works for both Config mode and the <code>find_library</code>/<code>find_path</code> calls
@@ -388,7 +388,7 @@ flowchart TD
                     <p>
                         <strong><code>Foo_ROOT</code></strong> (CMake 3.12+) - package-specific, searched first:
                     </p>
-                    <pre><code class="language-sh pl-3">cmake -S . -B build -DFoo_ROOT=/opt/foo
+                    <pre class="pl-3"><code class="language-sh">cmake -S . -B build -DFoo_ROOT=/opt/foo
 </code></pre>
                 </li>
                 <li>
@@ -396,7 +396,7 @@ flowchart TD
                         <strong><code>Foo_DIR</code></strong> - points directly to the directory containing
                         <code>FooConfig.cmake</code>, not the install prefix:
                     </p>
-                    <pre><code class="language-sh pl-3">cmake -S . -B build -DFoo_DIR=/opt/foo/lib/cmake/Foo
+                    <pre class="pl-3"><code class="language-sh">cmake -S . -B build -DFoo_DIR=/opt/foo/lib/cmake/Foo
 </code></pre>
                 </li>
             </ol>

@@ -75,7 +75,7 @@
                 <a href="https://github.com/Notgnoshi/generative">https://github.com/Notgnoshi/generative</a>. It's a
                 mix of Python, C++, and Rust.
             </p>
-            <pre><code class="language-sh pl-3"># Install the Python dependencies
+            <pre class="pl-3"><code class="language-sh"># Install the Python dependencies
 python3 -m venv --prompt generative .venv
 source .venv/bin/activate
 python3 -m pip install -r requirements.txt
@@ -93,7 +93,7 @@ export PATH=&quot;$PWD/target/release/:$PATH&quot;
             <h2>The algorithm</h2>
             <h3>01 - Generate random points</h3>
             <p>First, generate a uniform random point cloud in a square domain.</p>
-            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 4 --scale 100
+            <pre class="pl-3"><code class="language-sh">$ point-cloud --domain unit-square --points 4 --scale 100
 INFO - Generating 4 points with seed 6547691638051612608
 POINT (48.0592033866307 60.000131021120076)
 POINT (42.74869165920112 57.607049587621795)
@@ -128,7 +128,7 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
                 <a href="https://en.wikipedia.org/wiki/Urquhart_graph">Urquhart graph</a>.
             </p>
             <p>To do this, compute the Delaunay triangulation of the point cloud</p>
-            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 12 --scale 300 |
+            <pre class="pl-3"><code class="language-sh">$ point-cloud --domain unit-square --points 12 --scale 300 |
     triangulate |
     wkt2svg
 </code></pre>
@@ -152,7 +152,7 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
                 </figure>
             </p>
             <p>And then remove the longest edge from each triangle</p>
-            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 12 --scale 300 |
+            <pre class="pl-3"><code class="language-sh">$ point-cloud --domain unit-square --points 12 --scale 300 |
     urquhart |
     wkt2svg
 </code></pre>
@@ -175,7 +175,7 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
             </p>
             <h3>03 - Randomly traverse the graph to create strokes</h3>
             <p>Third, generate a stroke by randomly traversing the graph. Repeat for some number of times.</p>
-            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 12 --scale 300 |
+            <pre class="pl-3"><code class="language-sh">$ point-cloud --domain unit-square --points 12 --scale 300 |
     urquhart --output-format tgf |
     traverse --traversals 3 --length 3 --untraversed |
     wkt2svg
@@ -206,7 +206,7 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
                 >
                 instead of using splines.
             </p>
-            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 12 --scale 300 |
+            <pre class="pl-3"><code class="language-sh">$ point-cloud --domain unit-square --points 12 --scale 300 |
     urquhart --output-format tgf |
     traverse --traversals 3 --length 3 --untraversed --remove-after-traverse |
     smooth --iterations 5 |
@@ -275,7 +275,7 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
             <p>So what can we do to make the results better?</p>
             <h3>Delaunay instead of Urquhart</h3>
             <p>We could try using the Delaunay triangulation directly instead of the Urquhart graph.</p>
-            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 5 --scale 300 |
+            <pre class="pl-3"><code class="language-sh">$ point-cloud --domain unit-square --points 5 --scale 300 |
     triangulate --output-format tgf |
     traverse --traversals 4 --length 4 --remove-after-traverse --seed 0 |
     smooth --iterations 5 |
@@ -303,7 +303,7 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
             <p>That could be promising.</p>
             <h3>Moar data</h3>
             <p>We could increase the side of the point cloud and the length of the strokes.</p>
-            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 30 --scale 300 |
+            <pre class="pl-3"><code class="language-sh">$ point-cloud --domain unit-square --points 30 --scale 300 |
     triangulate --output-format tgf |
     traverse --traversals 3 --length 10 --random-length --remove-after-traverse |
     smooth --iterations 5 |
@@ -332,7 +332,7 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
                 This could also be promising! It also used Delaunay triangulation directly. What is it like with the
                 relative neighborhood?
             </p>
-            <pre><code class="language-sh pl-3">$ point-cloud --domain unit-square --points 30 --scale 300 |
+            <pre class="pl-3"><code class="language-sh">$ point-cloud --domain unit-square --points 30 --scale 300 |
     urquhart --output-format tgf |
     traverse --traversals 3 --length 10 --random-length --remove-after-traverse |
     smooth --iterations 5 |
@@ -365,7 +365,7 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
                 &quot;relationship&quot; that the human eye can see. They're <em>too</em> random as-is, so what if we
                 use a regular grid of points instead?
             </p>
-            <pre><code class="language-sh pl-3">$ grid --output-format graph 3 4 |
+            <pre class="pl-3"><code class="language-sh">$ grid --output-format graph 3 4 |
     traverse --traversals 4 --length 5 --remove-after-traverse |
     transform --scale 300 300 |
     smooth --iterations 5 |
@@ -397,7 +397,7 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
                 Something else that we could do is perform fewer iterations of the smoothing algorithm (specifically,
                 only <em>one</em> iteration to add a bevel to each corner).
             </p>
-            <pre><code class="language-sh pl-3">$ grid --output-format graph 3 4 |
+            <pre class="pl-3"><code class="language-sh">$ grid --output-format graph 3 4 |
     traverse --traversals 4 --length 5 --remove-after-traverse |
     transform --scale 300 300 |
     smooth --iterations 1 |
@@ -423,7 +423,7 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
             <p><em>That's cool.</em></p>
             <h3>Triangulate the grid</h3>
             <p>Using a grid added much-needed order, but what if we used triangles instead?</p>
-            <pre><code class="language-sh pl-3">grid --output-format points 3 4 |
+            <pre class="pl-3"><code class="language-sh">grid --output-format points 3 4 |
     triangulate --output-format tgf |
     traverse --traversals 4 --length 5 --remove-after-traverse |
     transform --scale 100 100 |
@@ -448,7 +448,7 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
                 </figure>
             </p>
             <p>That could probably be compelling. Let's try a few more variations.</p>
-            <pre><code class="language-sh pl-3">grid --output-format points 3 4 |
+            <pre class="pl-3"><code class="language-sh">grid --output-format points 3 4 |
     triangulate --output-format tgf |
     traverse --traversals 4 --length 5 --remove-after-traverse |
     transform --scale 100 100 |
@@ -472,7 +472,7 @@ $ point-cloud --domain unit-square --points 12 --scale 300 |
                     </div>
                 </figure>
             </p>
-            <pre><code class="language-sh pl-3">grid --output-format points 3 4 |
+            <pre class="pl-3"><code class="language-sh">grid --output-format points 3 4 |
     triangulate --output-format tgf |
     traverse --traversals 4 --length 5 --remove-after-traverse |
     transform --scale 100 100 |
