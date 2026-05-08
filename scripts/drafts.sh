@@ -8,6 +8,7 @@ REPO_DIR=$(git rev-parse --show-toplevel)
 MD2HTML="$REPO_DIR/scripts/md2html.py"
 TEMPLATE="$REPO_DIR/templates/page.html"
 
+mkdir -p "$REPO_DIR/site/drafts"
 for draft in "$REPO_DIR/drafts/"*.md; do
     echo -n "Processing: $draft ..."
     slug="$(basename "$draft")"
