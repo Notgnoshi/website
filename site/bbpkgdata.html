@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="A cheat sheet for frequently reached for pkgdata investigation" />
+        <meta name="dcterms.available" content="2026-05-08" />
+        <title>BitBake pkgdata cheat sheet</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+
+        <script defer src="/js/highlight.min.js" onload="hljs.initHighlightingOnLoad()"></script>
+        <link rel="stylesheet" href="/css/ascetic.min.css" />
+    </head>
+    <body class="d-flex flex-column">
+        <header class="bg-dark sticky-top mb-3">
+            <nav class="container navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="/">agill.xyz</a>
+                <div class="toggleable-content text-right">
+                    <a href="#" class="menu-icon text-muted"><span class="navbar-toggler-icon"></span></a>
+                    <div class="trigger navbar-nav">
+                        <a class="nav-item nav-link" href="/">Home</a>
+                        <a class="nav-item nav-link" href="/research">Research</a>
+                        <a class="text-muted p-2" href="https://github.com/Notgnoshi"><i class="fab fa-github"></i></a>
+                        <a class="text-muted p-2" href="mailto:Notgnoshi@gmail.com"><i class="fas fa-envelope"></i></a>
+                        <a class="text-muted p-2" href="/rss.xml"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container flex-grow-1">
+            <h1 id="toc_1">BitBake pkgdata cheat sheet</h1>
+            <details class="toc" open>
+                <summary>Table of Contents</summary>
+                <ul>
+                    <li>
+                        <a href="#toc_1">BitBake pkgdata cheat sheet</a>
+                        <ul>
+                            <li><a href="#toc_2">How many different names for a package can there be?</a></li>
+                            <li><a href="#toc_3">Multiple layers provide a recipe, which one wins?</a></li>
+                            <li><a href="#toc_4">What package / recipe ships a given file path?</a></li>
+                            <li><a href="#toc_5">What files does a package ship?</a></li>
+                            <li><a href="#toc_6">What recipes does a recipe depend on?</a></li>
+                            <li><a href="#toc_7">What packages does a package depend on?</a></li>
+                            <li><a href="#toc_8">What depends on a given recipe?</a></li>
+                            <li><a href="#toc_9">What depends on a given package?</a></li>
+                            <li><a href="#toc_10">What packages are included in my image?</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </details>
+            <p>
+                This cheat sheet expands <a href="/pkgcmds">Package management command cheat sheet</a> to include
+                similar FAQs for BitBake recipes and package data.
+            </p>
+            <h2 id="toc_2">How many different names for a package can there be?</h2>
+            <ol>
+                <li>
+                    <p>
+                        <strong>Recipe name</strong> - this is defined by the name of the BitBake recipe, and is
+                        accessed through <code>${PN}</code>. You can access the pkgdata for a recipe name in
+                        <code>${TMPDIR}/pkgdata/${MACHINE}/${PN}</code>. The <code>PACKAGES</code> pkgdata variable
+                        defines the packages that a recipe provides. The <code>DEPENDS</code> variable uses the recipe
+                        name. <code>RDEPENDS</code> uses the internal package name.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <strong>Internal package name</strong> - this is the name of the package as utilized within
+                        BitBake recipes, i.e., in <code>RDEPENDS</code>, etc. You can access the pkgdata for an internal
+                        package name in <code>${TMPDIR}/pkgdata/${MACHINE}/runtime/&lt;pkg&gt;</code>. There is no magic
+                        variable to access the internal package name within a BitBake recipe. Recipes can provide
+                        <em>many</em> packages.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <strong>Published package name</strong> - this is the name of the package as it is used by DNF,
+                        RPM, DEB, IPK, etc. You can access the pkgdata for a published package name in
+                        <code>${TMPDIR}/pkgdata/${MACHINE}/runtime-reverse/&lt;pkg&gt;</code>. These files are symlinks
+                        into <code>../runtime/</code>
+                    </p>
+                </li>
+            </ol>
+            <h2 id="toc_3">Multiple layers provide a recipe, which one wins?</h2>
+            <ul>
+                <li>
+                    <p>Given a package name, you can lookup the recipe name by</p>
+                    <ul>
+                        <li>
+                            Inspecting <code>pkgdata/${MACHINE}/runtime/&lt;pkg&gt;</code> (or
+                            <code>runtime-reverse</code>) and looking for <code>PN:</code>
+                        </li>
+                        <li>Using <code>oe-pkgdata-util lookup-recipe &lt;pkg&gt;</code></li>
+                    </ul>
+                    <p>
+                        however, most of the time, the recipe name is the same as the package name, so this is less
+                        helpful.
+                    </p>
+                </li>
+                <li>
+                    <p>Given a recipe name, you can find <em>candidates</em> by</p>
+                    <ul>
+                        <li>
+                            <code>bitbake-layers show-recipes &lt;recipe&gt;</code> - this will show the layer name, and
+                            the <code>${PV}</code>
+                        </li>
+                        <li><code>fd &lt;recipe&gt; build/layers/</code></li>
+                    </ul>
+                </li>
+                <li>
+                    <p>Given a recipe name, you can lookup the recipe file by</p>
+                    <ul>
+                        <li>
+                            <code>bitbake -e &lt;recipe&gt; |&amp; grep ^FILE=</code> to find the recipe file. (<code
+                                >bitbake -e</code
+                            >
+                            is a <em>really</em> handy troubleshooting tool to keep in your back pocket)
+                        </li>
+                        <li><code>bitbake-getvar -r &lt;recipe&gt; FILE</code></li>
+                    </ul>
+                </li>
+            </ul>
+            <p>
+                There are <em>lots</em> of controls to set layer priority, pick preferred versions, pick preferred
+                providers for virtual packages, mask out recipes, etc.
+            </p>
+            <h2 id="toc_4">What package / recipe ships a given file path?</h2>
+            <p>
+                If you have the ability to investigate the generated image, you can use
+                <code>rpm -qf &lt;path/to/file&gt;</code> to search through RPM's database for what package shipped a
+                give file.
+            </p>
+            <p>
+                In the BitBake context, you can use the pkgdata files with
+                <code>oe-pkgdata-util find-path &lt;path/to/file&gt;</code> The file path accepts
+                <code>fnmatch</code> style globs.
+            </p>
+            <h2 id="toc_5">What files does a package ship?</h2>
+            <p>
+                If you can login to a runtime image, you can run <code>rpm -ql &lt;pkg&gt;</code>. If you have the
+                <code>.rpm</code> package file, you can run <code>rpm -qpl &lt;pkg.rpm&gt;</code>.
+            </p>
+            <p>
+                If you want to tell what a package ships from the BitBake context, then we go to the pkgdata files with
+                <code>oe-pkgdata-util list-pkg-files &lt;pkg&gt;</code> or
+                <code>oe-pkgdata-util read-value FILES &lt;pkg&gt;</code>.
+            </p>
+            <h2 id="toc_6">What recipes does a recipe depend on?</h2>
+            <p>
+                For direct dependencies declared in the recipe, you can use
+                <code>bitbake-getvar -r &lt;recipe&gt; DEPENDS</code> or
+                <code>bitbake -e &lt;recipe&gt; |&amp; grep ^DEPENDS=</code>.
+            </p>
+            <p>
+                If you want to include transitive dependencies, you can use <code>bitbake -g &lt;recipe&gt;</code> to
+                generate <code>task-depends.dot</code> and then use
+                <code>oe-depends-dot -d -k &lt;recipe&gt; task-depends.dot</code> to list the dependencies of the
+                recipe.
+            </p>
+            <h2 id="toc_7">What packages does a package depend on?</h2>
+            <p>
+                This is the <code>RDEPENDS</code> variable in the pkgdata file. Use
+                <code>oe-pkgdata-util read-value RDEPENDS &lt;pkg&gt;</code>
+            </p>
+            <h2 id="toc_8">What depends on a given recipe?</h2>
+            <p>
+                Use <code>bitbake -g &lt;recipe&gt;</code> to generate <code>task-depends.dot</code>, and then use
+                <code>oe-depends-dot -w -k &lt;recipe&gt; task-depends.dot</code> to list the recipes that
+                <em>depend on</em> the given recipe. This is most useful when you run
+                <code>bitbake -g core-image-minimal</code> (or your particular product image) to include the
+                <em>full</em> set of recipe dependencies.
+            </p>
+            <h2 id="toc_9">What depends on a given package?</h2>
+            <p>
+                This one's harder. If you can login to a runtime image, you can use
+                <code>rpm --whatrequires -q &lt;pkg&gt;</code>.
+            </p>
+            <p>
+                But in the BitBake context, there's no reverse-RDEPENDS index to give us the answer in a single query.
+                So we have to parse the whole batch of pkgdata files with something like
+            </p>
+            <pre class="pl-3"><code class="language-sh">rg -l '^RDEPENDS:[^:]+:.* &lt;pkg&gt;( |\(|$)'
+</code></pre>
+            <h2 id="toc_10">What packages are included in my image?</h2>
+            <p>
+                Look at the <code>${TMPDIR}/deploy/images/${MACHINE}/&lt;image&gt;.manifest</code>, or use
+                <code>rpm -qa</code> in the runtime image.
+            </p>
+        </div>
+    </body>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" crossorigin="anonymous" />
+</html>
