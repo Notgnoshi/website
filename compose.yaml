@@ -4,6 +4,10 @@ volumes:
     nginx_html:
     nginx_vhost:
 
+networks:
+    nginx_proxy:
+        name: nginx_proxy
+
 services:
     # https://github.com/nginx-proxy/acme-companion
     acme:
@@ -26,6 +30,9 @@ services:
         ports:
             - 80:80
             - 443:443
+        networks:
+            - default
+            - nginx_proxy
         environment:
             - DEFAULT_HOST=agill.xyz
         volumes:
