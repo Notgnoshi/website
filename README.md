@@ -94,3 +94,11 @@ To export the access logs for analysis, run
 ```
 
 It rotates `logs/access.log` and generates `logs/export-YYYY-MM-DD.tar.gz`.
+
+To build a report, install GoAccess with `sudo dnf install goaccess` and run
+
+```bash
+./scripts/analyze-logs.sh logs/export-YYYY-MM-DD.tar.gz
+```
+
+It writes `logs/export-YYYY-MM-DD/report.html`.
