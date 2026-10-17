@@ -41,16 +41,19 @@ cd "$out"
 # nginx-proxy's vhost format:
 #
 #    $host $remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" "$upstream_addr"
+args=(
+    --no-progress
+    --geoip-database="$db"
+    --log-format='%v %h %^[%d:%t %^] "%r" %s %b "%R" "%u" %^'
+    --date-format='%d/%b/%Y'
+    --time-format='%H:%M:%S'
+    --enable-panel=REFERRERS
+)
 zcat -f access.log access.log.[0-9]* |
-    goaccess - \
-        --no-progress \
-        --geoip-database="$db" \
-        --log-format='%v %h %^[%d:%t %^] "%r" %s %b "%R" "%u" %^' \
-        --date-format='%d/%b/%Y' \
-        --time-format='%H:%M:%S' \
-        --enable-panel=REFERRERS \
-        --invalid-requests=invalid.log \
-        --output=report.html
+    goaccess - "${args[@]}" --invalid-requests=invalid.log --output=report.html
+zcat -f access.log access.log.[0-9]* |
+    goaccess - "${args[@]}" --ignore-crawlers --unknowns-as-crawlers --output=report-humans.html
 
 wc -l <invalid.log
 echo "file://$PWD/report.html"
+echo "file://$PWD/report-humans.html"
