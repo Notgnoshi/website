@@ -40,6 +40,7 @@ services:
             - nginx_certs:/etc/nginx/certs:ro
             - nginx_html:/usr/share/nginx/html
             - nginx_vhost:/etc/nginx/vhost.d
+            - ./logs:/var/log/nginx
 
     # https://github.com/nginx/docker-nginx
     static-site:
