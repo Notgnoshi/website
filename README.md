@@ -84,4 +84,3 @@ this will render each draft in `drafts/*.md` to HTML pages in `root/drafts/*.htm
 
 1. Move the generated HTML from `root/drafts/` to `root/`
 2. Edit the `root/index.html` with a link and appropriate date/description
-
