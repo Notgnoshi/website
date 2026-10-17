@@ -101,4 +101,4 @@ To build a report, install GoAccess with `sudo dnf install goaccess` and run
 ./scripts/analyze-logs.sh logs/export-YYYY-MM-DD.tar.gz
 ```
 
-It writes `logs/export-YYYY-MM-DD/report.html`.
+It writes `logs/export-YYYY-MM-DD/report.html` and `report-humans.html`.
