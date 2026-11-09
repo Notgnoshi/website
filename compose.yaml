@@ -41,6 +41,10 @@ services:
             - nginx_html:/usr/share/nginx/html
             - nginx_vhost:/etc/nginx/vhost.d
             - ./logs:/var/log/nginx
+            # Use the _location files because acme-companion rewrites the per-host files, and
+            # their presence replaces the default ACME challenge configuration.
+            - ./nginx/scorarium.conf:/etc/nginx/vhost.d/library.agill.xyz_location:ro
+            - ./nginx/scorarium.conf:/etc/nginx/vhost.d/library.agill.net_location:ro
 
     # https://github.com/nginx/docker-nginx
     static-site:
